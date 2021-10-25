@@ -1,13 +1,12 @@
 {
   "name": "@bobaboard/ao3.js",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "A NodeJS API for scraping AO3 data",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "test": "jest --no-cache .test.ts$",
-    "release:minor": "yarn run build && npm version minor && npm publish --access=public"
+    "test": "jest --no-cache .test.ts$"
   },
   "repository": "https://github.com/essential-randomness/AO3.js.git",
   "author": "Essential Randomness <essential.randomn3ss@gmail.com>",
