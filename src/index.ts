@@ -1,5 +1,6 @@
 import {
   Tag,
+  getCanonical,
   getTagCategory,
   getTagPage,
   isCanonical,
@@ -15,7 +16,11 @@ axios.defaults.cache = setupCache({
   maxAge: 15 * 60 * 1000,
 });
 
-export const getTag = async (tagName: string): Promise<Tag> => {
+export const getTag = async ({
+  tagName,
+}: {
+  tagName: string;
+}): Promise<Tag> => {
   const tagPage = await getTagPage(tagName);
   const worksPage = await getWorksPage(tagName);
 
@@ -23,7 +28,7 @@ export const getTag = async (tagName: string): Promise<Tag> => {
     name: tagName,
     id: getTagId(worksPage),
     category: getTagCategory(tagPage),
-    canonical: isCanonical(tagPage),
+    canonical: getCanonical(tagPage),
     common: isCommon(tagPage),
   };
 };

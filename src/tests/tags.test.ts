@@ -1,29 +1,76 @@
 import { getTag } from "../index";
 
-describe("Fetches canonical data", () => {
+describe("Fetches id data", () => {
   test("Fetches canonical tag", async () => {
-    const tag = await getTag("Ever Given Container Ship (Anthropomorphic)");
+    const tag = await getTag({
+      tagName: "Ever Given Container Ship (Anthropomorphic)",
+    });
 
     expect(tag).toMatchObject({
       name: "Ever Given Container Ship (Anthropomorphic)",
-      canonical: true,
+      id: "56312676",
     });
   });
 
   test("Fetches non-canonical tag", async () => {
-    const tag = await getTag("Ever Given Container Ship - Anthropomorphic");
+    const tag = await getTag({
+      tagName: "Ever Given Container Ship - Anthropomorphic",
+    });
 
     expect(tag).toMatchObject({
       name: "Ever Given Container Ship - Anthropomorphic",
       id: "56312676",
-      canonical: false,
+    });
+  });
+
+  test("Returns null for non-common tag", async () => {
+    const tag = await getTag({
+      tagName: "Original Senator Characters",
+    });
+    expect(tag).toMatchObject({
+      name: "Original Senator Characters",
+      id: null,
+    });
+  });
+});
+
+describe("Fetches canonical data", () => {
+  test("Fetches canonical tag", async () => {
+    const tag = await getTag({
+      tagName: "Ever Given Container Ship (Anthropomorphic)",
+    });
+
+    expect(tag).toMatchObject({
+      name: "Ever Given Container Ship (Anthropomorphic)",
+      canonical: "Ever Given Container Ship (Anthropomorphic)",
+    });
+  });
+
+  test("Fetches non-canonical tag", async () => {
+    const tag = await getTag({
+      tagName: "Ever Given Container Ship - Anthropomorphic",
+    });
+
+    expect(tag).toMatchObject({
+      name: "Ever Given Container Ship - Anthropomorphic",
+      canonical: "Ever Given Container Ship (Anthropomorphic)",
+    });
+  });
+
+  test("Returns null for non-common tag", async () => {
+    const tag = await getTag({
+      tagName: "Original Senator Characters",
+    });
+    expect(tag).toMatchObject({
+      name: "Original Senator Characters",
+      canonical: null,
     });
   });
 });
 
 describe("Fetches category data", () => {
   test("Fetches fandom tag", async () => {
-    const tag = await getTag("The Lorax (2012)");
+    const tag = await getTag({ tagName: "The Lorax (2012)" });
 
     expect(tag).toMatchObject({
       name: "The Lorax (2012)",
@@ -32,7 +79,9 @@ describe("Fetches category data", () => {
   });
 
   test("Fetches character tag", async () => {
-    const tag = await getTag("Ever Given Container Ship (Anthropomorphic)");
+    const tag = await getTag({
+      tagName: "Ever Given Container Ship (Anthropomorphic)",
+    });
 
     expect(tag).toMatchObject({
       name: "Ever Given Container Ship (Anthropomorphic)",
@@ -41,7 +90,7 @@ describe("Fetches category data", () => {
   });
 
   test("Fetches relationship tag (with /)", async () => {
-    const tag = await getTag("Komaeda Nagito/Sans (Undertale)");
+    const tag = await getTag({ tagName: "Komaeda Nagito/Sans (Undertale)" });
 
     expect(tag).toMatchObject({
       name: "Komaeda Nagito/Sans (Undertale)",
@@ -50,7 +99,9 @@ describe("Fetches category data", () => {
   });
 
   test("Fetches relationship tag (with &)", async () => {
-    const tag = await getTag("Castiel (Supernatural) & Misha Collins");
+    const tag = await getTag({
+      tagName: "Castiel (Supernatural) & Misha Collins",
+    });
 
     expect(tag).toMatchObject({
       name: "Castiel (Supernatural) & Misha Collins",
@@ -59,7 +110,7 @@ describe("Fetches category data", () => {
   });
 
   test("Fetches archive warnings tag", async () => {
-    const tag = await getTag("Choose Not To Use Archive Warnings");
+    const tag = await getTag({ tagName: "Choose Not To Use Archive Warnings" });
 
     expect(tag).toMatchObject({
       name: "Choose Not To Use Archive Warnings",
@@ -68,7 +119,7 @@ describe("Fetches category data", () => {
   });
 
   test("Fetches additional tags tag", async () => {
-    const tag = await getTag("a shit ton of angst");
+    const tag = await getTag({ tagName: "a shit ton of angst" });
 
     expect(tag).toMatchObject({
       name: "a shit ton of angst",
@@ -79,7 +130,9 @@ describe("Fetches category data", () => {
 
 describe("Fetches id data", () => {
   test("Fetches character tag (canonical)", async () => {
-    const tag = await getTag("Ever Given Container Ship (Anthropomorphic)");
+    const tag = await getTag({
+      tagName: "Ever Given Container Ship (Anthropomorphic)",
+    });
 
     expect(tag).toMatchObject({
       name: "Ever Given Container Ship (Anthropomorphic)",
@@ -88,7 +141,9 @@ describe("Fetches id data", () => {
   });
 
   test("Fetches character tag (non-canonical)", async () => {
-    const tag = await getTag("Ever Given Container Ship - Anthropomorphic");
+    const tag = await getTag({
+      tagName: "Ever Given Container Ship - Anthropomorphic",
+    });
 
     expect(tag).toMatchObject({
       name: "Ever Given Container Ship - Anthropomorphic",
@@ -97,7 +152,7 @@ describe("Fetches id data", () => {
   });
 
   test("Fetches additional tags", async () => {
-    const tag = await getTag("a shit ton of angst");
+    const tag = await getTag({ tagName: "a shit ton of angst" });
 
     expect(tag).toMatchObject({
       name: "a shit ton of angst",
@@ -107,21 +162,23 @@ describe("Fetches id data", () => {
 });
 
 describe("Fetches common tag data", () => {
-  test("Fetches additional tags", async () => {
-    const tag = await getTag("Michael (Beyond the End)");
+  test("Fetches uommon tag", async () => {
+    const tag = await getTag({
+      tagName: "Ever Given Container Ship - Anthropomorphic",
+    });
 
-    expect(tag).toEqual({
-      name: "a shit ton of angst",
-      id: null,
+    expect(tag).toMatchObject({
+      name: "Ever Given Container Ship - Anthropomorphic",
+      common: true,
     });
   });
 
-  test("Fetches additional tags", async () => {
-    const tag = await getTag("Graham Gregson");
+  test("Fetches uncommon tag", async () => {
+    const tag = await getTag({ tagName: "Original Senator Characters" });
 
-    expect(tag).toEqual({
-      name: "a shit ton of angst",
-      id: null,
+    expect(tag).toMatchObject({
+      name: "Original Senator Characters",
+      common: false,
     });
   });
 });

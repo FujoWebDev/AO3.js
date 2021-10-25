@@ -22,7 +22,7 @@ export interface Tag {
   // TODO: figure out other types (or whether they can be extracted from somewhere else).
   id: string | null;
   category: TagCategory;
-  canonical: boolean;
+  canonical: string | null;
   common: boolean;
 }
 
@@ -61,4 +61,18 @@ export const isCommon = ($tagPage: TagPage) => {
 
 export const isCanonical = ($tagPage: TagPage) => {
   return isCommon($tagPage) && !hasMergers($tagPage);
+};
+
+export const getTagName = ($tagPage: TagPage) => {
+  return $tagPage($tagPage(".tag.profile h2")[0]).text();
+};
+
+export const getCanonical = ($tagPage: TagPage) => {
+  if (isCanonical($tagPage)) {
+    return getTagName($tagPage);
+  }
+  if (!hasMergers($tagPage)) {
+    return null;
+  }
+  return $tagPage($tagPage(".merger a.tag")).text();
 };
