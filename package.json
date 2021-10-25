@@ -6,7 +6,8 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "test": "jest --no-cache .test.ts$"
+    "test": "jest --no-cache .test.ts$",
+    "release:minor": "yarn run build && npm version minor && npm publish"
   },
   "repository": "https://github.com/essential-randomness/AO3.js.git",
   "author": "Essential Randomness <essential.randomn3ss@gmail.com>",
