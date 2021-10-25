@@ -18,5 +18,5 @@ export const getFeedPage = async ({ tagId }: { tagId: string }) => {
 export const getTagNameFromFeed = async ($feedPage: FeedPage) => {
   const feedTitle = $feedPage($feedPage("title")[0].children[0]).text();
 
-  return feedTitle.match(/AO3 works tagged '(.+)'/)[1];
+  return feedTitle.match(/AO3 works tagged '(.+)'/)?.[1] || null;
 };
