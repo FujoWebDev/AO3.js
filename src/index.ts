@@ -5,6 +5,7 @@ import {
   isCanonical,
   isCommon,
 } from "./utils/tags";
+import { getFeedPage, getTagNameFromFeed } from "./utils/feed";
 import { getTagId, getWorksPage } from "./utils/works";
 
 import axios from "axios";
@@ -25,4 +26,8 @@ export const getTag = async (tagName: string): Promise<Tag> => {
     canonical: isCanonical(tagPage),
     common: isCommon(tagPage),
   };
+};
+
+export const getTagNameById = async ({ tagId }: { tagId: string }) => {
+  return getTagNameFromFeed(await getFeedPage({ tagId }));
 };

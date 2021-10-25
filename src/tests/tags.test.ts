@@ -105,3 +105,23 @@ describe("Fetches id data", () => {
     });
   });
 });
+
+describe("Fetches common tag data", () => {
+  test("Fetches additional tags", async () => {
+    const tag = await getTag("Michael (Beyond the End)");
+
+    expect(tag).toEqual({
+      name: "a shit ton of angst",
+      id: null,
+    });
+  });
+
+  test("Fetches additional tags", async () => {
+    const tag = await getTag("Graham Gregson");
+
+    expect(tag).toEqual({
+      name: "a shit ton of angst",
+      id: null,
+    });
+  });
+});
