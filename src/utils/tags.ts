@@ -22,8 +22,9 @@ export interface Tag {
   // TODO: figure out other types (or whether they can be extracted from somewhere else).
   id: string | null;
   category: TagCategory;
-  canonical: string | null;
+  canonical: boolean;
   common: boolean;
+  canonicalName: string | null;
 }
 
 export const getTagUrl = (tagName: string) =>

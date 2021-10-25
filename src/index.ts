@@ -28,8 +28,9 @@ export const getTag = async ({
     name: tagName,
     id: getTagId(worksPage),
     category: getTagCategory(tagPage),
-    canonical: getCanonical(tagPage),
+    canonical: isCanonical(tagPage),
     common: isCommon(tagPage),
+    canonicalName: getCanonical(tagPage),
   };
 };
 

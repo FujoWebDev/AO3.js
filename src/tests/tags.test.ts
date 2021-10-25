@@ -42,7 +42,8 @@ describe("Fetches canonical data", () => {
 
     expect(tag).toMatchObject({
       name: "Ever Given Container Ship (Anthropomorphic)",
-      canonical: "Ever Given Container Ship (Anthropomorphic)",
+      canonical: true,
+      canonicalName: "Ever Given Container Ship (Anthropomorphic)",
     });
   });
 
@@ -53,7 +54,8 @@ describe("Fetches canonical data", () => {
 
     expect(tag).toMatchObject({
       name: "Ever Given Container Ship - Anthropomorphic",
-      canonical: "Ever Given Container Ship (Anthropomorphic)",
+      canonical: false,
+      canonicalName: "Ever Given Container Ship (Anthropomorphic)",
     });
   });
 
@@ -63,7 +65,8 @@ describe("Fetches canonical data", () => {
     });
     expect(tag).toMatchObject({
       name: "Original Senator Characters",
-      canonical: null,
+      canonical: false,
+      canonicalName: null,
     });
   });
 });
