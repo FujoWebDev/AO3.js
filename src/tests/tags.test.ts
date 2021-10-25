@@ -32,6 +32,17 @@ describe("Fetches id data", () => {
       id: null,
     });
   });
+
+  test("Fetches tag with .", async () => {
+    const tag = await getTag({
+      tagName: "Court Lady Go (Mr. Queen)",
+    });
+
+    expect(tag).toMatchObject({
+      name: "Court Lady Go (Mr. Queen)",
+      id: "55920663",
+    });
+  });
 });
 
 describe("Fetches canonical data", () => {

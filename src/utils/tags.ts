@@ -30,7 +30,8 @@ export interface Tag {
 export const getTagUrl = (tagName: string) =>
   `https://archiveofourown.org/tags/${encodeURI(tagName)
     .replace("/", "*s*")
-    .replace("&", "*a*")}`;
+    .replace("&", "*a*")
+    .replace(".", "*d*")}`;
 
 export const getTagPage = async (tagName: string) => {
   return cheerio.load(
