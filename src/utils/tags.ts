@@ -24,6 +24,9 @@ export interface Tag {
   category: TagCategory;
   canonical: boolean;
   common: boolean;
+  // Canonical name will be the same as "name" on canonical tags, and different on tags
+  // that have been synned to a canonical. It will be null when tags haven't been marked as
+  // common and cannot be filtered on.
   canonicalName: string | null;
 }
 
