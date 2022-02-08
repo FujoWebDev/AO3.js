@@ -6,10 +6,11 @@ interface UserProfile extends CheerioAPI {
   kind: "UserProfile";
 }
 
-export type UserName = string;
-export type UserPseuds = string;
-export type UserJoined = string;
-export type UserID = string;
+//export type UserName = string;
+//export type UserPseuds = string;
+//export type UserJoined = string;
+//export type UserID = string;
+//export type UserBio = string;
 
 export const getProfileLink = (userName: string) =>
   `https://archiveofourown.org/users/${encodeURI(userName)}/profile`;
@@ -20,20 +21,25 @@ export const getProfile = async (userName: string) => {
   ) as UserProfile;
 };
 
-export const getProfileName = ($userProfile: UserProfile): UserName => {
- return $userProfile(".user.profile .header h2").text() as UserName;
+export const getProfileName = ($userProfile: UserProfile) => {
+ return $userProfile(".user.profile .header h2").text();
 }
 
-export const getProfilePseuds = ($userProfile: UserProfile): UserPseuds => {
- return $userProfile("dd.pseuds").text() as UserPseuds;
+export const getProfilePseuds = ($userProfile: UserProfile) => {
+ return $userProfile("dd.pseuds").text();
 }
 
-export const getProfileJoined = ($userProfile: UserProfile): UserJoined => {
- return $userProfile(".meta dd:first-child:not(.pseuds)").text() as UserJoined;
+export const getProfileJoined = ($userProfile: UserProfile) => {
+ return $userProfile(".meta dd:first-child:not(.pseuds)").text();
 }
 
-export const getProfileID = ($userProfile: UserProfile): UserID => {
- return $userProfile(".meta dd:last-child)").text() as UserID;
+export const getProfileID = ($userProfile: UserProfile) => {
+ return $userProfile(".meta dd:last-child").text();
+}
+
+export const getProfileBio = ($userProfile: UserProfile) => {
+ return $userProfile(".bio.module").html();
 }
 
 //TODO: Pull information (Works/Series/Bookmarks/Collections/Gifts) from navigation actions maybe 
+
