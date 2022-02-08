@@ -9,6 +9,7 @@ interface UserProfile extends CheerioAPI {
 export interface Profile {
   username: string;
   pseuds: string | null;
+  works: number;
   joinDate: Date;
   userID: number;
   bio: string | null;
