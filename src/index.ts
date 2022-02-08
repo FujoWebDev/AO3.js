@@ -58,10 +58,12 @@ export const getUser = async ({
 
  return {
    name: getProfileName(profilePage),
+  // @ts-expect-error 
    pseuds: getProfilePseuds(profilePage),
-   url: getProfileLink(userName),
+  // TODO: remove expect-error once getProfilePseuds is fixed and not doing this
    id: getProfileID(profilePage),
    joined: getProfileJoined(profilePage),
-   bio: getProfileBio(profilePage),
+   url: getProfileLink(userName),
+   bioHtml: getProfileBio(profilePage),
  };
 };
