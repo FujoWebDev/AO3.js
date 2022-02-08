@@ -31,7 +31,7 @@ export const getProfile = async (userName: string) => {
 };
 
 export const getProfileName = ($userProfile: UserProfile): UserName => {
- return $userProfile(".user.profile .header h2").text() as UserName;
+ return $userProfile(".user.profile .header h2").text().trim() as UserName;
 } //seeing whether to use types like UserName or just leave it
 
 export const getProfilePseuds = ($userProfile: UserProfile) => {
