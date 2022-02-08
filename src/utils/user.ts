@@ -12,7 +12,7 @@ export interface User {
  pseuds: string;
  url: string;
  joined: string;
- bioHtml?: string | null;
+ bioHtml: string | null;
 }
 
 export const getProfileLink = (userName: string) =>
