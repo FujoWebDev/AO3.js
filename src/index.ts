@@ -9,6 +9,7 @@ import {
 import { getFeedPage, getTagNameFromFeed } from "./utils/feed";
 import { getTagId, getWorksPage } from "./utils/works";
 import { 
+ User,
  getProfile, 
  getProfileLink, 
  getProfileName, 
@@ -51,15 +52,17 @@ export const getUser = async ({
  userName,
 }: {
  userName: string;
-}): Promise<typeof getProfile> => {
+}): Promise<User> => {
+
+ const profilePage = await getProfile(userName)
 
 //Need help getting this to work I think
  return {
-   name: getProfileName,
-   pseuds: getProfilePseuds,
-   url: getProfileLink,
-   id: getProfileID,
-   joined: getProfileJoined,
-   bio: getProfileBio,
+   name: getProfileName(profilePage),
+   pseuds: getProfilePseuds(profilePage),
+   url: getProfileLink(userName),
+   id: getProfileID(profilePage),
+   joined: getProfileJoined(profilePage),
+   bio: getProfileBio(profilePage),
  };
 };

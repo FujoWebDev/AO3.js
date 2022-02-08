@@ -6,11 +6,20 @@ interface UserProfile extends CheerioAPI {
   kind: "UserProfile";
 }
 
-//export type UserName = string;
+export type UserName = string;
 //export type UserPseuds = string;
 //export type UserJoined = string;
 //export type UserID = string;
 //export type UserBio = string;
+
+export interface User {
+ name: string;
+ pseuds: string;
+ url: string;
+ id: string;
+ joined: string;
+ bio: string;
+}
 
 export const getProfileLink = (userName: string) =>
   `https://archiveofourown.org/users/${encodeURI(userName)}/profile`;
@@ -21,9 +30,9 @@ export const getProfile = async (userName: string) => {
   ) as UserProfile;
 };
 
-export const getProfileName = ($userProfile: UserProfile) => {
- return $userProfile(".user.profile .header h2").text();
-}
+export const getProfileName = ($userProfile: UserProfile): UserName => {
+ return $userProfile(".user.profile .header h2").text() as UserName;
+} //seeing whether to use types like UserName or just leave it
 
 export const getProfilePseuds = ($userProfile: UserProfile) => {
  return $userProfile("dd.pseuds").text();
