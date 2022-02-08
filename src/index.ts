@@ -8,6 +8,16 @@ import {
 } from "./utils/tags";
 import { getFeedPage, getTagNameFromFeed } from "./utils/feed";
 import { getTagId, getWorksPage } from "./utils/works";
+import { 
+ User,
+ getProfile, 
+ getProfileLink, 
+ getProfileName, 
+ getProfilePseuds,
+ getProfileJoined,
+ getProfileID,
+ getProfileBio
+} from "./utils/user";
 
 import axios from "axios";
 import { setupCache } from "axios-cache-adapter";
@@ -36,4 +46,23 @@ export const getTag = async ({
 
 export const getTagNameById = async ({ tagId }: { tagId: string }) => {
   return getTagNameFromFeed(await getFeedPage({ tagId }));
+};
+
+export const getUser = async ({
+ userName,
+}: {
+ userName: string;
+}): Promise<User> => {
+
+ const profilePage = await getProfile(userName)
+
+//Need help getting this to work I think
+ return {
+   name: getProfileName(profilePage),
+   pseuds: getProfilePseuds(profilePage),
+   url: getProfileLink(userName),
+   id: getProfileID(profilePage),
+   joined: getProfileJoined(profilePage),
+   bio: getProfileBio(profilePage),
+ };
 };
