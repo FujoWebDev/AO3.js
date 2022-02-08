@@ -29,8 +29,10 @@ export const getProfileName = ($userProfile: UserProfile) => {
 } 
 
 export const getProfilePseuds = ($userProfile: UserProfile) => {
- return $userProfile("dd.pseuds").text().split(", ");
+ const pseuds = $userProfile("dd.pseuds").text().concat(", ");
+ return pseuds.slice(0, -2);
 }
+// TODO: Determine why getProfilePseuds is mad 
 
 export const getProfileJoined = ($userProfile: UserProfile) => {
  return $userProfile(".meta dd:first-child:not(.pseuds)").text();
