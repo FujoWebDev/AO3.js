@@ -6,12 +6,6 @@ interface UserProfile extends CheerioAPI {
   kind: "UserProfile";
 }
 
-export type UserName = string;
-//export type UserPseuds = string;
-//export type UserJoined = string;
-//export type UserID = string;
-//export type UserBio = string;
-
 export interface User {
  name: string;
  pseuds: string;
@@ -30,9 +24,9 @@ export const getProfile = async (userName: string) => {
   ) as UserProfile;
 };
 
-export const getProfileName = ($userProfile: UserProfile): UserName => {
- return $userProfile(".user.profile .header h2").text().trim() as UserName;
-} //seeing whether to use types like UserName or just leave it
+export const getProfileName = ($userProfile: UserProfile) => {
+ return $userProfile(".user.profile .header h2").text().trim();
+} 
 
 export const getProfilePseuds = ($userProfile: UserProfile) => {
  return $userProfile("dd.pseuds").text();
