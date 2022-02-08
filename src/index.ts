@@ -8,6 +8,13 @@ import {
 } from "./utils/tags";
 import { getFeedPage, getTagNameFromFeed } from "./utils/feed";
 import { getTagId, getWorksPage } from "./utils/works";
+import { 
+ getProfile, 
+ getProfileLink, 
+ getProfileName, 
+ getProfilePseuds,
+ getProfileJoined
+} from "./utils/user";
 
 import axios from "axios";
 import { setupCache } from "axios-cache-adapter";
