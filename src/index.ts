@@ -13,7 +13,9 @@ import {
  getProfileLink, 
  getProfileName, 
  getProfilePseuds,
- getProfileJoined
+ getProfileJoined,
+ getProfileID,
+ getProfileBio
 } from "./utils/user";
 
 import axios from "axios";
@@ -43,4 +45,20 @@ export const getTag = async ({
 
 export const getTagNameById = async ({ tagId }: { tagId: string }) => {
   return getTagNameFromFeed(await getFeedPage({ tagId }));
+};
+
+export const getUser = async ({
+ userName,
+}: {
+ userName: string;
+}): Promise<typeof getProfile> => {
+
+//Need help getting this to work I think
+ return {
+   name: getProfileName,
+   pseuds: getProfilePseuds,
+   id: getProfileID,
+   joined: getProfileJoined,
+   bio: getProfileBio,
+ };
 };
