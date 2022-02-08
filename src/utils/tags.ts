@@ -3,7 +3,7 @@ import cheerio, { CheerioAPI } from "cheerio";
 import axios from "axios";
 
 // We create separate interfaces for each page type to make sure that the
-// corret type of page is passed to each method that extracts data.
+// correct type of page is passed to each method that extracts data.
 // Other than this, all pages are instances of CheerioAPI and can be used interchangeably.
 interface TagPage extends CheerioAPI {
   kind: "TagPage";
