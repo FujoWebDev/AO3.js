@@ -41,7 +41,7 @@ export const getProfileID = ($userProfile: UserProfile) => {
 }
 
 export const getProfileBio = ($userProfile: UserProfile) => {
- return $userProfile(".bio.module").html();
+ return $userProfile(".userstuff").html();
 }
 
 //TODO: Pull information (Works/Series/Bookmarks/Collections/Gifts) from navigation actions maybe?
