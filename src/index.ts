@@ -57,6 +57,7 @@ export const getUser = async ({
  return {
    name: getProfileName,
    pseuds: getProfilePseuds,
+   url: getProfileLink,
    id: getProfileID,
    joined: getProfileJoined,
    bio: getProfileBio,

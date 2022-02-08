@@ -9,6 +9,7 @@ describe("Fetches id data", () => {
     expect(user).toMatchObject({
       name: "astolat",
       id: "8",
+      url: "https://archiveofourown.org/users/astolat/profile"
     });
   });
 
