@@ -44,5 +44,5 @@ export const getProfileBio = ($userProfile: UserProfile) => {
  return $userProfile(".bio.module").html();
 }
 
-//TODO: Pull information (Works/Series/Bookmarks/Collections/Gifts) from navigation actions maybe 
+//TODO: Pull information (Works/Series/Bookmarks/Collections/Gifts) from navigation actions maybe?
 

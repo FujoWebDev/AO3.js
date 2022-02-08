@@ -56,7 +56,6 @@ export const getUser = async ({
 
  const profilePage = await getProfile(userName)
 
-//Need help getting this to work I think
  return {
    name: getProfileName(profilePage),
    pseuds: getProfilePseuds(profilePage),
