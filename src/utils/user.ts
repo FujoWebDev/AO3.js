@@ -32,11 +32,13 @@ export const getProfilePseuds = ($userProfile: UserProfile) => {
  const pseuds = $userProfile("dd.pseuds").text().concat(", ");
  return pseuds.slice(0, -2);
 }
-// TODO: Determine why getProfilePseuds is mad 
+// slice here prevents pseuds from getting an extra ", " at the end 
 
 export const getProfileJoined = ($userProfile: UserProfile) => {
- return $userProfile(".meta dd:first-child:not(.pseuds)").text();
+ const dds = $userProfile(".meta dd:not(.pseuds)").text();
+ return dds.slice(0, 10);
 }
+//slice here cuts the date off before it would run into the user ID
 
 export const getProfileID = ($userProfile: UserProfile) => {
  return $userProfile(".meta dd:last-child").text();
