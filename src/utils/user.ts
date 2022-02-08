@@ -7,12 +7,12 @@ interface UserProfile extends CheerioAPI {
 }
 
 export interface User {
+ id: string;
  name: string;
  pseuds: string;
  url: string;
- id: string;
  joined: string;
- bio: string;
+ bioHtml?: string | null;
 }
 
 export const getProfileLink = (userName: string) =>
@@ -29,7 +29,7 @@ export const getProfileName = ($userProfile: UserProfile) => {
 } 
 
 export const getProfilePseuds = ($userProfile: UserProfile) => {
- return $userProfile("dd.pseuds").text();
+ return $userProfile("dd.pseuds").text().split(", ");
 }
 
 export const getProfileJoined = ($userProfile: UserProfile) => {
