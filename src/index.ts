@@ -16,7 +16,10 @@ import {
  getProfilePseuds,
  getProfileJoined,
  getProfileID,
- getProfileBio
+ getProfileBio,
+ getProfileEmail,
+ getProfileLocation,
+ getProfileBday
 } from "./utils/user";
 
 import axios from "axios";
@@ -61,6 +64,9 @@ export const getUser = async ({
    pseuds: getProfilePseuds(profilePage),
    id: getProfileID(profilePage),
    joined: getProfileJoined(profilePage),
+   email: getProfileEmail(profilePage),
+   location: getProfileLocation(profilePage),
+   birthday: getProfileBday(profilePage),
    url: getProfileLink(userName),
    bioHtml: getProfileBio(profilePage),
  };
