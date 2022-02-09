@@ -8,6 +8,19 @@ import {
 } from "./utils/tags";
 import { getFeedPage, getTagNameFromFeed } from "./utils/feed";
 import { getTagId, getWorksPage } from "./utils/works";
+import { 
+ User,
+ getProfile, 
+ getProfileLink, 
+ getProfileName, 
+ getProfilePseuds,
+ getProfileJoined,
+ getProfileID,
+ getProfileBio,
+ getProfileEmail,
+ getProfileLocation,
+ getProfileBday
+} from "./utils/user";
 
 import axios from "axios";
 import { setupCache } from "axios-cache-adapter";
@@ -36,4 +49,25 @@ export const getTag = async ({
 
 export const getTagNameById = async ({ tagId }: { tagId: string }) => {
   return getTagNameFromFeed(await getFeedPage({ tagId }));
+};
+
+export const getUser = async ({
+ userName,
+}: {
+ userName: string;
+}): Promise<User> => {
+
+ const profilePage = await getProfile(userName)
+
+ return {
+   name: getProfileName(profilePage),
+   pseuds: getProfilePseuds(profilePage),
+   id: getProfileID(profilePage),
+   joined: getProfileJoined(profilePage),
+   email: getProfileEmail(profilePage),
+   location: getProfileLocation(profilePage),
+   birthday: getProfileBday(profilePage),
+   url: getProfileLink(userName),
+   bioHtml: getProfileBio(profilePage),
+ };
 };
