@@ -3,6 +3,16 @@ import cheerio, { CheerioAPI } from "cheerio";
 import { UserProfile } from "../types/pages";
 import axios from "axios";
 
+//Dates are ten characters long in the following format:
+const DATE_FORMAT = "0000-00-00";
+//Constants for trimming the navigation menu content
+const STAT_SUFFIX = ")";
+const WORKS_PREFIX = "Works (";
+const SERIES_PREFIX = "Series (";
+const BOOKMARKS_PREFIX = "Bookmarks (";
+const COLLECTIONS_PREFIX = "Collections (";
+const GIFTS_PREFIX = "Gifts (";
+
 export const getProfileLink = (userName: string) =>
   `https://archiveofourown.org/users/${encodeURI(userName)}/profile`;
 
@@ -22,9 +32,6 @@ export const getProfilePseuds = ($userProfile: UserProfile) => {
   const pseuds = $userProfile("dd.pseuds").text().concat(", ");
   return pseuds.slice(0, -PSEUD_SUFFIX.length);
 };
-
-//Dates are ten characters long in the following format:
-const DATE_FORMAT = "0000-00-00";
 
 //Trim the results to only the date:
 export const getProfileJoined = ($userProfile: UserProfile) => {
@@ -66,4 +73,37 @@ export const getProfileBday = ($userProfile: UserProfile) => {
   return $userProfile("dd.birthday").text();
 };
 
-//TODO: Pull information (Works/Series/Bookmarks/Collections/Gifts) from navigation actions maybe?
+export const getProfileWorks = ($userProfile: UserProfile) => {
+  return $userProfile("#dashboard a[href$='works']")
+    .text()
+    .trim()
+    .slice(WORKS_PREFIX.length, -STAT_SUFFIX.length);
+};
+
+export const getProfileSeries = ($userProfile: UserProfile) => {
+  return $userProfile("#dashboard a[href$='series']")
+    .text()
+    .trim()
+    .slice(SERIES_PREFIX.length, -STAT_SUFFIX.length);
+};
+
+export const getProfileBookmarks = ($userProfile: UserProfile) => {
+  return $userProfile("#dashboard a[href$='bookmarks']")
+    .text()
+    .trim()
+    .slice(BOOKMARKS_PREFIX.length, -STAT_SUFFIX.length);
+};
+
+export const getProfileCollections = ($userProfile: UserProfile) => {
+  return $userProfile("#dashboard a[href$='collections']")
+    .text()
+    .trim()
+    .slice(COLLECTIONS_PREFIX.length, -STAT_SUFFIX.length);
+};
+
+export const getProfileGifts = ($userProfile: UserProfile) => {
+  return $userProfile("#dashboard a[href$='gifts']")
+    .text()
+    .trim()
+    .slice(GIFTS_PREFIX.length, -STAT_SUFFIX.length);
+};

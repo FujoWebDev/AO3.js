@@ -11,7 +11,10 @@ import {
   getProfile,
   getProfileBday,
   getProfileBio,
+  getProfileBookmarks,
+  getProfileCollections,
   getProfileEmail,
+  getProfileGifts,
   getProfileHeader,
   getProfileID,
   getProfileJoined,
@@ -20,6 +23,8 @@ import {
   getProfileName,
   getProfilePic,
   getProfilePseuds,
+  getProfileSeries,
+  getProfileWorks,
 } from "./utils/user";
 import { getTagId, getWorksPage } from "./utils/works";
 
@@ -63,6 +68,11 @@ export const getUser = async ({
     location: getProfileLocation(profilePage),
     birthday: getProfileBday(profilePage),
     url: getProfileLink(userName),
+    works: getProfileWorks(profilePage),
+    series: getProfileSeries(profilePage),
+    bookmarks: getProfileBookmarks(profilePage),
+    collections: getProfileCollections(profilePage),
+    gifts: getProfileGifts(profilePage),
     bioHtml: getProfileBio(profilePage),
   };
 };
