@@ -24,6 +24,8 @@ export interface User {
   name: string;
   pseuds: string;
   url: string;
+  icon: string;
+  header: string | null;
   joined: string;
   location: string | null;
   email: string | null;

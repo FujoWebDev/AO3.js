@@ -12,11 +12,13 @@ import {
   getProfileBday,
   getProfileBio,
   getProfileEmail,
+  getProfileHeader,
   getProfileID,
   getProfileJoined,
   getProfileLink,
   getProfileLocation,
   getProfileName,
+  getProfilePic,
   getProfilePseuds,
 } from "./utils/user";
 import { getTagId, getWorksPage } from "./utils/works";
@@ -55,6 +57,8 @@ export const getUser = async ({
     pseuds: getProfilePseuds(profilePage),
     id: getProfileID(profilePage),
     joined: getProfileJoined(profilePage),
+    icon: getProfilePic(profilePage),
+    header: getProfileHeader(profilePage),
     email: getProfileEmail(profilePage),
     location: getProfileLocation(profilePage),
     birthday: getProfileBday(profilePage),
