@@ -20,7 +20,7 @@ export const getLockedCheck = async (workID: string) => {
 };
 
 export const checkLock = ($checkRestricted: CheckRestricted) => {
- const checking = $checkRestricted("#signin > .heading)").text();
+ const checking = $checkRestricted("#signin > .heading").text();
  if (checking) {
   return true;
  } else { return false; }
