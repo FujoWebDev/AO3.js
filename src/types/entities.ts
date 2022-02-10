@@ -30,6 +30,11 @@ export interface User {
   location: string | null;
   email: string | null;
   birthday: string | null;
+  works: string | null;
+  series: string | null;
+  bookmarks: string | null;
+  collections: string | null;
+  gifts: string | null;
   bioHtml: string | null;
 }
 

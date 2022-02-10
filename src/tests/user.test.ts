@@ -1,6 +1,8 @@
 import { getUser } from "../index";
 
-describe("Fetches id data", () => {
+//NOTE: Some of these tests may fail if the referenced user has updated their profile!
+
+describe("Fetches id data.", () => {
   test("Fetches username and user ID", async () => {
     const user = await getUser({
       userName: "astolat",
