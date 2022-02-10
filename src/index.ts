@@ -21,6 +21,10 @@ import {
  getProfileLocation,
  getProfileBday
 } from "./utils/user";
+import { 
+ Restricted,
+ checkLock, 
+ getLockedCheck} from "./utils/restrict";
 
 import axios from "axios";
 import { setupCache } from "axios-cache-adapter";
@@ -71,3 +75,15 @@ export const getUser = async ({
    bioHtml: getProfileBio(profilePage),
  };
 };
+
+export const checkLocks = async ({
+ workID,
+}: {
+ workID: string;
+}): Promise<Restricted> => {
+ const theLocks = await getLockedCheck(workID)
+
+ return {
+  locked: checkLock(theLocks)
+ }
+}
