@@ -7,7 +7,15 @@ import {
   isCommon,
 } from "./utils/tags";
 import { getFeedPage, getTagNameFromFeed } from "./utils/feed";
-import { getTagId, getWorksPage } from "./utils/works";
+import { 
+  getTagId, 
+  getWorksPage,
+  WorkData,
+  getWorkUrl,
+  getWorkIdFromUrl,
+  getChapterIdFromUrl,
+  getCollectionNameFromUrl,
+} from "./utils/works";
 import { 
  User,
  getProfile, 
@@ -71,3 +79,22 @@ export const getUser = async ({
    bioHtml: getProfileBio(profilePage),
  };
 };
+
+export const getWorkData = async ({
+  url,
+ }: {
+  url: string;
+ }): Promise<WorkData> => {
+
+  const preData = {
+    workId: getWorkIdFromUrl(url),
+    chapterId: getChapterIdFromUrl(url),
+    collectionName: getCollectionNameFromUrl(url),
+  }
+ return {
+  workUrl: getWorkUrl(preData),
+  workId: preData.workId,
+  chapterId: preData.chapterId,
+  collectionName: preData.collectionName,
+ }
+}
