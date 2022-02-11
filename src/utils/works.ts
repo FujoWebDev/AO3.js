@@ -11,7 +11,6 @@ interface WorksPage extends CheerioAPI {
 }
 
 export interface WorkData {
-  workUrl: string;
   workId: string;
   chapterId: string | null;
   collectionName: string | null;
@@ -32,21 +31,6 @@ export const getTagId = ($worksPage: WorksPage) => {
 interface WorkPage extends CheerioAPI {
   kind: "WorkPage";
 }
-
-export const getWorkIdFromUrl = (url: string) => {
-  return url.match(/works\/(\d+)/)[1];
-};
-
-export const getChapterIdFromUrl = (url: string) => {
-  const chapterId = url.match(/chapters\/(\d+)/);
-  if (chapterId) return chapterId[1];
-};
-
-// ! this grabs the collection name from the URL but a work can be in more than one collection
-export const getCollectionNameFromUrl = (url: string) => {
-  const collectionName = url.match(/collections\/(\w+)/);
-  if (collectionName) return collectionName[1];
-};
 
 export const getWorkUrl = ({
   workId,

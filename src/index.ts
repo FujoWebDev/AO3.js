@@ -11,10 +11,6 @@ import {
   getTagId, 
   getWorksPage,
   WorkData,
-  getWorkUrl,
-  getWorkIdFromUrl,
-  getChapterIdFromUrl,
-  getCollectionNameFromUrl,
 } from "./utils/works";
 import { 
  User,
@@ -80,21 +76,15 @@ export const getUser = async ({
  };
 };
 
-export const getWorkData = async ({
+export const getWorkData = ({
   url,
  }: {
   url: string;
- }): Promise<WorkData> => {
-
-  const preData = {
-    workId: getWorkIdFromUrl(url),
-    chapterId: getChapterIdFromUrl(url),
-    collectionName: getCollectionNameFromUrl(url),
-  }
- return {
-  workUrl: getWorkUrl(preData),
-  workId: preData.workId,
-  chapterId: preData.chapterId,
-  collectionName: preData.collectionName,
- }
+ }): WorkData => {
+   
+  return {
+    workId: url.match(/works\/(\d+)/)[1],
+    chapterId: url.match(/chapters\/(\d+)/)?.[1],
+    collectionName: url.match(/collections\/(\w+)/)?.[1],
+  };
 }
