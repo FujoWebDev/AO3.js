@@ -12,8 +12,8 @@ interface WorksPage extends CheerioAPI {
 
 export interface WorkData {
   workId: string;
-  chapterId: string | null;
-  collectionName: string | null;
+  chapterId?: string;
+  collectionName?: string;
 }
 
 const getWorksUrl = (tagName: string) => `${getTagUrl(tagName)}/works`;
