@@ -41,11 +41,17 @@ export const getWorkUrl = ({
   chapterId?: string;
   collectionName?: string;
 }) => {
-  if (chapterId && collectionName) {
-    return `https://archiveofourown.org/collections/${collectionName}/works/${workId}/chapters/${chapterId}`;
-  } else if (chapterId) {
-    return `https://archiveofourown.org/works/${workId}/chapters/${chapterId}`;
-  } else if (collectionName) {
-    return `https://archiveofourown.org/collections/${collectionName}/works/${workId}`;
-  } else return `https://archiveofourown.org/works/${workId}`;
+  let workUrl = `https://archiveofourown.org`;
+
+  if (collectionName) {
+    workUrl += `/collections/${collectionName}`;
+  }
+
+  workUrl += `/works/${workId}`;
+
+  if (chapterId) {
+    workUrl += `/chapters/${chapterId}`;
+  }
+
+  return workUrl
 };
