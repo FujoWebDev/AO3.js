@@ -7,7 +7,11 @@ import {
   isCommon,
 } from "./utils/tags";
 import { getFeedPage, getTagNameFromFeed } from "./utils/feed";
-import { getTagId, getWorksPage } from "./utils/works";
+import { 
+  getTagId, 
+  getWorksPage,
+  WorkData,
+} from "./utils/works";
 import { 
  User,
  getProfile, 
@@ -71,3 +75,16 @@ export const getUser = async ({
    bioHtml: getProfileBio(profilePage),
  };
 };
+
+export const getWorkData = ({
+  url,
+ }: {
+  url: string;
+ }): WorkData => {
+   
+  return {
+    workId: url.match(/works\/(\d+)/)[1],
+    chapterId: url.match(/chapters\/(\d+)/)?.[1],
+    collectionName: url.match(/collections\/(\w+)/)?.[1],
+  };
+}

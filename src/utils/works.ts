@@ -9,6 +9,13 @@ import { getTagUrl } from "./tags";
 interface WorksPage extends CheerioAPI {
   kind: "WorksPage";
 }
+
+export interface WorkData {
+  workId: string;
+  chapterId?: string;
+  collectionName?: string;
+}
+
 const getWorksUrl = (tagName: string) => `${getTagUrl(tagName)}/works`;
 
 export const getWorksPage = async (tagName: string) => {
@@ -19,4 +26,32 @@ export const getWorksPage = async (tagName: string) => {
 
 export const getTagId = ($worksPage: WorksPage) => {
   return $worksPage(".rss")[0]?.attribs["href"].split("/")[2] || null;
+};
+
+interface WorkPage extends CheerioAPI {
+  kind: "WorkPage";
+}
+
+export const getWorkUrl = ({
+  workId,
+  chapterId,
+  collectionName,
+}: {
+  workId: string;
+  chapterId?: string;
+  collectionName?: string;
+}) => {
+  let workUrl = `https://archiveofourown.org`;
+
+  if (collectionName) {
+    workUrl += `/collections/${collectionName}`;
+  }
+
+  workUrl += `/works/${workId}`;
+
+  if (chapterId) {
+    workUrl += `/chapters/${chapterId}`;
+  }
+
+  return workUrl
 };
