@@ -87,4 +87,35 @@ describe("Fetches work data", () => {
       chapters: "1/1",
     });
   });
+  test("Fetches additional work data", async () => {
+    const work = await getWork({
+      workId: "37040506",
+    });
+    expect(work).toMatchObject({
+      author: "Anonymous",
+      title: "Exceso de Cosas",
+      rating: ["Not Rated"],
+      warning: [
+        "Creator Chose Not To Use Archive Warnings",
+        "Graphic Depictions Of Violence",
+        "Major Character Death",
+        "No Archive Warnings Apply",
+        "Rape/Non-Con",
+        "Underage",
+      ],
+      fandom: ["Testing"],
+      language: "Español",
+      published: "1969-06-09",
+      words: "124",
+      chapters: "1/?",
+      category: ["F/F", "F/M", "Gen", "M/M", "Multi", "Other"],
+      relationship: ["Me/My Need To Be Obsessive"],
+      character: ["Me", "This Website"],
+      freeform: ["This Is STUPID"],
+      series: "Part 1 of the Testing series",
+      collections:
+        "Testing Purposes, aaaaaaa a test brrrr goes the test, Anonymous",
+      updated: "1969-06-09",
+    });
+  });
 });

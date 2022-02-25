@@ -22,6 +22,13 @@ import {
   getWorkPublished,
   getWorkWords,
   getWorkChapters,
+  getWorkCategory,
+  getWorkRelationship,
+  getWorkCharacter,
+  getWorkFreeform,
+  getWorkSeries,
+  getWorkCollections,
+  getWorkUpdated,
 } from "./utils/works";
 import {
   User,
@@ -102,6 +109,7 @@ export const getWork = async ({
   const workPage = await getWorkPage(workId);
 
   return {
+    // required fields
     author: getWorkAuthor(workPage),
     title: getWorkTitle(workPage),
     rating: getWorkRating(workPage),
@@ -111,5 +119,13 @@ export const getWork = async ({
     published: getWorkPublished(workPage),
     words: getWorkWords(workPage),
     chapters: getWorkChapters(workPage),
+    // optional fields
+    category: getWorkCategory(workPage),
+    relationship: getWorkRelationship(workPage),
+    character: getWorkCharacter(workPage),
+    freeform: getWorkFreeform(workPage),
+    series: getWorkSeries(workPage),
+    collections: getWorkCollections(workPage),
+    updated: getWorkUpdated(workPage),
   };
 };

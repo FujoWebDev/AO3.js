@@ -80,6 +80,13 @@ export interface Work {
   published: string;
   words: string;
   chapters: string;
+  category: string[];
+  relationship: string[];
+  character: string[];
+  freeform: string[];
+  series: string;
+  collections: string;
+  updated: string;
 }
 
 // Start of methods that fetch required fields
@@ -134,3 +141,50 @@ export const getWorkChapters = ($workPage: WorkPage) => {
   return $workPage("dd.chapters").text().trim();
 };
 // End of methods that fetch required fields
+
+// Start of methods that fetch optional fields
+export const getWorkCategory = ($workPage: WorkPage) => {
+  const category = [];
+
+  $workPage("dd.category ul.commas li").each(function (i, element) {
+    category[i] = $workPage(element).text().trim();
+  });
+  return category;
+};
+
+export const getWorkRelationship = ($workPage: WorkPage) => {
+  const relationship = [];
+  $workPage("dd.relationship ul.commas li").each(function (i, element) {
+    relationship[i] = $workPage(element).text().trim();
+  });
+  return relationship;
+};
+
+export const getWorkCharacter = ($workPage: WorkPage) => {
+  const character = [];
+  $workPage("dd.character ul.commas li").each(function (i) {
+    character[i] = $workPage(this).text().trim();
+  });
+  return character;
+};
+
+export const getWorkFreeform = ($workPage: WorkPage) => {
+  const freeform = [];
+  $workPage("dd.freeform ul.commas li").each(function (i) {
+    freeform[i] = $workPage(this).text().trim();
+  });
+  return freeform;
+};
+
+export const getWorkSeries = ($workPage: WorkPage) => {
+  return $workPage("dd.series").text().trim();
+};
+
+export const getWorkCollections = ($workPage: WorkPage) => {
+  return $workPage("dd.collections").text().trim();
+};
+
+export const getWorkUpdated = ($workPage: WorkPage) => {
+  return $workPage("dd.status").text().trim();
+};
+// End of methods that fetch optional fields
