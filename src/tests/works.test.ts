@@ -37,11 +37,9 @@ describe("Fetches data from url", () => {
 
 describe("Gets url from data", () => {
   test("Gets url from workId", async () => {
-    const workUrl = await getWorkUrl(
-      getWorkData({
-        url: "https://archiveofourown.org/works/36667228",
-      })
-    );
+    const workUrl = await getWorkUrl({
+      workId: "36667228",
+    });
 
     expect(workUrl).toBe("https://archiveofourown.org/works/36667228");
   });
