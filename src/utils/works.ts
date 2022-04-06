@@ -79,7 +79,8 @@ export interface Work {
   language: string;
   published: string;
   words: string;
-  chapters: string;
+  publishedChapters: number;
+  totalChapters: number | null;
   category: string[];
   relationship: string[];
   character: string[];
@@ -137,8 +138,17 @@ export const getWorkPublished = ($workPage: WorkPage) => {
 export const getWorkWords = ($workPage: WorkPage) => {
   return $workPage("dd.words").text().trim();
 };
-export const getWorkChapters = ($workPage: WorkPage) => {
-  return $workPage("dd.chapters").text().trim();
+
+export const getWorkPublishedChapters = ($workPage: WorkPage) => {
+  return parseInt($workPage("dd.chapters").text().trim().split("/")[0]);
+};
+
+export const getWorkTotalChapters = ($workPage: WorkPage) => {
+  const totalChapters = $workPage("dd.chapters").text().trim().split("/")[1];
+  if (totalChapters === "?") {
+    return null;
+  }
+  return parseInt(totalChapters);
 };
 // End of methods that fetch required fields
 
