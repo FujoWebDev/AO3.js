@@ -7,15 +7,15 @@ interface UserProfile extends CheerioAPI {
 }
 
 export interface User {
- id: string;
- name: string;
- pseuds: string;
- url: string;
- joined: string;
- location: string | null;
- email: string | null;
- birthday: string | null;
- bioHtml: string | null;
+  id: string;
+  name: string;
+  pseuds: string;
+  url: string;
+  joined: string;
+  location: string | null;
+  email: string | null;
+  birthday: string | null;
+  bioHtml: string | null;
 }
 
 export const getProfileLink = (userName: string) =>
@@ -28,40 +28,43 @@ export const getProfile = async (userName: string) => {
 };
 
 export const getProfileName = ($userProfile: UserProfile) => {
- return $userProfile(".user.profile .header h2").text().trim();
-} 
+  return $userProfile(".user.profile .header h2").text().trim();
+};
 
 export const getProfilePseuds = ($userProfile: UserProfile) => {
- const pseuds = $userProfile("dd.pseuds").text().concat(", ");
- return pseuds.slice(0, -2);
-}
-// slice here prevents pseuds from getting an extra ", " at the end 
+  const pseuds = $userProfile("dd.pseuds").text().concat(", ");
+  return pseuds.slice(0, -2);
+};
+// slice here prevents pseuds from getting an extra ", " at the end
 
 export const getProfileJoined = ($userProfile: UserProfile) => {
- const dds = $userProfile(".meta dd:not(.email, .location, .birthday, .pseuds)").text();
- return dds.slice(0, 10);
-}
+  const dds = $userProfile(
+    ".meta dd:not(.email, .location, .birthday, .pseuds)"
+  ).text();
+  return dds.slice(0, 10);
+};
 //slice here cuts the date off before it would run into the user ID
 export const getProfileID = ($userProfile: UserProfile) => {
- const dds = $userProfile(".meta dd:not(.email):not(dt.location+dd):not(.birthday):not(.pseuds)").text();
- return dds.slice(10);
-}
+  const dds = $userProfile(
+    ".meta dd:not(.email):not(dt.location+dd):not(.birthday):not(.pseuds)"
+  ).text();
+  return dds.slice(10);
+};
 
 export const getProfileBio = ($userProfile: UserProfile) => {
- return $userProfile(".userstuff").html();
-}
+  return $userProfile(".bio .userstuff").html();
+};
 
 export const getProfileEmail = ($userProfile: UserProfile) => {
- return $userProfile("dd.email").text();
-}
+  return $userProfile("dd.email").text();
+};
 
 export const getProfileLocation = ($userProfile: UserProfile) => {
- return $userProfile("dt.location+dd").text();
-}
+  return $userProfile("dt.location+dd").text();
+};
 
 export const getProfileBday = ($userProfile: UserProfile) => {
- return $userProfile("dd.birthday").text();
-}
+  return $userProfile("dd.birthday").text();
+};
 
 //TODO: Pull information (Works/Series/Bookmarks/Collections/Gifts) from navigation actions maybe?
-
