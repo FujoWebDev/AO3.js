@@ -77,7 +77,7 @@ export interface Work {
   warning: string[];
   fandom: string[];
   language: string;
-  published: string;
+  published: Date;
   words: string;
   publishedChapters: number;
   totalChapters: number | null;
@@ -85,12 +85,11 @@ export interface Work {
   relationship: string[];
   character: string[];
   freeform: string[];
-  series: string;
-  collections: string;
-  updated: string;
+  series: string | null;
+  collections: string | null;
+  updated: Date;
 }
 
-// Start of methods that fetch required fields
 export const getWorkAuthor = ($workPage: WorkPage) => {
   const author = [];
   $workPage("h3.byline").each(function (i, element) {
@@ -133,8 +132,9 @@ export const getWorkLanguage = ($workPage: WorkPage) => {
 };
 
 export const getWorkPublished = ($workPage: WorkPage) => {
-  return $workPage("dd.published").text().trim();
+  return new Date(Date.parse($workPage("dd.published").text().trim()));
 };
+
 export const getWorkWords = ($workPage: WorkPage) => {
   return $workPage("dd.words").text().trim();
 };
@@ -150,9 +150,7 @@ export const getWorkTotalChapters = ($workPage: WorkPage) => {
   }
   return parseInt(totalChapters);
 };
-// End of methods that fetch required fields
 
-// Start of methods that fetch optional fields
 export const getWorkCategory = ($workPage: WorkPage) => {
   const category = [];
 
@@ -186,15 +184,26 @@ export const getWorkFreeform = ($workPage: WorkPage) => {
   return freeform;
 };
 
-export const getWorkSeries = ($workPage: WorkPage) => {
-  return $workPage("dd.series").text().trim();
+export const getWorkSeries = ($workPage: WorkPage) : string | null => {
+  const series = $workPage("dd.series").text().trim();
+  if (!series) {
+    return null;
+  }
+  return series;
 };
 
-export const getWorkCollections = ($workPage: WorkPage) => {
-  return $workPage("dd.collections").text().trim();
+export const getWorkCollections = ($workPage: WorkPage) : string | null => {
+  const collections = $workPage("dd.collections").text().trim();
+  if (!collections) {
+    return null;
+  }
+  return collections;
 };
 
 export const getWorkUpdated = ($workPage: WorkPage) => {
-  return $workPage("dd.status").text().trim();
+  const updated = $workPage("dd.status").text().trim();
+  if (!updated) {
+    return null;
+  }
+  return new Date(Date.parse(updated));
 };
-// End of methods that fetch optional fields

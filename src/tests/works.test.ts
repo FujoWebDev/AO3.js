@@ -68,30 +68,31 @@ describe("Gets url from data", () => {
 });
 
 describe("Fetches work data", () => {
-  test("Fetches required work data", async () => {
-    const work = await getWork({
-      workId: "37040272",
-    });
 
-    expect(work).toMatchObject({
-      author: "Riazaia",
-      title: "Solo lo Obligatorio",
-      rating: ["Not Rated"],
-      warning: ["No Archive Warnings Apply"],
-      fandom: ["Testing"],
-      language: "Español",
-      published: "1969-06-09",
-      words: "124",
-      chapters: "1/1",
-    });
-  });
-  test("Fetches additional work data", async () => {
+  test("Fetches work details", async () => {
     const work = await getWork({
       workId: "37040506",
     });
     expect(work).toMatchObject({
       author: "Anonymous",
       title: "Exceso de Cosas",
+      language: "Español",
+      published: new Date(Date.parse("1969-06-09")),
+      words: "124",
+      publishedChapters: 1,
+      totalChapters: null,
+      series: "Part 1 of the Testing series",
+      collections:
+        "Testing Purposes, aaaaaaa a test brrrr goes the test, Anonymous",
+      updated: new Date(Date.parse("1969-06-09")),
+    });
+  });
+
+  test("Fetches category and tags", async () => {
+    const work = await getWork({
+      workId: "37040506",
+    });
+    expect(work).toMatchObject({
       rating: ["Not Rated"],
       warning: [
         "Creator Chose Not To Use Archive Warnings",
@@ -102,18 +103,35 @@ describe("Fetches work data", () => {
         "Underage",
       ],
       fandom: ["Testing"],
-      language: "Español",
-      published: "1969-06-09",
-      words: "124",
-      chapters: "1/?",
       category: ["F/F", "F/M", "Gen", "M/M", "Multi", "Other"],
       relationship: ["Me/My Need To Be Obsessive"],
       character: ["Me", "This Website"],
       freeform: ["This Is STUPID"],
-      series: "Part 1 of the Testing series",
-      collections:
-        "Testing Purposes, aaaaaaa a test brrrr goes the test, Anonymous",
-      updated: "1969-06-09",
+    });
+  });
+
+  test("Fetches dates", async () => {
+    const work = await getWork({
+      workId: "5468561",
+    });
+    expect(work).toMatchObject({
+      published: new Date(Date.parse("2015-12-20")),
+    });
+  });
+
+  xtest("Returns the right thing for missing fields", async () => {
+    const work = await getWork({
+      workId: "37040272",
+    });
+    expect(work).toMatchObject({
+      category: [],
+      relationship: [],
+      character: [],
+      freeform: [],
+      totalChapters: null,
+      series: null,
+      collections: null,
+      updated: null,
     });
   });
 });
