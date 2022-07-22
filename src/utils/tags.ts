@@ -1,14 +1,8 @@
 import cheerio, { CheerioAPI } from "cheerio";
 
-import { TagCategory } from "../types";
+import { TagCategory } from "../types/entities";
+import { TagPage } from "../types/pages";
 import axios from "axios";
-
-// We create separate interfaces for each page type to make sure that the
-// correct type of page is passed to each method that extracts data.
-// Other than this, all pages are instances of CheerioAPI and can be used interchangeably.
-interface TagPage extends CheerioAPI {
-  kind: "TagPage";
-}
 
 export const getTagUrl = (tagName: string) =>
   `https://archiveofourown.org/tags/${encodeURI(tagName)

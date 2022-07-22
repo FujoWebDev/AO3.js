@@ -1,10 +1,7 @@
 import cheerio, { CheerioAPI } from "cheerio";
 
+import { UserProfile } from "../types/pages";
 import axios from "axios";
-
-interface UserProfile extends CheerioAPI {
-  kind: "UserProfile";
-}
 
 export const getProfileLink = (userName: string) =>
   `https://archiveofourown.org/users/${encodeURI(userName)}/profile`;
