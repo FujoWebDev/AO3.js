@@ -70,7 +70,17 @@ export const getUser = async ({
   };
 };
 
-export const getWorkData = ({ url }: { url: string }): WorkData => {
+// TODO: rename this something like "extractWorkDataFromUrl" to make it explicit
+// that no network call is involved.
+export const getWorkData = ({
+  url,
+}: {
+  url: string;
+}): {
+  workId: string;
+  chapterId?: string;
+  collectionName?: string;
+} => {
   return {
     workId: url.match(/works\/(\d+)/)[1],
     chapterId: url.match(/chapters\/(\d+)/)?.[1],

@@ -19,12 +19,6 @@ export interface Tag {
   canonicalName: string | null;
 }
 
-export interface WorkData {
-  workId: string;
-  chapterId?: string;
-  collectionName?: string;
-}
-
 export interface User {
   id: string;
   name: string;
