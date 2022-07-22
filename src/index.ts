@@ -1,4 +1,4 @@
-import { Tag, User, WorkData } from "./types/entities";
+import { Tag, User } from "./types/entities";
 import {
   getCanonical,
   getTagCategory,
