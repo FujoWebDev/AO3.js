@@ -6,18 +6,6 @@ interface UserProfile extends CheerioAPI {
   kind: "UserProfile";
 }
 
-export interface User {
-  id: string;
-  name: string;
-  pseuds: string;
-  url: string;
-  joined: string;
-  location: string | null;
-  email: string | null;
-  birthday: string | null;
-  bioHtml: string | null;
-}
-
 export const getProfileLink = (userName: string) =>
   `https://archiveofourown.org/users/${encodeURI(userName)}/profile`;
 

@@ -10,12 +10,6 @@ interface WorksPage extends CheerioAPI {
   kind: "WorksPage";
 }
 
-export interface WorkData {
-  workId: string;
-  chapterId?: string;
-  collectionName?: string;
-}
-
 const getWorksUrl = (tagName: string) => `${getTagUrl(tagName)}/works`;
 
 export const getWorksPage = async (tagName: string) => {
@@ -53,5 +47,5 @@ export const getWorkUrl = ({
     workUrl += `/chapters/${chapterId}`;
   }
 
-  return workUrl
+  return workUrl;
 };
