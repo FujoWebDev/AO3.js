@@ -61,9 +61,13 @@ export enum WorkWarnings {
 }
 
 export interface WorkSummary {
+  id: number;
   title: string;
   category: WorkCategory | null;
-  publishedAt: number;
+  // Date in ISO format. See: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString
+  // Note that AO3 doesn't publish the actual time of publish, just the date.
+  publishedAt: string;
+  completedAt: string | null;
   // TODO: should this be in HTML?
   summary: string;
   rating: WorkRatings | null;
@@ -77,11 +81,15 @@ export interface WorkSummary {
     relationships: string[];
     additional: string[];
   };
-  // TODO: how do we represent orphaned works? Can author be null?
-  author: {
-    id: number;
-    name: string;
-  };
+  authors: (
+    | "anonymous"
+    | "orphan_account"
+    | {
+        usernname: string;
+        // This is the name the work is published under. Might be the same as username.
+        pseud: string;
+      }
+  )[];
   language: string;
   words: number;
   chapters: {
