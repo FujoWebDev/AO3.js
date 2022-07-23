@@ -67,7 +67,7 @@ export interface WorkSummary {
   // Date in ISO format. See: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString
   // Note that AO3 doesn't publish the actual time of publish, just the date.
   publishedAt: string;
-  completedAt: string | null;
+  updatedAt: string | null;
   // TODO: should this be in HTML?
   summary: string;
   rating: WorkRatings | null;
@@ -78,6 +78,7 @@ export interface WorkSummary {
   warningStatus: WorkWarningStatus;
   tags: {
     warnings: WorkWarnings[];
+    characters: string[];
     relationships: string[];
     additional: string[];
   };
@@ -93,11 +94,12 @@ export interface WorkSummary {
   language: string;
   words: number;
   chapters: {
-    current: number;
+    published: number;
     total: number | null;
     complete: boolean;
   };
   stats: {
+    bookmarks: number;
     comments: number;
     kudos: number;
     hits: number;
