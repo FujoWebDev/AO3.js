@@ -85,7 +85,7 @@ export interface WorkSummary {
     | "anonymous"
     | "orphan_account"
     | {
-        usernname: string;
+        username: string;
         // This is the name the work is published under. Might be the same as username.
         pseud: string;
       }
