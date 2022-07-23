@@ -1,34 +1,8 @@
 import cheerio, { CheerioAPI } from "cheerio";
 
+import { TagCategory } from "../types/entities";
+import { TagPage } from "../types/pages";
 import axios from "axios";
-
-// We create separate interfaces for each page type to make sure that the
-// correct type of page is passed to each method that extracts data.
-// Other than this, all pages are instances of CheerioAPI and can be used interchangeably.
-interface TagPage extends CheerioAPI {
-  kind: "TagPage";
-}
-
-export type TagCategory =
-  | "fandom"
-  | "character"
-  | "relationship"
-  | "archive warning"
-  | "additional tags";
-
-export interface Tag {
-  name: string;
-  // Not all tags have user-facing IDs Example: additional tags.
-  // TODO: figure out other types (or whether they can be extracted from somewhere else).
-  id: string | null;
-  category: TagCategory;
-  canonical: boolean;
-  common: boolean;
-  // Canonical name will be the same as "name" on canonical tags, and different on tags
-  // that have been synned to a canonical. It will be null when tags haven't been marked as
-  // common and cannot be filtered on.
-  canonicalName: string | null;
-}
 
 export const getTagUrl = (tagName: string) =>
   `https://archiveofourown.org/tags/${encodeURI(tagName)

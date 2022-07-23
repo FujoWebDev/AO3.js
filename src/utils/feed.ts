@@ -1,10 +1,7 @@
 import cheerio, { CheerioAPI } from "cheerio";
 
+import { FeedPage } from "../types/pages";
 import axios from "axios";
-
-interface FeedPage extends CheerioAPI {
-  kind: "FeedPage";
-}
 
 const getFeedUrl = (tagId: string) =>
   `https://archiveofourown.org/tags/${tagId}/feed.atom`;
