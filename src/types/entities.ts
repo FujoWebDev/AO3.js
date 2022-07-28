@@ -32,6 +32,7 @@ export interface User {
 }
 
 export enum WorkRatings {
+  NOT_RATED = "Not Rated",
   GENERAL_AUDIENCES = "General Audiences",
   TEEN_AND_UP_AUDIENCES = "Teen And Up Audiences",
   MATURE = "Mature",
@@ -48,6 +49,7 @@ export enum WorkCategory {
 }
 
 export enum WorkWarningStatus {
+  NO_WARNINGS_APPLY = "Author indicated no warnings apply",
   CHOOSE_NOT_TO_WARN = "Author chose not to warn",
   EXTERNAL = "External work",
   HAS_WARNING = "Work has one or more warning",
@@ -57,7 +59,7 @@ export enum WorkWarnings {
   GRAPHIC_VIOLENCE = "Graphic depictions of violence",
   MAJOR_CHARACTER_DEATH = "Major character death",
   NONCON = "Rape/non-con",
-  UNDERAGE = "underage sex",
+  UNDERAGE = "Underage",
 }
 
 export interface WorkSummary {
@@ -70,10 +72,11 @@ export interface WorkSummary {
   updatedAt: string | null;
   // TODO: should this be in HTML?
   summary: string;
+  // TODO: decide whether to remove "null" here now that WorkRatings includes
+  // no warning applies.
   rating: WorkRatings | null;
   // TODO: is this the same as rating?
   adult: boolean;
-  // TODO: can this be null?
   fandoms: string[];
   warningStatus: WorkWarningStatus;
   tags: {
