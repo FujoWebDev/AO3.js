@@ -72,10 +72,9 @@ export interface WorkSummary {
   updatedAt: string | null;
   // TODO: should this be in HTML?
   summary: string;
-  // TODO: decide whether to remove "null" here now that WorkRatings includes
-  // no warning applies.
-  rating: WorkRatings | null;
-  // TODO: is this the same as rating?
+  rating: WorkRatings;
+  // Whether this work will display the "this work could have adult content" banner
+  // upon access.
   adult: boolean;
   fandoms: string[];
   warningStatus: WorkWarningStatus;
