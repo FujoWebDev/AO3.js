@@ -19,7 +19,7 @@ import {
   getProfileName,
   getProfilePseuds,
 } from "./utils/user";
-import { getTagId, getWorksPage } from "./utils/works";
+import { getTagId, getWorksFeed } from "./utils/works";
 
 import axios from "axios";
 import { setupCache } from "axios-cache-adapter";
@@ -34,11 +34,11 @@ export const getTag = async ({
   tagName: string;
 }): Promise<Tag> => {
   const tagPage = await getTagPage(tagName);
-  const worksPage = await getWorksPage(tagName);
+  const worksFeed = await getWorksFeed(tagName);
 
   return {
     name: tagName,
-    id: getTagId(worksPage),
+    id: getTagId(worksFeed),
     category: getTagCategory(tagPage),
     canonical: isCanonical(tagPage),
     common: isCommon(tagPage),
