@@ -63,7 +63,6 @@ export enum WorkWarnings {
 }
 
 export interface WorkSummary {
-  id: number;
   title: string;
   category: WorkCategory | null;
   // Date in ISO format. See: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString
@@ -84,22 +83,20 @@ export interface WorkSummary {
     relationships: string[];
     additional: string[];
   };
-  authors: (
-    | "anonymous"
-    | "orphan_account"
+  authors:
+    | "Anonymous"
     | {
         username: string;
         // This is the name the work is published under. Might be the same as username.
         pseud: string;
-      }
-  )[];
+      }[];
   language: string;
   words: number;
   chapters: {
     published: number;
     total: number | null;
-    complete: boolean;
   };
+  complete: boolean;
   stats: {
     bookmarks: number;
     comments: number;
