@@ -75,8 +75,14 @@ describe("Fetches work summary", () => {
     const work = await getWork({
       workId: "4491333",
     });
+
     expect(work).toMatchObject({
-      authors: { username: "astolat", pseud: "astolat" },
+      authors: [
+        {
+          username: "astolat",
+          pseud: "astolat",
+        },
+      ],
     });
   });
 });
