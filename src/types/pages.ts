@@ -8,6 +8,10 @@ export interface WorksFeed extends CheerioAPI {
   kind: "WorksFeed";
 }
 
+export interface WorksPage extends CheerioAPI {
+  kind: "WorksPage";
+}
+
 export interface UserProfile extends CheerioAPI {
   kind: "UserProfile";
 }
