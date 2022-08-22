@@ -54,13 +54,13 @@ export const getWorksPage = async (workId: string) => {
 };
 
 export const getWorkAuthor = ($worksPage: WorksPage) => {
-  const author = [];
-  if ($worksPage("h3.byline").text().trim() === "Anonymous") {
-    author.push("Anonymous");
-  } else {
-    $worksPage("h3.byline").each(function (i, element) {
-      author[i] = $worksPage(element).children();
-    });
-  }
-  return author;
+  const authors = [];
+
+  $worksPage("h3.byline a").each((i, element) => {
+    const url = element.attribs.href;
+
+    const [, username, pseud] = url.match(/users\/(.+)\/pseuds\/(.+)/);
+    authors.push({ username: username, pseud: pseud });
+  });
+  return authors;
 };
