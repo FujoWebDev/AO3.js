@@ -1,6 +1,6 @@
+import { WorksFeed, WorksPage } from "../types/pages";
 import cheerio, { CheerioAPI } from "cheerio";
 
-import { WorksFeed } from "../types/pages";
 import axios from "axios";
 import { getTagUrl } from "./tags";
 
@@ -38,4 +38,29 @@ export const getWorkUrl = ({
   }
 
   return workUrl;
+};
+
+export const getWorksPage = async (workId: string) => {
+  return cheerio.load(
+    (
+      await axios.get<string>(`https://archiveofourown.org/works/${workId}`, {
+        // We set a cookie to bypass the Terms of Service agreement modal that appears when viewing works as a guest, which prevented some selectors from working. Appending ?view_adult=true to URLs doesn't work for chaptered works since that part gets cleared when those are automatically redirected.
+        headers: {
+          Cookie: "view_adult=true;",
+        },
+      })
+    ).data
+  ) as WorksPage;
+};
+
+export const getWorkAuthor = ($worksPage: WorksPage) => {
+  const author = [];
+  if ($worksPage("h3.byline").text().trim() === "Anonymous") {
+    author.push("Anonymous");
+  } else {
+    $worksPage("h3.byline").each(function (i, element) {
+      author[i] = $worksPage(element).children();
+    });
+  }
+  return author;
 };

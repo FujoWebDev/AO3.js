@@ -19,7 +19,12 @@ import {
   getProfileName,
   getProfilePseuds,
 } from "./utils/user";
-import { getTagId, getWorksFeed } from "./utils/works";
+import {
+  getTagId,
+  getWorkAuthor,
+  getWorksFeed,
+  getWorksPage,
+} from "./utils/works";
 
 import axios from "axios";
 import { setupCache } from "axios-cache-adapter";
@@ -85,5 +90,13 @@ export const getWorkData = ({
     workId: url.match(/works\/(\d+)/)[1],
     chapterId: url.match(/chapters\/(\d+)/)?.[1],
     collectionName: url.match(/collections\/(\w+)/)?.[1],
+  };
+};
+
+export const getWork = async ({ workId }: { workId: string }): Promise<any> => {
+  const workPage = await getWorksPage(workId);
+
+  return {
+    authors: getWorkAuthor(workPage),
   };
 };
