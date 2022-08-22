@@ -3,5 +3,6 @@ module.exports = [
   require("./handlers/tags/feed"),
   require("./handlers/tags/works"),
   require("./handlers/tags/name"),
+  require("./handlers/works/page"),
   require("./handlers/all"),
 ];
