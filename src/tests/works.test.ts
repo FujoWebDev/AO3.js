@@ -76,14 +76,12 @@ describe("Fetches work summary", () => {
       workId: "4491333",
     });
 
-    expect(work).toMatchObject({
-      authors: [
-        {
-          username: "astolat",
-          pseud: "astolat",
-        },
-      ],
-    });
+    expect(work.authors).toMatchObject([
+      {
+        username: "astolat",
+        pseud: "astolat",
+      },
+    ]);
   });
 
   test("Fetches author of work in anonymous collection", async () => {
@@ -91,9 +89,7 @@ describe("Fetches work summary", () => {
       workId: "168768",
     });
 
-    expect(work).toMatchObject({
-      authors: "Anonymous",
-    });
+    expect(work.authors).toBe("Anonymous");
   });
 
   test("Fetches author with username Anonymous", async () => {
@@ -101,40 +97,36 @@ describe("Fetches work summary", () => {
       workId: "6475531",
     });
 
-    expect(work).toMatchObject({
-      authors: [
-        {
-          username: "anonymous",
-          pseud: "anonymous",
-        },
-        {
-          username: "orphan_account",
-          pseud: "orphan_account",
-        },
-      ],
-    });
+    expect(work.authors).toMatchObject([
+      {
+        username: "Anonymous",
+        pseud: "Anonymous",
+      },
+      {
+        username: "orphan_account",
+        pseud: "orphan_account",
+      },
+    ]);
   });
 
   test("Fetches author with anonymous pseud", async () => {
     const work = await getWork({
-      workId: "57247021",
+      workId: "23824891",
     });
 
-    expect(work).toMatchObject({
-      authors: [
-        {
-          username: "orphan_account",
-          pseud: "Anonymous",
-        },
-        {
-          username: "Butterfly_Dream",
-          pseud: "Butterfly_Dream",
-        },
-        {
-          username: "mecchacumming",
-          pseud: "mecchacumming",
-        },
-      ],
-    });
+    expect(work.authors).toMatchObject([
+      {
+        username: "orphan_account",
+        pseud: "Anonymous",
+      },
+      {
+        username: "Butterfly_Dream",
+        pseud: "Butterfly_Dream",
+      },
+      {
+        username: "mecchacumming",
+        pseud: "mecchacumming",
+      },
+    ]);
   });
 });
