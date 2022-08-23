@@ -54,13 +54,20 @@ export const getWorksPage = async (workId: string) => {
 };
 
 export const getWorkAuthor = ($worksPage: WorksPage) => {
-  const authors = [];
+  const authorLinks = $worksPage("h3.byline a[rel='author']");
 
-  $worksPage("h3.byline a").each((i, element) => {
-    const url = element.attribs.href;
+  if (authorLinks.length !== 0) {
+    const authors = [];
 
-    const [, username, pseud] = url.match(/users\/(.+)\/pseuds\/(.+)/);
-    authors.push({ username: username, pseud: pseud });
-  });
-  return authors;
+    authorLinks.each((i, element) => {
+      const url = element.attribs.href;
+      const [, username, pseud] = url.match(/users\/(.+)\/pseuds\/(.+)/);
+
+      authors.push({ username: username, pseud: pseud });
+    });
+
+    return authors;
+  } else if ($worksPage("h3.byline").text().trim() === "Anonymous") {
+    return "Anonymous";
+  }
 };
