@@ -85,4 +85,56 @@ describe("Fetches work summary", () => {
       ],
     });
   });
+
+  test("Fetches author of work in anonymous collection", async () => {
+    const work = await getWork({
+      workId: "168768",
+    });
+
+    expect(work).toMatchObject({
+      authors: "Anonymous",
+    });
+  });
+
+  test("Fetches author with username Anonymous", async () => {
+    const work = await getWork({
+      workId: "6475531",
+    });
+
+    expect(work).toMatchObject({
+      authors: [
+        {
+          username: "anonymous",
+          pseud: "anonymous",
+        },
+        {
+          username: "orphan_account",
+          pseud: "orphan_account",
+        },
+      ],
+    });
+  });
+
+  test("Fetches author with anonymous pseud", async () => {
+    const work = await getWork({
+      workId: "57247021",
+    });
+
+    expect(work).toMatchObject({
+      authors: [
+        {
+          username: "orphan_account",
+          pseud: "Anonymous",
+        },
+        {
+          username: "Butterfly_Dream",
+          pseud: "Butterfly_Dream",
+        },
+        {
+          username: "mecchacumming",
+          pseud: "mecchacumming",
+        },
+      ],
+    });
+  });
 });
