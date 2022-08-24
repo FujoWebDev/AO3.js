@@ -22,9 +22,9 @@ import {
 import {
   getTagId,
   getWorkAuthor,
+  getWorkPage,
   getWorkTitle,
   getWorksFeed,
-  getWorksPage,
 } from "./utils/works";
 
 import axios from "axios";
@@ -95,7 +95,7 @@ export const getWorkData = ({
 };
 
 export const getWork = async ({ workId }: { workId: string }): Promise<any> => {
-  const workPage = await getWorksPage(workId);
+  const workPage = await getWorkPage(workId);
 
   return {
     authors: getWorkAuthor(workPage),
