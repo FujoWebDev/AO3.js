@@ -129,4 +129,43 @@ describe("Fetches work summary", () => {
       },
     ]);
   });
+
+  test("Fetches author pseud with special characters", async () => {
+    const work = await getWork({
+      workId: "41237499",
+    });
+
+    expect(work.authors).toMatchObject([
+      {
+        username: "Riazaia",
+        pseud: encodeURI("ᴾᴋᴹɴ Ria"),
+      },
+    ]);
+  });
+
+  test("Fetch work title", async () => {
+    const work = await getWork({
+      workId: "23824891",
+    });
+
+    expect(work.title).toBe("Sister Dearest");
+  });
+
+  test("Fetch title with slashes", async () => {
+    const work = await getWork({
+      workId: "29046888",
+    });
+
+    expect(work.title).toBe("waiting//wishing");
+  });
+
+  test("Fetch title with non-letter characters", async () => {
+    const work = await getWork({
+      workId: "323217",
+    });
+
+    expect(work.title).toBe("Field Test no.7: Phone Calls & Boundaries");
+  });
+
+  //TODO: test title with special characters
 });
