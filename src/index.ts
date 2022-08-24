@@ -22,6 +22,7 @@ import {
 import {
   getTagId,
   getWorkAuthor,
+  getWorkTitle,
   getWorksFeed,
   getWorksPage,
 } from "./utils/works";
@@ -98,5 +99,6 @@ export const getWork = async ({ workId }: { workId: string }): Promise<any> => {
 
   return {
     authors: getWorkAuthor(workPage),
+    title: getWorkTitle(workPage),
   };
 };

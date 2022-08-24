@@ -71,3 +71,7 @@ export const getWorkAuthor = ($worksPage: WorksPage) => {
     return "Anonymous";
   }
 };
+
+export const getWorkTitle = ($worksPage: WorksPage) => {
+  return $worksPage("h2.title").text().trim();
+};
