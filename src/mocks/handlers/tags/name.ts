@@ -1,14 +1,14 @@
-const fs = require("fs");
-const path = require("path");
-const { rest } = require("msw");
+import fs from "fs";
+import path from "path";
+import { rest } from "msw";
 
 const tagsDataDir = path.resolve(__dirname, "..", "..", "data", "tags");
 
-module.exports = rest.all(
+export default rest.all(
   "https://archiveofourown.org/tags/:name",
   (req, res, ctx) => {
     const html = fs.readFileSync(
-      path.resolve(tagsDataDir, req.params.name, "index.html")
+      path.resolve(tagsDataDir, req.params.name as string, "index.html")
     );
 
     return res(ctx.set("Content-Type", "text/html"), ctx.body(html));

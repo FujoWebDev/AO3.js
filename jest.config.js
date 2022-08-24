@@ -1,11 +1,14 @@
-const { compilerOptions } = require("./tsconfig");
-
-module.exports = {
+export default {
   testEnvironment: "node",
   transform: {
     "\\.(ts|tsx)$": "ts-jest",
   },
   testPathIgnorePatterns: ["<rootDir>/dist/"],
   modulePathIgnorePatterns: ["<rootDir>/dist/"],
-  setupFilesAfterEnv: ["./jest.setup.js"],
+  setupFilesAfterEnv: ["./jest.setup.ts"],
+  globals: {
+    "ts-jest": {
+      useESM: true,
+    },
+  },
 };

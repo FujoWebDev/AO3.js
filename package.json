@@ -2,11 +2,12 @@
   "name": "@bobaboard/ao3.js",
   "version": "0.5.1",
   "description": "A NodeJS API for scraping AO3 data",
+  "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "test": "jest --no-cache .test.ts$ --verbose=true"
+    "test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest --no-cache .test.ts$ --verbose=true"
   },
   "repository": "https://github.com/essential-randomness/AO3.js.git",
   "author": "Essential Randomness <essential.randomn3ss@gmail.com>",
@@ -14,7 +15,9 @@
   "devDependencies": {
     "@types/jest": "^27.0.2",
     "@types/node": "^16.11.4",
+    "cross-env": "^7.0.3",
     "jest": "^27.3.1",
+    "jest-esm-transformer": "^1.0.0",
     "msw": "^0.39.2",
     "ts-jest": "^27.0.7",
     "ts-node": "^10.4.0"
