@@ -1,4 +1,4 @@
-import { WorksFeed, WorksPage } from "../types/pages";
+import { WorkPage, WorksFeed } from "../types/pages";
 import cheerio, { CheerioAPI } from "cheerio";
 
 import axios from "axios";
@@ -40,7 +40,7 @@ export const getWorkUrl = ({
   return workUrl;
 };
 
-export const getWorksPage = async (workId: string) => {
+export const getWorkPage = async (workId: string) => {
   return cheerio.load(
     (
       await axios.get<string>(`https://archiveofourown.org/works/${workId}`, {
@@ -50,11 +50,11 @@ export const getWorksPage = async (workId: string) => {
         },
       })
     ).data
-  ) as WorksPage;
+  ) as WorkPage;
 };
 
-export const getWorkAuthor = ($worksPage: WorksPage) => {
-  const authorLinks = $worksPage("h3.byline a[rel='author']");
+export const getWorkAuthor = ($workPage: WorkPage) => {
+  const authorLinks = $workPage("h3.byline a[rel='author']");
 
   if (authorLinks.length !== 0) {
     const authors = [];
@@ -67,11 +67,11 @@ export const getWorkAuthor = ($worksPage: WorksPage) => {
     });
 
     return authors;
-  } else if ($worksPage("h3.byline").text().trim() === "Anonymous") {
+  } else if ($workPage("h3.byline").text().trim() === "Anonymous") {
     return "Anonymous";
   }
 };
 
-export const getWorkTitle = ($worksPage: WorksPage) => {
-  return $worksPage("h2.title").text().trim();
+export const getWorkTitle = ($workPage: WorkPage) => {
+  return $workPage("h2.title").text().trim();
 };
