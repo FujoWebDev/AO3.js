@@ -47,7 +47,7 @@ describe("Gets url from data", () => {
     expect(workUrl).toBe("https://archiveofourown.org/works/36667228");
   });
 
-  test("Fetches chapter id from url", async () => {
+  test("Gets url with chapter id", async () => {
     const workUrl = await getWorkUrl({
       workId: "398023",
       chapterId: "659774",
@@ -58,7 +58,7 @@ describe("Gets url from data", () => {
     );
   });
 
-  test("Fetches collection from url", async () => {
+  test("Gets url with collection name", async () => {
     const workUrl = await getWorkUrl({
       workId: "30216801",
       collectionName: "YJ_Prompts",
