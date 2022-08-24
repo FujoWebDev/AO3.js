@@ -7,7 +7,7 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest --no-cache .test.ts$ --verbose=true",
+    "test": "jest --no-cache .test.ts$ --verbose=true",
     "encode-mock-files": "ts-node-esm scripts/encode-mock-files.mts"
   },
   "repository": "https://github.com/essential-randomness/AO3.js.git",
@@ -16,9 +16,8 @@
   "devDependencies": {
     "@types/jest": "^27.0.2",
     "@types/node": "^16.11.4",
-    "cross-env": "^7.0.3",
     "directory-tree": "^3.3.0",
-    "filename-reserved-regex": "^3.0.0",
+    "filenamify": "^5.1.1",
     "jest": "^27.3.1",
     "jest-esm-transformer": "^1.0.0",
     "msw": "^0.39.2",
