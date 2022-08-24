@@ -63,7 +63,7 @@ export const getWorkAuthor = ($workPage: WorkPage) => {
       const url = element.attribs.href;
       const [, username, pseud] = url.match(/users\/(.+)\/pseuds\/(.+)/);
 
-      authors.push({ username: username, pseud: pseud });
+      authors.push({ username: username, pseud: decodeURI(pseud) });
     });
 
     return authors;

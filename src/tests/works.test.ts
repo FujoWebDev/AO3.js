@@ -138,7 +138,7 @@ describe("Fetches work summary", () => {
     expect(work.authors).toMatchObject([
       {
         username: "Riazaia",
-        pseud: encodeURI("ᴾᴋᴹɴ Ria"),
+        pseud: "ᴾᴋᴹɴ Ria",
       },
     ]);
   });
@@ -167,5 +167,5 @@ describe("Fetches work summary", () => {
     expect(work.title).toBe("Field Test no.7: Phone Calls & Boundaries");
   });
 
-  //TODO: test title with special characters
+  test.todo("Fetch title with special characters");
 });
