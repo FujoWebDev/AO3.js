@@ -1,3 +1,4 @@
+import filenamify from "filenamify";
 import fs from "fs";
 import path from "path";
 import { rest } from "msw";
@@ -10,7 +11,7 @@ export default rest.all(
     const html = fs.readFileSync(
       path.resolve(
         usersDataDir,
-        req.params.name as string,
+        filenamify(req.params.name as string),
         "profile",
         "index.html"
       )

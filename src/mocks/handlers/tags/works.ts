@@ -1,3 +1,4 @@
+import filenamify from "filenamify";
 import fs from "fs";
 import path from "path";
 import { rest } from "msw";
@@ -8,7 +9,11 @@ export default rest.all(
   "https://archiveofourown.org/tags/:name/works",
   (req, res, ctx) => {
     const html = fs.readFileSync(
-      path.resolve(tagsDataDir, req.params.name as string, "works.html")
+      path.resolve(
+        tagsDataDir,
+        filenamify(req.params.name as string),
+        "works.html"
+      )
     );
 
     return res(ctx.set("Content-Type", "text/html"), ctx.body(html));

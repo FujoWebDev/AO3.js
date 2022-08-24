@@ -1,22 +1,11 @@
 import dirTree from "directory-tree";
 import path, { dirname } from "path";
-import filenameReservedRegex, {
-  windowsReservedNameRegex,
-} from "filename-reserved-regex";
 import { fileURLToPath } from "url";
 import { renameSync } from "fs";
+import filenamify from "filenamify";
 
 const hasInvalidFileCharacters = (filename: string) => {
-  return (
-    filename.match(filenameReservedRegex()) ||
-    filename.match(windowsReservedNameRegex())
-  );
-};
-
-// We replace all the instances of invalid characters with "!" (a valid character at random)
-export const replaceInvalidFileCharacters = (filename: string) => {
-  const replaced = filename.replace(filenameReservedRegex(), "!");
-  return replaced.replace(windowsReservedNameRegex(), "!");
+  return filenamify(filename) != filename;
 };
 
 const recursivelyRenameDirectories = (folder: ReturnType<typeof dirTree>) => {
@@ -36,7 +25,7 @@ const recursivelyRenameDirectories = (folder: ReturnType<typeof dirTree>) => {
     const containingDir = dirname(folder.path);
     renameSync(
       path.join(containingDir, folder.name),
-      path.join(containingDir, replaceInvalidFileCharacters(folder.name))
+      path.join(containingDir, filenamify(folder.name))
     );
   }
 };
