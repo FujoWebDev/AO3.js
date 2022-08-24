@@ -8,7 +8,7 @@
   "scripts": {
     "build": "tsc",
     "test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest --no-cache .test.ts$ --verbose=true",
-    "encode-mocks": "ts-node-esm scripts/encode-mocks.mts"
+    "encode-mock-files": "ts-node-esm scripts/encode-mock-files.mts"
   },
   "repository": "https://github.com/essential-randomness/AO3.js.git",
   "author": "Essential Randomness <essential.randomn3ss@gmail.com>",
