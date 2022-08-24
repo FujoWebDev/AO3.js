@@ -23,6 +23,12 @@ const recursivelyRenameDirectories = (folder: ReturnType<typeof dirTree>) => {
   );
   if (hasInvalidFileCharacters(folder.name)) {
     const containingDir = dirname(folder.path);
+    console.log(
+      `${path.join(containingDir, folder.name)} => ${path.join(
+        containingDir,
+        filenamify(folder.name)
+      )}`
+    );
     renameSync(
       path.join(containingDir, folder.name),
       path.join(containingDir, filenamify(folder.name))
