@@ -68,6 +68,7 @@ export interface Author {
 }
 
 export interface WorkSummary {
+  id: number;
   title: string;
   category: WorkCategory | null;
   // Date in ISO format. See: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString
