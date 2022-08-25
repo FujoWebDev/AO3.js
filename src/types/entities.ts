@@ -62,6 +62,11 @@ export enum WorkWarnings {
   UNDERAGE = "Underage",
 }
 
+export interface Author {
+  username: string;
+  pseud: string;
+}
+
 export interface WorkSummary {
   id: number;
   title: string;
@@ -77,29 +82,20 @@ export interface WorkSummary {
   // upon access.
   adult: boolean;
   fandoms: string[];
-  warningStatus: WorkWarningStatus;
   tags: {
     warnings: WorkWarnings[];
     characters: string[];
     relationships: string[];
     additional: string[];
   };
-  authors: (
-    | "anonymous"
-    | "orphan_account"
-    | {
-        username: string;
-        // This is the name the work is published under. Might be the same as username.
-        pseud: string;
-      }
-  )[];
+  authors: "Anonymous" | Author[];
   language: string;
   words: number;
   chapters: {
     published: number;
     total: number | null;
-    complete: boolean;
   };
+  complete: boolean;
   stats: {
     bookmarks: number;
     comments: number;
