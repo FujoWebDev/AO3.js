@@ -70,7 +70,7 @@ describe("Gets url from data", () => {
   });
 });
 
-describe("Fetches work summary", () => {
+describe("Fetches work author", () => {
   test("Fetches author with default pseud", async () => {
     const work = await getWork({
       workId: "4491333",
@@ -142,8 +142,10 @@ describe("Fetches work summary", () => {
       },
     ]);
   });
+});
 
-  test("Fetch work title", async () => {
+describe("Fetches work title", () => {
+  test("Fetch work title with space character", async () => {
     const work = await getWork({
       workId: "23824891",
     });
@@ -168,4 +170,46 @@ describe("Fetches work summary", () => {
   });
 
   test.todo("Fetch title with special characters");
+});
+
+describe("Fetches work summary", () => {
+  test("Fetch work wordcount", async () => {
+    const work = await getWork({
+      workId: "323217",
+    });
+
+    expect(work.words).toBe(5652);
+  });
+
+  test("Fetch work language", async () => {
+    const work = await getWork({
+      workId: "323217",
+    });
+
+    expect(work.language).toBe("English");
+  });
+
+  test("Fetch work rating", async () => {
+    const work = await getWork({
+      workId: "323217",
+    });
+
+    expect(work.rating).toBe("Not Rated");
+  });
+
+  test("Fetch work category", async () => {
+    const work = await getWork({
+      workId: "323217",
+    });
+
+    expect(work.category).toMatchObject(["M/M"]);
+  });
+
+  test("Fetch null work category", async () => {
+    const work = await getWork({
+      workId: "41237499",
+    });
+
+    expect(work.category).toBe(null);
+  });
 });

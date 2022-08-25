@@ -22,8 +22,13 @@ import {
 import {
   getTagId,
   getWorkAuthor,
+  getWorkCategory,
+  getWorkFandoms,
+  getWorkLanguage,
   getWorkPage,
+  getWorkRating,
   getWorkTitle,
+  getWorkWordcount,
   getWorksFeed,
 } from "./utils/works";
 
@@ -100,5 +105,10 @@ export const getWork = async ({ workId }: { workId: string }): Promise<any> => {
   return {
     authors: getWorkAuthor(workPage),
     title: getWorkTitle(workPage),
+    words: getWorkWordcount(workPage),
+    language: getWorkLanguage(workPage),
+    rating: getWorkRating(workPage),
+    category: getWorkCategory(workPage),
+    fandoms: getWorkFandoms(workPage),
   };
 };

@@ -75,3 +75,37 @@ export const getWorkAuthor = ($workPage: WorkPage) => {
 export const getWorkTitle = ($workPage: WorkPage) => {
   return $workPage("h2.title").text().trim();
 };
+
+export const getWorkWordcount = ($workPage: WorkPage) => {
+  return +$workPage("dd.words").text().trim();
+};
+
+export const getWorkLanguage = ($workPage: WorkPage) => {
+  return $workPage("dd.language").text().trim();
+};
+
+export const getWorkRating = ($workPage: WorkPage) => {
+  return $workPage("dd.rating a.tag").text();
+};
+
+export const getWorkCategory = ($workPage: WorkPage) => {
+  if ($workPage("dd.category a.tag").length === 0) {
+    return null;
+  } else {
+    const category = [];
+
+    $workPage("dd.category a.tag").each(function (i, element) {
+      category[i] = $workPage(element).text().trim();
+    });
+    return category;
+  }
+};
+
+export const getWorkFandoms = ($workPage: WorkPage) => {
+  const fandoms = [];
+
+  $workPage("dd.fandom a.tag").each(function (i, element) {
+    fandoms[i] = $workPage(element).text().trim();
+  });
+  return fandoms;
+};
