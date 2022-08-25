@@ -81,7 +81,6 @@ export interface WorkSummary {
   // upon access.
   adult: boolean;
   fandoms: string[];
-  warningStatus: WorkWarningStatus;
   tags: {
     warnings: WorkWarnings[];
     characters: string[];
