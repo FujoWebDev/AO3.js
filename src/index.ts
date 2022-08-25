@@ -21,13 +21,17 @@ import {
 } from "./utils/user";
 import {
   getTagId,
+  getWorkAdditionalTags,
   getWorkAuthor,
   getWorkCategory,
+  getWorkCharacters,
   getWorkFandoms,
   getWorkLanguage,
   getWorkPage,
   getWorkRating,
+  getWorkRelationships,
   getWorkTitle,
+  getWorkWarnings,
   getWorkWordcount,
   getWorksFeed,
 } from "./utils/works";
@@ -110,5 +114,11 @@ export const getWork = async ({ workId }: { workId: string }): Promise<any> => {
     rating: getWorkRating(workPage),
     category: getWorkCategory(workPage),
     fandoms: getWorkFandoms(workPage),
+    tags: {
+      warnings: getWorkWarnings(workPage),
+      characters: getWorkCharacters(workPage),
+      relationships: getWorkRelationships(workPage),
+      additional: getWorkAdditionalTags(workPage),
+    },
   };
 };

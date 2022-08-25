@@ -1,4 +1,9 @@
-import { Author, WorkCategory, WorkRatings } from "../types/entities";
+import {
+  Author,
+  WorkCategory,
+  WorkRatings,
+  WorkWarnings,
+} from "../types/entities";
 import { WorkPage, WorksFeed } from "../types/pages";
 import cheerio, { CheerioAPI } from "cheerio";
 
@@ -118,4 +123,45 @@ export const getWorkFandoms = ($workPage: WorkPage): string[] => {
     fandoms[i] = $workPage(element).text().trim();
   });
   return fandoms;
+};
+
+export const getWorkWarnings = ($workPage: WorkPage) => {
+  const warnings: WorkWarnings[] = [];
+
+  $workPage("dd.warning a.tag").each(function (i, element) {
+    const ao3Warnings = $workPage(element).text().trim();
+
+    if (!Object.values(WorkWarnings).includes(ao3Warnings as WorkWarnings)) {
+      throw new Error("An unknown warning was found on the page");
+    }
+
+    warnings[i] = ao3Warnings as WorkWarnings;
+  });
+  return warnings;
+};
+
+export const getWorkCharacters = ($workPage: WorkPage): string[] => {
+  const characters: string[] = [];
+
+  $workPage("dd.character a.tag").each(function (i, element) {
+    characters[i] = $workPage(element).text().trim();
+  });
+  return characters;
+};
+
+export const getWorkRelationships = ($workPage: WorkPage): string[] => {
+  const ships: string[] = [];
+
+  $workPage("dd.relationship a.tag").each(function (i, element) {
+    ships[i] = $workPage(element).text().trim();
+  });
+  return ships;
+};
+
+export const getWorkAdditionalTags = ($workPage: WorkPage): string[] => {
+  const freeform: string[] = [];
+  $workPage("dd.freeform ul.commas li").each(function (i) {
+    freeform[i] = $workPage(this).text().trim();
+  });
+  return freeform;
 };
