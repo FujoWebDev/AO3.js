@@ -1,3 +1,4 @@
+import { Author, WorkCategory, WorkRatings } from "../types/entities";
 import { WorkPage, WorksFeed } from "../types/pages";
 import cheerio, { CheerioAPI } from "cheerio";
 
@@ -53,11 +54,11 @@ export const getWorkPage = async (workId: string) => {
   ) as WorkPage;
 };
 
-export const getWorkAuthor = ($workPage: WorkPage) => {
+export const getWorkAuthor = ($workPage: WorkPage): "Anonymous" | Author[] => {
   const authorLinks = $workPage("h3.byline a[rel='author']");
 
   if (authorLinks.length !== 0) {
-    const authors = [];
+    const authors: Author[] = [];
 
     authorLinks.each((i, element) => {
       const url = element.attribs.href;
@@ -72,37 +73,46 @@ export const getWorkAuthor = ($workPage: WorkPage) => {
   }
 };
 
-export const getWorkTitle = ($workPage: WorkPage) => {
+export const getWorkTitle = ($workPage: WorkPage): string => {
   return $workPage("h2.title").text().trim();
 };
 
-export const getWorkWordcount = ($workPage: WorkPage) => {
+export const getWorkWordcount = ($workPage: WorkPage): number => {
   return parseInt($workPage("dd.words").text().trim());
 };
 
-export const getWorkLanguage = ($workPage: WorkPage) => {
+export const getWorkLanguage = ($workPage: WorkPage): string => {
   return $workPage("dd.language").text().trim();
 };
 
 export const getWorkRating = ($workPage: WorkPage) => {
-  return $workPage("dd.rating a.tag").text();
+  const ao3Rating = $workPage("dd.rating a.tag").text().trim();
+  if (!Object.values(WorkRatings).includes(ao3Rating as WorkRatings)) {
+    throw new Error("An unknown rating was found on the page");
+  }
+  return ao3Rating as WorkRatings;
 };
 
 export const getWorkCategory = ($workPage: WorkPage) => {
   if ($workPage("dd.category a.tag").length === 0) {
     return null;
   } else {
-    const category = [];
+    const category: WorkCategory[] = [];
 
     $workPage("dd.category a.tag").each(function (i, element) {
-      category[i] = $workPage(element).text().trim();
+      const ao3Category = $workPage(element).text().trim();
+      if (!Object.values(WorkCategory).includes(ao3Category as WorkCategory)) {
+        throw new Error("An unknown category was found on the page");
+      }
+
+      category[i] = ao3Category as WorkCategory;
     });
     return category;
   }
 };
 
-export const getWorkFandoms = ($workPage: WorkPage) => {
-  const fandoms = [];
+export const getWorkFandoms = ($workPage: WorkPage): string[] => {
+  const fandoms: string[] = [];
 
   $workPage("dd.fandom a.tag").each(function (i, element) {
     fandoms[i] = $workPage(element).text().trim();

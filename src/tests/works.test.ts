@@ -197,7 +197,7 @@ describe("Fetches work summary", () => {
     expect(work.rating).toBe("Not Rated");
   });
 
-  test("Fetch work category", async () => {
+  test("Fetch single category", async () => {
     const work = await getWork({
       workId: "323217",
     });
@@ -205,7 +205,15 @@ describe("Fetches work summary", () => {
     expect(work.category).toMatchObject(["M/M"]);
   });
 
-  test("Fetch null work category", async () => {
+  test("Fetch multiple categories", async () => {
+    const work = await getWork({
+      workId: "4491333",
+    });
+
+    expect(work.category).toMatchObject(["F/M", "M/M"]);
+  });
+
+  test("Fetch null category", async () => {
     const work = await getWork({
       workId: "41237499",
     });
