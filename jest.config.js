@@ -10,7 +10,7 @@ export default {
   testEnvironment: "node",
   transform: {
     "\\.m?(ts|tsx)$": "ts-jest",
-    [`/node_modules/(${ES_MODULES})`]: "jest-esm-transformer",
+    [`(${ES_MODULES})`]: "jest-esm-transformer",
   },
   transformIgnorePatterns: [`/node_modules/(?!${ES_MODULES})`],
   testPathIgnorePatterns: ["<rootDir>/dist/"],
