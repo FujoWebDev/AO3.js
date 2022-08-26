@@ -28,9 +28,13 @@ import {
   getWorkFandoms,
   getWorkLanguage,
   getWorkPage,
+  getWorkPublishDate,
+  getWorkPublishedChapters,
   getWorkRating,
   getWorkRelationships,
   getWorkTitle,
+  getWorkTotalChapters,
+  getWorkUpdateDate,
   getWorkWarnings,
   getWorkWordcount,
   getWorksFeed,
@@ -107,6 +111,7 @@ export const getWork = async ({ workId }: { workId: string }): Promise<any> => {
   const workPage = await getWorkPage(workId);
 
   return {
+    id: workId,
     authors: getWorkAuthor(workPage),
     title: getWorkTitle(workPage),
     words: getWorkWordcount(workPage),
@@ -119,6 +124,12 @@ export const getWork = async ({ workId }: { workId: string }): Promise<any> => {
       characters: getWorkCharacters(workPage),
       relationships: getWorkRelationships(workPage),
       additional: getWorkAdditionalTags(workPage),
+    },
+    publishedAt: getWorkPublishDate(workPage),
+    updatedAt: getWorkUpdateDate(workPage),
+    chapters: {
+      published: getWorkPublishedChapters(workPage),
+      total: getWorkTotalChapters(workPage),
     },
   };
 };

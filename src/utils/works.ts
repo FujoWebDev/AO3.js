@@ -90,7 +90,7 @@ export const getWorkLanguage = ($workPage: WorkPage): string => {
   return $workPage("dd.language").text().trim();
 };
 
-export const getWorkRating = ($workPage: WorkPage) => {
+export const getWorkRating = ($workPage: WorkPage): WorkRatings => {
   const ao3Rating = $workPage("dd.rating a.tag").text().trim();
   if (!Object.values(WorkRatings).includes(ao3Rating as WorkRatings)) {
     throw new Error("An unknown rating was found on the page");
@@ -164,4 +164,28 @@ export const getWorkAdditionalTags = ($workPage: WorkPage): string[] => {
     freeform[i] = $workPage(this).text().trim();
   });
   return freeform;
+};
+
+export const getWorkUpdateDate = ($workPage: WorkPage): string | null => {
+  const updated = $workPage("dd.status").text().trim();
+  if (!updated) {
+    return null;
+  }
+  return updated;
+};
+
+export const getWorkPublishDate = ($workPage: WorkPage): string => {
+  return $workPage("dd.published").text().trim();
+};
+
+export const getWorkPublishedChapters = ($workPage: WorkPage): number => {
+  return parseInt($workPage("dd.chapters").text().trim().split("/")[0]);
+};
+
+export const getWorkTotalChapters = ($workPage: WorkPage): number | null => {
+  const totalChapters = $workPage("dd.chapters").text().trim().split("/")[1];
+  if (totalChapters === "?") {
+    return null;
+  }
+  return parseInt(totalChapters);
 };

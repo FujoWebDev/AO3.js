@@ -139,6 +139,10 @@ describe("Fetches work summary", () => {
       expect(work.authors).toMatchObject([
         {
           username: "Riazaia",
+          pseud: "Riazaia",
+        },
+        {
+          username: "Riazaia",
           pseud: "ᴾᴋᴹɴ Ria",
         },
       ]);
@@ -171,61 +175,6 @@ describe("Fetches work summary", () => {
     });
 
     test.todo("Fetch title with special characters");
-  });
-
-  test("Fetch work wordcount", async () => {
-    const work = await getWork({
-      workId: "323217",
-    });
-
-    expect(work.words).toBe(5652);
-  });
-
-  test("Fetch work language", async () => {
-    const work = await getWork({
-      workId: "323217",
-    });
-
-    expect(work.language).toBe("English");
-  });
-
-  test("Fetch work rating", async () => {
-    const work = await getWork({
-      workId: "323217",
-    });
-
-    expect(work.rating).toBe("Not Rated");
-  });
-
-  test("Fetch single category", async () => {
-    const work = await getWork({
-      workId: "323217",
-    });
-
-    expect(work.category).toMatchObject(["M/M"]);
-  });
-
-  test("Fetch multiple categories", async () => {
-    const work = await getWork({
-      workId: "3738184",
-    });
-
-    expect(work.category).toMatchObject([
-      "F/F",
-      "F/M",
-      "Gen",
-      "M/M",
-      "Multi",
-      "Other",
-    ]);
-  });
-
-  test("Fetch null category", async () => {
-    const work = await getWork({
-      workId: "41237499",
-    });
-
-    expect(work.category).toBe(null);
   });
 
   describe("Fetch work tags", () => {
@@ -321,6 +270,119 @@ describe("Fetches work summary", () => {
       });
 
       expect(work.tags.additional).toMatchObject([]);
+    });
+  });
+
+  describe("Fetch other parts of the work summary", () => {
+    test("Fetch work wordcount", async () => {
+      const work = await getWork({
+        workId: "323217",
+      });
+
+      expect(work.words).toBe(5652);
+    });
+
+    test("Fetch work language", async () => {
+      const work = await getWork({
+        workId: "323217",
+      });
+
+      expect(work.language).toBe("English");
+    });
+
+    test("Fetch work rating", async () => {
+      const work = await getWork({
+        workId: "323217",
+      });
+
+      expect(work.rating).toBe("Not Rated");
+    });
+
+    test("Fetch single category", async () => {
+      const work = await getWork({
+        workId: "323217",
+      });
+
+      expect(work.category).toMatchObject(["M/M"]);
+    });
+
+    test("Fetch multiple categories", async () => {
+      const work = await getWork({
+        workId: "3738184",
+      });
+
+      expect(work.category).toMatchObject([
+        "F/F",
+        "F/M",
+        "Gen",
+        "M/M",
+        "Multi",
+        "Other",
+      ]);
+    });
+
+    test("Fetch null category", async () => {
+      const work = await getWork({
+        workId: "41237499",
+      });
+
+      expect(work.category).toBe(null);
+    });
+
+    test("Fetch updated date of completed work", async () => {
+      const work = await getWork({
+        workId: "23824891",
+      });
+
+      expect(work.updatedAt).toBe("2020-11-30");
+    });
+
+    test("Fetch update date of work in progress", async () => {
+      const work = await getWork({
+        workId: "41237499",
+      });
+
+      expect(work.updatedAt).toBe("2022-08-25");
+    });
+
+    test("Fetch null updated date", async () => {
+      const work = await getWork({
+        workId: "168768",
+      });
+
+      expect(work.updatedAt).toBe(null);
+    });
+
+    test("Fetch publish date", async () => {
+      const work = await getWork({
+        workId: "168768",
+      });
+
+      expect(work.publishedAt).toBe("2011-02-08");
+    });
+
+    test("Fetch published chapters", async () => {
+      const work = await getWork({
+        workId: "168768",
+      });
+
+      expect(work.chapters.published).toBe(1);
+    });
+
+    test("Fetch total chapters", async () => {
+      const work = await getWork({
+        workId: "168768",
+      });
+
+      expect(work.chapters.total).toBe(1);
+    });
+
+    test("Fetch unknown amount of total chapters", async () => {
+      const work = await getWork({
+        workId: "41237499",
+      });
+
+      expect(work.chapters.total).toBe(null);
     });
   });
 });
