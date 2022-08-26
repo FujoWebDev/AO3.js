@@ -78,7 +78,7 @@ export interface WorkSummary {
   publishedAt: string;
   updatedAt: string | null;
   // TODO: should this be in HTML?
-  summary: string;
+  summary: string | null;
   rating: WorkRatings;
   // Whether this work will display the "this work could have adult content" banner
   // upon access.

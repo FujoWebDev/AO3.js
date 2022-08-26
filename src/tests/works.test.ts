@@ -70,7 +70,7 @@ describe("Gets url from data", () => {
   });
 });
 
-describe("Fetches work summary", () => {
+describe("Fetches work information", () => {
   describe("Fetches work author", () => {
     test("Fetches author with default pseud", async () => {
       const work = await getWork({
@@ -273,7 +273,7 @@ describe("Fetches work summary", () => {
     });
   });
 
-  describe("Fetch other parts of the work summary", () => {
+  describe("Fetch other work information", () => {
     test("Fetch work wordcount", async () => {
       const work = await getWork({
         workId: "323217",
@@ -383,6 +383,47 @@ describe("Fetches work summary", () => {
       });
 
       expect(work.chapters.total).toBe(null);
+    });
+
+    test("Fetch null work summary", async () => {
+      const work = await getWork({
+        workId: "41237499",
+      });
+
+      expect(work.summary).toBe(null);
+    });
+
+    test("Fetch a work summary", async () => {
+      const work = await getWork({
+        workId: "29046888",
+      });
+
+      expect(work.summary).toMatchInlineSnapshot(
+        `"<p>“<i>Bakugou will know what to do</i>. Top of the class, always quick on his feet and possessing the strongest nerves in all of 1-A – all of U.A., possibly. They’re at their most invincible with Bakugou there to hone their focus, to push them forward with that unique kind of teeth-bared tenacity Kaminari has come to rely on in the past year. When Kaminari looks, he sees–</p><p>Iida, helmet off, severe face twisted with agitation as he argues with the medics on the scene. Blood, so much blood, staining the gleaming chrome of his armor up to his neck in wet, intersecting streaks of crimson.</p><p>And in his arms, mask torn and body limp, is Bakugou Katsuki.”</p><p>In which disaster strikes, the Bakusquad comes together as a family once more, and Kaminari Denki is the MVP all the way through.</p>"`
+      );
+    });
+    test("Fetch work stats ", async () => {
+      const work = await getWork({
+        workId: "29046888",
+      });
+
+      expect(work.stats).toMatchObject({
+        bookmarks: 173,
+        comments: 110,
+        hits: 10903,
+        kudos: 664,
+      });
+    });
+    test("Fetch stats when some are null", async () => {
+      const work = await getWork({
+        workId: "41289660",
+      });
+      expect(work.stats).toMatchObject({
+        bookmarks: null,
+        comments: null,
+        hits: 0,
+        kudos: null,
+      });
     });
   });
 });

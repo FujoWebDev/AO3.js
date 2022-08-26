@@ -98,7 +98,7 @@ export const getWorkRating = ($workPage: WorkPage): WorkRatings => {
   return ao3Rating as WorkRatings;
 };
 
-export const getWorkCategory = ($workPage: WorkPage) => {
+export const getWorkCategory = ($workPage: WorkPage): WorkCategory[] | null => {
   if ($workPage("dd.category a.tag").length === 0) {
     return null;
   } else {
@@ -125,7 +125,7 @@ export const getWorkFandoms = ($workPage: WorkPage): string[] => {
   return fandoms;
 };
 
-export const getWorkWarnings = ($workPage: WorkPage) => {
+export const getWorkWarnings = ($workPage: WorkPage): WorkWarnings[] => {
   const warnings: WorkWarnings[] = [];
 
   $workPage("dd.warning a.tag").each(function (i, element) {
@@ -168,10 +168,8 @@ export const getWorkAdditionalTags = ($workPage: WorkPage): string[] => {
 
 export const getWorkUpdateDate = ($workPage: WorkPage): string | null => {
   const updated = $workPage("dd.status").text().trim();
-  if (!updated) {
-    return null;
-  }
-  return updated;
+
+  return updated ? updated : null;
 };
 
 export const getWorkPublishDate = ($workPage: WorkPage): string => {
@@ -184,8 +182,34 @@ export const getWorkPublishedChapters = ($workPage: WorkPage): number => {
 
 export const getWorkTotalChapters = ($workPage: WorkPage): number | null => {
   const totalChapters = $workPage("dd.chapters").text().trim().split("/")[1];
-  if (totalChapters === "?") {
-    return null;
-  }
-  return parseInt(totalChapters);
+
+  return totalChapters === "?" ? null : parseInt(totalChapters);
+};
+
+export const getWorkSummary = ($workPage: WorkPage): string | null => {
+  const ao3Summary = $workPage(".summary blockquote.userstuff").html();
+
+  return ao3Summary ? ao3Summary.trim() : null;
+};
+
+export const getWorkCommentCount = ($workPage: WorkPage): number | null => {
+  const ao3Comments = $workPage("dd.comments").text().trim();
+
+  return ao3Comments ? parseInt(ao3Comments) : null;
+};
+
+export const getWorkKudosCount = ($workPage: WorkPage): number | null => {
+  const ao3Kudos = $workPage("dd.kudos").text().trim();
+
+  return ao3Kudos ? parseInt(ao3Kudos) : null;
+};
+
+export const getWorkBookmarkCount = ($workPage: WorkPage): number | null => {
+  const ao3Bookmarks = $workPage("dd.bookmarks a").text().trim();
+
+  return ao3Bookmarks ? parseInt(ao3Bookmarks) : null;
+};
+
+export const getWorkHits = ($workPage: WorkPage): number => {
+  return parseInt($workPage("dd.hits").text().trim());
 };
