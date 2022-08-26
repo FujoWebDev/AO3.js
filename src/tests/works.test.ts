@@ -71,6 +71,82 @@ describe("Gets url from data", () => {
 });
 
 describe("Fetches work information", () => {
+  test("Fetches work object in its entirety", async () => {
+    const work = await getWork({
+      workId: "29046888",
+    });
+
+    expect(work).toMatchObject({
+      id: "29046888",
+      authors: [{ username: "KBstories", pseud: "KBstories" }],
+      title: "waiting//wishing",
+      words: 36352,
+      language: "English",
+      rating: "Mature",
+      category: ["Gen", "F/M"],
+      fandoms: [
+        "僕のヒーローアカデミア | Boku no Hero Academia | My Hero Academia",
+      ],
+      tags: {
+        warnings: ["Graphic Depictions Of Violence"],
+        characters: [
+          "Kaminari Denki",
+          "Bakugou Katsuki",
+          "Kirishima Eijirou",
+          "Jirou Kyouka",
+          "Sero Hanta",
+          "Ashido Mina",
+          "Yamada Hizashi | Present Mic",
+          "Class 1-A (My Hero Academia)",
+        ],
+        relationships: [
+          "Bakugou Katsuki/Kirishima Eijirou",
+          "Jirou Kyouka/Kaminari Denki",
+          "Bakugou Katsuki & Kaminari Denki",
+          "Ashido Mina & Bakugou Katsuki & Jirou Kyouka & Kaminari Denki & Kirishima Eijirou & Sero Hanta",
+        ],
+        additional: [
+          "Post-Paranormal Liberation War Arc (My Hero Academia)",
+          "Developing Friendships",
+          "Character Study",
+          "Injury Recovery",
+          "Protective Bakusquad (My Hero Academia)",
+          "Queerplatonic Relationships",
+          "POV Kaminari Denki",
+          "the romance is There but it's not the point (the point is found family)",
+          "Medical Inaccuracies",
+          "Some Fluff",
+          "Asexual Bakugou Katsuki",
+          "Post-Traumatic Stress Disorder - PTSD",
+          "@ U.A. give these kids proper therapy or die by my sword",
+          "Hurt/Comfort",
+          "Angst with a Happy Ending",
+          "Bakusquad-centric (My Hero Academia)",
+          "Hospitals",
+          "Anxiety",
+          "POV Bakugou Katsuki",
+          "(epilogue only)",
+          "Canon compliant up to CH306",
+          "Hurt Bakugou Katsuki",
+        ],
+      },
+      publishedAt: "2021-01-28",
+      updatedAt: "2021-03-03",
+      chapters: {
+        published: 7,
+        total: 7,
+      },
+      summary:
+        "<p>“<i>Bakugou will know what to do</i>. Top of the class, always quick on his feet and possessing the strongest nerves in all of 1-A – all of U.A., possibly. They’re at their most invincible with Bakugou there to hone their focus, to push them forward with that unique kind of teeth-bared tenacity Kaminari has come to rely on in the past year. When Kaminari looks, he sees–</p><p>Iida, helmet off, severe face twisted with agitation as he argues with the medics on the scene. Blood, so much blood, staining the gleaming chrome of his armor up to his neck in wet, intersecting streaks of crimson.</p><p>And in his arms, mask torn and body limp, is Bakugou Katsuki.”</p><p>In which disaster strikes, the Bakusquad comes together as a family once more, and Kaminari Denki is the MVP all the way through.</p>",
+      stats: {
+        bookmarks: 173,
+        comments: 110,
+        hits: 10903,
+        kudos: 664,
+      },
+    });
+  });
+
   describe("Fetches work author", () => {
     test("Fetches author with default pseud", async () => {
       const work = await getWork({
@@ -235,33 +311,10 @@ describe("Fetches work information", () => {
 
     test("Fetch work additional tags", async () => {
       const work = await getWork({
-        workId: "29046888",
+        workId: "323217",
       });
 
-      expect(work.tags.additional).toMatchObject([
-        "Post-Paranormal Liberation War Arc (My Hero Academia)",
-        "Developing Friendships",
-        "Character Study",
-        "Injury Recovery",
-        "Protective Bakusquad (My Hero Academia)",
-        "Queerplatonic Relationships",
-        "POV Kaminari Denki",
-        "the romance is There but it's not the point (the point is found family)",
-        "Medical Inaccuracies",
-        "Some Fluff",
-        "Asexual Bakugou Katsuki",
-        "Post-Traumatic Stress Disorder - PTSD",
-        "@ U.A. give these kids proper therapy or die by my sword",
-        "Hurt/Comfort",
-        "Angst with a Happy Ending",
-        "Bakusquad-centric (My Hero Academia)",
-        "Hospitals",
-        "Anxiety",
-        "POV Bakugou Katsuki",
-        "(epilogue only)",
-        "Canon compliant up to CH306",
-        "Hurt Bakugou Katsuki",
-      ]);
+      expect(work.tags.additional).toMatchObject([]);
     });
 
     test("Fetch empty additional tags", async () => {
@@ -395,23 +448,23 @@ describe("Fetches work information", () => {
 
     test("Fetch a work summary", async () => {
       const work = await getWork({
-        workId: "29046888",
+        workId: "323217",
       });
 
       expect(work.summary).toMatchInlineSnapshot(
-        `"<p>“<i>Bakugou will know what to do</i>. Top of the class, always quick on his feet and possessing the strongest nerves in all of 1-A – all of U.A., possibly. They’re at their most invincible with Bakugou there to hone their focus, to push them forward with that unique kind of teeth-bared tenacity Kaminari has come to rely on in the past year. When Kaminari looks, he sees–</p><p>Iida, helmet off, severe face twisted with agitation as he argues with the medics on the scene. Blood, so much blood, staining the gleaming chrome of his armor up to his neck in wet, intersecting streaks of crimson.</p><p>And in his arms, mask torn and body limp, is Bakugou Katsuki.”</p><p>In which disaster strikes, the Bakusquad comes together as a family once more, and Kaminari Denki is the MVP all the way through.</p>"`
+        `"<p>Jane has had enough.</p>"`
       );
     });
     test("Fetch work stats ", async () => {
       const work = await getWork({
-        workId: "29046888",
+        workId: "323217",
       });
 
       expect(work.stats).toMatchObject({
-        bookmarks: 173,
-        comments: 110,
-        hits: 10903,
-        kudos: 664,
+        bookmarks: 65,
+        comments: 27,
+        hits: 5655,
+        kudos: 460,
       });
     });
     test("Fetch stats when some are null", async () => {
