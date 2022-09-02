@@ -195,19 +195,19 @@ export const getWorkSummary = ($workPage: WorkPage): string | null => {
 export const getWorkCommentCount = ($workPage: WorkPage): number | null => {
   const ao3Comments = $workPage("dd.comments").text().trim();
 
-  return ao3Comments ? parseInt(ao3Comments) : null;
+  return ao3Comments ? parseInt(ao3Comments) : 0;
 };
 
 export const getWorkKudosCount = ($workPage: WorkPage): number | null => {
   const ao3Kudos = $workPage("dd.kudos").text().trim();
 
-  return ao3Kudos ? parseInt(ao3Kudos) : null;
+  return ao3Kudos ? parseInt(ao3Kudos) : 0;
 };
 
 export const getWorkBookmarkCount = ($workPage: WorkPage): number | null => {
   const ao3Bookmarks = $workPage("dd.bookmarks a").text().trim();
 
-  return ao3Bookmarks ? parseInt(ao3Bookmarks) : null;
+  return ao3Bookmarks ? parseInt(ao3Bookmarks) : 0;
 };
 
 export const getWorkHits = ($workPage: WorkPage): number => {
