@@ -472,10 +472,10 @@ describe("Fetches work information", () => {
         workId: "41289660",
       });
       expect(work.stats).toMatchObject({
-        bookmarks: null,
-        comments: null,
+        bookmarks: 0,
+        comments: 0,
         hits: 0,
-        kudos: null,
+        kudos: 0,
       });
     });
   });

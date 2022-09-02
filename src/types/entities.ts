@@ -99,9 +99,9 @@ export interface WorkSummary {
   };
   complete: boolean;
   stats: {
-    bookmarks: number | null;
-    comments: number | null;
-    kudos: number | null;
+    bookmarks: number;
+    comments: number;
+    kudos: number;
     hits: number;
   };
 }
