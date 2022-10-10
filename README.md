@@ -1,5 +1,7 @@
 # AO3.js
 
+<div align="center">
+
 ![AO3.js logo](./logo-transparent-small.png)
 
 Scrapes data from [ao3.org](https://ao3.org). Now with Types™.
@@ -17,6 +19,7 @@ Scrapes data from [ao3.org](https://ao3.org). Now with Types™.
 <a href="https://fancoders.com/">
     <img src="https://img.shields.io/badge/fandom-coders-ff69b4" alt="Fandom Coders badge"/>
 </a>
+</div>
 
 ## What it is
 
