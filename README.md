@@ -4,18 +4,18 @@
 
 Scrapes data from [ao3.org](https://ao3.org). Now with Types™.
 
-<!-- Add the empty <a> so IMGs will stay on the same line -->
-<a>
+<!-- Add the <a> so IMGs will stay on the same line -->
+<a href="#">
     <img alt="GitHub branch checks state" src="https://img.shields.io/github/checks-status/essential-randomness/ao3.js/main" />
 </a>
-<a>
+<a href="#">
     <img alt="GitHub" src="https://img.shields.io/github/license/essential-randomness/ao3.js" />
 </a>
 <a href="https://gitpod.io/from-referrer/">
-<img src="https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod" alt="Gitpod Ready-to-Code"/>
+    <img src="https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod" alt="Gitpod Ready-to-Code"/>
 </a>
 <a href="https://fancoders.com/">
-<img src="https://img.shields.io/badge/fandom-coders-ff69b4" alt="Fandom Coders badge"/>
+    <img src="https://img.shields.io/badge/fandom-coders-ff69b4" alt="Fandom Coders badge"/>
 </a>
 
 ## What it is
