@@ -4,8 +4,13 @@
 
 Scrapes data from [ao3.org](https://ao3.org). Now with Types™.
 
-<img alt="GitHub branch checks state" src="https://img.shields.io/github/checks-status/essential-randomness/ao3.js/main" />
-<img alt="GitHub" src="https://img.shields.io/github/license/essential-randomness/ao3.js" />
+<!-- Add the empty <a> so IMGs will stay on the same line -->
+<a>
+    <img alt="GitHub branch checks state" src="https://img.shields.io/github/checks-status/essential-randomness/ao3.js/main" />
+</a>
+<a>
+    <img alt="GitHub" src="https://img.shields.io/github/license/essential-randomness/ao3.js" />
+</a>
 <a href="https://gitpod.io/from-referrer/">
 <img src="https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod" alt="Gitpod Ready-to-Code"/>
 </a>
