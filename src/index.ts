@@ -74,8 +74,13 @@ export const getWorkData = ({
   chapterId?: string;
   collectionName?: string;
 } => {
+  const workUrlMatch = url.match(/works\/(\d+)/);
+  if (!workUrlMatch) {
+    throw new Error("Invalid work URL");
+  }
+
   return {
-    workId: url.match(/works\/(\d+)/)[1],
+    workId: workUrlMatch[1],
     chapterId: url.match(/chapters\/(\d+)/)?.[1],
     collectionName: url.match(/collections\/(\w+)/)?.[1],
   };
