@@ -21,13 +21,6 @@ import {
 } from "./utils/user";
 import { getTagId, getWorksPage } from "./utils/works";
 
-import axios from "axios";
-import { setupCache } from "axios-cache-adapter";
-
-axios.defaults.cache = setupCache({
-  maxAge: 15 * 60 * 1000,
-});
-
 export const getTag = async ({
   tagName,
 }: {
