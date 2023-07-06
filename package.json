@@ -6,7 +6,7 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "tsc",
+    "build": "tsup src/index.ts --format esm,cjs --dts",
     "test": "jest --no-cache .test.ts$ --verbose=true",
     "encode-mock-files": "ts-node-esm scripts/encode-mock-files.mts"
   },
@@ -22,7 +22,8 @@
     "jest-esm-transformer": "^1.0.0",
     "msw": "^0.39.2",
     "ts-jest": "^27.0.7",
-    "ts-node": "^10.4.0"
+    "ts-node": "^10.4.0",
+    "tsup": "^7.1.0"
   },
   "dependencies": {
     "axios": "^0.23.0",
