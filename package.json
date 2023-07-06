@@ -2,8 +2,6 @@
   "name": "@bobaboard/ao3.js",
   "version": "0.6.2",
   "description": "A NodeJS API for scraping AO3 data",
-  "main": "./dist/index.js",
-  "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
@@ -13,7 +11,7 @@
     }
   },
   "scripts": {
-    "build": "tsup src/index.ts --format esm,cjs --dts",
+    "build": "rm -rf dist/ && tsup src/index.ts --format esm,cjs --dts",
     "test": "jest --no-cache .test.ts$ --verbose=true",
     "encode-mock-files": "ts-node-esm scripts/encode-mock-files.mts"
   },
