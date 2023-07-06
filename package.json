@@ -2,9 +2,16 @@
   "name": "@bobaboard/ao3.js",
   "version": "0.6.2",
   "description": "A NodeJS API for scraping AO3 data",
-  "type": "module",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts"
+    }
+  },
   "scripts": {
     "build": "tsup src/index.ts --format esm,cjs --dts",
     "test": "jest --no-cache .test.ts$ --verbose=true",
