@@ -10,6 +10,11 @@
       "import": "./dist/index.mjs"
     }
   },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
   "scripts": {
     "build": "rm -rf dist/ && tsup src/index.ts --format esm,cjs --dts",
     "test": "jest --no-cache .test.ts$ --verbose=true",
