@@ -1,5 +1,5 @@
 import { Tag, User } from "./types/entities";
-import { Work, getWorkLocked, getWorkPage } from "./utils/restrict";
+import { Work, getWorkLocked, getWorkPage } from "./utils/works";
 import {
   getCanonical,
   getTagCategory,
@@ -27,7 +27,7 @@ import {
   getProfileSeries,
   getProfileWorks,
 } from "./utils/user";
-import { getTagId, getWorksPage } from "./utils/works";
+import { getTagId, getTagTagWorksPage } from "./utils/tag-works";
 
 export const getTag = async ({
   tagName,
@@ -35,11 +35,11 @@ export const getTag = async ({
   tagName: string;
 }): Promise<Tag> => {
   const tagPage = await getTagPage(tagName);
-  const worksPage = await getWorksPage(tagName);
+  const TagTagWorksPage = await getTagTagWorksPage(tagName);
 
   return {
     name: tagName,
-    id: getTagId(worksPage),
+    id: getTagId(TagTagWorksPage),
     category: getTagCategory(tagPage),
     canonical: isCanonical(tagPage),
     common: isCommon(tagPage),

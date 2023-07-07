@@ -4,8 +4,8 @@ import { CheerioAPI } from "cheerio";
 // correct type of page is passed to each method that extracts data.
 // Other than this, all pages are instances of CheerioAPI and can be used interchangeably.
 
-export interface WorksPage extends CheerioAPI {
-  kind: "WorksPage";
+export interface TagWorksPage extends CheerioAPI {
+  kind: "TagWorksPage";
 }
 
 export interface WorkPage extends CheerioAPI {
