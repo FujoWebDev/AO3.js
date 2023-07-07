@@ -29,6 +29,7 @@
   "author": "Essential Randomness <essential.randomn3ss@gmail.com>",
   "license": "MIT",
   "devDependencies": {
+    "@types/jest": "^29.5.2",
     "@types/node": "^16.11.4",
     "directory-tree": "^3.3.0",
     "filenamify": "^5.1.1",

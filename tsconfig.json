@@ -7,7 +7,7 @@
     "outDir": "./dist",
     "esModuleInterop": true,
     "allowJs": false,
-    "types": ["node", "jest"]
+    "types": ["node", "@types/jest"]
   },
   "include": ["src/**/*"],
   "exclude": ["**/tests/**/*"]
