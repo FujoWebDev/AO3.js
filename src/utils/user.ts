@@ -17,21 +17,21 @@ export const getProfileName = ($userProfile: UserProfile) => {
 };
 
 //Trim punctuation; this allows us to remove the ", " between pseuds.
-const PSEUD_AFTER = ", ";
+const PSEUD_SUFFIX = ", ";
 export const getProfilePseuds = ($userProfile: UserProfile) => {
   const pseuds = $userProfile("dd.pseuds").text().concat(", ");
-  return pseuds.slice(0, -PSEUD_AFTER.length);
+  return pseuds.slice(0, -PSEUD_SUFFIX.length);
 };
 
 //Dates are ten characters long in the following format:
-const DATE_CONTENT = "0000-00-00";
+const DATE_FORMAT = "0000-00-00";
 
 //Trim the results to only the date:
 export const getProfileJoined = ($userProfile: UserProfile) => {
   const dds = $userProfile(
     ".meta dd:not(.email, .location, .birthday, .pseuds)"
   ).text();
-  return dds.slice(0, DATE_CONTENT.length);
+  return dds.slice(0, DATE_FORMAT.length);
 };
 
 //Trim the results to only content after the date:
@@ -39,7 +39,7 @@ export const getProfileID = ($userProfile: UserProfile) => {
   const dds = $userProfile(
     ".meta dd:not(.email):not(dt.location+dd):not(.birthday):not(.pseuds)"
   ).text();
-  return dds.slice(DATE_CONTENT.length);
+  return dds.slice(DATE_FORMAT.length);
 };
 
 export const getProfilePic = ($userProfile: UserProfile) => {
