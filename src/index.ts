@@ -1,4 +1,5 @@
 import { Tag, User } from "./types/entities";
+import { Work, getWorkLocked, getWorkPage } from "./utils/restrict";
 import {
   getCanonical,
   getTagCategory,
@@ -97,5 +98,17 @@ export const getWorkData = ({
     workId: workUrlMatch[1],
     chapterId: url.match(/chapters\/(\d+)/)?.[1],
     collectionName: url.match(/collections\/(\w+)/)?.[1],
+  };
+};
+
+export const getWork = async ({
+  workId,
+}: {
+  workId: string;
+}): Promise<Work> => {
+  const workPage = await getWorkPage({ workId });
+
+  return {
+    locked: getWorkLocked(workPage),
   };
 };
