@@ -1,41 +1,19 @@
 import cheerio, { CheerioAPI } from "cheerio";
 
-import { WorksPage } from "../types/pages";
+import { WorkPage } from "../types/pages";
 import axios from "axios";
-import { getTagUrl } from "./tags";
+import { getWorkUrl } from "./tag-works";
 
-const getWorksUrl = (tagName: string) => `${getTagUrl(tagName)}/works`;
+export interface Work {
+  locked: boolean;
+}
 
-export const getWorksPage = async (tagName: string) => {
+export const getWorkPage = async ({ workId }: { workId: string }) => {
   return cheerio.load(
-    (await axios.get<string>(getWorksUrl(tagName))).data
-  ) as WorksPage;
+    (await axios.get<string>(getWorkUrl({ workId }))).data
+  ) as WorkPage;
 };
 
-export const getTagId = ($worksPage: WorksPage) => {
-  return $worksPage(".rss")[0]?.attribs["href"].split("/")[2] || null;
-};
-
-export const getWorkUrl = ({
-  workId,
-  chapterId,
-  collectionName,
-}: {
-  workId: string;
-  chapterId?: string;
-  collectionName?: string;
-}) => {
-  let workUrl = `https://archiveofourown.org`;
-
-  if (collectionName) {
-    workUrl += `/collections/${collectionName}`;
-  }
-
-  workUrl += `/works/${workId}`;
-
-  if (chapterId) {
-    workUrl += `/chapters/${chapterId}`;
-  }
-
-  return workUrl;
+export const getWorkLocked = ($workPage: WorkPage) => {
+  return !!$workPage("#signin > .heading").text();
 };
