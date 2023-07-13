@@ -50,7 +50,11 @@ export const getProfileID = ($userProfile: UserProfile) => {
 };
 
 export const getProfilePic = ($userProfile: UserProfile) => {
-  return $userProfile("img.icon").attr("src");
+  const profilePic = $userProfile("img.icon").attr("src");
+  if (!profilePic) {
+    throw new Error("Users must have profile pic. Something is wrong.");
+  }
+  return profilePic;
 };
 
 export const getProfileHeader = ($userProfile: UserProfile) => {

@@ -1,14 +1,8 @@
 {
+  "extends": "@tsconfig/node-lts/tsconfig.json",
   "compilerOptions": {
-    "module": "ES2020",
-    "moduleResolution": "node",
-    "target": "es2019",
-    "declaration": true,
-    "outDir": "./dist",
-    "esModuleInterop": true,
-    "allowJs": false,
     "types": ["node", "@types/jest"]
   },
-  "include": ["src/**/*"],
-  "exclude": ["**/tests/**/*"]
+  "include": ["**/*.ts"],
+  "exclude": ["node_modules/"]
 }
