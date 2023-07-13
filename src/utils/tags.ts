@@ -21,7 +21,10 @@ export const getTagCategory = ($tagPage: TagPage): TagCategory => {
   const categorySentence = $tagPage($tagPage(".tag.profile > p")[0]).text();
   const category = categorySentence.match(
     /This tag belongs to the (.+) Category/
-  )[1];
+  )?.[1];
+  if (!category) {
+    throw new Error("Category type not found for tag.");
+  }
   return category.toLowerCase() as TagCategory;
 };
 

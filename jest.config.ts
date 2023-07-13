@@ -18,6 +18,7 @@ export default {
       },
     ],
   },
+  roots: ["<rootDir>/tests/"],
   transformIgnorePatterns: [`/node_modules/(?!${ES_MODULES})`],
   testPathIgnorePatterns: ["<rootDir>/dist/"],
   modulePathIgnorePatterns: ["<rootDir>/dist/"],

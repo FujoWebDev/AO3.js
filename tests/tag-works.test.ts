@@ -1,5 +1,5 @@
-import { getWorkData } from "../index";
-import { getWorkUrl } from "../utils/tag-works";
+import { getWorkData } from "../src";
+import { getWorkUrl } from "../src/utils/tag-works";
 
 describe("Fetches data from url", () => {
   test("Fetches work id from url", async () => {

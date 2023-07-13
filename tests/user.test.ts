@@ -1,5 +1,5 @@
-import { getUser } from "../index";
-import { User } from "../types/entities";
+import { getUser } from "../src";
+import { User } from "../src/types/entities";
 
 //NOTE: Some of these tests may fail if the referenced user has updated their profile!
 

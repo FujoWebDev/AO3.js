@@ -1,7 +1,8 @@
 {
   "extends": "@tsconfig/node-lts/tsconfig.json",
   "compilerOptions": {
-    "types": ["node", "@types/jest"]
+    "types": ["node", "@types/jest"],
+    "moduleResolution": "Node"
   },
   "include": ["**/*.ts"],
   "exclude": ["node_modules/"]

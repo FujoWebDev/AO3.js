@@ -59,7 +59,8 @@ export const getUser = async ({
   const profilePage = await getProfile(username);
 
   return {
-    username,
+    // We use this because capitalization might be different
+    username: getProfileName(profilePage),
     // TODO: this should really be an array
     pseuds: getProfilePseuds(profilePage),
     id: getProfileID(profilePage),

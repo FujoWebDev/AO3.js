@@ -1,4 +1,4 @@
-import { getTagNameById } from "..";
+import { getTagNameById } from "../src";
 
 describe("Fetches tag name from tag id", () => {
   test("Fetches tag name from tag id (canonical)", async () => {

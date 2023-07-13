@@ -1,4 +1,4 @@
-import { getTag } from "../index";
+import { getTag } from "../src";
 
 describe("Fetches id data", () => {
   test("Fetches canonical tag", async () => {
