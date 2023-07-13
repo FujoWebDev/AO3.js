@@ -52,14 +52,15 @@ export const getTagNameById = async ({ tagId }: { tagId: string }) => {
 };
 
 export const getUser = async ({
-  userName,
+  username,
 }: {
-  userName: string;
+  username: string;
 }): Promise<User> => {
-  const profilePage = await getProfile(userName);
+  const profilePage = await getProfile(username);
 
   return {
-    name: getProfileName(profilePage),
+    username,
+    // TODO: this should really be an array
     pseuds: getProfilePseuds(profilePage),
     id: getProfileID(profilePage),
     joined: getProfileJoined(profilePage),
@@ -68,7 +69,7 @@ export const getUser = async ({
     email: getProfileEmail(profilePage),
     location: getProfileLocation(profilePage),
     birthday: getProfileBday(profilePage),
-    url: getProfileLink(userName),
+    url: getProfileLink(username),
     works: getProfileWorks(profilePage),
     series: getProfileSeries(profilePage),
     bookmarks: getProfileBookmarks(profilePage),

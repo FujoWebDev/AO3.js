@@ -1,25 +1,26 @@
 import { getUser } from "../index";
+import { User } from "../types/entities";
 
 //NOTE: Some of these tests may fail if the referenced user has updated their profile!
 
 describe("Fetches id data.", () => {
   test("Fetches username and user ID", async () => {
     const user = await getUser({
-      userName: "astolat",
+      username: "astolat",
     });
 
     expect(user).toMatchObject({
-      name: "astolat",
+      username: "astolat",
       id: "8",
       url: "https://archiveofourown.org/users/astolat/profile",
       pseuds: "astolat, shalott, the lady of shalott",
       joined: "2008-09-13",
-    });
+    } satisfies Partial<User>);
   });
 
   test("Fetches information about a user who filled in optional profile fields", async () => {
     const user = await getUser({
-      userName: "astolat",
+      username: "astolat",
     });
 
     expect(user.bioHtml).toMatchInlineSnapshot(
@@ -29,17 +30,17 @@ describe("Fetches id data.", () => {
 
   test("Fetches information about a user who filled in optional profile fields", async () => {
     const user = await getUser({
-      userName: "franzeska",
+      username: "franzeska",
     });
 
     expect(user).toMatchObject({
-      name: "Franzeska",
+      username: "Franzeska",
       id: "87",
       location: "Oakland",
       email: "fdickson@ix.netcom.com",
       birthday: "1981-02-13",
       icon: "https://s3.amazonaws.com/otw-ao3-icons/icons/122/standard.jpg?1272552580",
       header: "Yes, it's really spelled with a Z",
-    });
+    } satisfies Partial<User>);
   });
 });

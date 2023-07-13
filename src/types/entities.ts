@@ -21,7 +21,7 @@ export interface Tag {
 
 export interface User {
   id: string;
-  name: string;
+  username: string;
   pseuds: string;
   url: string;
   icon: string;
