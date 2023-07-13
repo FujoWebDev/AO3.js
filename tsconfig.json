@@ -2,7 +2,8 @@
   "extends": "@tsconfig/node-lts/tsconfig.json",
   "compilerOptions": {
     "types": ["node", "@types/jest"],
-    "moduleResolution": "Node"
+    "moduleResolution": "Node",
+    "module": "es2022"
   },
   "include": ["**/*.ts"],
   "exclude": ["node_modules/"]
