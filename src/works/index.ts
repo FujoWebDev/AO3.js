@@ -1,4 +1,4 @@
-import { LockedWorkSummary, WorkSummary } from "../../types/entities";
+import { LockedWorkSummary, WorkSummary } from "types/entities";
 import {
   getWorkAdditionalTags,
   getWorkAuthors,

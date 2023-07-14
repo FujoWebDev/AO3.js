@@ -1,4 +1,4 @@
-import { TagCategory } from "../../types/entities";
+import { TagCategory } from "types/entities";
 import { TagPage } from "../page-loaders";
 
 export const getTagCategory = ($tagPage: TagPage): TagCategory => {

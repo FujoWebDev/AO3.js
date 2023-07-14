@@ -3,7 +3,7 @@ import {
   WorkCategory,
   WorkRatings,
   WorkWarnings,
-} from "../../types/entities";
+} from "types/entities";
 
 import { WorkPage } from "../page-loaders";
 

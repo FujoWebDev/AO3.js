@@ -3,7 +3,11 @@
   "compilerOptions": {
     "types": ["node", "@types/jest"],
     "moduleResolution": "Node",
-    "module": "es2022"
+    "module": "es2022",
+    "paths": {
+      "types/*": ["./types/*"]
+    },
+    "resolveJsonModule": true
   },
   "include": ["**/*.ts"],
   "exclude": ["node_modules/"]

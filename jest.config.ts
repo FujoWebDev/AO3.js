@@ -1,4 +1,6 @@
 import type { Config } from "jest";
+import { pathsToModuleNameMapper } from "ts-jest";
+import { compilerOptions } from "./tsconfig.json";
 
 const ES_MODULES = [
   "filenamify",
@@ -22,6 +24,10 @@ export default {
   transformIgnorePatterns: [`/node_modules/(?!${ES_MODULES})`],
   testPathIgnorePatterns: ["<rootDir>/dist/"],
   modulePathIgnorePatterns: ["<rootDir>/dist/"],
+  moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths, {
+    useESM: true,
+    prefix: "<rootDir>",
+  }),
   setupFilesAfterEnv: ["./tests/jest.setup.ts"],
   extensionsToTreatAsEsm: [".ts"],
 } satisfies Config;
