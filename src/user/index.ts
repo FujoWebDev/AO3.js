@@ -9,12 +9,12 @@ import {
   getUserProfileHeader,
   getUserProfileId,
   getUserProfileJoined,
-  getUserProfileLink,
   getUserProfileLocation,
   getUserProfileName,
   getUserProfilePic,
   getUserProfilePseuds,
   getUserProfileSeries,
+  getUserProfileUrl,
   getUserProfileWorks,
 } from "./getters";
 
@@ -39,7 +39,7 @@ export const getUser = async ({
     email: getUserProfileEmail(profilePage),
     location: getUserProfileLocation(profilePage),
     birthday: getUserProfileBirthday(profilePage),
-    url: getUserProfileLink({ username }),
+    url: getUserProfileUrl({ username }),
     works: getUserProfileWorks(profilePage),
     series: getUserProfileSeries(profilePage),
     bookmarks: getUserProfileBookmarks(profilePage),
