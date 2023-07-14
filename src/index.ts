@@ -8,25 +8,6 @@ import {
 } from "./utils/tags";
 import { getFeedPage, getTagNameFromFeed } from "./utils/feed";
 import {
-  getProfile,
-  getProfileBio,
-  getProfileBirthday,
-  getProfileBookmarks,
-  getProfileCollections,
-  getProfileEmail,
-  getProfileGifts,
-  getProfileHeader,
-  getProfileId,
-  getProfileJoined,
-  getProfileLink,
-  getProfileLocation,
-  getProfileName,
-  getProfilePic,
-  getProfilePseuds,
-  getProfileSeries,
-  getProfileWorks,
-} from "./utils/user";
-import {
   getTagId,
   getWorkAdditionalTags,
   getWorkAuthors,
@@ -52,7 +33,6 @@ import {
   getWorkWordcount,
 } from "./utils/works";
 
-import axios from "axios";
 import { getTagWorksFeed } from "./utils/tag-works-feed";
 
 export const getTag = async ({
@@ -75,35 +55,6 @@ export const getTag = async ({
 
 export const getTagNameById = async ({ tagId }: { tagId: string }) => {
   return getTagNameFromFeed(await getFeedPage({ tagId }));
-};
-
-export const getUser = async ({
-  username,
-}: {
-  username: string;
-}): Promise<User> => {
-  const profilePage = await getProfile(username);
-
-  return {
-    // We use this because capitalization might be different
-    username: getProfileName(profilePage),
-    // TODO: this should really be an array
-    pseuds: getProfilePseuds(profilePage),
-    id: getProfileId(profilePage),
-    joined: getProfileJoined(profilePage),
-    icon: getProfilePic(profilePage),
-    header: getProfileHeader(profilePage),
-    email: getProfileEmail(profilePage),
-    location: getProfileLocation(profilePage),
-    birthday: getProfileBirthday(profilePage),
-    url: getProfileLink(username),
-    works: getProfileWorks(profilePage),
-    series: getProfileSeries(profilePage),
-    bookmarks: getProfileBookmarks(profilePage),
-    collections: getProfileCollections(profilePage),
-    gifts: getProfileGifts(profilePage),
-    bioHtml: getProfileBio(profilePage),
-  };
 };
 
 export const getWorkDetailsFromUrl = ({
@@ -177,3 +128,5 @@ export const getWork = async ({
     locked: false,
   };
 };
+
+export * from "./user";

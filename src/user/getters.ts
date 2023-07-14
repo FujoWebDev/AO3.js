@@ -1,7 +1,6 @@
-import cheerio, { CheerioAPI } from "cheerio";
-
 import { UserProfile } from "../types/pages";
 import axios from "axios";
+import cheerio from "cheerio";
 
 //Dates are ten characters long in the following format:
 const DATE_FORMAT = "0000-00-00";
@@ -13,28 +12,28 @@ const BOOKMARKS_PREFIX = "Bookmarks (";
 const COLLECTIONS_PREFIX = "Collections (";
 const GIFTS_PREFIX = "Gifts (";
 
-export const getProfileLink = (userName: string) =>
-  `https://archiveofourown.org/users/${encodeURI(userName)}/profile`;
+export const getUserProfileLink = ({ username }: { username: string }) =>
+  `https://archiveofourown.org/users/${encodeURI(username)}/profile`;
 
-export const getProfile = async (userName: string) => {
+export const getUserProfile = async ({ username }: { username: string }) => {
   return cheerio.load(
-    (await axios.get<string>(getProfileLink(userName))).data
+    (await axios.get<string>(getUserProfileLink({ username }))).data
   ) as UserProfile;
 };
 
-export const getProfileName = ($userProfile: UserProfile) => {
+export const getUserProfileName = ($userProfile: UserProfile) => {
   return $userProfile(".user.profile .header h2").text().trim();
 };
 
 //Trim punctuation; this allows us to remove the ", " between pseuds.
 const PSEUD_SUFFIX = ", ";
-export const getProfilePseuds = ($userProfile: UserProfile) => {
+export const getUserProfilePseuds = ($userProfile: UserProfile) => {
   const pseuds = $userProfile("dd.pseuds").text().concat(", ");
   return pseuds.slice(0, -PSEUD_SUFFIX.length);
 };
 
 //Trim the results to only the date:
-export const getProfileJoined = ($userProfile: UserProfile) => {
+export const getUserProfileJoined = ($userProfile: UserProfile) => {
   const dds = $userProfile(
     ".meta dd:not(.email, .location, .birthday, .pseuds)"
   ).text();
@@ -42,14 +41,14 @@ export const getProfileJoined = ($userProfile: UserProfile) => {
 };
 
 //Trim the results to only content after the date:
-export const getProfileId = ($userProfile: UserProfile) => {
+export const getUserProfileId = ($userProfile: UserProfile) => {
   const dds = $userProfile(
     ".meta dd:not(.email):not(dt.location+dd):not(.birthday):not(.pseuds)"
   ).text();
   return dds.slice(DATE_FORMAT.length);
 };
 
-export const getProfilePic = ($userProfile: UserProfile) => {
+export const getUserProfilePic = ($userProfile: UserProfile) => {
   const profilePic = $userProfile("img.icon").attr("src");
   if (!profilePic) {
     throw new Error("Users must have profile pic. Something is wrong.");
@@ -57,29 +56,29 @@ export const getProfilePic = ($userProfile: UserProfile) => {
   return profilePic;
 };
 
-export const getProfileHeader = ($userProfile: UserProfile) => {
+export const getUserProfileHeader = ($userProfile: UserProfile) => {
   return (
     $userProfile("div.user.home.profile > h3.heading").text().trim() || null
   );
 };
 
-export const getProfileBio = ($userProfile: UserProfile) => {
+export const getUserProfileBio = ($userProfile: UserProfile) => {
   return $userProfile(".bio .userstuff").html();
 };
 
-export const getProfileEmail = ($userProfile: UserProfile) => {
+export const getUserProfileEmail = ($userProfile: UserProfile) => {
   return $userProfile("dd.email").text() || null;
 };
 
-export const getProfileLocation = ($userProfile: UserProfile) => {
+export const getUserProfileLocation = ($userProfile: UserProfile) => {
   return $userProfile("dt.location+dd").text() || null;
 };
 
-export const getProfileBirthday = ($userProfile: UserProfile) => {
+export const getUserProfileBirthday = ($userProfile: UserProfile) => {
   return $userProfile("dd.birthday").text() || null;
 };
 
-export const getProfileWorks = ($userProfile: UserProfile) => {
+export const getUserProfileWorks = ($userProfile: UserProfile) => {
   return parseInt(
     $userProfile("#dashboard a[href$='works']")
       .text()
@@ -88,7 +87,7 @@ export const getProfileWorks = ($userProfile: UserProfile) => {
   );
 };
 
-export const getProfileSeries = ($userProfile: UserProfile) => {
+export const getUserProfileSeries = ($userProfile: UserProfile) => {
   return parseInt(
     $userProfile("#dashboard a[href$='series']")
       .text()
@@ -97,7 +96,7 @@ export const getProfileSeries = ($userProfile: UserProfile) => {
   );
 };
 
-export const getProfileBookmarks = ($userProfile: UserProfile) => {
+export const getUserProfileBookmarks = ($userProfile: UserProfile) => {
   return parseInt(
     $userProfile("#dashboard a[href$='bookmarks']")
       .text()
@@ -106,7 +105,7 @@ export const getProfileBookmarks = ($userProfile: UserProfile) => {
   );
 };
 
-export const getProfileCollections = ($userProfile: UserProfile) => {
+export const getUserProfileCollections = ($userProfile: UserProfile) => {
   return parseInt(
     $userProfile("#dashboard a[href$='collections']")
       .text()
@@ -115,7 +114,7 @@ export const getProfileCollections = ($userProfile: UserProfile) => {
   );
 };
 
-export const getProfileGifts = ($userProfile: UserProfile) => {
+export const getUserProfileGifts = ($userProfile: UserProfile) => {
   return parseInt(
     $userProfile("#dashboard a[href$='gifts']")
       .text()
