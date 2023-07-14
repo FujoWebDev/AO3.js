@@ -75,7 +75,7 @@ export const getProfileLocation = ($userProfile: UserProfile) => {
   return $userProfile("dt.location+dd").text() || null;
 };
 
-export const getProfileBirthdayday = ($userProfile: UserProfile) => {
+export const getProfileBirthday = ($userProfile: UserProfile) => {
   return $userProfile("dd.birthday").text() || null;
 };
 

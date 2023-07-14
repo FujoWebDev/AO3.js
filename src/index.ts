@@ -11,7 +11,7 @@ import { getFeedPage, getTagNameFromFeed } from "./utils/feed";
 import {
   getProfile,
   getProfileBio,
-  getProfileBirthdayday,
+  getProfileBirthday,
   getProfileBookmarks,
   getProfileCollections,
   getProfileEmail,
@@ -69,7 +69,7 @@ export const getUser = async ({
     header: getProfileHeader(profilePage),
     email: getProfileEmail(profilePage),
     location: getProfileLocation(profilePage),
-    birthday: getProfileBirthdayday(profilePage),
+    birthday: getProfileBirthday(profilePage),
     url: getProfileLink(username),
     works: getProfileWorks(profilePage),
     series: getProfileSeries(profilePage),
