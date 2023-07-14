@@ -3,17 +3,17 @@ import axios from "axios";
 import cheerio from "cheerio";
 import { getTagUrl } from "./tags";
 
-const getWorksFeedUrl = (tagName: string) => `${getTagUrl(tagName)}/works`;
+const getTagWorksFeedUrl = (tagName: string) => `${getTagUrl(tagName)}/works`;
 
-export const getWorksFeed = async (tagName: string) => {
+export const getTagWorksFeed = async (tagName: string) => {
   return cheerio.load(
-    (await axios.get<string>(getWorksFeedUrl(tagName))).data
+    (await axios.get<string>(getTagWorksFeedUrl(tagName))).data
   ) as WorksFeed;
 };
 
 export const getTagTagWorksPage = async (tagName: string) => {
   return cheerio.load(
-    (await axios.get<string>(getWorksFeedUrl(tagName))).data
+    (await axios.get<string>(getTagWorksFeedUrl(tagName))).data
   ) as WorksFeed;
 };
 

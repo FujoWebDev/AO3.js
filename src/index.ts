@@ -53,7 +53,7 @@ import {
 } from "./utils/works";
 
 import axios from "axios";
-import { getWorksFeed } from "./utils/tag-works";
+import { getTagWorksFeed } from "./utils/tag-works-feed";
 
 export const getTag = async ({
   tagName,
@@ -61,7 +61,7 @@ export const getTag = async ({
   tagName: string;
 }): Promise<Tag> => {
   const tagPage = await getTagPage(tagName);
-  const worksFeed = await getWorksFeed(tagName);
+  const worksFeed = await getTagWorksFeed(tagName);
 
   return {
     name: tagName,
