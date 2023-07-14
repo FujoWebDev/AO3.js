@@ -1,5 +1,5 @@
 import { TagCategory } from "../types/entities";
-import { TagWorksFeed } from "../types/pages";
+import { TagPage } from "../types/pages";
 import axios from "axios";
 import cheerio from "cheerio";
 import { getTagUrl } from "../urls";
@@ -7,10 +7,10 @@ import { getTagUrl } from "../urls";
 export const loadTagPage = async (tagName: string) => {
   return cheerio.load(
     (await axios.get<string>(getTagUrl(tagName))).data
-  ) as TagWorksFeed;
+  ) as TagPage;
 };
 
-export const getTagCategory = ($tagPage: TagWorksFeed): TagCategory => {
+export const getTagCategory = ($tagPage: TagPage): TagCategory => {
   // This will look similar to "This tag belongs to the Character Category."
   const categorySentence = $tagPage($tagPage(".tag.profile > p")[0]).text();
   const category = categorySentence.match(
@@ -22,11 +22,11 @@ export const getTagCategory = ($tagPage: TagWorksFeed): TagCategory => {
   return category.toLowerCase() as TagCategory;
 };
 
-export const hasMergers = ($tagPage: TagWorksFeed) => {
+export const hasMergers = ($tagPage: TagPage) => {
   return $tagPage(".merger").length > 0;
 };
 
-export const isCommon = ($tagPage: TagWorksFeed) => {
+export const isCommon = ($tagPage: TagPage) => {
   const categorySentence = $tagPage($tagPage(".tag.profile > p")[0]).text();
   // TODO: check whether my assumption that all tags that have mergers have a parent that's
   // been marked as common.
@@ -35,15 +35,15 @@ export const isCommon = ($tagPage: TagWorksFeed) => {
   );
 };
 
-export const isCanonical = ($tagPage: TagWorksFeed) => {
+export const isCanonical = ($tagPage: TagPage) => {
   return isCommon($tagPage) && !hasMergers($tagPage);
 };
 
-export const getTagName = ($tagPage: TagWorksFeed) => {
+export const getTagName = ($tagPage: TagPage) => {
   return $tagPage($tagPage(".tag.profile h2")[0]).text();
 };
 
-export const getCanonical = ($tagPage: TagWorksFeed) => {
+export const getCanonical = ($tagPage: TagPage) => {
   if (isCanonical($tagPage)) {
     return getTagName($tagPage);
   }
