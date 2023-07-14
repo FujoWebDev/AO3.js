@@ -1,17 +1,210 @@
+import {
+  Author,
+  WorkCategory,
+  WorkRatings,
+  WorkWarnings,
+} from "../types/entities";
 import cheerio, { CheerioAPI } from "cheerio";
 
 import { WorkPage } from "../types/pages";
+import { WorksFeed } from "../types/pages";
 import axios from "axios";
-import { getWorkUrl } from "./tag-works";
 
-export interface Work {
-  locked: boolean;
-}
+export const getTagId = ($worksFeed: WorksFeed) => {
+  return $worksFeed(".rss")[0]?.attribs["href"].split("/")[2] || null;
+};
 
-export const getWorkPage = async ({ workId }: { workId: string }) => {
+export const getWorkUrl = ({
+  workId,
+  chapterId,
+  collectionName,
+}: {
+  workId: string;
+  chapterId?: string;
+  collectionName?: string;
+}) => {
+  let workUrl = `https://archiveofourown.org`;
+
+  if (collectionName) {
+    workUrl += `/collections/${collectionName}`;
+  }
+
+  workUrl += `/works/${workId}`;
+
+  if (chapterId) {
+    workUrl += `/chapters/${chapterId}`;
+  }
+
+  return workUrl;
+};
+
+export const getWorkPage = async (workId: string) => {
   return cheerio.load(
-    (await axios.get<string>(getWorkUrl({ workId }))).data
+    (
+      await axios.get<string>(`https://archiveofourown.org/works/${workId}`, {
+        // We set a cookie to bypass the Terms of Service agreement modal that appears when viewing works as a guest, which prevented some selectors from working. Appending ?view_adult=true to URLs doesn't work for chaptered works since that part gets cleared when those are automatically redirected.
+        headers: {
+          Cookie: "view_adult=true;",
+        },
+      })
+    ).data
   ) as WorkPage;
+};
+
+export const getWorkAuthors = ($workPage: WorkPage): "Anonymous" | Author[] => {
+  const authorLinks = $workPage("h3.byline a[rel='author']");
+  const authors: Author[] = [];
+
+  if ($workPage("h3.byline").text().trim() === "Anonymous") {
+    return "Anonymous";
+  }
+
+  if (authorLinks.length !== 0) {
+    authorLinks.each((i, element) => {
+      const url = element.attribs.href;
+      const [, username, pseud] = url.match(/users\/(.+)\/pseuds\/(.+)/)!;
+
+      authors.push({ username: username, pseud: decodeURI(pseud) });
+    });
+  }
+
+  return authors;
+};
+
+export const getWorkTitle = ($workPage: WorkPage): string => {
+  return $workPage("h2.title").text().trim();
+};
+
+export const getWorkWordcount = ($workPage: WorkPage): number => {
+  return parseInt($workPage("dd.words").text().trim());
+};
+
+export const getWorkLanguage = ($workPage: WorkPage): string => {
+  return $workPage("dd.language").text().trim();
+};
+
+export const getWorkRating = ($workPage: WorkPage): WorkRatings => {
+  const rating = $workPage("dd.rating a.tag").text().trim();
+  if (!Object.values(WorkRatings).includes(rating as WorkRatings)) {
+    throw new Error("An unknown rating was found on the page");
+  }
+  return rating as WorkRatings;
+};
+
+export const getWorkCategory = ($workPage: WorkPage): WorkCategory[] | null => {
+  if ($workPage("dd.category a.tag").length === 0) {
+    return null;
+  } else {
+    const categories: WorkCategory[] = [];
+
+    $workPage("dd.category a.tag").each(function (i, element) {
+      const category = $workPage(element).text().trim();
+      if (!Object.values(WorkCategory).includes(category as WorkCategory)) {
+        throw new Error("An unknown category was found on the page");
+      }
+
+      categories[i] = category as WorkCategory;
+    });
+    return categories;
+  }
+};
+
+export const getWorkFandoms = ($workPage: WorkPage): string[] => {
+  const fandoms: string[] = [];
+
+  $workPage("dd.fandom a.tag").each(function (i, element) {
+    fandoms[i] = $workPage(element).text().trim();
+  });
+  return fandoms;
+};
+
+export const getWorkWarnings = ($workPage: WorkPage): WorkWarnings[] => {
+  const warnings: WorkWarnings[] = [];
+
+  $workPage("dd.warning a.tag").each(function (i, element) {
+    const warning = $workPage(element).text().trim();
+
+    if (!Object.values(WorkWarnings).includes(warning as WorkWarnings)) {
+      throw new Error("An unknown warning was found on the page");
+    }
+
+    warnings[i] = warning as WorkWarnings;
+  });
+  return warnings;
+};
+
+export const getWorkCharacters = ($workPage: WorkPage): string[] => {
+  const characters: string[] = [];
+
+  $workPage("dd.character a.tag").each(function (i, character) {
+    characters[i] = $workPage(character).text().trim();
+  });
+  return characters;
+};
+
+export const getWorkRelationships = ($workPage: WorkPage): string[] => {
+  const ships: string[] = [];
+
+  $workPage("dd.relationship a.tag").each(function (i, ship) {
+    ships[i] = $workPage(ship).text().trim();
+  });
+  return ships;
+};
+
+export const getWorkAdditionalTags = ($workPage: WorkPage): string[] => {
+  const freeform: string[] = [];
+  $workPage("dd.freeform ul.commas li").each(function (i) {
+    freeform[i] = $workPage(this).text().trim();
+  });
+  return freeform;
+};
+
+export const getWorkUpdateDate = ($workPage: WorkPage): string | null => {
+  const updated = $workPage("dd.status").text().trim();
+
+  return updated ? updated : null;
+};
+
+export const getWorkPublishDate = ($workPage: WorkPage): string => {
+  return $workPage("dd.published").text().trim();
+};
+
+export const getWorkPublishedChapters = ($workPage: WorkPage): number => {
+  return parseInt($workPage("dd.chapters").text().trim().split("/")[0]);
+};
+
+export const getWorkTotalChapters = ($workPage: WorkPage): number | null => {
+  const totalChapters = $workPage("dd.chapters").text().trim().split("/")[1];
+
+  return totalChapters === "?" ? null : parseInt(totalChapters);
+};
+
+export const getWorkSummary = ($workPage: WorkPage): string | null => {
+  const summary = $workPage(".summary blockquote.userstuff").html();
+
+  return summary ? summary.trim() : null;
+};
+
+export const getWorkCommentCount = ($workPage: WorkPage): number => {
+  const comments = $workPage("dd.comments").text().trim();
+
+  return comments ? parseInt(comments) : 0;
+};
+
+export const getWorkKudosCount = ($workPage: WorkPage) => {
+  const kudos = $workPage("dd.kudos").text().trim();
+
+  return kudos ? parseInt(kudos) : 0;
+};
+
+export const getWorkBookmarkCount = ($workPage: WorkPage) => {
+  const bookmarks = $workPage("dd.bookmarks a").text().trim();
+
+  return bookmarks ? parseInt(bookmarks) : 0;
+};
+
+export const getWorkHits = ($workPage: WorkPage) => {
+  return parseInt($workPage("dd.hits").text().trim());
 };
 
 export const getWorkLocked = ($workPage: WorkPage) => {
