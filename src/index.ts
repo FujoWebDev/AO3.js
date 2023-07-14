@@ -1,14 +1,5 @@
-import { LockedWorkSummary, Tag, User, WorkSummary } from "./types/entities";
+import { LockedWorkSummary, WorkSummary } from "./types/entities";
 import {
-  getCanonical,
-  getTagCategory,
-  getTagPage,
-  isCanonical,
-  isCommon,
-} from "./utils/tags";
-import { getFeedPage, getTagNameFromFeed } from "./utils/feed";
-import {
-  getTagId,
   getWorkAdditionalTags,
   getWorkAuthors,
   getWorkBookmarkCount,
@@ -32,30 +23,6 @@ import {
   getWorkWarnings,
   getWorkWordcount,
 } from "./utils/works";
-
-import { getTagWorksFeed } from "./utils/tag-works-feed";
-
-export const getTag = async ({
-  tagName,
-}: {
-  tagName: string;
-}): Promise<Tag> => {
-  const tagPage = await getTagPage(tagName);
-  const worksFeed = await getTagWorksFeed(tagName);
-
-  return {
-    name: tagName,
-    id: getTagId(worksFeed),
-    category: getTagCategory(tagPage),
-    canonical: isCanonical(tagPage),
-    common: isCommon(tagPage),
-    canonicalName: getCanonical(tagPage),
-  };
-};
-
-export const getTagNameById = async ({ tagId }: { tagId: string }) => {
-  return getTagNameFromFeed(await getFeedPage({ tagId }));
-};
 
 export const getWorkDetailsFromUrl = ({
   url,
@@ -130,3 +97,4 @@ export const getWork = async ({
 };
 
 export * from "./user";
+export * from "./tags";

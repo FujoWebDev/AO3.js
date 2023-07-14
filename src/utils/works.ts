@@ -7,12 +7,7 @@ import {
 import cheerio, { CheerioAPI } from "cheerio";
 
 import { WorkPage } from "../types/pages";
-import { WorksFeed } from "../types/pages";
 import axios from "axios";
-
-export const getTagId = ($worksFeed: WorksFeed) => {
-  return $worksFeed(".rss")[0]?.attribs["href"].split("/")[2] || null;
-};
 
 export const getWorkUrl = ({
   workId,

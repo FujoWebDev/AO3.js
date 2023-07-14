@@ -1,8 +1,7 @@
-import cheerio, { CheerioAPI } from "cheerio";
-
 import { TagCategory } from "../types/entities";
-import { TagPage } from "../types/pages";
+import { TagWorksFeed } from "../types/pages";
 import axios from "axios";
+import cheerio from "cheerio";
 
 export const getTagUrl = (tagName: string) =>
   `https://archiveofourown.org/tags/${encodeURI(tagName)
@@ -13,10 +12,10 @@ export const getTagUrl = (tagName: string) =>
 export const getTagPage = async (tagName: string) => {
   return cheerio.load(
     (await axios.get<string>(getTagUrl(tagName))).data
-  ) as TagPage;
+  ) as TagWorksFeed;
 };
 
-export const getTagCategory = ($tagPage: TagPage): TagCategory => {
+export const getTagCategory = ($tagPage: TagWorksFeed): TagCategory => {
   // This will look similar to "This tag belongs to the Character Category."
   const categorySentence = $tagPage($tagPage(".tag.profile > p")[0]).text();
   const category = categorySentence.match(
@@ -28,11 +27,11 @@ export const getTagCategory = ($tagPage: TagPage): TagCategory => {
   return category.toLowerCase() as TagCategory;
 };
 
-export const hasMergers = ($tagPage: TagPage) => {
+export const hasMergers = ($tagPage: TagWorksFeed) => {
   return $tagPage(".merger").length > 0;
 };
 
-export const isCommon = ($tagPage: TagPage) => {
+export const isCommon = ($tagPage: TagWorksFeed) => {
   const categorySentence = $tagPage($tagPage(".tag.profile > p")[0]).text();
   // TODO: check whether my assumption that all tags that have mergers have a parent that's
   // been marked as common.
@@ -41,15 +40,15 @@ export const isCommon = ($tagPage: TagPage) => {
   );
 };
 
-export const isCanonical = ($tagPage: TagPage) => {
+export const isCanonical = ($tagPage: TagWorksFeed) => {
   return isCommon($tagPage) && !hasMergers($tagPage);
 };
 
-export const getTagName = ($tagPage: TagPage) => {
+export const getTagName = ($tagPage: TagWorksFeed) => {
   return $tagPage($tagPage(".tag.profile h2")[0]).text();
 };
 
-export const getCanonical = ($tagPage: TagPage) => {
+export const getCanonical = ($tagPage: TagWorksFeed) => {
   if (isCanonical($tagPage)) {
     return getTagName($tagPage);
   }
