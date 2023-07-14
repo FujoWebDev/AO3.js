@@ -4,10 +4,10 @@ import {
   WorkRatings,
   WorkWarnings,
 } from "../types/entities";
-import cheerio, { CheerioAPI } from "cheerio";
 
 import { WorkPage } from "../types/pages";
 import axios from "axios";
+import cheerio from "cheerio";
 
 export const getWorkUrl = ({
   workId,
