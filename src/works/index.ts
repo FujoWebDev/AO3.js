@@ -21,8 +21,9 @@ import {
   getWorkUpdateDate,
   getWorkWarnings,
   getWorkWordcount,
-  loadWorkPage,
 } from "./getters";
+
+import { loadWorkPage } from "../page-loaders";
 
 export const getWork = async ({
   workId,

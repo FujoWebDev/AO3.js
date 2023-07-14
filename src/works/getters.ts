@@ -5,23 +5,7 @@ import {
   WorkWarnings,
 } from "../../types/entities";
 
-import { WorkPage } from "../../types/pages";
-import axios from "axios";
-import cheerio from "cheerio";
-import { getWorkUrl } from "../urls";
-
-export const loadWorkPage = async (workId: string) => {
-  return cheerio.load(
-    (
-      await axios.get<string>(getWorkUrl({ workId }), {
-        // We set a cookie to bypass the Terms of Service agreement modal that appears when viewing works as a guest, which prevented some selectors from working. Appending ?view_adult=true to URLs doesn't work for chaptered works since that part gets cleared when those are automatically redirected.
-        headers: {
-          Cookie: "view_adult=true;",
-        },
-      })
-    ).data
-  ) as WorkPage;
-};
+import { WorkPage } from "../page-loaders";
 
 export const getWorkAuthors = ($workPage: WorkPage): "Anonymous" | Author[] => {
   const authorLinks = $workPage("h3.byline a[rel='author']");

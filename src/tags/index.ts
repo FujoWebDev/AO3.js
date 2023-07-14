@@ -3,14 +3,13 @@ import {
   getTagCategory,
   isCanonical,
   isCommon,
-  loadTagPage,
 } from "./page-getters";
+import { getTagId, getTagNameFromFeed } from "./works-feed-getters";
 import {
-  getTagId,
-  getTagNameFromFeed,
   loadTagFeedAtomPage,
+  loadTagPage,
   loadTagWorksFeed,
-} from "./works-feed-getters";
+} from "../page-loaders";
 
 import { Tag } from "../../types/entities";
 

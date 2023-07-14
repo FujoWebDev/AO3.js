@@ -1,4 +1,4 @@
-import { UserProfile } from "../../types/pages";
+import { UserProfile } from "../page-loaders";
 import axios from "axios";
 import cheerio from "cheerio";
 import { getUserProfileUrl } from "../urls";
@@ -12,16 +12,6 @@ const SERIES_PREFIX = "Series (";
 const BOOKMARKS_PREFIX = "Bookmarks (";
 const COLLECTIONS_PREFIX = "Collections (";
 const GIFTS_PREFIX = "Gifts (";
-
-export const loadUserProfilePage = async ({
-  username,
-}: {
-  username: string;
-}) => {
-  return cheerio.load(
-    (await axios.get<string>(getUserProfileUrl({ username }))).data
-  ) as UserProfile;
-};
 
 export const getUserProfileName = ($userProfile: UserProfile) => {
   return $userProfile(".user.profile .header h2").text().trim();

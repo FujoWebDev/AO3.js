@@ -1,4 +1,4 @@
 export * from "./urls";
-export * from "./user";
+export * from "./users";
 export * from "./tags";
 export * from "./works";

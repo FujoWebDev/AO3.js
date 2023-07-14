@@ -1,14 +1,5 @@
 import { TagCategory } from "../../types/entities";
-import { TagPage } from "../../types/pages";
-import axios from "axios";
-import cheerio from "cheerio";
-import { getTagUrl } from "../urls";
-
-export const loadTagPage = async (tagName: string) => {
-  return cheerio.load(
-    (await axios.get<string>(getTagUrl(tagName))).data
-  ) as TagPage;
-};
+import { TagPage } from "../page-loaders";
 
 export const getTagCategory = ($tagPage: TagPage): TagCategory => {
   // This will look similar to "This tag belongs to the Character Category."
