@@ -24,7 +24,7 @@
   "scripts": {
     "build": "rm -rf dist/ && tsup src/index.ts --format esm,cjs --dts",
     "test": "NODE_OPTIONS=--experimental-vm-modules jest --no-cache .test.ts$ --verbose=true",
-    "encode-mock-files": "ts-node-esm scripts/encode-mock-files.mts"
+    "encode-mock-files": "ts-node-esm tests/mocks/scripts/encode-mock-files.mts"
   },
   "repository": "https://github.com/essential-randomness/AO3.js.git",
   "author": "Essential Randomness <essential.randomn3ss@gmail.com>",

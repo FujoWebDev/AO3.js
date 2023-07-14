@@ -37,9 +37,10 @@ const recursivelyRenameDirectories = (folder: ReturnType<typeof dirTree>) => {
 };
 
 const mocksTree = dirTree(
-  path.join(dirname(fileURLToPath(import.meta.url)), "../src/mocks"),
+  path.join(dirname(fileURLToPath(import.meta.url)), "../data"),
   {
     normalizePath: true,
   }
 );
+console.log(dirname(fileURLToPath(import.meta.url)));
 recursivelyRenameDirectories(mocksTree);
