@@ -5,6 +5,7 @@
     "moduleResolution": "Node",
     "module": "es2022",
     "paths": {
+      "src/*": ["./src/*"],
       "types/*": ["./types/*"]
     },
     "resolveJsonModule": true

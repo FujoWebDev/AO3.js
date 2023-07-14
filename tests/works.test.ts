@@ -1,7 +1,7 @@
-import { getWork, getWorkDetailsFromUrl } from "../src/index";
+import { getWorkDetailsFromUrl, getWorkUrl } from "src/urls";
 
 import assert from "assert";
-import { getWorkUrl } from "../src/urls";
+import { getWork } from "src/index";
 
 // TODO: this file is too long and should be split into multiple tests
 

@@ -49,7 +49,7 @@ const tag = await getTag({
 });
 ```
 
-Further explanation of AO3.js works and suggestions for how to add to it can be found [in this comment](https://github.com/essential-randomness/AO3.js/issues/2#issuecomment-1032213524). Also consider taking a look at [TypeScript types](./src/types/entities.ts).
+Further explanation of AO3.js works and suggestions for how to add to it can be found [in this comment](https://github.com/essential-randomness/AO3.js/issues/2#issuecomment-1032213524). Also consider taking a look at [TypeScript types](./types/entities.ts).
 
 ## A note about CORS
 
@@ -87,9 +87,9 @@ The best way to get to work on AO3.js is to choose a new set of data to scrape.
 
 To identify what we're missing (and tour the codebase as a bonus):
 
-1. Take a look at our [TypeScript types](./src/types/entities.ts). If the data you seek is not there, we most likely can't scrape it (yet).
+1. Take a look at our [TypeScript types](./types/entities.ts). If the data you seek is not there, we most likely can't scrape it (yet).
 2. See if there's already [an open issue](https://github.com/essential-randomness/ao3.js/issues/) for the type of data you seek.
-3. See if we're aready [scraping the page](./src/types/pages.ts) the data resides in.
+3. See if we're aready [scraping the page](./src/pages-loaders.ts) the data resides in.
 
 Congratulations, you now have your first contribution carved for you!
 
@@ -98,7 +98,7 @@ Congratulations, you now have your first contribution carved for you!
 Once you've chosen the type of data, it's time to define its shape.
 
 1. If there's already [an open issue](https://github.com/essential-randomness/ao3.js/issues/) describing the TypeScript type of the data you want to add, let us know you intend to implement the feature.
-2. Submit a PR with the new TypeScript type you intend to implement under [`src/types/entities.ts`](./src/types/entities.ts), so we can review the API together. Alternatively, you can [open a new issue](https://github.com/essential-randomness/ao3.js/issues/new) to discuss beforehand.
+2. Submit a PR with the new TypeScript type you intend to implement under [`types/entities.ts`](./types/entities.ts), so we can review the API together. Alternatively, you can [open a new issue](https://github.com/essential-randomness/ao3.js/issues/new) to discuss beforehand.
 
 If you don't know what any of this means, [open a new issue](https://github.com/essential-randomness/ao3.js/issues/new) anyway and let us help you through the process.
 
