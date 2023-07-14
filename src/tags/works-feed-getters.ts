@@ -1,19 +1,14 @@
 import { TagWorksAtomFeed, TagWorksFeed } from "../types/pages";
+import { getTagWorksFeedAtomUrl, getTagWorksFeedUrl } from "../urls";
 
 import axios from "axios";
 import cheerio from "cheerio";
-import { getTagUrl } from "./page-getters";
-
-const getTagWorksFeedUrl = (tagName: string) => `${getTagUrl(tagName)}/works`;
 
 export const loadTagWorksFeed = async (tagName: string) => {
   return cheerio.load(
     (await axios.get<string>(getTagWorksFeedUrl(tagName))).data
   ) as TagWorksFeed;
 };
-
-const getTagWorksFeedAtomUrl = (tagId: string) =>
-  `https://archiveofourown.org/tags/${tagId}/feed.atom`;
 
 export const loadTagFeedAtomPage = async ({ tagId }: { tagId: string }) => {
   return cheerio.load(

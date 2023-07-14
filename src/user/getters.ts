@@ -1,6 +1,7 @@
 import { UserProfile } from "../types/pages";
 import axios from "axios";
 import cheerio from "cheerio";
+import { getUserProfileUrl } from "../urls";
 
 //Dates are ten characters long in the following format:
 const DATE_FORMAT = "0000-00-00";
@@ -11,9 +12,6 @@ const SERIES_PREFIX = "Series (";
 const BOOKMARKS_PREFIX = "Bookmarks (";
 const COLLECTIONS_PREFIX = "Collections (";
 const GIFTS_PREFIX = "Gifts (";
-
-export const getUserProfileUrl = ({ username }: { username: string }) =>
-  `https://archiveofourown.org/users/${encodeURI(username)}/profile`;
 
 export const loadUserProfilePage = async ({
   username,

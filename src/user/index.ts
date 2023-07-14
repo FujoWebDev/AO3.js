@@ -13,12 +13,12 @@ import {
   getUserProfilePic,
   getUserProfilePseuds,
   getUserProfileSeries,
-  getUserProfileUrl,
   getUserProfileWorks,
   loadUserProfilePage,
 } from "./getters";
 
 import { User } from "../types/entities";
+import { getUserProfileUrl } from "../urls";
 
 export const getUser = async ({
   username,

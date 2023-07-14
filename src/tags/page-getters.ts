@@ -2,12 +2,7 @@ import { TagCategory } from "../types/entities";
 import { TagWorksFeed } from "../types/pages";
 import axios from "axios";
 import cheerio from "cheerio";
-
-export const getTagUrl = (tagName: string) =>
-  `https://archiveofourown.org/tags/${encodeURI(tagName)
-    .replace("/", "*s*")
-    .replace("&", "*a*")
-    .replace(".", "*d*")}`;
+import { getTagUrl } from "../urls";
 
 export const loadTagPage = async (tagName: string) => {
   return cheerio.load(
