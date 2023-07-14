@@ -1,4 +1,4 @@
-import { TagWorksAtomFeed, TagWorksFeed } from "../types/pages";
+import { TagWorksAtomFeed, TagWorksFeed } from "../../types/pages";
 import { getTagWorksFeedAtomUrl, getTagWorksFeedUrl } from "../urls";
 
 import axios from "axios";

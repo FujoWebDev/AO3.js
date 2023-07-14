@@ -12,7 +12,7 @@ import {
   loadTagWorksFeed,
 } from "./works-feed-getters";
 
-import { Tag } from "../types/entities";
+import { Tag } from "../../types/entities";
 
 export const getTag = async ({
   tagName,

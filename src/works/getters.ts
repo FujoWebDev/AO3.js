@@ -3,9 +3,9 @@ import {
   WorkCategory,
   WorkRatings,
   WorkWarnings,
-} from "../types/entities";
+} from "../../types/entities";
 
-import { WorkPage } from "../types/pages";
+import { WorkPage } from "../../types/pages";
 import axios from "axios";
 import cheerio from "cheerio";
 import { getWorkUrl } from "../urls";

@@ -1,4 +1,4 @@
-import { UserProfile } from "../types/pages";
+import { UserProfile } from "../../types/pages";
 import axios from "axios";
 import cheerio from "cheerio";
 import { getUserProfileUrl } from "../urls";

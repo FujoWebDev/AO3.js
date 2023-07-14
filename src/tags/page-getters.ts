@@ -1,5 +1,5 @@
-import { TagCategory } from "../types/entities";
-import { TagPage } from "../types/pages";
+import { TagCategory } from "../../types/entities";
+import { TagPage } from "../../types/pages";
 import axios from "axios";
 import cheerio from "cheerio";
 import { getTagUrl } from "../urls";

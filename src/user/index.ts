@@ -17,7 +17,7 @@ import {
   loadUserProfilePage,
 } from "./getters";
 
-import { User } from "../types/entities";
+import { User } from "../../types/entities";
 import { getUserProfileUrl } from "../urls";
 
 export const getUser = async ({
