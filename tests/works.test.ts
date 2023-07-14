@@ -1,4 +1,4 @@
-import { getWork, getWorkData } from "../src/index";
+import { getWork, getWorkDetailsFromUrl } from "../src/index";
 
 import assert from "assert";
 import { getWorkUrl } from "../src/utils/works";
@@ -7,7 +7,7 @@ import { getWorkUrl } from "../src/utils/works";
 
 describe("Fetches data from url", () => {
   test("Fetches work id from url", async () => {
-    const workData = await getWorkData({
+    const workData = await getWorkDetailsFromUrl({
       url: "https://archiveofourown.org/works/36667228",
     });
 
@@ -17,7 +17,7 @@ describe("Fetches data from url", () => {
   });
 
   test("Fetches chapter id from url", async () => {
-    const workData = await getWorkData({
+    const workData = await getWorkDetailsFromUrl({
       url: "https://archiveofourown.org/works/398023/chapters/659774",
     });
 
@@ -28,7 +28,7 @@ describe("Fetches data from url", () => {
   });
 
   test("Fetches collection from url", async () => {
-    const workData = await getWorkData({
+    const workData = await getWorkDetailsFromUrl({
       url: "https://archiveofourown.org/collections/YJ_Prompts/works/30216801",
     });
 
@@ -42,7 +42,7 @@ describe("Fetches data from url", () => {
 describe("Gets url from data", () => {
   test("Gets url from workId", async () => {
     const workUrl = await getWorkUrl(
-      getWorkData({
+      getWorkDetailsFromUrl({
         url: "https://archiveofourown.org/works/36667228",
       })
     );

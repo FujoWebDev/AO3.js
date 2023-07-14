@@ -106,9 +106,7 @@ export const getUser = async ({
   };
 };
 
-// TODO: rename this something like "extractWorkDataFromUrl" to make it explicit
-// that no network call is involved.
-export const getWorkData = ({
+export const getWorkDetailsFromUrl = ({
   url,
 }: {
   url: string;

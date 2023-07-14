@@ -1,9 +1,9 @@
-import { getWorkData } from "../src";
+import { getWorkDetailsFromUrl } from "../src";
 import { getWorkUrl } from "../src/utils/tag-works-feed";
 
 describe("Fetches data from url", () => {
   test("Fetches work id from url", async () => {
-    const workData = await getWorkData({
+    const workData = await getWorkDetailsFromUrl({
       url: "https://archiveofourown.org/works/36667228",
     });
 
@@ -13,7 +13,7 @@ describe("Fetches data from url", () => {
   });
 
   test("Fetches chapter id from url", async () => {
-    const workData = await getWorkData({
+    const workData = await getWorkDetailsFromUrl({
       url: "https://archiveofourown.org/works/398023/chapters/659774",
     });
 
@@ -24,7 +24,7 @@ describe("Fetches data from url", () => {
   });
 
   test("Fetches collection from url", async () => {
-    const workData = await getWorkData({
+    const workData = await getWorkDetailsFromUrl({
       url: "https://archiveofourown.org/collections/YJ_Prompts/works/30216801",
     });
 
@@ -38,7 +38,7 @@ describe("Fetches data from url", () => {
 describe("Gets url from data", () => {
   test("Gets url from workId", async () => {
     const workUrl = await getWorkUrl(
-      getWorkData({
+      getWorkDetailsFromUrl({
         url: "https://archiveofourown.org/works/36667228",
       })
     );
