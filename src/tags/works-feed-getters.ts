@@ -6,7 +6,7 @@ import { getTagUrl } from "./page-getters";
 
 const getTagWorksFeedUrl = (tagName: string) => `${getTagUrl(tagName)}/works`;
 
-export const getTagWorksFeed = async (tagName: string) => {
+export const loadTagWorksFeed = async (tagName: string) => {
   return cheerio.load(
     (await axios.get<string>(getTagWorksFeedUrl(tagName))).data
   ) as TagWorksFeed;
@@ -15,7 +15,7 @@ export const getTagWorksFeed = async (tagName: string) => {
 const getTagWorksFeedAtomUrl = (tagId: string) =>
   `https://archiveofourown.org/tags/${tagId}/feed.atom`;
 
-export const getTagFeedAtomPage = async ({ tagId }: { tagId: string }) => {
+export const loadTagFeedAtomPage = async ({ tagId }: { tagId: string }) => {
   return cheerio.load(
     (await axios.get<string>(getTagWorksFeedAtomUrl(tagId))).data
   ) as TagWorksAtomFeed;

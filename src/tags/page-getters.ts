@@ -9,7 +9,7 @@ export const getTagUrl = (tagName: string) =>
     .replace("&", "*a*")
     .replace(".", "*d*")}`;
 
-export const getTagPage = async (tagName: string) => {
+export const loadTagPage = async (tagName: string) => {
   return cheerio.load(
     (await axios.get<string>(getTagUrl(tagName))).data
   ) as TagWorksFeed;

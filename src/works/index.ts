@@ -11,7 +11,6 @@ import {
   getWorkKudosCount,
   getWorkLanguage,
   getWorkLocked,
-  getWorkPage,
   getWorkPublishDate,
   getWorkPublishedChapters,
   getWorkRating,
@@ -22,6 +21,7 @@ import {
   getWorkUpdateDate,
   getWorkWarnings,
   getWorkWordcount,
+  loadWorkPage,
 } from "./getters";
 
 export const getWork = async ({
@@ -29,7 +29,7 @@ export const getWork = async ({
 }: {
   workId: string;
 }): Promise<WorkSummary | LockedWorkSummary> => {
-  const workPage = await getWorkPage(workId);
+  const workPage = await loadWorkPage(workId);
 
   if (getWorkLocked(workPage)) {
     return {

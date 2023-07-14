@@ -1,15 +1,15 @@
 import {
   getCanonical,
   getTagCategory,
-  getTagPage,
   isCanonical,
   isCommon,
+  loadTagPage,
 } from "./page-getters";
 import {
-  getTagFeedAtomPage,
   getTagId,
   getTagNameFromFeed,
-  getTagWorksFeed,
+  loadTagFeedAtomPage,
+  loadTagWorksFeed,
 } from "./works-feed-getters";
 
 import { Tag } from "../types/entities";
@@ -19,8 +19,8 @@ export const getTag = async ({
 }: {
   tagName: string;
 }): Promise<Tag> => {
-  const tagPage = await getTagPage(tagName);
-  const worksFeed = await getTagWorksFeed(tagName);
+  const tagPage = await loadTagPage(tagName);
+  const worksFeed = await loadTagWorksFeed(tagName);
 
   return {
     name: tagName,
@@ -33,5 +33,5 @@ export const getTag = async ({
 };
 
 export const getTagNameById = async ({ tagId }: { tagId: string }) => {
-  return getTagNameFromFeed(await getTagFeedAtomPage({ tagId }));
+  return getTagNameFromFeed(await loadTagFeedAtomPage({ tagId }));
 };

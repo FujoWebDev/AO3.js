@@ -33,7 +33,7 @@ export const getWorkUrl = ({
   return workUrl;
 };
 
-export const getWorkPage = async (workId: string) => {
+export const loadWorkPage = async (workId: string) => {
   return cheerio.load(
     (
       await axios.get<string>(`https://archiveofourown.org/works/${workId}`, {

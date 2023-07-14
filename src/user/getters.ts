@@ -12,12 +12,16 @@ const BOOKMARKS_PREFIX = "Bookmarks (";
 const COLLECTIONS_PREFIX = "Collections (";
 const GIFTS_PREFIX = "Gifts (";
 
-export const getUserProfileLink = ({ username }: { username: string }) =>
+export const getUserProfileUrl = ({ username }: { username: string }) =>
   `https://archiveofourown.org/users/${encodeURI(username)}/profile`;
 
-export const getUserProfile = async ({ username }: { username: string }) => {
+export const loadUserProfilePage = async ({
+  username,
+}: {
+  username: string;
+}) => {
   return cheerio.load(
-    (await axios.get<string>(getUserProfileLink({ username }))).data
+    (await axios.get<string>(getUserProfileUrl({ username }))).data
   ) as UserProfile;
 };
 

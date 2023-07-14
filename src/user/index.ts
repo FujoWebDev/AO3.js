@@ -1,5 +1,4 @@
 import {
-  getUserProfile,
   getUserProfileBio,
   getUserProfileBirthday,
   getUserProfileBookmarks,
@@ -16,6 +15,7 @@ import {
   getUserProfileSeries,
   getUserProfileUrl,
   getUserProfileWorks,
+  loadUserProfilePage,
 } from "./getters";
 
 import { User } from "../types/entities";
@@ -25,7 +25,7 @@ export const getUser = async ({
 }: {
   username: string;
 }): Promise<User> => {
-  const profilePage = await getUserProfile({ username });
+  const profilePage = await loadUserProfilePage({ username });
 
   return {
     // We use this because capitalization might be different
