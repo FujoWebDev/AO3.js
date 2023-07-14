@@ -63,54 +63,57 @@ export enum WorkWarningStatus {
 }
 
 export enum WorkWarnings {
-  GRAPHIC_VIOLENCE = "Graphic depictions of violence",
-  MAJOR_CHARACTER_DEATH = "Major character death",
-  NONCON = "Rape/non-con",
+  GRAPHIC_VIOLENCE = "Graphic Depictions Of Violence",
+  MAJOR_CHARACTER_DEATH = "Major Character Death",
+  NO_WARNINGS_APPLY = "No Archive Warnings Apply",
+  NONCON = "Rape/Non-Con",
   UNDERAGE = "Underage",
+  CHOOSE_NOT_TO_WARN = "Creator Chose Not To Use Archive Warnings",
+}
+
+export interface Author {
+  username: string;
+  pseud: string;
 }
 
 export interface WorkSummary {
-  id: number;
+  id: string;
   title: string;
-  category: WorkCategory | null;
+  category: WorkCategory[] | null;
   // Date in ISO format. See: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString
   // Note that AO3 doesn't publish the actual time of publish, just the date.
   publishedAt: string;
   updatedAt: string | null;
   // TODO: should this be in HTML?
-  summary: string;
+  summary: string | null;
   rating: WorkRatings;
   // Whether this work will display the "this work could have adult content" banner
   // upon access.
   adult: boolean;
   fandoms: string[];
-  warningStatus: WorkWarningStatus;
   tags: {
     warnings: WorkWarnings[];
     characters: string[];
     relationships: string[];
     additional: string[];
   };
-  authors: (
-    | "anonymous"
-    | "orphan_account"
-    | {
-        username: string;
-        // This is the name the work is published under. Might be the same as username.
-        pseud: string;
-      }
-  )[];
+  authors: "Anonymous" | Author[];
   language: string;
   words: number;
   chapters: {
     published: number;
     total: number | null;
-    complete: boolean;
   };
+  complete: boolean;
   stats: {
     bookmarks: number;
     comments: number;
     kudos: number;
     hits: number;
   };
+  locked: false;
+}
+
+export interface LockedWorkSummary {
+  locked: true;
 }
