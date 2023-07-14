@@ -42,7 +42,7 @@ export const getProfileJoined = ($userProfile: UserProfile) => {
 };
 
 //Trim the results to only content after the date:
-export const getProfileID = ($userProfile: UserProfile) => {
+export const getProfileId = ($userProfile: UserProfile) => {
   const dds = $userProfile(
     ".meta dd:not(.email):not(dt.location+dd):not(.birthday):not(.pseuds)"
   ).text();
@@ -58,7 +58,9 @@ export const getProfilePic = ($userProfile: UserProfile) => {
 };
 
 export const getProfileHeader = ($userProfile: UserProfile) => {
-  return $userProfile("div.user.home.profile > h3.heading").text().trim();
+  return (
+    $userProfile("div.user.home.profile > h3.heading").text().trim() || null
+  );
 };
 
 export const getProfileBio = ($userProfile: UserProfile) => {
@@ -66,48 +68,58 @@ export const getProfileBio = ($userProfile: UserProfile) => {
 };
 
 export const getProfileEmail = ($userProfile: UserProfile) => {
-  return $userProfile("dd.email").text();
+  return $userProfile("dd.email").text() || null;
 };
 
 export const getProfileLocation = ($userProfile: UserProfile) => {
-  return $userProfile("dt.location+dd").text();
+  return $userProfile("dt.location+dd").text() || null;
 };
 
-export const getProfileBday = ($userProfile: UserProfile) => {
-  return $userProfile("dd.birthday").text();
+export const getProfileBirthdayday = ($userProfile: UserProfile) => {
+  return $userProfile("dd.birthday").text() || null;
 };
 
 export const getProfileWorks = ($userProfile: UserProfile) => {
-  return $userProfile("#dashboard a[href$='works']")
-    .text()
-    .trim()
-    .slice(WORKS_PREFIX.length, -STAT_SUFFIX.length);
+  return parseInt(
+    $userProfile("#dashboard a[href$='works']")
+      .text()
+      .trim()
+      .slice(WORKS_PREFIX.length, -STAT_SUFFIX.length) || "0"
+  );
 };
 
 export const getProfileSeries = ($userProfile: UserProfile) => {
-  return $userProfile("#dashboard a[href$='series']")
-    .text()
-    .trim()
-    .slice(SERIES_PREFIX.length, -STAT_SUFFIX.length);
+  return parseInt(
+    $userProfile("#dashboard a[href$='series']")
+      .text()
+      .trim()
+      .slice(SERIES_PREFIX.length, -STAT_SUFFIX.length) || "0"
+  );
 };
 
 export const getProfileBookmarks = ($userProfile: UserProfile) => {
-  return $userProfile("#dashboard a[href$='bookmarks']")
-    .text()
-    .trim()
-    .slice(BOOKMARKS_PREFIX.length, -STAT_SUFFIX.length);
+  return parseInt(
+    $userProfile("#dashboard a[href$='bookmarks']")
+      .text()
+      .trim()
+      .slice(BOOKMARKS_PREFIX.length, -STAT_SUFFIX.length) || "0"
+  );
 };
 
 export const getProfileCollections = ($userProfile: UserProfile) => {
-  return $userProfile("#dashboard a[href$='collections']")
-    .text()
-    .trim()
-    .slice(COLLECTIONS_PREFIX.length, -STAT_SUFFIX.length);
+  return parseInt(
+    $userProfile("#dashboard a[href$='collections']")
+      .text()
+      .trim()
+      .slice(COLLECTIONS_PREFIX.length, -STAT_SUFFIX.length) || "0"
+  );
 };
 
 export const getProfileGifts = ($userProfile: UserProfile) => {
-  return $userProfile("#dashboard a[href$='gifts']")
-    .text()
-    .trim()
-    .slice(GIFTS_PREFIX.length, -STAT_SUFFIX.length);
+  return parseInt(
+    $userProfile("#dashboard a[href$='gifts']")
+      .text()
+      .trim()
+      .slice(GIFTS_PREFIX.length, -STAT_SUFFIX.length) || "0"
+  );
 };
