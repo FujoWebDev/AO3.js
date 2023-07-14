@@ -22,6 +22,6 @@ export default {
   transformIgnorePatterns: [`/node_modules/(?!${ES_MODULES})`],
   testPathIgnorePatterns: ["<rootDir>/dist/"],
   modulePathIgnorePatterns: ["<rootDir>/dist/"],
-  setupFilesAfterEnv: ["./jest.setup.ts"],
+  setupFilesAfterEnv: ["./tests/jest.setup.ts"],
   extensionsToTreatAsEsm: [".ts"],
 } satisfies Config;
