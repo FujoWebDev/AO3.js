@@ -117,3 +117,12 @@ export interface WorkSummary {
 export interface LockedWorkSummary {
   locked: true;
 }
+
+export interface Chapter {
+  id: string;
+  workId: string;
+  index: number;
+  title: string;
+  publishedAt: string;
+  url: string;
+}
