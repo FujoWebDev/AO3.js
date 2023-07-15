@@ -1,4 +1,14 @@
-import { LockedWorkSummary, WorkSummary } from "types/entities";
+import {
+  Author,
+  Chapter,
+  LockedWorkSummary,
+  WorkSummary,
+} from "types/entities";
+import {
+  getChaptersList,
+  getWorkAuthors as getWorkAuthorsFromChaptersIndex,
+  getWorkTitle as getWorkTitleFromChaptersIndex,
+} from "./chapter-getters";
 import {
   getWorkAdditionalTags,
   getWorkAuthors,
@@ -21,9 +31,8 @@ import {
   getWorkUpdateDate,
   getWorkWarnings,
   getWorkWordCount,
-} from "./getters";
-
-import { loadWorkPage } from "../page-loaders";
+} from "./work-getters";
+import { loadChaptersIndexPage, loadWorkPage } from "../page-loaders";
 
 export const getWork = async ({
   workId,
@@ -64,7 +73,6 @@ export const getWork = async ({
       total: totalChapters,
     },
     complete: totalChapters !== null && totalChapters === publishedChapters,
-
     summary: getWorkSummary(workPage),
     stats: {
       bookmarks: getWorkBookmarkCount(workPage),
@@ -73,5 +81,25 @@ export const getWork = async ({
       kudos: getWorkKudosCount(workPage),
     },
     locked: false,
+  };
+};
+
+export const getWorkWithChapters = async ({
+  workId,
+}: {
+  workId: string;
+}): Promise<{
+  title: string;
+  authors: "Anonymous" | Author[];
+  workId: string;
+  chapters: Chapter[];
+}> => {
+  const page = await loadChaptersIndexPage({ workId });
+
+  return {
+    title: getWorkTitleFromChaptersIndex(page),
+    authors: getWorkAuthorsFromChaptersIndex(page),
+    workId,
+    chapters: getChaptersList(page),
   };
 };

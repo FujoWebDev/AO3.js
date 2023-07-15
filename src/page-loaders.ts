@@ -77,3 +77,16 @@ export const loadUserProfilePage = async ({
     (await axios.get<string>(getUserProfileUrl({ username }))).data
   ) as UserProfile;
 };
+
+export interface ChapterIndexPage extends CheerioAPI {
+  kind: "ChapterIndexPage";
+}
+export const loadChaptersIndexPage = async ({ workId }: { workId: string }) => {
+  return load(
+    (
+      await axios.get<string>(
+        `https://archiveofourown.org/works/${workId}/navigate`
+      )
+    ).data
+  ) as ChapterIndexPage;
+};
