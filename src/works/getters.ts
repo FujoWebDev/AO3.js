@@ -31,8 +31,8 @@ export const getWorkTitle = ($workPage: WorkPage): string => {
   return $workPage("h2.title").text().trim();
 };
 
-export const getWorkWordcount = ($workPage: WorkPage): number => {
-  return parseInt($workPage("dd.words").text().trim());
+export const getWorkWordCount = ($workPage: WorkPage): number => {
+  return parseInt($workPage("dd.words").text().replaceAll(",", "").trim());
 };
 
 export const getWorkLanguage = ($workPage: WorkPage): string => {
