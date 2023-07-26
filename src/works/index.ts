@@ -20,7 +20,7 @@ import {
   getWorkTotalChapters,
   getWorkUpdateDate,
   getWorkWarnings,
-  getWorkWordcount,
+  getWorkWordCount,
 } from "./getters";
 
 import { loadWorkPage } from "../page-loaders";
@@ -44,7 +44,7 @@ export const getWork = async ({
     id: workId,
     authors: getWorkAuthors(workPage),
     title: getWorkTitle(workPage),
-    words: getWorkWordcount(workPage),
+    words: getWorkWordCount(workPage),
     language: getWorkLanguage(workPage),
     rating: getWorkRating(workPage),
     category: getWorkCategory(workPage),
