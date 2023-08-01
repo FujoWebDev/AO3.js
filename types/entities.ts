@@ -126,3 +126,21 @@ export interface Chapter {
   publishedAt: string;
   url: string;
 }
+
+export interface WorkSeries {
+  id: string;
+  title: string;
+  url: string;
+  currentWork: {
+    id: string;
+    index: number;
+    prevWorkId: string | null;
+    nextWorkId: string | null;
+  };
+}
+
+export interface WorkCollection {
+  name: string;
+  id: string;
+  url: string;
+}
