@@ -140,7 +140,7 @@ export interface WorkSeries {
 }
 
 export interface WorkCollection {
-  title: string;
-  id: string;
+  displayTitle: string;
+  collectionName: string;
   url: string;
 }
