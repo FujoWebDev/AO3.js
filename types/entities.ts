@@ -96,6 +96,12 @@ export enum WorkWarnings {
   CHOOSE_NOT_TO_WARN = "Creator Chose Not To Use Archive Warnings",
 }
 
+export interface BasicSeries {
+  id: string;
+  index: number;
+  name: string;
+}
+
 export interface Author {
   username: string;
   pseud: string;
@@ -129,6 +135,8 @@ export interface WorkSummary {
     published: number;
     total: number | null;
   };
+  series: BasicSeries[];
+  seriesIds: BasicSeries["id"][];
   complete: boolean;
   stats: {
     bookmarks: number;

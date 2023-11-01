@@ -1,5 +1,6 @@
 import {
   Author,
+  BasicSeries,
   WorkCategory,
   WorkRatings,
   WorkWarnings,
@@ -139,6 +140,25 @@ export const getWorkSummary = ($workPage: WorkPage): string | null => {
   const summary = $workPage(".summary blockquote.userstuff").html();
 
   return summary ? summary.trim() : null;
+};
+
+export const getWorkSeries = ($workPage: WorkPage): BasicSeries[] => {
+  const series: BasicSeries[] = [];
+
+  const selector = "dd.series span.series";
+  $workPage(selector).each((index) => {
+    const seriesHtml = $workPage(`${selector}:nth-of-type(${index + 1})`);
+    const matches = seriesHtml.text().trim().match(/\d+/);
+    const link = seriesHtml.find("a:not(.next, .previous)");
+
+    series[index] = {
+      id: link.attr("href").replace("/series/", ""),
+      name: link.text().trim(),
+      index: matches.length > 0 ? parseInt(matches[0]) : -1,
+    };
+  });
+
+  return series;
 };
 
 export const getWorkCommentCount = ($workPage: WorkPage): number => {
