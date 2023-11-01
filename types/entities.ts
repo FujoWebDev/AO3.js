@@ -50,9 +50,9 @@ export interface SeriesWorkSummary
 export interface Series {
   id: string;
   name: string;
-  begunAt: string;
+  startedAt: string;
   updatedAt: string;
-  creators: WorkSummary["authors"];
+  authors: WorkSummary["authors"];
   description: string | null;
   notes: string | null;
   words: number;

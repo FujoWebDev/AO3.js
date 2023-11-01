@@ -31,11 +31,11 @@ export const getSeriesTitle = ($seriesPage: SeriesPage): string => {
   return $seriesPage("h2.heading").text().trim();
 };
 
-export const getSeriesCreators = (
+export const getSeriesAuthors = (
   $seriesPage: SeriesPage
-): Series["creators"] => {
-  const creatorLinks = $seriesPage("dl.meta a[rel=author]");
-  const creators: Author[] = [];
+): Series["authors"] => {
+  const authorLinks = $seriesPage("dl.meta a[rel=author]");
+  const authors: Author[] = [];
 
   if (
     $seriesPage("dl.meta > dd:nth-of-type(1)").text().trim() === "Anonymous"
@@ -43,16 +43,16 @@ export const getSeriesCreators = (
     return "Anonymous";
   }
 
-  if (creatorLinks.length !== 0) {
-    creatorLinks.each((i, element) => {
+  if (authorLinks.length !== 0) {
+    authorLinks.each((i, element) => {
       const url = element.attribs.href;
       const [, username, pseud] = url.match(/users\/(.+)\/pseuds\/(.+)/)!;
 
-      creators.push({ username: username, pseud: decodeURI(pseud) });
+      authors.push({ username: username, pseud: decodeURI(pseud) });
     });
   }
 
-  return creators;
+  return authors;
 };
 
 export const getSeriesDescription = (
