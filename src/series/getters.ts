@@ -1,7 +1,7 @@
 import { Author, Series, SeriesWorkSummary } from "types/entities";
 import { SeriesPage, WorkPage } from "../page-loaders";
 import { CheerioAPI, load } from "cheerio";
-import { getWorkDetailsFromUrl } from "src/urls";
+import { getWorkDetailsFromUrl, getWorkUrl } from "src/urls";
 import {
   getWorkBookmarkCount,
   getWorkHits,
@@ -136,9 +136,11 @@ const getSeriesWork = (workHtml: string): SeriesWorkSummary => {
   const publishedChapters = getWorkPublishedChapters($$work);
 
   const url = $work("a[href*='/works/']").attr("href") as string;
+  const id = getWorkDetailsFromUrl({ url }).workId
 
   return {
-    id: getWorkDetailsFromUrl({ url }).workId,
+    id,
+    url: getWorkUrl({ workId: id }),
     title: getSeriesWorkTitle($work),
     updatedAt: getSeriesWorkUpdateDate($work),
 

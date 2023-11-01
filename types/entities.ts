@@ -43,6 +43,7 @@ export interface SeriesWorkSummary
     WorkSummary,
     "category" | "publishedAt" | "rating" | "tags" | "stats" | "locked"
   > {
+  url: string;
   tags: Omit<WorkSummary["tags"], "warnings">;
   stats: Omit<WorkSummary["stats"], "comments">;
 }
@@ -58,11 +59,8 @@ export interface Series {
   words: number;
   bookmarks: number;
   complete: boolean;
-
   workCount: number;
   works: SeriesWorkSummary[];
-  workTitles: string[]
-  workUrls: string[]
 }
 
 export enum WorkRatings {
