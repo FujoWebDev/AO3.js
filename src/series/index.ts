@@ -13,7 +13,6 @@ import {
   getSeriesWorkCount,
   getSeriesWorks,
 } from "./getters";
-import { getWorkUrl } from "src/urls";
 
 export const getSeries = async ({
   seriesId,
@@ -37,7 +36,5 @@ export const getSeries = async ({
     complete: getSeriesCompletionStatus(seriesPage),
     workCount: getSeriesWorkCount(seriesPage),
     works: seriesWorks,
-    workTitles: seriesWorks.map((work) => work.title),
-    workUrls: seriesWorks.map((work) => getWorkUrl({ workId: work.id })),
   };
 };
