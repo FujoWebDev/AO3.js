@@ -90,3 +90,13 @@ export const loadChaptersIndexPage = async ({ workId }: { workId: string }) => {
     ).data
   ) as ChapterIndexPage;
 };
+
+export interface SeriesPage extends CheerioAPI {
+  kind: "SeriesPage";
+}
+export const loadSeriesPage = async (seriesId: string) => {
+  return load(
+    (await axios.get<string>(`https://archiveofourown.org/series/${seriesId}`))
+      .data
+  ) as SeriesPage;
+};
