@@ -49,19 +49,20 @@ export interface SeriesWorkSummary
 
 export interface Series {
   id: string;
-  title: string;
+  name: string;
   begunAt: string;
   updatedAt: string;
-  authors: WorkSummary["authors"];
+  creators: WorkSummary["authors"];
   description: string | null;
+  notes: string | null;
   words: number;
-  stats: {
-    works: number;
-    bookmarks: number;
-  };
-  completed: boolean;
+  bookmarks: number;
+  complete: boolean;
 
+  workCount: number;
   works: SeriesWorkSummary[];
+  workTitles: string[]
+  workUrls: string[]
 }
 
 export enum WorkRatings {
