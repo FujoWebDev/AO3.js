@@ -50,7 +50,6 @@ export const getWork = async ({
 
   const totalChapters = getWorkTotalChapters(workPage);
   const publishedChapters = getWorkPublishedChapters(workPage);
-  const series = getWorkSeries(workPage);
   return {
     id: workId,
     authors: getWorkAuthors(workPage),
@@ -75,8 +74,7 @@ export const getWork = async ({
       total: totalChapters,
     },
     complete: totalChapters !== null && totalChapters === publishedChapters,
-    series,
-    seriesIds: series.map((series) => series.id),
+    series: getWorkSeries(workPage),
     summary: getWorkSummary(workPage),
     stats: {
       bookmarks: getWorkBookmarkCount(workPage),
