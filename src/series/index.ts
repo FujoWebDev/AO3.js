@@ -1,7 +1,7 @@
 import { loadSeriesPage } from "src/page-loaders";
 import { Series } from "types/entities";
 import {
-  getSeriesAuthors,
+  getSeriesCreators,
   getSeriesBookmarkCount,
   getSeriesCompletionStatus,
   getSeriesDescription,
@@ -29,7 +29,7 @@ export const getSeries = async ({
     name: getSeriesTitle(seriesPage),
     begunAt: getSeriesPublishDate(seriesPage),
     updatedAt: getSeriesUpdateDate(seriesPage),
-    creators: getSeriesAuthors(seriesPage),
+    creators: getSeriesCreators(seriesPage),
     description: getSeriesDescription(seriesPage),
     notes: getSeriesNotes(seriesPage),
     words: getSeriesWordCount(seriesPage),
