@@ -5,6 +5,7 @@ import {
   getSeriesBookmarkCount,
   getSeriesCompletionStatus,
   getSeriesDescription,
+  getSeriesNotes,
   getSeriesPublishDate,
   getSeriesTitle,
   getSeriesUpdateDate,
@@ -12,6 +13,7 @@ import {
   getSeriesWorkCount,
   getSeriesWorks,
 } from "./getters";
+import { getWorkUrl } from "src/urls";
 
 export const getSeries = async ({
   seriesId,
@@ -20,19 +22,22 @@ export const getSeries = async ({
 }): Promise<Series> => {
   const seriesPage = await loadSeriesPage(seriesId);
 
+  const seriesWorks = getSeriesWorks(seriesPage);
+
   return {
     id: seriesId,
-    title: getSeriesTitle(seriesPage),
+    name: getSeriesTitle(seriesPage),
     begunAt: getSeriesPublishDate(seriesPage),
     updatedAt: getSeriesUpdateDate(seriesPage),
-    authors: getSeriesAuthors(seriesPage),
+    creators: getSeriesAuthors(seriesPage),
     description: getSeriesDescription(seriesPage),
+    notes: getSeriesNotes(seriesPage),
     words: getSeriesWordCount(seriesPage),
-    stats: {
-      works: getSeriesWorkCount(seriesPage),
-      bookmarks: getSeriesBookmarkCount(seriesPage),
-    },
-    completed: getSeriesCompletionStatus(seriesPage),
-    works: getSeriesWorks(seriesPage),
+    bookmarks: getSeriesBookmarkCount(seriesPage),
+    complete: getSeriesCompletionStatus(seriesPage),
+    workCount: getSeriesWorkCount(seriesPage),
+    works: seriesWorks,
+    workTitles: seriesWorks.map((work) => work.title),
+    workUrls: seriesWorks.map((work) => getWorkUrl({ workId: work.id })),
   };
 };
