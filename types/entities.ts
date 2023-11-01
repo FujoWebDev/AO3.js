@@ -38,6 +38,34 @@ export interface User {
   bioHtml: string | null;
 }
 
+export interface SeriesWorkSummary
+  extends Omit<
+    WorkSummary,
+    "category" | "publishedAt" | "rating" | "tags" | "stats"
+  > {
+  tags: Omit<WorkSummary["tags"], "warnings">;
+  stats: Omit<WorkSummary["stats"], "comments">;
+}
+
+export interface Series {
+  id: string;
+  title: string;
+  begunAt: string;
+  updatedAt: string;
+  authors: WorkSummary["authors"];
+
+  description: string;
+  notes: string;
+  words: number;
+  stats: {
+    works: number;
+    bookmarks: number;
+  };
+  completed: boolean;
+
+  works: WorkSummary[];
+}
+
 export enum WorkRatings {
   NOT_RATED = "Not Rated",
   GENERAL_AUDIENCES = "General Audiences",
