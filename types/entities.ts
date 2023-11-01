@@ -54,8 +54,8 @@ export interface Series {
   updatedAt: string;
   authors: WorkSummary["authors"];
 
-  description: string;
-  notes: string;
+  description: string | null;
+  notes: string | null;
   words: number;
   stats: {
     works: number;
