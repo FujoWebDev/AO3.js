@@ -136,7 +136,6 @@ export interface WorkSummary {
     total: number | null;
   };
   series: BasicSeries[];
-  seriesIds: BasicSeries["id"][];
   complete: boolean;
   stats: {
     bookmarks: number;
