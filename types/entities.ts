@@ -41,7 +41,7 @@ export interface User {
 export interface SeriesWorkSummary
   extends Omit<
     WorkSummary,
-    "category" | "publishedAt" | "rating" | "tags" | "stats"
+    "category" | "publishedAt" | "rating" | "tags" | "stats" | "locked"
   > {
   tags: Omit<WorkSummary["tags"], "warnings">;
   stats: Omit<WorkSummary["stats"], "comments">;
@@ -53,7 +53,6 @@ export interface Series {
   begunAt: string;
   updatedAt: string;
   authors: WorkSummary["authors"];
-
   description: string | null;
   words: number;
   stats: {
@@ -62,7 +61,7 @@ export interface Series {
   };
   completed: boolean;
 
-  works: WorkSummary[];
+  works: SeriesWorkSummary[];
 }
 
 export enum WorkRatings {
