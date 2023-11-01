@@ -375,7 +375,7 @@ describe("Fetches series information", () => {
 
   test("Fetches author with username Anonymous", async () => {
     const series = await getSeries({ seriesId: "2946579" });
-    expect(series.creators).toBe("Anonymous");
+    expect(series.authors).toBe("Anonymous");
   });
 
   describe("Fetches series title", () => {
