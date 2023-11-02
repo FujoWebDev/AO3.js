@@ -130,6 +130,8 @@ export const getWorkChapter = async ({
 
   const totalChapters = getWorkTotalChapters(page);
   const publishedChapters = getWorkPublishedChapters(page);
+  const chapterIndex = totalChapters !== 1 ? getChapterIndex(page) : -1;
+
   return {
     id: workId,
     authors: getWorkAuthors(page),
@@ -153,9 +155,9 @@ export const getWorkChapter = async ({
       totalChapters !== 1
         ? {
             id: chapterId,
-            index: getChapterIndex(page),
+            index: chapterIndex,
             name: getChapterName(page),
-            summary: getWorkSummary(page),
+            summary: chapterIndex !== 1 ? getWorkSummary(page) : null,
           }
         : null,
     chapters: {
