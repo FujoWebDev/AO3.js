@@ -9,9 +9,9 @@ describe("Fetches series information", () => {
     expect(series).toMatchObject({
       id: "2270465",
       name: "OG Titan",
-      begunAt: "2021-04-11",
+      startedAt: "2021-04-11",
       updatedAt: "2023-02-13",
-      creators: [{ username: "MyHero", pseud: "MyHero" }],
+      authors: [{ username: "MyHero", pseud: "MyHero" }],
       description:
         "<p>My potentially related stories about the relationship between the OG Titans. Probably focused on Dick Grayson.</p>",
       notes: null,
@@ -353,22 +353,6 @@ describe("Fetches series information", () => {
           complete: true,
           stats: { bookmarks: 28, kudos: 242, hits: 1 },
         },
-      ],
-      workTitles: [
-        "Away from all of Reality",
-        "Code B",
-        "Donna Troy Loves You",
-        "Rockin Robin",
-        "Realistic Exit Strategy",
-        "You starting down the road leaving me again",
-      ],
-      workUrls: [
-        "https://archiveofourown.org/works/30604247",
-        "https://archiveofourown.org/works/30794750",
-        "https://archiveofourown.org/works/30914645",
-        "https://archiveofourown.org/works/31221131",
-        "https://archiveofourown.org/works/35757790",
-        "https://archiveofourown.org/works/44149795",
       ],
     });
   });

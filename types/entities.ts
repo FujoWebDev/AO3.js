@@ -41,7 +41,13 @@ export interface User {
 export interface SeriesWorkSummary
   extends Omit<
     WorkSummary,
-    "category" | "publishedAt" | "rating" | "tags" | "stats" | "locked"
+    | "category"
+    | "publishedAt"
+    | "rating"
+    | "tags"
+    | "stats"
+    | "locked"
+    | "series"
   > {
   url: string;
   tags: Omit<WorkSummary["tags"], "warnings">;

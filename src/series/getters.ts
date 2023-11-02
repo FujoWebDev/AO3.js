@@ -1,7 +1,6 @@
 import { Author, Series, SeriesWorkSummary } from "types/entities";
-import { SeriesPage, WorkPage } from "../page-loaders";
 import { CheerioAPI, load } from "cheerio";
-import { getWorkDetailsFromUrl, getWorkUrl } from "src/urls";
+import { SeriesPage, WorkPage } from "../page-loaders";
 import {
   getWorkBookmarkCount,
   getWorkHits,
@@ -11,6 +10,7 @@ import {
   getWorkTotalChapters,
   getWorkWordCount,
 } from "src/works/work-getters";
+import { getWorkDetailsFromUrl, getWorkUrl } from "src/urls";
 
 const monthMap: { [month: string]: string } = {
   Jan: "01",
@@ -65,7 +65,7 @@ export const getSeriesDescription = (
 export const getSeriesNotes = ($seriesPage: SeriesPage): string | null => {
   const notes = $seriesPage("dl.series dd:nth-of-type(5)");
   if (notes.prevAll().first().text().trim() === "Notes:") {
-    return notes.html().trim();
+    return notes.html()!.trim();
   } else {
     return null;
   }
@@ -136,7 +136,7 @@ const getSeriesWork = (workHtml: string): SeriesWorkSummary => {
   const publishedChapters = getWorkPublishedChapters($$work);
 
   const url = $work("a[href*='/works/']").attr("href") as string;
-  const id = getWorkDetailsFromUrl({ url }).workId
+  const id = getWorkDetailsFromUrl({ url }).workId;
 
   return {
     id,

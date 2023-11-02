@@ -152,9 +152,9 @@ export const getWorkSeries = ($workPage: WorkPage): BasicSeries[] => {
     const link = seriesHtml.find("a:not(.next, .previous)");
 
     series[index] = {
-      id: link.attr("href").replace("/series/", ""),
+      id: link.attr("href")!.replace("/series/", ""),
       name: link.text().trim(),
-      index: matches.length > 0 ? parseInt(matches[0]) : -1,
+      index: matches!.length > 0 ? parseInt(matches![0]) : -1,
     };
   });
 
