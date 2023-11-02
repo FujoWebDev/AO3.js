@@ -9,6 +9,7 @@ import workPageHandlers from "./handlers/works";
 import worksHandlers from "./handlers/works";
 // TODO: export these directly from worksHandlers
 import worksNavigateHandlers from "./handlers/works/navigate";
+import worksChapterHandlers from "./handlers/works/chapter";
 
 export default [
   profileHandlers,
@@ -18,6 +19,7 @@ export default [
   nameHandlers,
   workPageHandlers,
   worksNavigateHandlers,
+  worksChapterHandlers,
   seriesHandlers,
   allHandlers,
 ];
