@@ -1,6 +1,7 @@
 import {
   Author,
   BasicSeries,
+  ChapterWorkSummary,
   WorkCategory,
   WorkRatings,
   WorkWarnings,
@@ -185,4 +186,22 @@ export const getWorkHits = ($workPage: WorkPage) => {
 
 export const getWorkLocked = ($workPage: WorkPage) => {
   return !!$workPage("#signin > .heading").text();
+};
+
+// Chapter-specific (must be multi-chapter fic)
+export const getChapterIndex = (
+  $workPage: WorkPage
+): ChapterWorkSummary["chapter"]["index"] => {
+  const title = $workPage("#chapters h3.title a").text().trim();
+  return title ? parseInt(title.replace("Chapter ", "")) : -1;
+};
+
+export const getChapterName = (
+  $workPage: WorkPage
+): ChapterWorkSummary["chapter"]["name"] => {
+  const title = $workPage("#chapters h3.title").text().trim();
+  // 2 characters is the length of query string
+  return title && title.includes(":")
+    ? title.slice(title.indexOf(": ") + 2)
+    : null;
 };

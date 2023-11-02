@@ -100,3 +100,16 @@ export const loadSeriesPage = async (seriesId: string) => {
       .data
   ) as SeriesPage;
 };
+
+export const loadChapterPage = async (workId: string, chapterId: string) => {
+  return load(
+    (
+      await axios.get<string>(getWorkUrl({ workId, chapterId }), {
+        // We set a cookie to bypass the Terms of Service agreement modal that appears when viewing works as a guest, which prevented some selectors from working. Appending ?view_adult=true to URLs doesn't work for chaptered works since that part gets cleared when those are automatically redirected.
+        headers: {
+          Cookie: "view_adult=true;",
+        },
+      })
+    ).data
+  ) as WorkPage;
+};

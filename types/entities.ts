@@ -152,6 +152,15 @@ export interface WorkSummary {
   locked: false;
 }
 
+export interface ChapterWorkSummary extends Omit<WorkSummary, "summary"> {
+  chapter: {
+    id: string;
+    index: number;
+    name: string | null;
+    summary: string | null;
+  } | null;
+}
+
 export interface LockedWorkSummary {
   locked: true;
 }

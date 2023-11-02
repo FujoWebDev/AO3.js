@@ -1,6 +1,7 @@
 import {
   Author,
   Chapter,
+  ChapterWorkSummary,
   LockedWorkSummary,
   WorkSummary,
 } from "types/entities";
@@ -10,6 +11,8 @@ import {
   getWorkTitle as getWorkTitleFromChaptersIndex,
 } from "./chapter-getters";
 import {
+  getChapterIndex,
+  getChapterName,
   getWorkAdditionalTags,
   getWorkAuthors,
   getWorkBookmarkCount,
@@ -33,7 +36,11 @@ import {
   getWorkWarnings,
   getWorkWordCount,
 } from "./work-getters";
-import { loadChaptersIndexPage, loadWorkPage } from "../page-loaders";
+import {
+  loadChapterPage,
+  loadChaptersIndexPage,
+  loadWorkPage,
+} from "../page-loaders";
 
 export const getWork = async ({
   workId,
@@ -103,5 +110,66 @@ export const getWorkWithChapters = async ({
     authors: getWorkAuthorsFromChaptersIndex(page),
     workId,
     chapters: getChaptersList(page),
+  };
+};
+
+export const getWorkChapter = async ({
+  workId,
+  chapterId,
+}: {
+  workId: string;
+  chapterId: string;
+}): Promise<ChapterWorkSummary | LockedWorkSummary> => {
+  const page = await loadChapterPage(workId, chapterId);
+
+  if (getWorkLocked(page)) {
+    return {
+      locked: true,
+    };
+  }
+
+  const totalChapters = getWorkTotalChapters(page);
+  const publishedChapters = getWorkPublishedChapters(page);
+  return {
+    id: workId,
+    authors: getWorkAuthors(page),
+    title: getWorkTitle(page),
+    words: getWorkWordCount(page),
+    language: getWorkLanguage(page),
+    rating: getWorkRating(page),
+    category: getWorkCategory(page),
+    // TODO: figure out how to get this
+    adult: false,
+    fandoms: getWorkFandoms(page),
+    tags: {
+      warnings: getWorkWarnings(page),
+      characters: getWorkCharacters(page),
+      relationships: getWorkRelationships(page),
+      additional: getWorkAdditionalTags(page),
+    },
+    publishedAt: getWorkPublishDate(page),
+    updatedAt: getWorkUpdateDate(page),
+    chapter:
+      totalChapters !== 1
+        ? {
+            id: chapterId,
+            index: getChapterIndex(page),
+            name: getChapterName(page),
+            summary: getWorkSummary(page),
+          }
+        : null,
+    chapters: {
+      published: publishedChapters,
+      total: totalChapters,
+    },
+    complete: totalChapters !== null && totalChapters === publishedChapters,
+    series: getWorkSeries(page),
+    stats: {
+      bookmarks: getWorkBookmarkCount(page),
+      comments: getWorkCommentCount(page),
+      hits: getWorkHits(page),
+      kudos: getWorkKudosCount(page),
+    },
+    locked: false,
   };
 };
