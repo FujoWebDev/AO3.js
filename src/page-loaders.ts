@@ -7,7 +7,7 @@ import {
 } from "./urls";
 
 import { CheerioAPI } from "cheerio";
-import axios from "axios";
+import axios, { AxiosRequestConfig } from "axios";
 import { load } from "cheerio";
 
 // We create separate interfaces for each page type to make sure that the
@@ -50,15 +50,21 @@ export const loadTagFeedAtomPage = async ({ tagId }: { tagId: string }) => {
 export interface WorkPage extends CheerioAPI {
   kind: "WorkPage";
 }
-export const loadWorkPage = async (workId: string) => {
+export const loadWorkPage = async (
+  workId: string,
+  axiosOptions?: AxiosRequestConfig
+) => {
   return load(
     (
-      await axios.get<string>(getWorkUrl({ workId }), {
-        // We set a cookie to bypass the Terms of Service agreement modal that appears when viewing works as a guest, which prevented some selectors from working. Appending ?view_adult=true to URLs doesn't work for chaptered works since that part gets cleared when those are automatically redirected.
-        headers: {
-          Cookie: "view_adult=true;",
-        },
-      })
+      await axios.get<string>(
+        getWorkUrl({ workId }),
+        axiosOptions ?? {
+          headers: {
+            // We set a cookie to bypass the Terms of Service agreement modal that appears when viewing works as a guest, which prevented some selectors from working. Appending ?view_adult=true to URLs doesn't work for chaptered works since that part gets cleared when those are automatically redirected.
+            Cookie: "view_adult=true;",
+          },
+        }
+      )
     ).data
   ) as WorkPage;
 };
@@ -81,11 +87,18 @@ export const loadUserProfilePage = async ({
 export interface ChapterIndexPage extends CheerioAPI {
   kind: "ChapterIndexPage";
 }
-export const loadChaptersIndexPage = async ({ workId }: { workId: string }) => {
+export const loadChaptersIndexPage = async ({
+  workId,
+  axiosOptions,
+}: {
+  workId: string;
+  axiosOptions?: AxiosRequestConfig;
+}) => {
   return load(
     (
       await axios.get<string>(
-        `https://archiveofourown.org/works/${workId}/navigate`
+        `https://archiveofourown.org/works/${workId}/navigate`,
+        axiosOptions
       )
     ).data
   ) as ChapterIndexPage;
@@ -94,9 +107,16 @@ export const loadChaptersIndexPage = async ({ workId }: { workId: string }) => {
 export interface SeriesPage extends CheerioAPI {
   kind: "SeriesPage";
 }
-export const loadSeriesPage = async (seriesId: string) => {
+export const loadSeriesPage = async (
+  seriesId: string,
+  axiosOptions?: AxiosRequestConfig
+) => {
   return load(
-    (await axios.get<string>(`https://archiveofourown.org/series/${seriesId}`))
-      .data
+    (
+      await axios.get<string>(
+        `https://archiveofourown.org/series/${seriesId}`,
+        axiosOptions
+      )
+    ).data
   ) as SeriesPage;
 };
