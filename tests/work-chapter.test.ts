@@ -1,10 +1,10 @@
 import assert from "assert";
-import { getWorkChapter } from "src/index";
+import { getWork } from "src/index";
 
 describe("Fetches chapter of work", () => {
   describe("Fetches work + chapter object in its entirety", () => {
     test("Get chapter object with all fields", async () => {
-      const work = await getWorkChapter({
+      const work = await getWork({
         workId: "48582418",
         chapterId: "122861680",
       });
@@ -78,7 +78,7 @@ describe("Fetches chapter of work", () => {
     });
 
     test("Get chapter object without title or summary", async () => {
-      const work = await getWorkChapter({
+      const work = await getWork({
         workId: "37214506",
         chapterId: "92848687",
       });
@@ -141,7 +141,7 @@ describe("Fetches chapter of work", () => {
   });
 
   test("Ensure chapter is null for single-chapter work", async () => {
-    const work = await getWorkChapter({ workId: "168768", chapterId: "" });
+    const work = await getWork({ workId: "168768", chapterId: "" });
 
     assert(!work.locked);
 

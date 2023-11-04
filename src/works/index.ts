@@ -1,7 +1,6 @@
 import {
   Author,
   Chapter,
-  ChapterWorkSummary,
   LockedWorkSummary,
   WorkSummary,
 } from "types/entities";
@@ -37,17 +36,18 @@ import {
   getWorkWordCount,
 } from "./work-getters";
 import {
-  loadChapterPage,
   loadChaptersIndexPage,
   loadWorkPage,
 } from "../page-loaders";
 
 export const getWork = async ({
   workId,
+  chapterId,
 }: {
   workId: string;
+  chapterId?: string;
 }): Promise<WorkSummary | LockedWorkSummary> => {
-  const workPage = await loadWorkPage(workId);
+  const workPage = await loadWorkPage(workId, chapterId);
 
   if (getWorkLocked(workPage)) {
     return {
@@ -57,6 +57,8 @@ export const getWork = async ({
 
   const totalChapters = getWorkTotalChapters(workPage);
   const publishedChapters = getWorkPublishedChapters(workPage);
+  const chapterIndex = totalChapters !== 1 ? getChapterIndex(workPage) : -1;
+
   return {
     id: workId,
     authors: getWorkAuthors(workPage),
@@ -76,6 +78,15 @@ export const getWork = async ({
     },
     publishedAt: getWorkPublishDate(workPage),
     updatedAt: getWorkUpdateDate(workPage),
+    chapter:
+      chapterId && totalChapters !== 1
+        ? {
+            id: chapterId,
+            index: chapterIndex,
+            name: getChapterName(workPage),
+            summary: chapterIndex !== 1 ? getWorkSummary(workPage) : null,
+          }
+        : null,
     chapters: {
       published: publishedChapters,
       total: totalChapters,
@@ -110,68 +121,5 @@ export const getWorkWithChapters = async ({
     authors: getWorkAuthorsFromChaptersIndex(page),
     workId,
     chapters: getChaptersList(page),
-  };
-};
-
-export const getWorkChapter = async ({
-  workId,
-  chapterId,
-}: {
-  workId: string;
-  chapterId: string;
-}): Promise<ChapterWorkSummary | LockedWorkSummary> => {
-  const page = await loadChapterPage(workId, chapterId);
-
-  if (getWorkLocked(page)) {
-    return {
-      locked: true,
-    };
-  }
-
-  const totalChapters = getWorkTotalChapters(page);
-  const publishedChapters = getWorkPublishedChapters(page);
-  const chapterIndex = totalChapters !== 1 ? getChapterIndex(page) : -1;
-
-  return {
-    id: workId,
-    authors: getWorkAuthors(page),
-    title: getWorkTitle(page),
-    words: getWorkWordCount(page),
-    language: getWorkLanguage(page),
-    rating: getWorkRating(page),
-    category: getWorkCategory(page),
-    // TODO: figure out how to get this
-    adult: false,
-    fandoms: getWorkFandoms(page),
-    tags: {
-      warnings: getWorkWarnings(page),
-      characters: getWorkCharacters(page),
-      relationships: getWorkRelationships(page),
-      additional: getWorkAdditionalTags(page),
-    },
-    publishedAt: getWorkPublishDate(page),
-    updatedAt: getWorkUpdateDate(page),
-    chapter:
-      totalChapters !== 1
-        ? {
-            id: chapterId,
-            index: chapterIndex,
-            name: getChapterName(page),
-            summary: chapterIndex !== 1 ? getWorkSummary(page) : null,
-          }
-        : null,
-    chapters: {
-      published: publishedChapters,
-      total: totalChapters,
-    },
-    complete: totalChapters !== null && totalChapters === publishedChapters,
-    series: getWorkSeries(page),
-    stats: {
-      bookmarks: getWorkBookmarkCount(page),
-      comments: getWorkCommentCount(page),
-      hits: getWorkHits(page),
-      kudos: getWorkKudosCount(page),
-    },
-    locked: false,
   };
 };

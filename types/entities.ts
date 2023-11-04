@@ -47,6 +47,7 @@ export interface SeriesWorkSummary
     | "tags"
     | "stats"
     | "locked"
+    | "chapter"
     | "series"
   > {
   url: string;
@@ -137,6 +138,12 @@ export interface WorkSummary {
   authors: "Anonymous" | Author[];
   language: string;
   words: number;
+  chapter: {
+    id: string;
+    index: number;
+    name: string | null;
+    summary: string | null;
+  } | null;
   chapters: {
     published: number;
     total: number | null;
@@ -150,15 +157,6 @@ export interface WorkSummary {
     hits: number;
   };
   locked: false;
-}
-
-export interface ChapterWorkSummary extends Omit<WorkSummary, "summary"> {
-  chapter: {
-    id: string;
-    index: number;
-    name: string | null;
-    summary: string | null;
-  } | null;
 }
 
 export interface LockedWorkSummary {
