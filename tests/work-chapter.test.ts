@@ -62,7 +62,7 @@ describe("Fetches chapter of work", () => {
         },
         publishedAt: "2023-07-14",
         updatedAt: "2023-10-30",
-        chapter: {
+        chapterInfo: {
           id: "122861680",
           index: 2,
           name: "2. Tim",
@@ -130,7 +130,7 @@ describe("Fetches chapter of work", () => {
         },
         publishedAt: "2022-02-18",
         updatedAt: "2022-06-26",
-        chapter: { id: "92848687", index: 1, name: null, summary: null },
+        chapterInfo: { id: "92848687", index: 1, name: null, summary: null },
         chapters: { published: 20, total: null },
         complete: false,
         series: [{ id: "2946579", name: "Twitterchat Saga", index: 1 }],
@@ -166,7 +166,7 @@ describe("Fetches chapter of work", () => {
       },
       publishedAt: "2011-02-08",
       updatedAt: null,
-      chapter: null,
+      chapterInfo: null,
       chapters: { published: 1, total: 1 },
       complete: true,
       series: [],

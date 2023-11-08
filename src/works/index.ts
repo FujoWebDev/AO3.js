@@ -12,6 +12,7 @@ import {
 import {
   getChapterIndex,
   getChapterName,
+  getChapterSummary,
   getWorkAdditionalTags,
   getWorkAuthors,
   getWorkBookmarkCount,
@@ -35,10 +36,7 @@ import {
   getWorkWarnings,
   getWorkWordCount,
 } from "./work-getters";
-import {
-  loadChaptersIndexPage,
-  loadWorkPage,
-} from "../page-loaders";
+import { loadChaptersIndexPage, loadWorkPage } from "../page-loaders";
 
 export const getWork = async ({
   workId,
@@ -57,7 +55,7 @@ export const getWork = async ({
 
   const totalChapters = getWorkTotalChapters(workPage);
   const publishedChapters = getWorkPublishedChapters(workPage);
-  const chapterIndex = totalChapters !== 1 ? getChapterIndex(workPage) : -1;
+  const chapterIndex = getChapterIndex(workPage);
 
   return {
     id: workId,
@@ -78,22 +76,24 @@ export const getWork = async ({
     },
     publishedAt: getWorkPublishDate(workPage),
     updatedAt: getWorkUpdateDate(workPage),
-    chapter:
-      chapterId && totalChapters !== 1
-        ? {
-            id: chapterId,
-            index: chapterIndex,
-            name: getChapterName(workPage),
-            summary: chapterIndex !== 1 ? getWorkSummary(workPage) : null,
-          }
-        : null,
     chapters: {
       published: publishedChapters,
       total: totalChapters,
     },
+    chapterInfo: chapterId
+      ? {
+          id: chapterId,
+          index: chapterIndex,
+          name: getChapterName(workPage),
+          summary: getChapterSummary(workPage),
+        }
+      : null,
     complete: totalChapters !== null && totalChapters === publishedChapters,
     series: getWorkSeries(workPage),
-    summary: getWorkSummary(workPage),
+    summary:
+      chapterIndex === 1 || totalChapters === 1
+        ? getWorkSummary(workPage)
+        : null,
     stats: {
       bookmarks: getWorkBookmarkCount(workPage),
       comments: getWorkCommentCount(workPage),
