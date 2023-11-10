@@ -94,7 +94,7 @@ export const getWorkWithChapters = async ({
   axiosOptions,
 }: {
   workId: string;
-  axiosOptions: AxiosRequestConfig;
+  axiosOptions?: AxiosRequestConfig;
 }): Promise<{
   title: string;
   authors: "Anonymous" | Author[];
