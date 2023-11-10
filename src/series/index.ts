@@ -20,7 +20,7 @@ export const getSeries = async ({
   axiosOptions,
 }: {
   seriesId: string;
-  axiosOptions: AxiosRequestConfig;
+  axiosOptions?: AxiosRequestConfig;
 }): Promise<Series> => {
   const seriesPage = await loadSeriesPage(seriesId, axiosOptions);
 
