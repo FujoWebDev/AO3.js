@@ -57,7 +57,7 @@ export const loadWorkPage = async ({
 }: {
   workId: string;
   chapterId?: string;
-  axiosInstance?: AxiosInstance
+  axiosInstance?: AxiosInstance;
 }) => {
   return load(
     (
