@@ -7,7 +7,7 @@ import {
 } from "./urls";
 
 import { CheerioAPI } from "cheerio";
-import axios from "axios";
+import axios, { AxiosInstance } from "axios";
 import { load } from "cheerio";
 
 // We create separate interfaces for each page type to make sure that the
@@ -53,15 +53,17 @@ export interface WorkPage extends CheerioAPI {
 export const loadWorkPage = async ({
   workId,
   chapterId,
+  axiosInstance = axios,
 }: {
   workId: string;
   chapterId?: string;
+  axiosInstance?: AxiosInstance
 }) => {
   return load(
     (
-      await axios.get<string>(getWorkUrl({ workId, chapterId }), {
-        // We set a cookie to bypass the Terms of Service agreement modal that appears when viewing works as a guest, which prevented some selectors from working. Appending ?view_adult=true to URLs doesn't work for chaptered works since that part gets cleared when those are automatically redirected.
+      await axiosInstance.get<string>(getWorkUrl({ workId, chapterId }), {
         headers: {
+          // We set a cookie to bypass the Terms of Service agreement modal that appears when viewing works as a guest, which prevented some selectors from working. Appending ?view_adult=true to URLs doesn't work for chaptered works since that part gets cleared when those are automatically redirected.
           Cookie: "view_adult=true;",
         },
       })
@@ -87,10 +89,16 @@ export const loadUserProfilePage = async ({
 export interface ChapterIndexPage extends CheerioAPI {
   kind: "ChapterIndexPage";
 }
-export const loadChaptersIndexPage = async ({ workId }: { workId: string }) => {
+export const loadChaptersIndexPage = async ({
+  workId,
+  axiosInstance = axios,
+}: {
+  workId: string;
+  axiosInstance?: AxiosInstance;
+}) => {
   return load(
     (
-      await axios.get<string>(
+      await axiosInstance.get<string>(
         `https://archiveofourown.org/works/${workId}/navigate`
       )
     ).data
@@ -100,9 +108,15 @@ export const loadChaptersIndexPage = async ({ workId }: { workId: string }) => {
 export interface SeriesPage extends CheerioAPI {
   kind: "SeriesPage";
 }
-export const loadSeriesPage = async (seriesId: string) => {
+export const loadSeriesPage = async (
+  seriesId: string,
+  axiosInstance: AxiosInstance = axios
+) => {
   return load(
-    (await axios.get<string>(`https://archiveofourown.org/series/${seriesId}`))
-      .data
+    (
+      await axiosInstance.get<string>(
+        `https://archiveofourown.org/series/${seriesId}`
+      )
+    ).data
   ) as SeriesPage;
 };
