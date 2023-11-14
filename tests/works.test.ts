@@ -518,6 +518,18 @@ describe("Fetches work information", () => {
         `"<p>Jane has had enough.</p>"`
       );
     });
+
+    test("Fetch only work summary when work + chapter summaries are present", async () => {
+      const work = await getWork({ workId: "17793689" });
+
+      assert(!work.locked);
+
+      expect(work.summary).toMatchInlineSnapshot(
+        `"<p><b>A Modern Thedas AU</b>, in which Fen'Harel and the Second Inquisitor tore down the Veil a thousand years ago, reshaping Thedas into something entirely new. Thedas now has modern technology powered by magic, and a society still plagued with problems that are all too familiar - issues of race, classism, and power.</p><p>Fenina Lavellan, a student at the College of Enchanters: New Haven, often escapes her reality by playing the MMORPG Dragon Age (set in the ancient past during the time of the Second Inquisition) and is part of the most powerful guild aptly named "TheInquisition" - a guild which has been running since the game was released. But when the guild discovers that they all live in the same city and decide to meet up, they unknowingly stumble into a plot to destroy their world as they know it. Can they navigate the difficulties of actually being social in the real world? Will their in-game skills translate into abilities that will actually help them in stopping a madman? Or is this the end of the world as they know it?</p>"`
+      );
+      expect(work.chapterInfo).toBeNull();
+    });
+
     test("Fetch work stats ", async () => {
       const work = await getWork({
         workId: "323217",

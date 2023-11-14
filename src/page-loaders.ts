@@ -50,7 +50,13 @@ export const loadTagFeedAtomPage = async ({ tagId }: { tagId: string }) => {
 export interface WorkPage extends CheerioAPI {
   kind: "WorkPage";
 }
-export const loadWorkPage = async (workId: string, chapterId?: string) => {
+export const loadWorkPage = async ({
+  workId,
+  chapterId,
+}: {
+  workId: string;
+  chapterId?: string;
+}) => {
   return load(
     (
       await axios.get<string>(getWorkUrl({ workId, chapterId }), {

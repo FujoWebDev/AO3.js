@@ -45,7 +45,7 @@ export const getWork = async ({
   workId: string;
   chapterId?: string;
 }): Promise<WorkSummary | LockedWorkSummary> => {
-  const workPage = await loadWorkPage(workId, chapterId);
+  const workPage = await loadWorkPage({ workId, chapterId });
 
   if (getWorkLocked(workPage)) {
     return {
