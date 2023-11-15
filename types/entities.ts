@@ -47,6 +47,7 @@ export interface SeriesWorkSummary
     | "tags"
     | "stats"
     | "locked"
+    | "chapterInfo"
     | "series"
   > {
   url: string;
@@ -141,6 +142,12 @@ export interface WorkSummary {
     published: number;
     total: number | null;
   };
+  chapterInfo: {
+    id: string;
+    index: number;
+    name: string | null;
+    summary: string | null;
+  } | null;
   series: BasicSeries[];
   complete: boolean;
   stats: {

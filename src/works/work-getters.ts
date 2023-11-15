@@ -3,6 +3,7 @@ import {
   BasicSeries,
   WorkCategory,
   WorkRatings,
+  WorkSummary,
   WorkWarnings,
 } from "types/entities";
 
@@ -137,8 +138,7 @@ export const getWorkTotalChapters = ($workPage: WorkPage): number | null => {
 };
 
 export const getWorkSummary = ($workPage: WorkPage): string | null => {
-  const summary = $workPage(".summary blockquote.userstuff").html();
-
+  const summary = $workPage(".preface .summary blockquote.userstuff").html();
   return summary ? summary.trim() : null;
 };
 
@@ -185,4 +185,27 @@ export const getWorkHits = ($workPage: WorkPage) => {
 
 export const getWorkLocked = ($workPage: WorkPage) => {
   return !!$workPage("#signin > .heading").text();
+};
+
+// Chapter-specific (must be multi-chapter fic)
+export const getChapterIndex = (
+  $workPage: WorkPage
+): NonNullable<WorkSummary["chapterInfo"]>["index"] => {
+  const index = $workPage("#chapters h3.title a").text();
+  return index ? parseInt(index.trim().replace("Chapter ", "")) : -1;
+};
+
+export const getChapterName = (
+  $workPage: WorkPage
+): NonNullable<WorkSummary["chapterInfo"]>["name"] => {
+  const title = $workPage("#chapters h3.title").text().trim();
+  // 2 characters is the length of query string
+  return title && title.includes(":")
+    ? title.slice(title.indexOf(": ") + 2)
+    : null;
+};
+
+export const getChapterSummary = ($workPage: WorkPage): string | null => {
+  const summary = $workPage(".chapter .summary blockquote.userstuff").html();
+  return summary ? summary.trim() : null;
 };
