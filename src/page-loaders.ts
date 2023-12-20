@@ -8,6 +8,7 @@ import {
 
 import { CheerioAPI } from "cheerio";
 import { load } from "cheerio";
+import { getFetcher } from "./fetcher";
 
 // We create separate interfaces for each page type to make sure that the
 // correct type of page is passed to each method that extracts data.
@@ -20,7 +21,7 @@ export interface TagWorksFeed extends CheerioAPI {
 }
 export const loadTagWorksFeed = async ({ tagName }: { tagName: string }) => {
   return load(
-    await (await fetch(getTagWorksFeedUrl(tagName))).text()
+    await (await getFetcher()(getTagWorksFeedUrl(tagName))).text()
   ) as TagWorksFeed;
 };
 
@@ -30,7 +31,7 @@ export interface TagPage extends CheerioAPI {
   kind: "TagPage";
 }
 export const loadTagPage = async ({ tagName }: { tagName: string }) => {
-  return load(await (await fetch(getTagUrl(tagName))).text()) as TagPage;
+  return load(await (await getFetcher()(getTagUrl(tagName))).text()) as TagPage;
 };
 
 // Atom feed of the most recent works featuring a tag.
@@ -40,7 +41,7 @@ export interface TagWorksAtomFeed extends CheerioAPI {
 }
 export const loadTagFeedAtomPage = async ({ tagId }: { tagId: string }) => {
   return load(
-    await (await fetch(getTagWorksFeedAtomUrl(tagId))).text()
+    await (await getFetcher()(getTagWorksFeedAtomUrl(tagId))).text()
   ) as TagWorksAtomFeed;
 };
 
@@ -58,7 +59,7 @@ export const loadWorkPage = async ({
 }) => {
   return load(
     await (
-      await fetch(getWorkUrl({ workId, chapterId }), {
+      await getFetcher()(getWorkUrl({ workId, chapterId }), {
         headers: { Cookie: "view_adult=true;" },
       })
     ).text()
@@ -76,7 +77,7 @@ export const loadUserProfilePage = async ({
   username: string;
 }) => {
   return load(
-    await (await fetch(getUserProfileUrl({ username }))).text()
+    await (await getFetcher()(getUserProfileUrl({ username }))).text()
   ) as UserProfile;
 };
 
@@ -86,7 +87,7 @@ export interface ChapterIndexPage extends CheerioAPI {
 export const loadChaptersIndexPage = async ({ workId }: { workId: string }) => {
   return load(
     await (
-      await fetch(`https://archiveofourown.org/works/${workId}/navigate`)
+      await getFetcher()(`https://archiveofourown.org/works/${workId}/navigate`)
     ).text()
   ) as ChapterIndexPage;
 };
@@ -96,6 +97,8 @@ export interface SeriesPage extends CheerioAPI {
 }
 export const loadSeriesPage = async (seriesId: string) => {
   return load(
-    await (await fetch(`https://archiveofourown.org/series/${seriesId}`)).text()
+    await (
+      await getFetcher()(`https://archiveofourown.org/series/${seriesId}`)
+    ).text()
   ) as SeriesPage;
 };
