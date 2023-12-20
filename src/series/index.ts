@@ -13,16 +13,13 @@ import {
   getSeriesWorkCount,
   getSeriesWorks,
 } from "./getters";
-import { AxiosInstance } from "axios";
 
 export const getSeries = async ({
   seriesId,
-  axiosInstance,
 }: {
   seriesId: string;
-  axiosInstance?: AxiosInstance;
 }): Promise<Series> => {
-  const seriesPage = await loadSeriesPage(seriesId, axiosInstance);
+  const seriesPage = await loadSeriesPage(seriesId);
 
   const seriesWorks = getSeriesWorks(seriesPage);
 

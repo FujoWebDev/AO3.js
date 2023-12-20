@@ -1,4 +1,3 @@
-import { RestHandler } from "msw";
 import allHandlers from "./handlers/all";
 import feedHandlers from "./handlers/tags/feed";
 import nameHandlers from "./handlers/tags/name";

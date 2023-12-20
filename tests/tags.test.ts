@@ -176,7 +176,7 @@ describe("Fetches id data", () => {
 });
 
 describe("Fetches common tag data", () => {
-  test("Fetches uommon tag", async () => {
+  test("Fetches common tag", async () => {
     const tag = await getTag({
       tagName: "Ever Given Container Ship - Anthropomorphic",
     });
