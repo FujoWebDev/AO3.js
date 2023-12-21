@@ -60,7 +60,14 @@ export const loadWorkPage = async ({
   return load(
     await (
       await getFetcher()(getWorkUrl({ workId, chapterId }), {
-        headers: { Cookie: "view_adult=true;" },
+        headers: {
+          // We set a cookie to bypass the Terms of Service agreement modal that
+          // appears when viewing works as a guest, which prevented some
+          // selectors from working. Appending ?view_adult=true to URLs doesn't
+          // work for chaptered works since that part gets cleared when those
+          // are automatically redirected.
+          Cookie: "view_adult=true;",
+        },
       })
     ).text()
   ) as WorkPage;
