@@ -18,8 +18,8 @@ export const getTag = async ({
 }: {
   tagName: string;
 }): Promise<Tag> => {
-  const tagPage = await loadTagPage(tagName);
-  const worksFeed = await loadTagWorksFeed(tagName);
+  const tagPage = await loadTagPage({ tagName });
+  const worksFeed = await loadTagWorksFeed({ tagName });
 
   return {
     name: tagName,

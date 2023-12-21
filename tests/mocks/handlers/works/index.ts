@@ -2,24 +2,25 @@ import { fileURLToPath } from "url";
 import filenamify from "filenamify";
 import fs from "fs";
 import path from "path";
-import { rest } from "msw";
+import { http, HttpResponse } from "msw";
 
 const WORKS_DATA_DIR = path.resolve(
   fileURLToPath(import.meta.url),
   "../../../data/works"
 );
 
-export default rest.all(
+export default http.all(
   "https://archiveofourown.org/works/:work_id",
-  (req, res, ctx) => {
+  ({ params }) => {
     const html = fs.readFileSync(
       path.resolve(
         WORKS_DATA_DIR,
-        filenamify(req.params.work_id as string),
+        filenamify(params.work_id as string),
         "index.html"
       )
     );
-
-    return res(ctx.set("Content-Type", "text/html"), ctx.body(html));
+    return new HttpResponse(html, {
+      headers: { "Content-Type": "text/html" },
+    });
   }
 );

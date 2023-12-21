@@ -1,9 +1,11 @@
-import { rest } from "msw";
+import { http, HttpResponse } from "msw";
 
-export default rest.all("https://archiveofourown.org/*", (req, res, ctx) => {
+export default http.all("https://archiveofourown.org/*", ({ request }) => {
   console.error(
-    `Unknown AO3 route: ${req.url.href}. Add a route handler to mock the data.`
+    `Unknown AO3 route: ${request.url}. Add a route handler to mock the data.`
   );
 
-  return res(ctx.status(500));
+  return new HttpResponse(null, {
+    status: 500,
+  });
 });

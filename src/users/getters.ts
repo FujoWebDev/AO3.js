@@ -1,6 +1,4 @@
 import { UserProfile } from "../page-loaders";
-import axios from "axios";
-import cheerio from "cheerio";
 import { getUserProfileUrl } from "../urls";
 
 //Dates are ten characters long in the following format:
