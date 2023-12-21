@@ -63,9 +63,121 @@ JavaScript vs Python aside, this is a newer library that is being actively devel
 
 # Documentation
 
-AO3.js uses [axios](https://axios-http.com/) to fetch the HTML making up an AO3 page and [cheerio](https://cheerio.js.org/) to make it a DOM tree for our goals. For an introduction to this kind of scraping, [see here](https://blog.logrocket.com/parsing-html-nodejs-cheerio/).
+AO3.js uses [the fetch
+API](https://developer.mozilla.org/en-US/docs/Web/API/fetch) to fetch the HTML
+making up an AO3 page and [cheerio](https://cheerio.js.org/) to make it a DOM
+tree for our goals. For an introduction to this kind of scraping, [see
+here](https://blog.logrocket.com/parsing-html-nodejs-cheerio/).
 
-For the rest of the owl, you can reach us through our [Issues tab](https://github.com/essential-randomness/ao3.js/issues), or at [Fandom Coders](https://fancoders.com/).
+For the rest of the owl, you can reach us through our [Issues
+tab](https://github.com/essential-randomness/ao3.js/issues), or at [Fandom
+Coders](https://fancoders.com/).
+
+## `RefernceError`: `fetch` is not defined
+
+This error means your runtime (e.g. NodeJS) does not include a `fetch`
+implementation. The easiest way to fix this issue, is to switch to a runtime
+that does support it. For NodeJS, this is any version above (and including)
+`18`.
+
+If you need to use a older version of NodeJS, you can polyfill it by using the
+[`node-fetch` library](https://github.com/node-fetch/node-fetch).
+
+In your terminal run:
+
+```sh
+npm install node-fetch@2
+```
+
+If you wish to override `fetch` with your own implementation, you can use the
+`setFetcher` method to use the fetch returned by the `node-fetch` library. See
+next section for more details.
+
+```ts
+import { setFetcher } from "@bobaboard/ao3.js";
+import fetch from "node-fetch";
+
+// You MUST call this before calling other ao3.js methods
+setFetcher(fetch);
+```
+
+## Overriding fetch
+
+If you wish to provide more complex logic for `fetch` (for example to handle
+rate limiting), you can override the fetch method with your own implementation
+by using the exported `setFetch` function.
+
+For example, to override `fetch` with the `node-fetch` implementation:
+
+```ts
+import { setFetcher } from "@bobaboard/ao3.js";
+import fetch from "node-fetch";
+
+// You MUST call this before calling other ao3.js methods
+setFetcher(fetch);
+```
+
+### Handling caching + rate limiting
+
+This library doesn't handle caching requests by default. This means that if you
+call the same method twice, the underlying requests to AO3 will also be made
+twice.
+
+Similarly, this library doesn't handle managing rate limit for you (not yet, at
+least). This means that if you make too many requests to AO3 too quickly, you'll
+get errors once AO3 starts asking you to pause requests.
+
+If you want to avoid these issues, you can use the following code to add caching and
+automatic retrying to the library:
+
+```ts
+import { setFetcher } from "@bobaboard/ao3.js";
+
+const CACHE = new Map();
+setFetcher(async (...params: Parameters<typeof fetch>) => {
+  try {
+    if (CACHE.has(params[0])) {
+      console.log(`Using cached response for request to ${params[0]}`);
+      return CACHE.get(params[0]).clone();
+    }
+    console.log(`Making a new request to ${params[0]}`);
+    let response = await fetch(...params);
+    console.log(`Request status: ${response.status}`);
+    while (response.status === 429) {
+      const waitSeconds = response.headers.get("retry-after");
+      console.log(
+        `Asked to wait ${waitSeconds} seconds request to ${params[0]}`
+      );
+      if (!waitSeconds) {
+        throw new Error(
+          "A wait request was made without indication of length."
+        );
+      }
+      console.log(`Waiting ${waitSeconds} seconds`);
+      await new Promise((res) => {
+        setTimeout(() => res(null), parseInt(waitSeconds) * 1000);
+      });
+      console.log(`Continuing with request to ${params[0]}`);
+      response = await fetch(...params);
+    }
+    if (response.status === 200) {
+      // Remove request from the cache after 5 minutes
+      setTimeout(() => {
+        console.log(`Clearing cache entry for request ${params[0]}`);
+        CACHE.set(params[0], null);
+      }, 1000 * 60 * 5);
+      console.log(`Setting cache entry for request ${params[0]}`);
+      CACHE.set(params[0], response.clone());
+    }
+    return response;
+  } catch (e) {
+    console.error(e);
+    throw e;
+  }
+});
+```
+
+The logging will help you understand what's going on, but it's by no mean necessary.
 
 # Volunteering
 
