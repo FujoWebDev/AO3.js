@@ -17,6 +17,7 @@ export interface Tag {
   // that have been synned to a canonical. It will be null when tags haven't been marked as
   // common and cannot be filtered on.
   canonicalName: string | null;
+  parentTags: string[];
 }
 
 export interface User {
