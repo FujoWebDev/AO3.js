@@ -33,7 +33,7 @@
   ],
   "scripts": {
     "build": "rm -rf dist/ && tsup src/index.ts src/urls.ts --format esm,cjs --dts",
-    "test": "NODE_OPTIONS=--experimental-vm-modules jest --no-cache .test.ts$ --verbose=true",
+    "test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest --no-cache .test.ts$ --verbose=true",
     "encode-mock-files": "ts-node-esm tests/mocks/scripts/encode-mock-files.mts"
   },
   "repository": "https://github.com/essential-randomness/AO3.js.git",
@@ -54,6 +54,7 @@
     "typescript": "^5.1.6"
   },
   "dependencies": {
-    "cheerio": "^1.0.0-rc.10"
+    "cheerio": "^1.0.0-rc.10",
+    "cross-env": "^7.0.3"
   }
 }
