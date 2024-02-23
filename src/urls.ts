@@ -98,9 +98,22 @@ export const getPromptDetailsFromUrl = ({
   if (!collectionMatch) {
     throw new Error("Invalid prompt URL");
   }
-  
+
   return {
     promptId: promptUrlMatch[1],
     collectionName: collectionMatch[1]
   };
 };
+
+export const getPromptUrl = ({
+  promptId,
+  collectionName
+}:{
+  promptId: string,
+  collectionName:string
+})=>{
+  let workUrl = `https://archiveofourown.org`;
+  workUrl += `/collections/${collectionName}`;
+  workUrl += `/prompts/${promptId}`;
+  return workUrl;
+}
