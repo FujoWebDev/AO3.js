@@ -159,6 +159,8 @@ export interface WorkSummary {
   locked: false;
 }
 
+
+
 export interface LockedWorkSummary {
   locked: true;
 }
@@ -170,4 +172,28 @@ export interface Chapter {
   title: string;
   publishedAt: string;
   url: string;
+}
+
+
+export interface Prompt {
+  id: string;
+  title: string;
+  fandoms: string[];
+  //pseuds don't seem to have a noticable effect on the interface
+  prompter: "Anonymous" | string;
+  rating: WorkRatings;
+  tags: {
+    warnings: WorkWarnings[];
+    characters: string[];
+    relationships: string[];
+    additional: string[];
+  };
+  fulfilled: boolean;
+  //there's a HTML option?
+  summary: string; 
+  //Which of these applies to prompts?
+  //TODO currently doing test at https://archiveofourown.org/collections/test_prompt_meme_2024/requests
+  publishedAt: string;
+  updatedAt: string | null;
+
 }
