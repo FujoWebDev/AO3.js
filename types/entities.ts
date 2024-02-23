@@ -176,7 +176,12 @@ export interface Chapter {
 
 
 export interface Prompt {
+  updatedAt: string;
+  /*
   id: string;
+  collection: string;
+
+  
   title: string;
   fandoms: string[];
   //pseuds don't seem to have a noticable effect on the interface
@@ -195,5 +200,6 @@ export interface Prompt {
   //TODO currently doing test at https://archiveofourown.org/collections/test_prompt_meme_2024/requests
   publishedAt: string;
   updatedAt: string | null;
+  */
 
 }

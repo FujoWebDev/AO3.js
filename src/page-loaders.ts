@@ -4,6 +4,7 @@ import {
   getTagWorksFeedUrl,
   getUserProfileUrl,
   getWorkUrl,
+  getPromptUrl
 } from "./urls";
 
 import { CheerioAPI } from "cheerio";
@@ -13,6 +14,18 @@ import { getFetcher } from "./fetcher";
 // We create separate interfaces for each page type to make sure that the
 // correct type of page is passed to each method that extracts data.
 // Other than this, all pages are instances of CheerioAPI and can be used interchangeably.
+
+// A page showing a single, specified prompt from a particular collection
+// Sample: https://archiveofourown.org/collections/mo_dao_zu_shi_kink_meme_2020/prompts/2644428
+export interface PromptPage extends CheerioAPI {
+  kind: "PromptPage";
+}
+export const loadPromptPage = async ({ id, collectionName }: { id: string, collectionName: string }) => {
+  return load(
+    await (await getFetcher()(getPromptUrl({promptId: id, collectionName: collectionName}))).text()
+  ) as PromptPage;
+};
+
 
 // A page showing the most recent works featuring a tag.
 // Sample: https://archiveofourown.org/tags/Git%20(The%20Fujoshi%20Guide%20to%20Web%20Development)/works
