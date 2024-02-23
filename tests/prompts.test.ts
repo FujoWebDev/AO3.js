@@ -11,6 +11,18 @@ describe("Fetches data from url", () => {
       promptId: "2644428",
     });
   });
+
+  test("Fetches collection name from url", async () => {
+    const workData = await getPromptDetailsFromUrl({
+      url: "https://archiveofourown.org/collections/mo_dao_zu_shi_kink_meme_2020/prompts/2644428",
+    });
+
+    expect(workData).toMatchObject({
+      promptId: "2644428",
+      collectionName: "mo_dao_zu_shi_kink_meme_2020",
+    });
+  });
+
 });
 
 // Ensure that it says the right things first:

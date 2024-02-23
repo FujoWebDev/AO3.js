@@ -85,13 +85,22 @@ export const getPromptDetailsFromUrl = ({
   url: string;
 }): {
   //defining the form of the return value/output
+  //collection name is the url name, not the Display Title
   promptId: string;
+  collectionName: string
 } => {//TODO will fail?
   const promptUrlMatch = url.match(/prompts\/(\d+)/);
   if (!promptUrlMatch) {
     throw new Error("Invalid prompt URL");
   }
+
+  const collectionMatch = url.match(/collections\/(\w+)/);
+  if (!collectionMatch) {
+    throw new Error("Invalid prompt URL");
+  }
+  
   return {
     promptId: promptUrlMatch[1],
+    collectionName: collectionMatch[1]
   };
 };
