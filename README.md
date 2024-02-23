@@ -201,7 +201,7 @@ To identify what we're missing (and tour the codebase as a bonus):
 
 1. Take a look at our [TypeScript types](./types/entities.ts). If the data you seek is not there, we most likely can't scrape it (yet).
 2. See if there's already [an open issue](https://github.com/essential-randomness/ao3.js/issues/) for the type of data you seek.
-3. See if we're aready [scraping the page](./src/pages-loaders.ts) the data resides in.
+3. See if we're aready [scraping the page](./src/page-loaders.ts) the data resides in.
 
 Congratulations, you now have your first contribution carved for you!
 
