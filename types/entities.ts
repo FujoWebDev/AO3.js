@@ -179,6 +179,7 @@ export interface Prompt {
   updatedAt: string;
   summary: string | null;
   collectionDisplayTitle: string;
+  ratings: WorkRatings[];
   /*
   id: string;
   collection: string;
