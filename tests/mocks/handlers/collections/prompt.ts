@@ -23,7 +23,6 @@ export default http.all(
       )
     );
 
-    console.log("in prompt.ts")
     return new HttpResponse(html, {
       headers: { "Content-Type": "text/html" },
     });

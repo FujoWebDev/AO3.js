@@ -3,10 +3,11 @@ import {
 } from "types/entities"
 
 import {
-  getUpdatedAt
+  getUpdatedAt,
+  getPromptSummary
 } from "./prompt-getters"
 
-import {loadPromptPage} from "../page-loaders"
+import {loadPromptPage} from "../../page-loaders"
 
 export const getPrompt = async ({
   promptId,
@@ -15,12 +16,12 @@ export const getPrompt = async ({
   promptId: string;
   collectionName: string;
 }): Promise<Prompt> => {
-  console.log("Get Prompt!!")
 
   const promptPage = await loadPromptPage({id: promptId, collectionName: collectionName});//TODO
 
   return {
-    updatedAt: getUpdatedAt(promptPage)
+    updatedAt: getUpdatedAt(promptPage),
+    summary: getPromptSummary(promptPage)
   }
 
 }

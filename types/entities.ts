@@ -177,6 +177,7 @@ export interface Chapter {
 
 export interface Prompt {
   updatedAt: string;
+  summary: string | null;
   /*
   id: string;
   collection: string;
