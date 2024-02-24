@@ -13,3 +13,9 @@ export const getPromptSummary = ($promptPage : PromptPage): string | null => {
   // usually a new line '\n is returned at the beginning and end of the summary.
   return summary ? summary.trim() : null;
 };
+
+export const getCollectionDisplayTitle = ($promptPage : PromptPage): string => {
+  const titleElement = $promptPage("h2.collections");
+  const title = titleElement.text().trim();
+  return title;
+}

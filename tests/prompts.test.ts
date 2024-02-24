@@ -65,6 +65,28 @@ describe("Gets url from data", () => {
         summary: null,
       });
     });
+
+    test("Fetches null summary", async () => {
+      const prompt = await getPrompt({
+        promptId: "3566161",
+        collectionName: "test_prompt_meme_2024"
+      });
+
+      expect(prompt).toMatchObject({
+        summary: null,
+      });
+    });
+
+    test("Fetches display title", async () => {
+      const prompt = await getPrompt({
+        promptId: "2644428",
+        collectionName: "mo_dao_zu_shi_kink_meme_2020"
+      });
+
+      expect(prompt).toMatchObject({
+        collectionDisplayTitle: "Mó Dào Zǔ Shī | The Untamed Kink Meme 2020",
+      });
+    });
     
 
     /*whether it actually is the updated date or the creation date is still up in the air. 

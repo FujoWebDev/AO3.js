@@ -4,7 +4,8 @@ import {
 
 import {
   getUpdatedAt,
-  getPromptSummary
+  getPromptSummary,
+  getCollectionDisplayTitle
 } from "./prompt-getters"
 
 import {loadPromptPage} from "../../page-loaders"
@@ -21,7 +22,8 @@ export const getPrompt = async ({
 
   return {
     updatedAt: getUpdatedAt(promptPage),
-    summary: getPromptSummary(promptPage)
+    summary: getPromptSummary(promptPage),
+    collectionDisplayTitle: getCollectionDisplayTitle(promptPage)
   }
 
 }
