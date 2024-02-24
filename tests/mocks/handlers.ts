@@ -10,6 +10,8 @@ import worksHandlers from "./handlers/works";
 import worksNavigateHandlers from "./handlers/works/navigate";
 import worksChapterHandlers from "./handlers/works/chapter";
 
+import promptHandlers from "./handlers/collections/prompt"
+
 export default [
   profileHandlers,
   feedHandlers,
@@ -20,5 +22,6 @@ export default [
   worksNavigateHandlers,
   worksChapterHandlers,
   seriesHandlers,
+  promptHandlers,
   allHandlers,
 ];
