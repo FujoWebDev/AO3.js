@@ -180,6 +180,9 @@ export interface Prompt {
   summary: string | null;
   collectionDisplayTitle: string;
   ratings: WorkRatings[];
+  author: Author | "Anonymous";
+  
+
   /*
   id: string;
   collection: string;

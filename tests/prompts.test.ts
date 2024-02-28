@@ -104,6 +104,47 @@ describe("Gets url from data", () => {
         ratings: ["Not Rated"],
       });
     });
+
+    test("Fetches Author(+pseud)", async () => {
+      const prompt = await getPrompt(
+        await getPromptDetailsFromUrl({
+          url: "https://archiveofourown.org/collections/test_prompt_meme_2024/prompts/3573835",
+        })
+      );
+
+      expect(prompt).toMatchObject({
+        author: {  
+          username: "RabbitPie",
+          pseud: "cottontailcake"}
+      });
+    });
+
+    test("Fetches Anonymous Author", async () => {
+      const prompt = await getPrompt(
+        await getPromptDetailsFromUrl({
+          url: "https://archiveofourown.org/collections/test_prompt_meme_2024/prompts/3574012",
+        })
+      );
+
+      expect(prompt).toMatchObject({
+        author: "Anonymous"
+      });
+    });
+
+    test("Fetches Non-Pseuded Author", async () => {
+      const prompt = await getPrompt(
+        await getPromptDetailsFromUrl({
+          url: "https://archiveofourown.org/collections/mo_dao_zu_shi_kink_meme_2020/prompts/2644428",
+        })
+      );
+
+      expect(prompt).toMatchObject({
+        author: {
+          username: "merelydovely",
+          pseud: "merelydovely"
+        },
+      });
+    });    
  
     
     });

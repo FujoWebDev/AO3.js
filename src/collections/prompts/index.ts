@@ -25,7 +25,8 @@ export const getPrompt = async ({
     updatedAt: getUpdatedAt(promptPage),
     summary: getPromptSummary(promptPage),
     collectionDisplayTitle: getCollectionDisplayTitle(promptPage),
-    ratings: getPromptRatings(promptPage)
+    ratings: getPromptRatings(promptPage),
+    author: {username: "TO DO", pseud: "To DO"}
   }
 
 }
