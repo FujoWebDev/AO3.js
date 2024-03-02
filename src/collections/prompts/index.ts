@@ -6,7 +6,8 @@ import {
   getUpdatedAt,
   getPromptSummary,
   getCollectionDisplayTitle,
-  getPromptRatings
+  getPromptRatings,
+  getPromptAuthor
 } from "./prompt-getters"
 
 import {loadPromptPage} from "../../page-loaders"
@@ -26,7 +27,7 @@ export const getPrompt = async ({
     summary: getPromptSummary(promptPage),
     collectionDisplayTitle: getCollectionDisplayTitle(promptPage),
     ratings: getPromptRatings(promptPage),
-    author: {username: "TO DO", pseud: "To DO"}
+    author: getPromptAuthor(promptPage)
   }
 
 }

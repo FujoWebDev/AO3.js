@@ -1,4 +1,5 @@
 import {
+  Author,
   WorkRatings
 } from "types/entities"
 import { PromptPage } from "../../page-loaders";
@@ -41,3 +42,25 @@ export const getPromptRatings = ($promptPage: PromptPage): WorkRatings[] => {
   else return ["Not Rated"] as WorkRatings[]
 
 };
+
+export const getPromptAuthor = ($promptPage: PromptPage): Author | "Anonymous"=> {
+
+  const requestHeading = $promptPage("#main.prompts-show.dashboard.region > h2").text().trim();
+
+  if(requestHeading === "Request by Anonymous") return "Anonymous"
+
+  const pseudAndUser = /Request by ([^\(]*)?\(?([^\)]*)/g
+  
+  const captures = pseudAndUser.exec(requestHeading);
+
+  if (!captures) throw new Error("Could not evalueate Prompt Author String");
+
+  const pseud = captures[1].trim();  
+  const user = captures[2] ? captures[2] : pseud;
+
+  return {
+    username: user,
+    pseud: pseud
+  } as Author
+
+}
