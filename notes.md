@@ -114,3 +114,5 @@ updatedAt: The last date the prompt was updated. Appears in the upper-right hand
 summary: The test description of the prompt, as html
 collectionDisplayTitle: the title displayed on the collection pages and in tags. Not the same as collectionName, which is used to contruct the collection's url. 
 ratings: a list of the requested ratings on the prompt. The prompt will display the highest of these on its UI. If the fic has no ratings, "Not Rated" will be returned.
+
+Test change.
