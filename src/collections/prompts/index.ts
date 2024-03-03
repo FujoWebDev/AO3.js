@@ -1,5 +1,6 @@
 import {
-  Prompt
+  Prompt,
+  WorkCategory
 } from "types/entities"
 
 import {
@@ -34,12 +35,24 @@ export const getPrompt = async ({
     ratings: getPromptRatings(promptPage),
     author: getPromptAuthor(promptPage),
     fandoms: getPromptFandoms(promptPage),
+    //TODO needs work:
     tags: {
       warnings: getPromptWarnings(promptPage),
       characters: getPromptCharacters(promptPage),
       relationships: getPromptRelationships(promptPage),
       additional: getPromptAdditionalTags(promptPage)
-    }
+    },
+    //TODO:
+    claims: {
+      anonymousClaims: 12,
+      knownClaimaints: [{username: "TODO", pseud: "TODO2"}],
+    },
+    title: "TODO",
+    collectionName: "TODO",
+    id: "TODO",
+    filled: true,
+    fills: [{todo:"TODO"}],
+    categories: []
   }
 
 }

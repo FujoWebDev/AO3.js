@@ -184,7 +184,7 @@ export enum PromptWarnings {
 }
 
 export interface PromptWorkSummary {
-
+  todo: "TODO"
 }
 
 export interface Prompt {
@@ -194,23 +194,22 @@ export interface Prompt {
   ratings: WorkRatings[];
   author: Author | "Anonymous";
   fandoms: string[];
+  // warnings are not neccessarily tags in prompts, 
+  // but are here to be consistent with the WorkSummary interface
   tags: {
     warnings: WorkWarnings[];
     characters: string[];
     relationships: string[];
     additional: string[];
-  };  
-
-/*
-  fills: PromptWorkSummary[],
-  filled: boolean
-  id: string,
-  collection: string,
-  title: string
-*/
-/*
-  publishedAt: string;
-  updatedAt: string | null;
-  */
-
+  };
+  claims: {
+    anonymousClaims: number;
+    knownClaimaints: Author[];
+  }
+  title: string;
+  collectionName: string;
+  id: string;
+  filled: boolean;
+  fills: PromptWorkSummary[];
+  categories: WorkCategory[];
 }
