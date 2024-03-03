@@ -174,9 +174,21 @@ export interface Chapter {
   url: string;
 }
 
+export enum PromptWarnings {
+  GRAPHIC_VIOLENCE = "Graphic Depictions Of Violence",
+  MAJOR_CHARACTER_DEATH = "Major Character Death",
+  NO_WARNINGS_APPLY = "No Archive Warnings Apply",
+  NONCON = "Rape/Non-Con",
+  UNDERAGE = "Underage",
+  CHOOSE_NOT_TO_WARN = "Choose Not To Use Archive Warnings",
+}
+
+export interface PromptWorkSummary {
+
+}
 
 export interface Prompt {
-  updatedAt: string;
+  postedAt: string;
   summary: string | null;
   collectionDisplayTitle: string;
   ratings: WorkRatings[];
@@ -189,27 +201,14 @@ export interface Prompt {
     additional: string[];
   };  
 
-  /*
-  id: string;
-  collection: string;
-
-  
-  title: string;
-  fandoms: string[];
-  //pseuds don't seem to have a noticable effect on the interface
-  prompter: "Anonymous" | string;
-  rating: WorkRatings;
-  tags: {
-    warnings: WorkWarnings[];
-    characters: string[];
-    relationships: string[];
-    additional: string[];
-  };
-  fulfilled: boolean;
-  //there's a HTML option?
-  summary: string; 
-  //Which of these applies to prompts?
-  //TODO currently doing test at https://archiveofourown.org/collections/test_prompt_meme_2024/requests
+/*
+  fills: PromptWorkSummary[],
+  filled: boolean
+  id: string,
+  collection: string,
+  title: string
+*/
+/*
   publishedAt: string;
   updatedAt: string | null;
   */

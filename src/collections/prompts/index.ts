@@ -3,11 +3,16 @@ import {
 } from "types/entities"
 
 import {
-  getUpdatedAt,
+  getPostedAt,
   getPromptSummary,
   getCollectionDisplayTitle,
   getPromptRatings,
-  getPromptAuthor
+  getPromptAuthor,
+  getPromptFandoms,
+  getPromptAdditionalTags,
+  getPromptCharacters,
+  getPromptRelationships,
+  getPromptWarnings
 } from "./prompt-getters"
 
 import {loadPromptPage} from "../../page-loaders"
@@ -23,17 +28,17 @@ export const getPrompt = async ({
   const promptPage = await loadPromptPage({id: promptId, collectionName: collectionName});//TODO
 
   return {
-    updatedAt: getUpdatedAt(promptPage),
+    postedAt: getPostedAt(promptPage),
     summary: getPromptSummary(promptPage),
     collectionDisplayTitle: getCollectionDisplayTitle(promptPage),
     ratings: getPromptRatings(promptPage),
     author: getPromptAuthor(promptPage),
-    fandoms: ["To do"],
+    fandoms: getPromptFandoms(promptPage),
     tags: {
-      warnings: [],
-      characters: [],
-      relationships: [],
-      additional: []
+      warnings: getPromptWarnings(promptPage),
+      characters: getPromptCharacters(promptPage),
+      relationships: getPromptRelationships(promptPage),
+      additional: getPromptAdditionalTags(promptPage)
     }
   }
 

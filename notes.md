@@ -9,7 +9,6 @@ curl https://archiveofourown.org/works/51394438/chapters/136175206 > tests/mocks
 2. curl https://archiveofourown.org/collections/mo_dao_zu_shi_kink_meme_2020/prompts/2644428 > tests/mocks/data/collections/mo_dao_zu_shi_kink_meme_2020/prompts/2644428.html
 
 
-
 actually... mkdir failed because it wouldn't create multiple levels of directory. huh. I had to do it twice with first the collection name, and then the prompts. 
 
 A beter solution: curl --create-dirs --output tests/mocks/data/collections/mo_dao_zu_shi_kink_meme_2020/prompts/1927806.html https://archiveofourown.org/collections/mo_dao_zu_shi_kink_meme_2020/prompts/1927806
@@ -108,11 +107,15 @@ In many languages, the convention for naming Booleans is typically to prefix the
 
 ---
 
-What these attributes actually do: 
+# Attribute Descriptions
 
-updatedAt: The last date the prompt was updated. Appears in the upper-right hand corner of a prompt. (I am not actually certain this is the updated date and not the posted date at present, currently performing a test here: https://archiveofourown.org/collections/test_prompt_meme_2024/prompts/3564199)
-summary: The test description of the prompt, as html
-collectionDisplayTitle: the title displayed on the collection pages and in tags. Not the same as collectionName, which is used to contruct the collection's url. 
-ratings: a list of the requested ratings on the prompt. The prompt will display the highest of these on its UI. If the fic has no ratings, "Not Rated" will be returned.
+* **postedAt** The date the prompt was posted.
+* **summary**: The test description of the prompt, as html
+* **collectionDisplayTitle**: the title displayed on the collection pages and in tags. Not the same as collectionName, which is used to contruct the collection's url. 
+* **ratings**: a list of the requested ratings on the prompt. The prompt will display the highest of these on its UI. If the fic has no ratings, "Not Rated" will be returned.
 
-Test change.
+----
+
+# TODO: 
+1. Query selectors need to be redone: Currently, they may pick up the prompt fills!! ... oh man, I need the prompt fills!
+2. New, more thorough tests to test different types of prompts in their entirety: will fail most of the time. I'll have to see how the series-getter approaches the issue of multiple 

@@ -1,10 +1,11 @@
 import {
   Author,
-  WorkRatings
+  WorkRatings,
+  WorkWarnings
 } from "types/entities"
 import { PromptPage } from "../../page-loaders";
 
-export const getUpdatedAt = ($promptPage : PromptPage): string => {
+export const getPostedAt = ($promptPage : PromptPage): string => {
   const dateElement = $promptPage("p.datetime");
   const date = dateElement.text();
 
@@ -62,5 +63,54 @@ export const getPromptAuthor = ($promptPage: PromptPage): Author | "Anonymous"=>
     username: user,
     pseud: pseud
   } as Author
-
 }
+
+export const getPromptFandoms = ($promptPage: PromptPage): string[] => {
+  const fandoms: string[] = [];
+
+  $promptPage("h5.fandoms.heading a.tag").each(function (i, element) {
+    fandoms[i] = $promptPage(element).text().trim();
+  });
+  return fandoms;
+};
+
+export const getPromptAdditionalTags = ($promptPage: PromptPage): string[] => {
+  const freeform: string[] = [];
+  $promptPage("li.freeforms a.tag").each(function (i) {
+    freeform[i] = $promptPage(this).text().trim();
+  });
+  return freeform;
+};
+
+export const getPromptWarnings = ($promptPage: PromptPage): WorkWarnings[] => {
+  const warnings: WorkWarnings[] = [];
+
+  $promptPage("li.warnings a.tag").each(function (i, element) {
+    const warning = $promptPage(element).text().trim();
+    console.log(warning);
+    if (!Object.values(WorkWarnings).includes(warning as WorkWarnings)) {
+      throw new Error("An unknown warning was found on the page");
+    }
+
+    warnings[i] = warning as WorkWarnings;
+  });
+  return warnings;
+};
+
+export const getPromptCharacters = ($promptPage: PromptPage): string[] => {
+  const characters: string[] = [];
+
+  $promptPage("li.characters a.tag").each(function (i, character) {
+    characters[i] = $promptPage(character).text().trim();
+  });
+  return characters;
+};
+
+export const getPromptRelationships = ($promptPage: PromptPage): string[] => {
+  const ships: string[] = [];
+
+  $promptPage("li.relationships a.tag").each(function (i, ship) {
+    ships[i] = $promptPage(ship).text().trim();
+  });
+  return ships;
+};
