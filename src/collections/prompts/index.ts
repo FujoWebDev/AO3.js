@@ -51,7 +51,7 @@ export const getPrompt = async ({
     collectionName: "TODO",
     id: "TODO",
     filled: true,
-    fills: [{todo:"TODO"}],
+    fills: [],
     categories: []
   }
 

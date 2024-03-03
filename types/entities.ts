@@ -174,17 +174,12 @@ export interface Chapter {
   url: string;
 }
 
-export enum PromptWarnings {
-  GRAPHIC_VIOLENCE = "Graphic Depictions Of Violence",
-  MAJOR_CHARACTER_DEATH = "Major Character Death",
-  NO_WARNINGS_APPLY = "No Archive Warnings Apply",
-  NONCON = "Rape/Non-Con",
-  UNDERAGE = "Underage",
-  CHOOSE_NOT_TO_WARN = "Choose Not To Use Archive Warnings",
-}
-
-export interface PromptWorkSummary {
-  todo: "TODO"
+export interface PromptFillSummary
+  extends Omit<
+    WorkSummary,
+    | "publishedAt"
+    | "locked"
+  > {
 }
 
 export interface Prompt {
@@ -210,6 +205,6 @@ export interface Prompt {
   collectionName: string;
   id: string;
   filled: boolean;
-  fills: PromptWorkSummary[];
+  fills: PromptFillSummary[];
   categories: WorkCategory[];
 }

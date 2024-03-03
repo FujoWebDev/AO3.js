@@ -87,7 +87,6 @@ export const getPromptWarnings = ($promptPage: PromptPage): WorkWarnings[] => {
 
   $promptPage("li.warnings a.tag").each(function (i, element) {
     const warning = $promptPage(element).text().trim();
-    console.log(warning);
     if (!Object.values(WorkWarnings).includes(warning as WorkWarnings)) {
       throw new Error("An unknown warning was found on the page");
     }
