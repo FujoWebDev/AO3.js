@@ -181,7 +181,13 @@ export interface Prompt {
   collectionDisplayTitle: string;
   ratings: WorkRatings[];
   author: Author | "Anonymous";
-  
+  fandoms: string[];
+  tags: {
+    warnings: WorkWarnings[];
+    characters: string[];
+    relationships: string[];
+    additional: string[];
+  };  
 
   /*
   id: string;

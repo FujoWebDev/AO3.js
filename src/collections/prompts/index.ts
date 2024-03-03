@@ -27,7 +27,14 @@ export const getPrompt = async ({
     summary: getPromptSummary(promptPage),
     collectionDisplayTitle: getCollectionDisplayTitle(promptPage),
     ratings: getPromptRatings(promptPage),
-    author: getPromptAuthor(promptPage)
+    author: getPromptAuthor(promptPage),
+    fandoms: ["To do"],
+    tags: {
+      warnings: [],
+      characters: [],
+      relationships: [],
+      additional: []
+    }
   }
 
 }

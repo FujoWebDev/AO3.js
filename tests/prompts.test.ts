@@ -144,7 +144,25 @@ describe("Gets url from data", () => {
           pseud: "merelydovely"
         },
       });
-    });    
+    });
+
+    test("Gets tags", async () => {
+      const prompt = await getPrompt(
+        await getPromptDetailsFromUrl({
+          url: "https://archiveofourown.org/collections/mo_dao_zu_shi_kink_meme_2020/prompts/2644428",
+        })
+      );
+
+      expect(prompt).toMatchObject({
+        fandoms: ["SD Gundam G Generation Series (Video Games)", "Babel - R. F. Kuang"],
+        tags: {
+          warnings: ["Choose Not To Use Archive Warnings"],
+          characters: ["Kate Schmidt (Fear Street)","Sa Beining","Ffion Foxwell"],
+          relationships: ["Sophie Lee/Rune (Sdorica)","CC-2224 | Cody & CT-7567 | Rex","Denji/Mitaka Asa"],
+          additional: ["Ewok Species (Star Wars)","FS Lobby Discord's GP Predictions Game","Natasha \"Phoenix\" Trace Needs a Hug"]
+        }
+      });
+    });   
  
     
     });
