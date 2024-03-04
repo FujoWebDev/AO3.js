@@ -6,7 +6,7 @@ import {
 import { PromptPage } from "../../page-loaders";
 
 export const getPostedAt = ($promptPage : PromptPage): string => {
-  const dateElement = $promptPage("p.datetime");
+  const dateElement = $promptPage("p.datetime:first");
   const date = dateElement.text();
 
   return date;
@@ -26,7 +26,8 @@ export const getCollectionDisplayTitle = ($promptPage : PromptPage): string => {
 }
 
 export const getPromptRatings = ($promptPage: PromptPage): WorkRatings[] => {
-  const ratingsString = $promptPage("ul.required-tags span.rating").text().trim();
+
+  const ratingsString = $promptPage("ul.required-tags:first span.rating").text().trim();
   //if the work has no rating, the string gathered from the page will be "No rating"
   const hasRatings = !(ratingsString === "No rating");
   const ratingsArray = ratingsString.split(', ');
@@ -34,7 +35,10 @@ export const getPromptRatings = ($promptPage: PromptPage): WorkRatings[] => {
   if (hasRatings){
     ratingsArray.forEach(rating => {
       if (!Object.values(WorkRatings).includes(rating as WorkRatings)) {
+        // console.log("working with cheerio")
+        // console.log($promptPage("ul.required-tags:first span.rating").text());
         throw new Error("An unknown rating was found on the page: \""+ rating+"\"");
+        
       }
     })
   }
@@ -68,7 +72,7 @@ export const getPromptAuthor = ($promptPage: PromptPage): Author | "Anonymous"=>
 export const getPromptFandoms = ($promptPage: PromptPage): string[] => {
   const fandoms: string[] = [];
 
-  $promptPage("h5.fandoms.heading a.tag").each(function (i, element) {
+  $promptPage("h5.fandoms.heading:first a.tag").each(function (i, element) {
     fandoms[i] = $promptPage(element).text().trim();
   });
   return fandoms;
@@ -112,4 +116,12 @@ export const getPromptRelationships = ($promptPage: PromptPage): string[] => {
     ships[i] = $promptPage(ship).text().trim();
   });
   return ships;
+};
+
+export const getPromptAnonClaims = ($promptPage: PromptPage): number => {
+  return 123456;
+};
+
+export const getPromptKnownClaimaints = ($promptPage: PromptPage): string[] => {
+  return ["TODO"];
 };

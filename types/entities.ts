@@ -197,9 +197,10 @@ export interface Prompt {
     relationships: string[];
     additional: string[];
   };
+  // claimaints do not have pseuds as Ao3 is currently set up
   claims: {
     anonymousClaims: number;
-    knownClaimaints: Author[];
+    knownClaimaints: string[];
   }
   title: string;
   collectionName: string;

@@ -13,7 +13,9 @@ import {
   getPromptAdditionalTags,
   getPromptCharacters,
   getPromptRelationships,
-  getPromptWarnings
+  getPromptWarnings,
+  getPromptAnonClaims,
+  getPromptKnownClaimaints
 } from "./prompt-getters"
 
 import {loadPromptPage} from "../../page-loaders"
@@ -44,8 +46,8 @@ export const getPrompt = async ({
     },
     //TODO:
     claims: {
-      anonymousClaims: 12,
-      knownClaimaints: [{username: "TODO", pseud: "TODO2"}],
+      anonymousClaims: getPromptAnonClaims(promptPage),
+      knownClaimaints: getPromptKnownClaimaints(promptPage),
     },
     title: "TODO",
     collectionName: "TODO",
