@@ -159,21 +159,31 @@ describe("Gets url from data", () => {
       });
     });
 
-    test("Fetches Anon Claims", async () => {
+
+    test("Fetches 0 claims", async () => {
+      const prompt = await getPrompt(
+        await getPromptDetailsFromUrl({url: "https://https://archiveofourown.org/collections/test_prompt_meme_2024/prompts/3573835"})
+      );
+      expect(prompt).toMatchObject({
+        claims: {count: 0},
+      });
+    });      
+
+    test("Fetches Anon Claims + No Known Claimaints", async () => {
       const prompt = await getPrompt(
         await getPromptDetailsFromUrl({url: "https://https://archiveofourown.org/collections/mo_dao_zu_shi_kink_meme_2020/prompts/1909048"})
       );
       expect(prompt).toMatchObject({
-        claims: {anonymousClaims: 3},
+        claims: {count: 3, isAnonCollection: true},
       });
     });  
 
-    test("Fetches Known Claimaints", async () => {
+    test("Fetches Known Claimaints+No Anon Claimaints", async () => {
       const prompt = await getPrompt(
         await getPromptDetailsFromUrl({url: "https://https://archiveofourown.org/collections/test_prompt_meme_2024/prompts/3583348"})
       );
       expect(prompt).toMatchObject({
-        claims: {knownClaimaints: ["RabbitPie","enigmalea"]},
+        claims: {count: 2, isAnonCollection: false, claimantUsernames:["RabbitPie","enigmalea"]},
       });
     });  
  
@@ -207,10 +217,7 @@ describe("Gets url from data", () => {
           //   relationships: ['Lan Huan | Lan Xichen/Meng Yao | Jin Guangyao'],
           //   additional: ['Crack Treated Seriously'],
           // },
-          // claims: {
-          //   anonymousClaims: 3,
-          //   knownClaimaints: [],
-          // },
+          // claims: {count: 3, isAnonCollection: true;},
           // title: "jgy reincarnates as a cockroach",
           // collectionName: "mo_dao_zu_shi_kink_meme_2020",
           // id: "1909048",

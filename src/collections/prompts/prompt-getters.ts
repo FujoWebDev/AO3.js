@@ -1,7 +1,8 @@
 import {
   Author,
   WorkRatings,
-  WorkWarnings
+  WorkWarnings,
+  Prompt
 } from "types/entities"
 import { PromptPage } from "../../page-loaders";
 
@@ -118,10 +119,30 @@ export const getPromptRelationships = ($promptPage: PromptPage): string[] => {
   return ships;
 };
 
-export const getPromptAnonClaims = ($promptPage: PromptPage): number => {
-  return 123456;
-};
+export const getPromptClaims = ($promptPage: PromptPage): Prompt["claims"] => {
+  const claimNodesText = $promptPage(".commas.index.group").text().trim();
 
-export const getPromptKnownClaimaints = ($promptPage: PromptPage): string[] => {
-  return ["TODO"];
-};
+  //There are no claims
+  if(claimNodesText === "") return {count: 0} as Prompt["claims"];
+
+  const regexAnonCount = /([^ ]*) anonymous/g
+  const captures = regexAnonCount.exec(claimNodesText);
+
+   if (!captures) {
+    //No anon claims. Get known claims:
+      const claimants:string[] = [];
+
+      const lis = $promptPage("div.claims li").each(function (i, element) {
+        claimants[i] = $promptPage(element).text().trim();
+      });
+
+      if(lis.length === 0) throw new Error("Could not process Claimants");
+      return {count: lis.length, isAnonCollection: false, claimantUsernames: claimants} as Prompt["claims"];
+   };
+
+  //There are anonymous claimes
+  const anonCount = Number(captures[1].replace(/,/g, ""));
+  if (Number.isNaN(anonCount)) throw new Error("Error processing prompt anonymous claim count: NaN");
+
+  return {count: anonCount, isAnonCollection: true} as Prompt["claims"];
+}
