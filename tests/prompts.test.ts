@@ -207,9 +207,9 @@ describe("Gets url from data", () => {
         });  
       });    
 
-    test("Fetches Prompt Categores (0 as null)", async () => {
+    test("Fetches Prompt Categores (0 as null) with multiple fills", async () => {
       const prompt = await getPrompt(
-        await getPromptDetailsFromUrl({url: "http://www.archiveofourown.org/collections/test_prompt_meme_2024/prompts/3583348"})
+        await getPromptDetailsFromUrl({url: "http://www.archiveofourown.org/collections/mo_dao_zu_shi_kink_meme_2020/prompts/1909048"})
       );
       expect(prompt).toMatchObject({
         categories: null,
@@ -240,17 +240,17 @@ describe("Gets url from data", () => {
           author: "Anonymous",
           fandoms: ['陈情令 | The Untamed (TV)'],
 
-          // tags: {
-          //   warnings: ["Author Chose Not To Use Archive Warnings"],
-          //   characters: [],
-          //   relationships: ['Lan Huan | Lan Xichen/Meng Yao | Jin Guangyao'],
-          //   additional: ['Crack Treated Seriously'],
-          // },
-          // claims: {count: 3, isAnonCollection: true;},
-          // title: "jgy reincarnates as a cockroach",
-          // collectionName: "mo_dao_zu_shi_kink_meme_2020",
-          // id: "1909048",
-          // filled: true,
+          tags: {
+            warnings: ["Author Chose Not To Use Archive Warnings"],
+            characters: [],
+            relationships: ['Lan Huan | Lan Xichen/Meng Yao | Jin Guangyao'],
+            additional: ['Crack Treated Seriously'],
+          },
+          claims: {count: 3, isAnonCollection: true;},
+          title: "jgy reincarnates as a cockroach",
+          collectionName: "mo_dao_zu_shi_kink_meme_2020",
+          id: "1909048",
+          filled: true,
           // fills: [
           //   {//Fill 1
           //     id: "29946057",
