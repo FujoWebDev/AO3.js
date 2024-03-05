@@ -130,34 +130,43 @@ ar
 * **summary**: The test description of the prompt, as html
 * **collectionDisplayTitle**: the title displayed on the collection pages and in tags. Not the same as collectionName, which is used to contruct the collection's url. 
 * **ratings**: a list of the requested ratings on the prompt. The prompt will display the highest of these on its UI. If the prompt has no ratings, "Not Rated" will be returned.
-* **claims**: [Object] claims exist when users have "claimed" a prompt, but not yet filled it. Claims can have these structures: 
+* **claims**: [Object] claims exist when users have "claimed" a prompt, but not yet filled it. Claims can have three different types of structres. To check if a variable exists, you can check the variable it depends on (eg. check `count > 0 before` accessing isAnonCollection and `inAnonCollection === false` before accessing claimerUsernames), or use `if "isAnonCollection" in variable`.
   * `{count: 0}` There are no claims. We don't know if the collection is anonymous or not.
   * `{count: number; isAnonCollection: true; }` There is a non-zero amount of anonymous claims.
   * `{count: number; isAnonCollection: false; claimerUsernames: string[]}` There is a non-zero amount of claimers, and the collection isn't anonymous, and you can return an array of strings containing their **usernames** not pseuds; (it's unknown if they have pseuds).
-
-----
+* **categories**: `null | string[]`<br>
+null if no categories are selected, or an array of strings (WorkCategory objects).<br>
 
 # TODO: 
-1. Query selectors need to be redone: Currently, they may pick up the prompt fills!! ... oh man, I need the prompt fills!
 
-2. As part of the query selector issue: More thorough tests to test different types of prompts in their entirety. The goal is not to have them pass immediately. I'll have to see how the series-getter approaches the issue of multiple works associated with a a request.
-    1. Multiple known claimants 
-       * ✅ [Mock created](/tests/mocks/data/collections/test_prompt_meme_2024/prompts/3583348.html)
-       * ✅ Test Created 
-       * 🟡 Test not Passed    
-    2. Multiple anon claimants
-       * ✅ [Mock Created](/tests/mocks/data/collections/mo_dao_zu_shi_kink_meme_2020/prompts/1909048.html)
-       * ✅ Test Created <small>(prompts.test.ts > describe("Fetches full Prompt") callback)</small>
-       * 🟡 Test not Passed
-    3. Multiple fills
-       * ✅ [Mock Created - Same as Previous](/tests/mocks/data/collections/mo_dao_zu_shi_kink_meme_2020/prompts/1909048.html)
-       * ✅ Test Created <small>(prompts.test.ts > describe("Fetches full Prompt") callback)</small>
-       * 🟡 Test not Passed
+* 🟡 Get Categories
+  * ✅ Establish Category structure
+  * 🟡 Create test for no categories
+  * 🟡 Create test for one category
+  * 🟡 Create test for multiple categories
+  * 🟡 Pass tests
 
+in Fandom Coders, the idea of returning `null` if there are no warnings was brought up. However, I (RabbitPie) am not sure which variable would be considered "no warnings"? No Archive Warnings apply? "Author chose not to use archive warnings"?
 
 ✅ Task Complete
 🟡 Task Incomplete or not started
 
---- 
+# Done:
+
+1. As part of the query selector issue: More thorough tests to test different types of prompts in their entirety. The goal is not to have them pass immediately. I'll have to see how the series-getter approaches the issue of multiple works associated with a a request.
+    1. Multiple known claimants 
+       * ✅ [Mock created](/tests/mocks/data/collections/test_prompt_meme_2024/prompts/3583348.html)
+       * ✅ Test Created 
+       * ✅ Test Passed    
+    2. Multiple anon claimants
+       * ✅ [Mock Created](/tests/mocks/data/collections/mo_dao_zu_shi_kink_meme_2020/prompts/1909048.html)
+       * ✅ Test Created <small>(prompts.test.ts > describe("Fetches full Prompt") callback)</small>
+       * ✅ Test Passed
+    3. Multiple fills
+       * ✅ [Mock Created - Same as Previous](/tests/mocks/data/collections/mo_dao_zu_shi_kink_meme_2020/prompts/1909048.html)
+       * ✅ Test Created <small>(prompts.test.ts > describe("Fetches full Prompt") callback)</small>
+       * ✅ Test Passed
+
+
 
 

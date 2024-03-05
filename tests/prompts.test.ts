@@ -162,7 +162,7 @@ describe("Gets url from data", () => {
 
     test("Fetches 0 claims", async () => {
       const prompt = await getPrompt(
-        await getPromptDetailsFromUrl({url: "https://https://archiveofourown.org/collections/test_prompt_meme_2024/prompts/3573835"})
+        await getPromptDetailsFromUrl({url: "https://archiveofourown.org/collections/test_prompt_meme_2024/prompts/3573835"})
       );
       expect(prompt).toMatchObject({
         claims: {count: 0},
@@ -171,7 +171,7 @@ describe("Gets url from data", () => {
 
     test("Fetches Anon Claims + No Known Claimaints", async () => {
       const prompt = await getPrompt(
-        await getPromptDetailsFromUrl({url: "https://https://archiveofourown.org/collections/mo_dao_zu_shi_kink_meme_2020/prompts/1909048"})
+        await getPromptDetailsFromUrl({url: "https://archiveofourown.org/collections/mo_dao_zu_shi_kink_meme_2020/prompts/1909048"})
       );
       expect(prompt).toMatchObject({
         claims: {count: 3, isAnonCollection: true},
@@ -180,13 +180,42 @@ describe("Gets url from data", () => {
 
     test("Fetches Known Claimaints+No Anon Claimaints", async () => {
       const prompt = await getPrompt(
-        await getPromptDetailsFromUrl({url: "https://https://archiveofourown.org/collections/test_prompt_meme_2024/prompts/3583348"})
+        await getPromptDetailsFromUrl({url: "https://archiveofourown.org/collections/test_prompt_meme_2024/prompts/3583348"})
       );
       expect(prompt).toMatchObject({
         claims: {count: 2, isAnonCollection: false, claimantUsernames:["RabbitPie","enigmalea"]},
       });
     });  
  
+
+    //WIP PROMPTS
+    test("Fetches Prompt Categores (multiple)", async () => {
+      const prompt = await getPrompt(
+        await getPromptDetailsFromUrl({url: "https://www.archiveofourown.org/collections/test_prompt_meme_2024/prompts/3573835"})
+      );
+      expect(prompt).toMatchObject({
+        categories: ["M/M", "Other"],
+      });
+    });
+
+      test("Fetches Prompt Categores (single)", async () => {
+        const prompt = await getPrompt(
+          await getPromptDetailsFromUrl({url: "https://www.archiveofourown.org/collections/mo_dao_zu_shi_kink_meme_2020/prompts/1927806"})
+        );
+        expect(prompt).toMatchObject({
+          categories: ["Gen"],
+        });  
+      });    
+
+    test("Fetches Prompt Categores (0 as null)", async () => {
+      const prompt = await getPrompt(
+        await getPromptDetailsFromUrl({url: "http://www.archiveofourown.org/collections/test_prompt_meme_2024/prompts/3583348"})
+      );
+      expect(prompt).toMatchObject({
+        categories: null,
+      });
+    });      
+
 
     
     });
@@ -206,7 +235,7 @@ describe("Gets url from data", () => {
           postedAt: '30 Nov 2020',
           summary: "<p>Jin Guangyao reincarnates as a cockroach in the Cloud Recesses. Lan Xichen is still in seclusion and enjoys having a little bug friend. Up to you if he knows or just thinks the roach is A-Yao because of a marking or something, or if he doesn't know at all and is just being a friend to all animals. And lonely.</p><p>Bonus: Da-ge spiderbro.</p><p>DNW: Bugfucking, the whole thing being humor. Plz make this stone-cold crack treated seriously.</p>",
           collectionDisplayTitle: "Mó Dào Zǔ Shī | The Untamed Kink Meme 2020",
-          categories: ["No Category"],
+          categories: null,
           ratings: ["Not Rated"],
           author: "Anonymous",
           fandoms: ['陈情令 | The Untamed (TV)'],
@@ -226,7 +255,7 @@ describe("Gets url from data", () => {
           //   {//Fill 1
           //     id: "29946057",
           //     title: "Exoskeletons In My Closet",
-          //     category: "Gen",
+          //     categories: "Gen",
           //     updatedAt: "19 Nov 2021",
           //     summary: "<p>After dying, the last thing Jin Guangyao expected was to wake up again. </p><p>Finding himself reincarnated in the Cloud Recesses is a bit of a shock; particularly given the fact that he's in the perfect position to witness the exact effects the fallout of his bad choices have on the only true friend he ever had. Struck by guilt, he's determined to do right for once, and find a way to make things better for Lan Xichen. </p><p>A task which is significantly complicated by the fact that he wasn't actually reborn as a human. Instead he's… <i>a cockroach?!</i> </p><p>Can Jin Guangyao help Lan Xichen, despite being roach-ified? </p><p>(…And <i>why on earth</i> does it look like that big, hairy spider glowering at him from the corner across the Hanshi is trying to sharpen a tiny stick into a <i>sabre?</i>)</p>",
           //     rating: "General Audiences",
@@ -265,7 +294,7 @@ describe("Gets url from data", () => {
           //   {
           //     id: "29946057",
           //     title: "Exoskeletons In My Closet",
-          //     category: ["Gen"],
+          //     categories: ["Gen"],
           //     publishedAt: "19 Nov 2021",
           //     summary: "<p>After dying, the last thing Jin Guangyao expected was to wake up again. </p><p>Finding himself reincarnated in the Cloud Recesses is a bit of a shock; particularly given the fact that he's in the perfect position to witness the exact effects the fallout of his bad choices have on the only true friend he ever had. Struck by guilt, he's determined to do right for once, and find a way to make things better for Lan Xichen. </p><p>A task which is significantly complicated by the fact that he wasn't actually reborn as a human. Instead he's… <i>a cockroach?!</i> </p><p>Can Jin Guangyao help Lan Xichen, despite being roach-ified? </p><p>(…And <i>why on earth</i> does it look like that big, hairy spider glowering at him from the corner across the Hanshi is trying to sharpen a tiny stick into a <i>sabre?</i>)</p>",
           //     rating: "General Audiences",
@@ -296,7 +325,7 @@ describe("Gets url from data", () => {
           //   {
           //     id: "31040711",
           //     title: "Bugyao and Xichen",
-          //     category: "M/M",
+          //     categories: "M/M",
           //     publishedAt: "02 May 2021",
           //     summary: '<p>Even reincarnated as a tiny bug, Er-Ge will love and care for his A-Yao and give him the best life possible.</p>',
           //     rating: "Not Rated",

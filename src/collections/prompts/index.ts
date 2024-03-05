@@ -14,7 +14,8 @@ import {
   getPromptCharacters,
   getPromptRelationships,
   getPromptWarnings,
-  getPromptClaims
+  getPromptClaims,
+  getPromptCategories
 } from "./prompt-getters"
 
 import {loadPromptPage} from "../../page-loaders"
@@ -50,7 +51,7 @@ export const getPrompt = async ({
     id: "TODO",
     filled: true,
     fills: [],
-    categories: []
+    categories: getPromptCategories(promptPage)
   }
 
 }

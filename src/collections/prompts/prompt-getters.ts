@@ -146,3 +146,11 @@ export const getPromptClaims = ($promptPage: PromptPage): Prompt["claims"] => {
 
   return {count: anonCount, isAnonCollection: true} as Prompt["claims"];
 }
+
+export const getPromptCategories = ($promptPage: PromptPage): Prompt["categories"] => {
+  
+
+
+
+  return []
+}
