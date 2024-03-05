@@ -246,7 +246,7 @@ describe("Gets url from data", () => {
             relationships: ['Lan Huan | Lan Xichen/Meng Yao | Jin Guangyao'],
             additional: ['Crack Treated Seriously'],
           },
-          claims: {count: 3, isAnonCollection: true;},
+          claims: {count: 3, isAnonCollection: true},
           title: "jgy reincarnates as a cockroach",
           collectionName: "mo_dao_zu_shi_kink_meme_2020",
           id: "1909048",

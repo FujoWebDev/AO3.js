@@ -2,7 +2,8 @@ import {
   Author,
   WorkRatings,
   WorkWarnings,
-  Prompt
+  Prompt,
+  WorkCategory
 } from "types/entities"
 import { PromptPage } from "../../page-loaders";
 
@@ -148,9 +149,11 @@ export const getPromptClaims = ($promptPage: PromptPage): Prompt["claims"] => {
 }
 
 export const getPromptCategories = ($promptPage: PromptPage): Prompt["categories"] => {
+  const categoriesString = $promptPage("span.category:first span.text").text().trim();  
   
+  if (categoriesString === "No category") return null; 
 
+  const categories = categoriesString.split(", ")
 
-
-  return []
+  return categories as WorkCategory[];
 }

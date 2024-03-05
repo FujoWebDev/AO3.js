@@ -139,13 +139,13 @@ null if no categories are selected, or an array of strings (WorkCategory objects
 
 # TODO: 
 
-* 🟡 Get Categories
+* ✅ Get Categories
   * ✅ Establish Category structure
   * ✅ Create test for no categories
   * ✅ Create test for one category
   * ✅ Create test for multiple categories
   * ✅ Create test for multiple fills
-  * 🟡 Pass tests
+  * ✅ Pass tests
 
 in Fandom Coders, the idea of returning `null` if there are no warnings was brought up. However, I (RabbitPie) am not sure which variable would be considered "no warnings"? No Archive Warnings apply? "Author chose not to use archive warnings"?
 
