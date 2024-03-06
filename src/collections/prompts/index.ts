@@ -47,8 +47,8 @@ export const getPrompt = async ({
     //TODO:
     claims: getPromptClaims(promptPage),
     title: "TODO",
-    collectionName: "TODO",
-    id: "TODO",
+    collectionName: collectionName,
+    id: promptId,
     filled: true,
     fills: [],
     categories: getPromptCategories(promptPage)

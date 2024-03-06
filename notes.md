@@ -139,13 +139,15 @@ null if no categories are selected, or an array of strings (WorkCategory objects
 
 # TODO: 
 
-* ✅ Get Categories
-  * ✅ Establish Category structure
-  * ✅ Create test for no categories
-  * ✅ Create test for one category
-  * ✅ Create test for multiple categories
-  * ✅ Create test for multiple fills
-  * ✅ Pass tests
+* ✅ Get collectionName
+* ✅ get collection id
+* 🟡 Get additional tags from prompts with multiple fills
+* 🟡 Get character tags from prompts with multiple fills
+* 🟡 Get warning tags from prompts with multiple fills
+* 🟡 get prompt title (anon and not anon author, title and no title prompt meme)
+* 🟡 get works
+* 🟡 reimplement claims, possibly as `claims: { count: number, usernames: string[] | null } | null;`
+
 
 in Fandom Coders, the idea of returning `null` if there are no warnings was brought up. However, I (RabbitPie) am not sure which variable would be considered "no warnings"? No Archive Warnings apply? "Author chose not to use archive warnings"?
 
@@ -168,6 +170,13 @@ in Fandom Coders, the idea of returning `null` if there are no warnings was brou
        * ✅ Test Created <small>(prompts.test.ts > describe("Fetches full Prompt") callback)</small>
        * ✅ Test Passed
 
+* ✅ Get Categories
+  * ✅ Establish Category structure
+  * ✅ Create test for no categories
+  * ✅ Create test for one category
+  * ✅ Create test for multiple categories
+  * ✅ Create test for multiple fills
+  * ✅ Pass tests
 
 
 

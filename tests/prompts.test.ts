@@ -216,10 +216,25 @@ describe("Gets url from data", () => {
       });
     });      
 
+    test("Fetches collectionName & PromptID", async () => {
+      const prompt = await getPrompt(
+        await getPromptDetailsFromUrl({url: "http://www.archiveofourown.org/collections/mo_dao_zu_shi_kink_meme_2020/prompts/1909048"})
+      );
+      expect(prompt).toMatchObject({
+        collectionName: "mo_dao_zu_shi_kink_meme_2020",
+        id: "1909048"
+      });
+    }); 
 
     
     });
 
+
+
+
+
+
+    
 
 
     describe("Fetches full Prompt", () => {
