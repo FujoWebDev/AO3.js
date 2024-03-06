@@ -82,7 +82,7 @@ export const getPromptFandoms = ($promptPage: PromptPage): string[] => {
 
 export const getPromptAdditionalTags = ($promptPage: PromptPage): string[] => {
   const freeform: string[] = [];
-  $promptPage("li.freeforms a.tag").each(function (i) {
+  $promptPage("ul.tags.commas:first li.freeforms a.tag").each(function (i) {
     freeform[i] = $promptPage(this).text().trim();
   });
   return freeform;
@@ -91,7 +91,7 @@ export const getPromptAdditionalTags = ($promptPage: PromptPage): string[] => {
 export const getPromptWarnings = ($promptPage: PromptPage): WorkWarnings[] => {
   const warnings: WorkWarnings[] = [];
 
-  $promptPage("li.warnings a.tag").each(function (i, element) {
+  $promptPage("ul.tags.commas:first li.warnings a.tag").each(function (i, element) {
     const warning = $promptPage(element).text().trim();
     if (!Object.values(WorkWarnings).includes(warning as WorkWarnings)) {
       throw new Error("An unknown warning was found on the page");
@@ -99,13 +99,14 @@ export const getPromptWarnings = ($promptPage: PromptPage): WorkWarnings[] => {
 
     warnings[i] = warning as WorkWarnings;
   });
+  if (warnings.length === 0) return ["Creator Chose Not To Use Archive Warnings"] as WorkWarnings[];
   return warnings;
 };
 
 export const getPromptCharacters = ($promptPage: PromptPage): string[] => {
   const characters: string[] = [];
 
-  $promptPage("li.characters a.tag").each(function (i, character) {
+  $promptPage("ul.tags.commas:first li.characters a.tag").each(function (i, character) {
     characters[i] = $promptPage(character).text().trim();
   });
   return characters;
@@ -114,7 +115,7 @@ export const getPromptCharacters = ($promptPage: PromptPage): string[] => {
 export const getPromptRelationships = ($promptPage: PromptPage): string[] => {
   const ships: string[] = [];
 
-  $promptPage("li.relationships a.tag").each(function (i, ship) {
+  $promptPage("ul.tags.commas:first li.relationships a.tag").each(function (i, ship) {
     ships[i] = $promptPage(ship).text().trim();
   });
   return ships;

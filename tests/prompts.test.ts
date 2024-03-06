@@ -142,22 +142,45 @@ describe("Gets url from data", () => {
       });
     });
 
-    test("Fetches fandoms, addition, characters, relationships and warnings tags", async () => {
+    test("Fetches fandoms, additional, characters, relationships and warnings (multiple warning tags)", async () => {
       const prompt = await getPrompt(
         await getPromptDetailsFromUrl({
-          url: "https://archiveofourown.org/collections/test_prompt_meme_2024/prompts/3573835",
+          url: "https://archiveofourown.org/collections/test_prompt_meme_2024/prompts/3574012",
         })
       );
       expect(prompt).toMatchObject({
-        fandoms: ["SD Gundam G Generation Series (Video Games)", "Babel - R. F. Kuang"],
+        fandoms: ["K (Anime)", "U2 (Band)"],
         tags: {
-          warnings: ["Creator Chose Not To Use Archive Warnings"],
-          characters: ["Kate Schmidt (Fear Street)","Sa Beining","Ffion Foxwell"],
-          relationships: ["Sophie Lee/Rune (Sdorica)","CC-2224 | Cody & CT-7567 | Rex","Denji/Mitaka Asa"],
-          additional: ["Ewok Species (Star Wars)","FS Lobby Discord's GP Predictions Game","Natasha \"Phoenix\" Trace Needs a Hug"]
+          warnings: ["Creator Chose Not To Use Archive Warnings", "No Archive Warnings Apply",
+          "Graphic Depictions Of Violence",
+          "Major Character Death",
+          "Rape/Non-Con"],
+          characters: ["Klaatu","Kim Jikang | JK", "Uuma | Souma Yoshimi"],
+          relationships: ["lkay Gündoğan/Rodrigo Hernández","Fatima Jha/Rufus Weller"],
+          additional: ["Mentioned Other K-pop Artist(s)","P. T. Barnum Needs a Hug","Bai Yu/Zhu Yilong Character Combinations"]
         }
       });
     });
+
+    test("Fetches fandoms, additional, characters, relationships and warnings tags (no warning tag, multiple fills)", async () => {
+      const prompt = await getPrompt(
+        await getPromptDetailsFromUrl({
+          url: "https://archiveofourown.org/collections/mo_dao_zu_shi_kink_meme_2020/prompts/1909048",
+        })
+      );
+      expect(prompt).toMatchObject({
+        fandoms: ["陈情令 | The Untamed (TV)"],
+        tags: {
+          warnings: ["Creator Chose Not To Use Archive Warnings"],
+          characters: [],
+          relationships: ["Lan Huan | Lan Xichen/Meng Yao | Jin Guangyao"],
+          additional: ["Crack Treated Seriously"]
+        }
+      });
+    });    
+
+
+
 
 
     test("Fetches 0 claims", async () => {
@@ -256,7 +279,7 @@ describe("Gets url from data", () => {
           fandoms: ['陈情令 | The Untamed (TV)'],
 
           tags: {
-            warnings: ["Author Chose Not To Use Archive Warnings"],
+            warnings: ["Creator Chose Not To Use Archive Warnings"],
             characters: [],
             relationships: ['Lan Huan | Lan Xichen/Meng Yao | Jin Guangyao'],
             additional: ['Crack Treated Seriously'],

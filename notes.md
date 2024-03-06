@@ -139,11 +139,12 @@ null if no categories are selected, or an array of strings (WorkCategory objects
 
 # TODO: 
 
-* ✅ Get collectionName
-* ✅ get collection id
-* 🟡 Get additional tags from prompts with multiple fills
-* 🟡 Get character tags from prompts with multiple fills
-* 🟡 Get warning tags from prompts with multiple fills
+Questions: 
+* Do we want characters, additional and ship tags to return a null if there are no tags in that category?
+
+* ✅ Get additional tags from prompts with multiple fills
+* ✅ Get character tags from prompts with multiple fills
+* ✅ Get warning tags from prompts with multiple fills
 * 🟡 get prompt title (anon and not anon author, title and no title prompt meme)
 * 🟡 get works
 * 🟡 reimplement claims, possibly as `claims: { count: number, usernames: string[] | null } | null;`
@@ -177,6 +178,7 @@ in Fandom Coders, the idea of returning `null` if there are no warnings was brou
   * ✅ Create test for multiple categories
   * ✅ Create test for multiple fills
   * ✅ Pass tests
-
+* ✅ Get collectionName
+* ✅ get collection id
 
 
