@@ -89,7 +89,7 @@ describe("Gets url from data", () => {
       });
     });
 
-    test("Fetches \"Not Rated\" for no specified ratings", async () => {
+    test("Fetches Ratings: \"Not Rated\" for no specified ratings", async () => {
       const prompt = await getPrompt(
         await getPromptDetailsFromUrl({
           url: "https://archiveofourown.org/collections/mo_dao_zu_shi_kink_meme_2020/prompts/2644428",
@@ -101,7 +101,7 @@ describe("Gets url from data", () => {
       });
     });
 
-    test("Fetches Author(+pseud)", async () => {
+    test("Fetches Author (+pseud)", async () => {
       const prompt = await getPrompt(
         await getPromptDetailsFromUrl({
           url: "https://archiveofourown.org/collections/test_prompt_meme_2024/prompts/3573835",
@@ -115,7 +115,7 @@ describe("Gets url from data", () => {
       });
     });
 
-    test("Fetches Anonymous Author", async () => {
+    test("Fetches Author (Anonymous)", async () => {
       const prompt = await getPrompt(
         await getPromptDetailsFromUrl({
           url: "https://archiveofourown.org/collections/test_prompt_meme_2024/prompts/3574012",
@@ -127,7 +127,7 @@ describe("Gets url from data", () => {
       });
     });
 
-    test("Fetches Non-Pseuded Author", async () => {
+    test("Fetches Author (Non-Pseuded Author)", async () => {
       const prompt = await getPrompt(
         await getPromptDetailsFromUrl({
           url: "https://archiveofourown.org/collections/mo_dao_zu_shi_kink_meme_2020/prompts/2644428",
@@ -183,7 +183,7 @@ describe("Gets url from data", () => {
 
 
 
-    test("Fetches 0 claims", async () => {
+    test("Fetches claims:  0 claims", async () => {
       const prompt = await getPrompt(
         await getPromptDetailsFromUrl({url: "https://archiveofourown.org/collections/test_prompt_meme_2024/prompts/3573835"})
       );
@@ -192,7 +192,7 @@ describe("Gets url from data", () => {
       });
     });      
 
-    test("Fetches Anon Claims + No Known Claimaints", async () => {
+    test("Fetches claims: Anon Claims + No Known Claimaints", async () => {
       const prompt = await getPrompt(
         await getPromptDetailsFromUrl({url: "https://archiveofourown.org/collections/mo_dao_zu_shi_kink_meme_2020/prompts/1909048"})
       );
@@ -201,7 +201,7 @@ describe("Gets url from data", () => {
       });
     });  
 
-    test("Fetches Known Claimaints+No Anon Claimaints", async () => {
+    test("Fetches claims: Known Claimaints+No Anon Claimaints", async () => {
       const prompt = await getPrompt(
         await getPromptDetailsFromUrl({url: "https://archiveofourown.org/collections/test_prompt_meme_2024/prompts/3583348"})
       );
@@ -249,9 +249,7 @@ describe("Gets url from data", () => {
       });
     }); 
 
-    
-    });
-
+  });
 
 
 
