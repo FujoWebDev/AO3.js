@@ -17,4 +17,4 @@ workflows:
           # https://circleci.com/developer/images/image/cimg/node
           version: "18.18"
           # If you are using yarn, change the line below from "npm" to "yarn"
-          pkg-manager: yarn
+          pkg-manager: npm
