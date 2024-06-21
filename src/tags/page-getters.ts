@@ -43,3 +43,11 @@ export const getCanonical = ($tagPage: TagPage) => {
   }
   return $tagPage($tagPage(".merger a.tag")).text();
 };
+
+export const getParentTags = ($tagPage: TagPage) => {
+  const parentTags: string[] = [];
+  $tagPage(".parent ul.tags li").each((_, element) => {
+    parentTags.push($tagPage(element).text());
+  });
+  return parentTags;
+};

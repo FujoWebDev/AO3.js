@@ -196,3 +196,59 @@ describe("Fetches common tag data", () => {
     });
   });
 });
+
+describe("Fetches parent tags", () => {
+  test("Fetches parent tag", async () => {
+    const tag = await getTag({
+      tagName: "Ever Given Container Ship - Anthropomorphic",
+    });
+
+    expect(tag).toMatchObject({
+      name: "Ever Given Container Ship - Anthropomorphic",
+      parentTags: ["Object and Concept Anthropomorphism"],
+    });
+  });
+
+  test("Fetches no fandom tag", async () => {
+    const tag = await getTag({ tagName: "Original Senator Characters" });
+
+    expect(tag).toMatchObject({
+      name: "Original Senator Characters",
+      parentTags: ["No Fandom"],
+    });
+  });
+
+  test("Fetches multiple parent tags", async () => {
+    const tag = await getTag({ tagName: "Sherlock Holmes" });
+
+    expect(tag).toMatchObject({
+      name: "Sherlock Holmes",
+      parentTags: [
+        "221B Baker Towers",
+        "A Study in Emerald - Neil Gaiman",
+        "A Study in Terror (1965)",
+        "Enola Holmes (Movies)",
+        "Enola Holmes Series - Nancy Springer",
+        "Hark! A Vagrant",
+        "Holmes & Watson (2018)",
+        "Irene Adler Series - Carole Nelson Douglas",
+        "Mary Russell - Laurie R. King",
+        "Murder by Decree (1979)",
+        "Sherlock & Co. (Podcast)",
+        "Sherlock (TV)",
+        "Sherlock Holmes & Related Fandoms",
+        "Sherlock Holmes (1984 TV)",
+        "Sherlock Holmes (Downey films)",
+        "Sherlock Holmes (Radio 1989-2010 Coules)",
+        "Sherlock Holmes (TV 1965)",
+        "Sherlock Holmes - Arthur Conan Doyle",
+        "Sherlock Holmes Chapter One (Video Game)",
+        "Sherlock Holmes in the 22nd Century (Cartoon)",
+        "Sherlock Holmes: The Awakened (Video Game)",
+        "The Irregulars (TV)",
+        "The Private Life of Sherlock Holmes (1970)",
+        "There Is No Game: Wrong Dimension (Video Game)",
+      ],
+    });
+  });
+});
