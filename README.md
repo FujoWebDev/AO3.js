@@ -23,9 +23,37 @@ Scrapes data from [ao3.org](https://ao3.org). Now with Types™.
 
 ## What it is
 
-Fetch data from AO3 straight to your own JavaScript (or TypeScript) server.
+**AO3.js** is a Node.js (et al.) API for scraping AO3 (Archive of Our Own) data straight to your own JavaScript (or TypeScript) server. It provides an interface to retrieve information on AO3 tags, works, series, and more!
 
-## How to use it
+## What is capable of
+
+| Method                                                | Description                                | Parameters                                                                        | Return Type                                                                                                                    |
+| ----------------------------------------------------- | ------------------------------------------ | --------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| [**`getTag`**](./src/tags/index.ts#L12)               | Retrieves details for a specific AO3 tag.  | `{ tagName: string }` - Name of the tag.                                          | [`Promise<Tag>`](./src/types/entities.ts)                                                                                      |
+| [**`getTagNameById`**](./src/tags/index.ts#L24)       | Gets tag name based on its ID.             | `{ tagId: string }` - Tag ID to look up.                                          | `Promise<string>`                                                                                                              |
+| [**`getWork`**](./src/works/index.ts#L20)             | Fetches metadata for an AO3 work.          | `{ workId: string, chapterId?: string }` - The work ID, with optional chapter ID. | [`Promise<WorkSummary>`](./src/types/entities.ts#L20) \| [`Promise<LockedWorkSummary>`](./src/types/entities.ts#L45)           |
+| [**`getWorkWithChapters`**](./src/works/index.ts#L53) | Fetches a work and its chapter list.       | `{ workId: string }` - The ID of the work.                                        | [`Promise<{ title: string; authors: Author[] \| "Anonymous"; workId: string; chapters: Chapter[] }>`](./src/types/entities.ts) |
+| [**`getSeries`**](./src/series/index.ts#L17)          | Retrieves details for a specific series.   | `{ seriesId: string }` - The ID of the series.                                    | [`Promise<Series>`](./src/types/entities.ts)                                                                                   |
+| [**`getUser`**](./src/users/index.ts#L15)             | Fetches profile information for a user.    | `{ username: string }` - Username of the user to fetch.                           | [`Promise<User>`](./src/types/entities.ts)                                                                                     |
+| [**`setFetcher`**](./src/fetcher.ts#L5)               | Sets a custom fetch function for requests. | `{ fetcher: typeof fetch }` - Custom fetch function.                              | `void`                                                                                                                         |
+
+#### Why Override Fetch?
+
+Using `setFetcher`, you can override the default `fetch` method used by the library. This can be useful if:
+
+- You need to provide custom headers for authentication or API key access.
+- You want to use a different network library for enhanced functionality (e.g., retrying failed requests).
+- You are working in a Node environment without native fetch support and need a polyfill.
+
+### Data Types
+
+- **[`Tag`](./src/types/entities.ts)**: Details about a tag, including `id`, `name`, `category`, and metadata.
+- **[`WorkSummary`](./src/types/entities.ts#L20)** / **[`LockedWorkSummary`](./src/types/entities.ts#L45)**: Summarizes a work, including title, authors, tags, and statistics.
+- **[`Series`](./src/types/entities.ts)**: Information on a series, such as title, authors, works, and publication details.
+- **[`User`](./src/types/entities.ts)**: Profile information for an AO3 user, including pseudonyms, works, bookmarks, and more.
+- **[`Chapter`](./src/types/entities.ts)**: Details about individual chapters within a work.
+
+## Sample usage
 
 With yarn
 
@@ -39,34 +67,46 @@ or npm
 npm install @bobaboard/ao3.js
 ```
 
-Then go to town on your JavaScript (or TypeScript) files
+Then go to town in your JavaScript (or TypeScript) files:
 
 ```ts
-import { getTag } from "@bobaboard/ao3.js";
+import { getTag, getWork } from "@bobaboard/ao3.js";
 
 const tag = await getTag({
   tagName: "Ever Given Container Ship (Anthropomorphic)",
 });
+const work = await getWork({ workId: "123456" });
 ```
 
 Further explanation of AO3.js works and suggestions for how to add to it can be found [in this comment](https://github.com/essential-randomness/AO3.js/issues/2#issuecomment-1032213524). Also consider taking a look at [TypeScript types](./types/entities.ts).
 
-## A note about CORS
+## Important Notes
+
+### Parameters Are Objects!
+
+Most methods in the public interface expect parameters to be passed as objects rather than individual arguments. This allows flexibility in expanding parameters without breaking the interface.
+
+### If you run into CORS errors
 
 This library is meant to be used as part of a NodeJS application and run on a server. If you try to run it as part of a browser application, you'll run into an error about [Cross-Origin Resource Sharing (CORS)](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS). In short—for your protection—browsers block data requests from a website to another, unless the destination website specifically allows such requests to be made. AO3 doesn't.
 
 If you want to run a browser application written with this library, users will need a browser extension to allow CORS requests, [like this one for Chrome](https://chrome.google.com/webstore/detail/allow-cors-access-control/lhobafahddgcelffkeicbaginigeejlf?hl=en).
 
-## Difference between this and the Python library
+### Difference between this and the Python library
 
 JavaScript vs Python aside, this is a newer library that is being actively developed, and is not feature complete. If you'd like for us to prioritize a feature, [please open an issue](https://github.com/essential-randomness/ao3.js/issues/new).
 
-# Documentation
+## How It Works
 
-AO3.js uses [the fetch
-API](https://developer.mozilla.org/en-US/docs/Web/API/fetch) to fetch the HTML
-making up an AO3 page and [cheerio](https://cheerio.js.org/) to make it a DOM
-tree for our goals. For an introduction to this kind of scraping, [see
+AO3.js uses:
+
+- [the fetch
+  API](https://developer.mozilla.org/en-US/docs/Web/API/fetch) to fetch the HTML
+  making up an AO3 page
+- [cheerio](https://cheerio.js.org/) to make it a DOM
+  tree for our goals.
+
+For an introduction to this kind of scraping, [see
 here](https://blog.logrocket.com/parsing-html-nodejs-cheerio/).
 
 For the rest of the owl, you can reach us through our [Issues
@@ -179,48 +219,6 @@ setFetcher(async (...params: Parameters<typeof fetch>) => {
 
 The logging will help you understand what's going on, but it's by no mean necessary.
 
-# Volunteering
+# How do I help?
 
-...for fun and zero profit!
-
-## The Ideal Volunteer™
-
-You.
-
-## The Ideal Volunteer™, jokes aside
-
-AO3.js is a great entry point into JavaScript (or TypeScript) programming for inexperienced and experienced developers alike. The library itself is pretty straightforward, so you can get a good overview of the How and Why™ without a lot of additional complexity.
-
-## How to add more data to scrape
-
-The best way to get to work on AO3.js is to choose a new set of data to scrape.
-
-### Choose your data
-
-To identify what we're missing (and tour the codebase as a bonus):
-
-1. Take a look at our [TypeScript types](./types/entities.ts). If the data you seek is not there, we most likely can't scrape it (yet).
-2. See if there's already [an open issue](https://github.com/essential-randomness/ao3.js/issues/) for the type of data you seek.
-3. See if we're aready [scraping the page](./src/pages-loaders.ts) the data resides in.
-
-Congratulations, you now have your first contribution carved for you!
-
-### Contribution path
-
-Once you've chosen the type of data, it's time to define its shape.
-
-1. If there's already [an open issue](https://github.com/essential-randomness/ao3.js/issues/) describing the TypeScript type of the data you want to add, let us know you intend to implement the feature.
-2. Submit a PR with the new TypeScript type you intend to implement under [`types/entities.ts`](./types/entities.ts), so we can review the API together. Alternatively, you can [open a new issue](https://github.com/essential-randomness/ao3.js/issues/new) to discuss beforehand.
-
-If you don't know what any of this means, [open a new issue](https://github.com/essential-randomness/ao3.js/issues/new) anyway and let us help you through the process.
-
-## Other contributions we're seeking
-
-Some ideas off the top of my head:
-
-- Set up our release process
-- Set up linting/styling and all the bell and whistles that make open source projects cool
-- Autogenerate our documentation from TypeScript types
-- Teach us all how to do semantic releases.
-
-Honestly, this library is your oyster. Just open an issue, and let's roll!
+See (CONTRIBUTE.md)[CONTRIBUTE.md].
