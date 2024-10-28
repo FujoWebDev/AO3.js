@@ -27,15 +27,15 @@ Scrapes data from [ao3.org](https://ao3.org). Now with Types™.
 
 ## What is capable of
 
-| Method                                                | Description                                | Parameters                                                                        | Return Type                                                                                                                    |
-| ----------------------------------------------------- | ------------------------------------------ | --------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
-| [**`getTag`**](./src/tags/index.ts#L17)               | Retrieves details for a specific AO3 tag.  | `{ tagName: string }` - Name of the tag.                                          | [`Promise<Tag>`](./src/types/entities.ts)                                                                                      |
-| [**`getTagNameById`**](./src/tags/index.ts#L24)       | Gets tag name based on its ID.             | `{ tagId: string }` - Tag ID to look up.                                          | `Promise<string>`                                                                                                              |
-| [**`getWork`**](./src/works/index.ts#L20)             | Fetches metadata for an AO3 work.          | `{ workId: string, chapterId?: string }` - The work ID, with optional chapter ID. | [`Promise<WorkSummary>`](./src/types/entities.ts#L20) \| [`Promise<LockedWorkSummary>`](./src/types/entities.ts#L45)           |
-| [**`getWorkWithChapters`**](./src/works/index.ts#L53) | Fetches a work and its chapter list.       | `{ workId: string }` - The ID of the work.                                        | [`Promise<{ title: string; authors: Author[] \| "Anonymous"; workId: string; chapters: Chapter[] }>`](./src/types/entities.ts) |
-| [**`getSeries`**](./src/series/index.ts#L17)          | Retrieves details for a specific series.   | `{ seriesId: string }` - The ID of the series.                                    | [`Promise<Series>`](./src/types/entities.ts)                                                                                   |
-| [**`getUser`**](./src/users/index.ts#L15)             | Fetches profile information for a user.    | `{ username: string }` - Username of the user to fetch.                           | [`Promise<User>`](./src/types/entities.ts)                                                                                     |
-| [**`setFetcher`**](./src/fetcher.ts#L5)               | Sets a custom fetch function for requests. | `{ fetcher: typeof fetch }` - Custom fetch function.                              | `void`                                                                                                                         |
+| Method                                                | Description                                | Parameters                                                                        | Return Type                                                                                                                |
+| ----------------------------------------------------- | ------------------------------------------ | --------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| [**`getTag`**](./src/tags/index.ts#L17)               | Retrieves details for a specific AO3 tag.  | `{ tagName: string }` - Name of the tag.                                          | [`Promise<Tag>`](./types/entities.ts)                                                                                      |
+| [**`getTagNameById`**](./src/tags/index.ts#L24)       | Gets tag name based on its ID.             | `{ tagId: string }` - Tag ID to look up.                                          | `Promise<string>`                                                                                                          |
+| [**`getWork`**](./src/works/index.ts#L20)             | Fetches metadata for an AO3 work.          | `{ workId: string, chapterId?: string }` - The work ID, with optional chapter ID. | [`Promise<WorkSummary>`](./types/entities.ts#L20) \| [`Promise<LockedWorkSummary>`](./types/entities.ts#L45)               |
+| [**`getWorkWithChapters`**](./src/works/index.ts#L53) | Fetches a work and its chapter list.       | `{ workId: string }` - The ID of the work.                                        | [`Promise<{ title: string; authors: Author[] \| "Anonymous"; workId: string; chapters: Chapter[] }>`](./types/entities.ts) |
+| [**`getSeries`**](./src/series/index.ts#L17)          | Retrieves details for a specific series.   | `{ seriesId: string }` - The ID of the series.                                    | [`Promise<Series>`](./types/entities.ts)                                                                                   |
+| [**`getUser`**](./src/users/index.ts#L15)             | Fetches profile information for a user.    | `{ username: string }` - Username of the user to fetch.                           | [`Promise<User>`](./types/entities.ts)                                                                                     |
+| [**`setFetcher`**](./src/fetcher.ts#L5)               | Sets a custom fetch function for requests. | `{ fetcher: typeof fetch }` - Custom fetch function.                              | `void`                                                                                                                     |
 
 #### Why Override Fetch?
 
@@ -47,11 +47,11 @@ Using `setFetcher`, you can override the default `fetch` method used by the libr
 
 ### Data Types
 
-- **[`Tag`](./src/types/entities.ts)**: Details about a tag, including `id`, `name`, `category`, and metadata.
-- **[`WorkSummary`](./src/types/entities.ts#L20)** / **[`LockedWorkSummary`](./src/types/entities.ts#L45)**: Summarizes a work, including title, authors, tags, and statistics.
-- **[`Series`](./src/types/entities.ts)**: Information on a series, such as title, authors, works, and publication details.
-- **[`User`](./src/types/entities.ts)**: Profile information for an AO3 user, including pseudonyms, works, bookmarks, and more.
-- **[`Chapter`](./src/types/entities.ts)**: Details about individual chapters within a work.
+- **[`Tag`](./types/entities.ts)**: Details about a tag, including `id`, `name`, `category`, and metadata.
+- **[`WorkSummary`](./types/entities.ts#L20)** / **[`LockedWorkSummary`](./types/entities.ts#L45)**: Summarizes a work, including title, authors, tags, and statistics.
+- **[`Series`](./types/entities.ts)**: Information on a series, such as title, authors, works, and publication details.
+- **[`User`](./types/entities.ts)**: Profile information for an AO3 user, including pseudonyms, works, bookmarks, and more.
+- **[`Chapter`](./types/entities.ts)**: Details about individual chapters within a work.
 
 ## Sample usage
 
