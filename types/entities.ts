@@ -161,6 +161,7 @@ export interface WorkSummary {
 }
 
 export interface LockedWorkSummary {
+  id: string;
   locked: true;
 }
 

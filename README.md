@@ -113,7 +113,7 @@ For the rest of the owl, you can reach us through our [Issues
 tab](https://github.com/essential-randomness/ao3.js/issues), or at [Fandom
 Coders](https://fancoders.com/).
 
-## `RefernceError`: `fetch` is not defined
+## `ReferenceError`: `fetch` is not defined
 
 This error means your runtime (e.g. NodeJS) does not include a `fetch`
 implementation. The easiest way to fix this issue, is to switch to a runtime

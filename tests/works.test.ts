@@ -566,6 +566,7 @@ describe("Checks status of a restricted work.", () => {
     const work = await getWork({ workId: "15461226" });
 
     expect(work).toMatchObject({
+      id: "15461226",
       locked: true,
     });
   });

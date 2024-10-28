@@ -49,6 +49,7 @@ export const getWork = async ({
 
   if (getWorkLocked(workPage)) {
     return {
+      id: workId,
       locked: true,
     };
   }
