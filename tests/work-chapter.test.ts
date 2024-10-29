@@ -87,7 +87,13 @@ describe("Fetches chapter of work", () => {
 
       expect(work).toMatchObject({
         id: "37214506",
-        authors: "Anonymous",
+        authors: [
+          {
+            username: "Anonymous",
+            pseud: "Anonymous",
+            anonymous: true,
+          },
+        ],
         title: "AvengersGC",
         words: 11466,
         language: "English",
@@ -147,7 +153,13 @@ describe("Fetches chapter of work", () => {
 
     expect(work).toMatchObject({
       id: "168768",
-      authors: "Anonymous",
+      authors: [
+        {
+          username: "Anonymous",
+          pseud: "Anonymous",
+          anonymous: true,
+        },
+      ],
       title: "Fill",
       words: 447,
       language: "English",

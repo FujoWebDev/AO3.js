@@ -49,7 +49,7 @@ export const getWork = async ({
 
   if (getWorkLocked(workPage)) {
     return {
-      id: workId,
+      id: workId.toString(),
       locked: true,
     };
   }
@@ -59,7 +59,7 @@ export const getWork = async ({
   const chapterIndex = getChapterIndex(workPage);
 
   return {
-    id: workId,
+    id: workId.toString(),
     authors: getWorkAuthors(workPage),
     title: getWorkTitle(workPage),
     words: getWorkWordCount(workPage),

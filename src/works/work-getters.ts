@@ -9,12 +9,12 @@ import {
 
 import { WorkPage } from "../page-loaders";
 
-export const getWorkAuthors = ($workPage: WorkPage): "Anonymous" | Author[] => {
+export const getWorkAuthors = ($workPage: WorkPage): Author[] => {
   const authorLinks = $workPage("h3.byline a[rel='author']");
   const authors: Author[] = [];
 
   if ($workPage("h3.byline").text().trim() === "Anonymous") {
-    return "Anonymous";
+    return [{ username: "Anonymous", pseud: "Anonymous", anonymous: true }];
   }
 
   if (authorLinks.length !== 0) {
@@ -22,7 +22,11 @@ export const getWorkAuthors = ($workPage: WorkPage): "Anonymous" | Author[] => {
       const url = element.attribs.href;
       const [, username, pseud] = url.match(/users\/(.+)\/pseuds\/(.+)/)!;
 
-      authors.push({ username: username, pseud: decodeURI(pseud) });
+      authors.push({
+        username: username,
+        pseud: decodeURI(pseud),
+        anonymous: false,
+      });
     });
   }
 

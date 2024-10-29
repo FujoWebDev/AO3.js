@@ -173,7 +173,9 @@ describe("Fetches work information", () => {
 
       assert(!work.locked);
 
-      expect(work.authors).toBe("Anonymous");
+      expect(work.authors).toMatchObject([
+        { anonymous: true, pseud: "Anonymous", username: "Anonymous" },
+      ]);
     });
 
     test("Fetches author with username Anonymous", async () => {
@@ -187,6 +189,7 @@ describe("Fetches work information", () => {
         {
           username: "Anonymous",
           pseud: "Anonymous",
+          anonymous: false,
         },
         {
           username: "orphan_account",
@@ -206,6 +209,7 @@ describe("Fetches work information", () => {
         {
           username: "orphan_account",
           pseud: "Anonymous",
+          anonymous: false,
         },
         {
           username: "Butterfly_Dream",

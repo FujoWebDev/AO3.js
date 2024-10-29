@@ -40,7 +40,7 @@ export const getSeriesAuthors = (
   if (
     $seriesPage("dl.meta > dd:nth-of-type(1)").text().trim() === "Anonymous"
   ) {
-    return "Anonymous";
+    return [{ username: "Anonymous", pseud: "Anonymous", anonymous: true }];
   }
 
   if (authorLinks.length !== 0) {
@@ -48,7 +48,11 @@ export const getSeriesAuthors = (
       const url = element.attribs.href;
       const [, username, pseud] = url.match(/users\/(.+)\/pseuds\/(.+)/)!;
 
-      authors.push({ username: username, pseud: decodeURI(pseud) });
+      authors.push({
+        username: username,
+        pseud: decodeURI(pseud),
+        anonymous: false,
+      });
     });
   }
 
@@ -225,7 +229,7 @@ const getSeriesWorkAuthors = (
   const authors: Author[] = [];
 
   if ($work("h4.heading").text().split("by")[1].trim() === "Anonymous") {
-    return "Anonymous";
+    return [{ username: "Anonymous", pseud: "Anonymous", anonymous: true }];
   }
 
   if (authorLinks.length !== 0) {
@@ -233,7 +237,11 @@ const getSeriesWorkAuthors = (
       const url = element.attribs.href;
       const [, username, pseud] = url.match(/users\/(.+)\/pseuds\/(.+)/)!;
 
-      authors.push({ username: username, pseud: decodeURI(pseud) });
+      authors.push({
+        username: username,
+        pseud: decodeURI(pseud),
+        anonymous: false,
+      });
     });
   }
 

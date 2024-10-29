@@ -113,6 +113,7 @@ export interface BasicSeries {
 export interface Author {
   username: string;
   pseud: string;
+  anonymous: boolean;
 }
 
 export interface WorkSummary {
@@ -136,7 +137,9 @@ export interface WorkSummary {
     relationships: string[];
     additional: string[];
   };
-  authors: "Anonymous" | Author[];
+  // If the author is anonymous this array will contain a single
+  // entry whose "anonymous" property is "true".
+  authors: Author[];
   language: string;
   words: number;
   chapters: {
