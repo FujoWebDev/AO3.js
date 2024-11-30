@@ -99,7 +99,7 @@ export enum WorkWarnings {
   MAJOR_CHARACTER_DEATH = "Major Character Death",
   NO_WARNINGS_APPLY = "No Archive Warnings Apply",
   NONCON = "Rape/Non-Con",
-  UNDERAGE = "Underage",
+  UNDERAGE = "Underage Sex",
   CHOOSE_NOT_TO_WARN = "Creator Chose Not To Use Archive Warnings",
 }
 

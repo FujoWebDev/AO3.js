@@ -48,7 +48,7 @@ export const getWorkLanguage = ($workPage: WorkPage): string => {
 export const getWorkRating = ($workPage: WorkPage): WorkRatings => {
   const rating = $workPage("dd.rating a.tag").text().trim();
   if (!Object.values(WorkRatings).includes(rating as WorkRatings)) {
-    throw new Error("An unknown rating was found on the page");
+    throw new Error(`An unknown rating was found on the page: ${rating}`);
   }
   return rating as WorkRatings;
 };

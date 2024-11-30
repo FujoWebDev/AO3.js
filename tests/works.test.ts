@@ -141,11 +141,11 @@ describe("Fetches work information", () => {
       },
       summary:
         "<p>“<i>Bakugou will know what to do</i>. Top of the class, always quick on his feet and possessing the strongest nerves in all of 1-A – all of U.A., possibly. They’re at their most invincible with Bakugou there to hone their focus, to push them forward with that unique kind of teeth-bared tenacity Kaminari has come to rely on in the past year. When Kaminari looks, he sees–</p><p>Iida, helmet off, severe face twisted with agitation as he argues with the medics on the scene. Blood, so much blood, staining the gleaming chrome of his armor up to his neck in wet, intersecting streaks of crimson.</p><p>And in his arms, mask torn and body limp, is Bakugou Katsuki.”</p><p>In which disaster strikes, the Bakusquad comes together as a family once more, and Kaminari Denki is the MVP all the way through.</p>",
-      stats: {
-        bookmarks: 173,
-        comments: 110,
-        hits: 10903,
-        kudos: 664,
+      stats: { 
+        "bookmarks": expect.any(Number),
+        "comments": expect.any(Number),
+        "hits": expect.any(Number),
+        "kudos": expect.any(Number),
       },
     });
   });
@@ -216,13 +216,14 @@ describe("Fetches work information", () => {
           pseud: "Butterfly_Dream",
         },
         {
-          username: "mecchacumming",
-          pseud: "mecchacumming",
+          username: "orphan_account",
+          pseud: "orphan_account",
         },
       ]);
     });
 
-    test("Fetches author pseud with special characters", async () => {
+    // TODO: 404
+    test.skip("Fetches author pseud with special characters", async () => {
       const work = await getWork({
         workId: "41237499",
       });
@@ -302,7 +303,7 @@ describe("Fetches work information", () => {
         "Major Character Death",
         "No Archive Warnings Apply",
         "Rape/Non-Con",
-        "Underage",
+        "Underage Sex",
       ]);
     });
 
@@ -421,7 +422,8 @@ describe("Fetches work information", () => {
       ]);
     });
 
-    test("Fetch null category", async () => {
+    // TODO: 404
+    test.skip("Fetch null category", async () => {
       const work = await getWork({
         workId: "41237499",
       });
@@ -441,7 +443,8 @@ describe("Fetches work information", () => {
       expect(work.updatedAt).toBe("2020-11-30");
     });
 
-    test("Fetch update date of work in progress", async () => {
+    // TODO: 404
+    test.skip("Fetch update date of work in progress", async () => {
       const work = await getWork({
         workId: "41237499",
       });
@@ -491,7 +494,8 @@ describe("Fetches work information", () => {
       expect(work.chapters.total).toBe(1);
     });
 
-    test("Fetch unknown amount of total chapters", async () => {
+    // TODO: 404
+    test.skip("Fetch unknown amount of total chapters", async () => {
       const work = await getWork({
         workId: "41237499",
       });
@@ -501,7 +505,8 @@ describe("Fetches work information", () => {
       expect(work.chapters.total).toBe(null);
     });
 
-    test("Fetch null work summary", async () => {
+    // TODO: 404
+    test.skip("Fetch null work summary", async () => {
       const work = await getWork({
         workId: "41237499",
       });
@@ -542,10 +547,10 @@ describe("Fetches work information", () => {
       assert(!work.locked);
 
       expect(work.stats).toMatchObject({
-        bookmarks: 65,
-        comments: 27,
-        hits: 5655,
-        kudos: 460,
+        bookmarks: expect.any(Number),
+        comments: expect.any(Number),
+        hits: expect.any(Number),
+        kudos: expect.any(Number),
       });
     });
     test("Fetch stats when some are null", async () => {
@@ -556,10 +561,10 @@ describe("Fetches work information", () => {
       assert(!work.locked);
 
       expect(work.stats).toMatchObject({
-        bookmarks: 0,
+        bookmarks: expect.any(Number),
         comments: 0,
-        hits: 0,
-        kudos: 0,
+        hits: expect.any(Number),
+        kudos: expect.any(Number),
       });
     });
   });

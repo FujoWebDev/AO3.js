@@ -71,8 +71,8 @@ describe("Fetches chapter of work", () => {
         },
         chapters: { published: 6, total: 6 },
         complete: true,
-        series: [],
-        stats: { bookmarks: 46, comments: 47, hits: 3063, kudos: 256 },
+        series: [],        
+        stats: { bookmarks: 46, comments: 47, hits: expect.any(Number), kudos: 256 },
         locked: false,
       });
     });
@@ -140,7 +140,7 @@ describe("Fetches chapter of work", () => {
         chapters: { published: 20, total: null },
         complete: false,
         series: [{ id: "2946579", name: "Twitterchat Saga", index: 1 }],
-        stats: { bookmarks: 12, comments: 29, hits: 2593, kudos: 125 },
+        stats: { bookmarks: 12, comments: 29, hits: expect.any(Number), kudos: 129 },
         locked: false,
       });
     });
@@ -182,7 +182,7 @@ describe("Fetches chapter of work", () => {
       chapters: { published: 1, total: 1 },
       complete: true,
       series: [],
-      stats: { bookmarks: 1, comments: 1, hits: 938, kudos: 36 },
+      stats: { bookmarks: 2, comments: 1, hits: expect.any(Number), kudos: 44 },
       locked: false,
     });
   });
