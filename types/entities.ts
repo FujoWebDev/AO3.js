@@ -29,7 +29,6 @@ export interface User {
   header: string | null;
   joined: string;
   location: string | null;
-  email: string | null;
   birthday: string | null;
   works: number;
   series: number;

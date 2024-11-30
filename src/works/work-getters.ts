@@ -166,25 +166,25 @@ export const getWorkSeries = ($workPage: WorkPage): BasicSeries[] => {
 };
 
 export const getWorkCommentCount = ($workPage: WorkPage): number => {
-  const comments = $workPage("dd.comments").text().trim();
+  const comments = $workPage("dd.comments").text().replaceAll(",", "").trim();
 
   return comments ? parseInt(comments) : 0;
 };
 
 export const getWorkKudosCount = ($workPage: WorkPage) => {
-  const kudos = $workPage("dd.kudos").text().trim();
+  const kudos = $workPage("dd.kudos").text().replaceAll(",", "").trim();
 
   return kudos ? parseInt(kudos) : 0;
 };
 
 export const getWorkBookmarkCount = ($workPage: WorkPage) => {
-  const bookmarks = $workPage("dd.bookmarks a").text().trim();
+  const bookmarks = $workPage("dd.bookmarks a").text().replaceAll(",", "").trim();
 
   return bookmarks ? parseInt(bookmarks) : 0;
 };
 
 export const getWorkHits = ($workPage: WorkPage) => {
-  return parseInt($workPage("dd.hits").text().trim());
+  return parseInt($workPage("dd.hits").text().replaceAll(",", "").trim());
 };
 
 export const getWorkLocked = ($workPage: WorkPage) => {

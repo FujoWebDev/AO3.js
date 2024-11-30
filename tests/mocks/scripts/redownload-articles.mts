@@ -22,6 +22,7 @@ async function downloadWithRetry(url: string, attempt = 1): Promise<DownloadResu
     
     // Check for rate limiting response
     if (response.status === 429) {
+      // Get retry-after header (in seconds)
       const retryAfter = parseInt(response.headers.get('retry-after') || '0', 10);
       return {
         content: '',
@@ -44,7 +45,7 @@ async function downloadWithRetry(url: string, attempt = 1): Promise<DownloadResu
 
     const backoffDelay = Math.min(
       BASE_DELAY * Math.pow(2, attempt - 1) + Math.random() * 1000,
-      30000
+      30000 // Max 30 seconds
     );
     
     console.log(`Attempt ${attempt} failed, retrying after ${backoffDelay}ms...`);
@@ -69,11 +70,14 @@ async function getAllFiles(dir: string): Promise<string[]> {
   return files;
 }
 
-function encodePathSegments(urlPath: string): string {
-  return urlPath.split('/')
-    .map(segment => encodeURIComponent(segment))
-    .join('/');
-}
+// Function to decode an encoded filename
+function decodeFilename(encodedName: string): string {
+    return encodedName
+      .replace(/!d!/g, '.') // Period
+      .replace(/!a!/g, '&') // Ampersand
+      .replace(/!s!/g, '/') // Forward slash
+      .replace(/\*a\*/g, '&'); // Alternative ampersand encoding
+  }
 
 function getUrlFromPath(relativePath: string): string {
   const urlPath = path.dirname(relativePath);
@@ -81,11 +85,12 @@ function getUrlFromPath(relativePath: string): string {
   const segments = urlPath.split(path.sep).filter(Boolean);
   
   const encodedPath = segments
-    .map(segment => encodeURIComponent(segment))
+    .map(segment => encodeURIComponent(decodeFilename(segment)))
     .join('/');
   
   return `https://archiveofourown.org/${encodedPath}`;
 }
+  
 
 async function redownloadArticles() {
   try {
@@ -116,6 +121,7 @@ async function redownloadArticles() {
           console.log(`Successfully updated ${relativePath}`);
           success = true;
 
+          // Add a small delay between successful downloads to be nice to the server
           await delay(BASE_DELAY);
         }
       } catch (error) {

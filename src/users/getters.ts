@@ -15,11 +15,20 @@ export const getUserProfileName = ($userProfile: UserProfile) => {
   return $userProfile(".user.profile .header h2").text().trim();
 };
 
-//Trim punctuation; this allows us to remove the ", " between pseuds.
 const PSEUD_SUFFIX = ", ";
 export const getUserProfilePseuds = ($userProfile: UserProfile) => {
-  const pseuds = $userProfile("dd.pseuds").text().concat(", ");
-  return pseuds.slice(0, -PSEUD_SUFFIX.length);
+  const pseuds = $userProfile("dd.pseuds a");
+  const pseudsArray: string[] = [];
+
+  if (pseuds.length !== 0) {
+    pseuds.each((i, element) => {
+      const url = element.attribs.href;
+      const [, username, pseud] = url.match(/users\/(.+)\/pseuds\/(.+)/)!;
+
+      pseudsArray.push(decodeURI(pseud));
+    });
+  }
+  return pseudsArray.join(PSEUD_SUFFIX);
 };
 
 //Trim the results to only the date:
@@ -56,9 +65,11 @@ export const getUserProfileBio = ($userProfile: UserProfile) => {
   return $userProfile(".bio .userstuff").html();
 };
 
-export const getUserProfileEmail = ($userProfile: UserProfile) => {
-  return $userProfile("dd.email").text() || null;
-};
+// TODO: AO3 has started hiding email addresses from scrapers. Figure out how to get them
+// and enable this again.
+// export const getUserProfileEmail = ($userProfile: UserProfile) => {
+//   return $userProfile("dd.email").text() || null;
+// };
 
 export const getUserProfileLocation = ($userProfile: UserProfile) => {
   return $userProfile("dt.location+dd").text() || null;

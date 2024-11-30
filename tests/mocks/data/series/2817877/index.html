@@ -1,629 +1,781 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<meta charset="utf-8" />
-<meta http-equiv="x-ua-compatible" content="ie=edge" />
-<script type="text/javascript">window.NREUM||(NREUM={});NREUM.info={"beacon":"bam.nr-data.net","errorBeacon":"bam.nr-data.net","licenseKey":"232243a405","applicationID":"129290979","transactionName":"cVtXEUpbWFxdQhkQVkBdXBYXR1xfTw==","queueTime":0,"applicationTime":78,"agent":""}</script>
-<script type="text/javascript">(window.NREUM||(NREUM={})).init={ajax:{deny_list:["bam.nr-data.net"]}};(window.NREUM||(NREUM={})).loader_config={licenseKey:"232243a405",applicationID:"129290979"};;/*! For license information please see nr-loader-rum-1.246.1.min.js.LICENSE.txt */
-(()=>{"use strict";var e,t,n={234:(e,t,n)=>{n.d(t,{P_:()=>h,Mt:()=>m,C5:()=>s,DL:()=>w,OP:()=>j,lF:()=>S,Yu:()=>_,Dg:()=>v,CX:()=>c,GE:()=>A,sU:()=>T});var r=n(8632),i=n(9567);const a={beacon:r.ce.beacon,errorBeacon:r.ce.errorBeacon,licenseKey:void 0,applicationID:void 0,sa:void 0,queueTime:void 0,applicationTime:void 0,ttGuid:void 0,user:void 0,account:void 0,product:void 0,extra:void 0,jsAttributes:{},userAttributes:void 0,atts:void 0,transactionName:void 0,tNamePlain:void 0},o={};function s(e){if(!e)throw new Error("All info objects require an agent identifier!");if(!o[e])throw new Error("Info for ".concat(e," was never set"));return o[e]}function c(e,t){if(!e)throw new Error("All info objects require an agent identifier!");o[e]=(0,i.D)(t,a),(0,r.Qy)(e,o[e],"info")}const d=e=>{if(!e||"string"!=typeof e)return!1;try{document.createDocumentFragment().querySelector(e)}catch{return!1}return!0};var u=n(7056),l=n(50);const f=()=>{const e={mask_selector:"*",block_selector:"[data-nr-block]",mask_input_options:{color:!1,date:!1,"datetime-local":!1,email:!1,month:!1,number:!1,range:!1,search:!1,tel:!1,text:!1,time:!1,url:!1,week:!1,textarea:!1,select:!1,password:!0}};return{feature_flags:[],proxy:{assets:void 0,beacon:void 0},privacy:{cookies_enabled:!0},ajax:{deny_list:void 0,block_internal:!0,enabled:!0,harvestTimeSeconds:10,autoStart:!0},distributed_tracing:{enabled:void 0,exclude_newrelic_header:void 0,cors_use_newrelic_header:void 0,cors_use_tracecontext_headers:void 0,allowed_origins:void 0},session:{domain:void 0,expiresMs:u.oD,inactiveMs:u.Hb},ssl:void 0,obfuscate:void 0,jserrors:{enabled:!0,harvestTimeSeconds:10,autoStart:!0},metrics:{enabled:!0,autoStart:!0},page_action:{enabled:!0,harvestTimeSeconds:30,autoStart:!0},page_view_event:{enabled:!0,autoStart:!0},page_view_timing:{enabled:!0,harvestTimeSeconds:30,long_task:!1,autoStart:!0},session_trace:{enabled:!0,harvestTimeSeconds:10,autoStart:!0},harvest:{tooManyRequestsDelay:60},session_replay:{autoStart:!0,enabled:!1,harvestTimeSeconds:60,sampling_rate:50,error_sampling_rate:50,collect_fonts:!1,inline_images:!1,inline_stylesheet:!0,mask_all_inputs:!0,get mask_text_selector(){return e.mask_selector},set mask_text_selector(t){d(t)?e.mask_selector=t+",[data-nr-mask]":null===t?e.mask_selector=t:(0,l.Z)("An invalid session_replay.mask_selector was provided and will not be used",t)},get block_class(){return"nr-block"},get ignore_class(){return"nr-ignore"},get mask_text_class(){return"nr-mask"},get block_selector(){return e.block_selector},set block_selector(t){d(t)?e.block_selector+=",".concat(t):""!==t&&(0,l.Z)("An invalid session_replay.block_selector was provided and will not be used",t)},get mask_input_options(){return e.mask_input_options},set mask_input_options(t){t&&"object"==typeof t?e.mask_input_options={...t,password:!0}:(0,l.Z)("An invalid session_replay.mask_input_option was provided and will not be used",t)}},spa:{enabled:!0,harvestTimeSeconds:10,autoStart:!0}}},g={},p="All configuration objects require an agent identifier!";function h(e){if(!e)throw new Error(p);if(!g[e])throw new Error("Configuration for ".concat(e," was never set"));return g[e]}function v(e,t){if(!e)throw new Error(p);g[e]=(0,i.D)(t,f()),(0,r.Qy)(e,g[e],"config")}function m(e,t){if(!e)throw new Error(p);var n=h(e);if(n){for(var r=t.split("."),i=0;i<r.length-1;i++)if("object"!=typeof(n=n[r[i]]))return;n=n[r[r.length-1]]}return n}const b={accountID:void 0,trustKey:void 0,agentID:void 0,licenseKey:void 0,applicationID:void 0,xpid:void 0},y={};function w(e){if(!e)throw new Error("All loader-config objects require an agent identifier!");if(!y[e])throw new Error("LoaderConfig for ".concat(e," was never set"));return y[e]}function A(e,t){if(!e)throw new Error("All loader-config objects require an agent identifier!");y[e]=(0,i.D)(t,b),(0,r.Qy)(e,y[e],"loader_config")}const _=(0,r.mF)().o;var x=n(385),D=n(6818);const k={buildEnv:D.Re,customTransaction:void 0,disabled:!1,distMethod:D.gF,isolatedBacklog:!1,loaderType:void 0,maxBytes:3e4,offset:Math.floor(x._A?.performance?.timeOrigin||x._A?.performance?.timing?.navigationStart||Date.now()),onerror:void 0,origin:""+x._A.location,ptid:void 0,releaseIds:{},session:void 0,xhrWrappable:"function"==typeof x._A.XMLHttpRequest?.prototype?.addEventListener,version:D.q4,denyList:void 0},E={};function j(e){if(!e)throw new Error("All runtime objects require an agent identifier!");if(!E[e])throw new Error("Runtime for ".concat(e," was never set"));return E[e]}function T(e,t){if(!e)throw new Error("All runtime objects require an agent identifier!");E[e]=(0,i.D)(t,k),(0,r.Qy)(e,E[e],"runtime")}function S(e){return function(e){try{const t=s(e);return!!t.licenseKey&&!!t.errorBeacon&&!!t.applicationID}catch(e){return!1}}(e)}},9567:(e,t,n)=>{n.d(t,{D:()=>i});var r=n(50);function i(e,t){try{if(!e||"object"!=typeof e)return(0,r.Z)("Setting a Configurable requires an object as input");if(!t||"object"!=typeof t)return(0,r.Z)("Setting a Configurable requires a model to set its initial properties");const n=Object.create(Object.getPrototypeOf(t),Object.getOwnPropertyDescriptors(t)),a=0===Object.keys(n).length?e:n;for(let o in a)if(void 0!==e[o])try{Array.isArray(e[o])&&Array.isArray(t[o])?n[o]=Array.from(new Set([...e[o],...t[o]])):"object"==typeof e[o]&&"object"==typeof t[o]?n[o]=i(e[o],t[o]):n[o]=e[o]}catch(e){(0,r.Z)("An error occurred while setting a property of a Configurable",e)}return n}catch(e){(0,r.Z)("An error occured while setting a Configurable",e)}}},6818:(e,t,n)=>{n.d(t,{Re:()=>i,gF:()=>a,q4:()=>r});const r="1.246.1",i="PROD",a="CDN"},385:(e,t,n)=>{n.d(t,{Nk:()=>u,Tt:()=>s,_A:()=>a,cv:()=>l,iS:()=>o,il:()=>r,ux:()=>c,v6:()=>i,w1:()=>d});const r="undefined"!=typeof window&&!!window.document,i="undefined"!=typeof WorkerGlobalScope&&("undefined"!=typeof self&&self instanceof WorkerGlobalScope&&self.navigator instanceof WorkerNavigator||"undefined"!=typeof globalThis&&globalThis instanceof WorkerGlobalScope&&globalThis.navigator instanceof WorkerNavigator),a=r?window:"undefined"!=typeof WorkerGlobalScope&&("undefined"!=typeof self&&self instanceof WorkerGlobalScope&&self||"undefined"!=typeof globalThis&&globalThis instanceof WorkerGlobalScope&&globalThis),o=Boolean("hidden"===a?.document?.visibilityState),s=(a?.location,/iPad|iPhone|iPod/.test(a.navigator?.userAgent)),c=s&&"undefined"==typeof SharedWorker,d=((()=>{const e=a.navigator?.userAgent?.match(/Firefox[/\s](\d+\.\d+)/);Array.isArray(e)&&e.length>=2&&e[1]})(),Boolean(r&&window.document.documentMode)),u=!!a.navigator?.sendBeacon,l=Math.floor(a?.performance?.timeOrigin||a?.performance?.timing?.navigationStart||Date.now())},1117:(e,t,n)=>{n.d(t,{w:()=>a});var r=n(50);const i={agentIdentifier:"",ee:void 0};class a{constructor(e){try{if("object"!=typeof e)return(0,r.Z)("shared context requires an object as input");this.sharedContext={},Object.assign(this.sharedContext,i),Object.entries(e).forEach((e=>{let[t,n]=e;Object.keys(i).includes(t)&&(this.sharedContext[t]=n)}))}catch(e){(0,r.Z)("An error occured while setting SharedContext",e)}}}},8e3:(e,t,n)=>{n.d(t,{L:()=>u,R:()=>c});var r=n(8325),i=n(1284),a=n(4322),o=n(3325);const s={};function c(e,t){const n={staged:!1,priority:o.p[t]||0};d(e),s[e].get(t)||s[e].set(t,n)}function d(e){e&&(s[e]||(s[e]=new Map))}function u(){let e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:"",t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:"feature";if(d(e),!e||!s[e].get(t))return o(t);s[e].get(t).staged=!0;const n=[...s[e]];function o(t){const n=e?r.ee.get(e):r.ee,o=a.X.handlers;if(n.backlog&&o){var s=n.backlog[t],c=o[t];if(c){for(var d=0;s&&d<s.length;++d)l(s[d],c);(0,i.D)(c,(function(e,t){(0,i.D)(t,(function(t,n){n[0].on(e,n[1])}))}))}delete o[t],n.backlog[t]=null,n.emit("drain-"+t,[])}}n.every((e=>{let[t,n]=e;return n.staged}))&&(n.sort(((e,t)=>e[1].priority-t[1].priority)),n.forEach((t=>{let[n]=t;s[e].delete(n),o(n)})))}function l(e,t){var n=e[1];(0,i.D)(t[n],(function(t,n){var r=e[0];if(n[0]===r){var i=n[1],a=e[3],o=e[2];i.apply(a,o)}}))}},8325:(e,t,n)=>{n.d(t,{A:()=>c,ee:()=>d});var r=n(8632),i=n(2210),a=n(234);class o{constructor(e){this.contextId=e}}var s=n(3117);const c="nr@context:".concat(s.a),d=function e(t,n){var r={},s={},u={},f=!1;try{f=16===n.length&&(0,a.OP)(n).isolatedBacklog}catch(e){}var g={on:h,addEventListener:h,removeEventListener:function(e,t){var n=r[e];if(!n)return;for(var i=0;i<n.length;i++)n[i]===t&&n.splice(i,1)},emit:function(e,n,r,i,a){!1!==a&&(a=!0);if(d.aborted&&!i)return;t&&a&&t.emit(e,n,r);for(var o=p(r),c=v(e),u=c.length,l=0;l<u;l++)c[l].apply(o,n);var f=b()[s[e]];f&&f.push([g,e,n,o]);return o},get:m,listeners:v,context:p,buffer:function(e,t){const n=b();if(t=t||"feature",g.aborted)return;Object.entries(e||{}).forEach((e=>{let[r,i]=e;s[i]=t,t in n||(n[t]=[])}))},abort:l,aborted:!1,isBuffering:function(e){return!!b()[s[e]]},debugId:n,backlog:f?{}:t&&"object"==typeof t.backlog?t.backlog:{}};return g;function p(e){return e&&e instanceof o?e:e?(0,i.X)(e,c,(()=>new o(c))):new o(c)}function h(e,t){r[e]=v(e).concat(t)}function v(e){return r[e]||[]}function m(t){return u[t]=u[t]||e(g,t)}function b(){return g.backlog}}(void 0,"globalEE"),u=(0,r.fP)();function l(){d.aborted=!0,d.backlog={}}u.ee||(u.ee=d)},5546:(e,t,n)=>{n.d(t,{E:()=>r,p:()=>i});var r=n(8325).ee.get("handle");function i(e,t,n,i,a){a?(a.buffer([e],i),a.emit(e,t,n)):(r.buffer([e],i),r.emit(e,t,n))}},4322:(e,t,n)=>{n.d(t,{X:()=>a});var r=n(5546);a.on=o;var i=a.handlers={};function a(e,t,n,a){o(a||r.E,i,e,t,n)}function o(e,t,n,i,a){a||(a="feature"),e||(e=r.E);var o=t[a]=t[a]||{};(o[n]=o[n]||[]).push([e,i])}},3239:(e,t,n)=>{n.d(t,{bP:()=>s,iz:()=>c,m$:()=>o});var r=n(385);let i=!1,a=!1;try{const e={get passive(){return i=!0,!1},get signal(){return a=!0,!1}};r._A.addEventListener("test",null,e),r._A.removeEventListener("test",null,e)}catch(e){}function o(e,t){return i||a?{capture:!!e,passive:i,signal:t}:!!e}function s(e,t){let n=arguments.length>2&&void 0!==arguments[2]&&arguments[2],r=arguments.length>3?arguments[3]:void 0;window.addEventListener(e,t,o(n,r))}function c(e,t){let n=arguments.length>2&&void 0!==arguments[2]&&arguments[2],r=arguments.length>3?arguments[3]:void 0;document.addEventListener(e,t,o(n,r))}},3117:(e,t,n)=>{n.d(t,{a:()=>r});const r=(0,n(4402).Rl)()},4402:(e,t,n)=>{n.d(t,{Rl:()=>o,ky:()=>s});var r=n(385);const i="xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx";function a(e,t){return e?15&e[t]:16*Math.random()|0}function o(){const e=r._A?.crypto||r._A?.msCrypto;let t,n=0;return e&&e.getRandomValues&&(t=e.getRandomValues(new Uint8Array(31))),i.split("").map((e=>"x"===e?a(t,++n).toString(16):"y"===e?(3&a()|8).toString(16):e)).join("")}function s(e){const t=r._A?.crypto||r._A?.msCrypto;let n,i=0;t&&t.getRandomValues&&(n=t.getRandomValues(new Uint8Array(31)));const o=[];for(var s=0;s<e;s++)o.push(a(n,++i).toString(16));return o.join("")}},7056:(e,t,n)=>{n.d(t,{Bq:()=>r,Hb:()=>a,oD:()=>i});const r="NRBA",i=144e5,a=18e5},7894:(e,t,n)=>{function r(){return Math.round(performance.now())}n.d(t,{z:()=>r})},50:(e,t,n)=>{function r(e,t){"function"==typeof console.warn&&(console.warn("New Relic: ".concat(e)),t&&console.warn(t))}n.d(t,{Z:()=>r})},2587:(e,t,n)=>{n.d(t,{N:()=>c,T:()=>d});var r=n(8325),i=n(5546),a=n(3325);const o={stn:[a.D.sessionTrace],err:[a.D.jserrors,a.D.metrics],ins:[a.D.pageAction],spa:[a.D.spa],sr:[a.D.sessionReplay,a.D.sessionTrace]},s=new Set;function c(e,t){const n=r.ee.get(t);e&&"object"==typeof e&&(s.has(t)||Object.entries(e).forEach((e=>{let[t,r]=e;o[t]?o[t].forEach((e=>{r?(0,i.p)("feat-"+t,[],void 0,e,n):(0,i.p)("block-"+t,[],void 0,e,n),(0,i.p)("rumresp-"+t,[Boolean(r)],void 0,e,n)})):r&&(0,i.p)("feat-"+t,[],void 0,void 0,n),d[t]=Boolean(r)})),Object.keys(o).forEach((e=>{void 0===d[e]&&(o[e]?.forEach((t=>(0,i.p)("rumresp-"+e,[!1],void 0,t,n))),d[e]=!1)})),s.add(t))}const d={}},2210:(e,t,n)=>{n.d(t,{X:()=>i});var r=Object.prototype.hasOwnProperty;function i(e,t,n){if(r.call(e,t))return e[t];var i=n();if(Object.defineProperty&&Object.keys)try{return Object.defineProperty(e,t,{value:i,writable:!0,enumerable:!1}),i}catch(e){}return e[t]=i,i}},1284:(e,t,n)=>{n.d(t,{D:()=>r});const r=(e,t)=>Object.entries(e||{}).map((e=>{let[n,r]=e;return t(n,r)}))},4351:(e,t,n)=>{n.d(t,{P:()=>a});var r=n(8325);const i=()=>{const e=new WeakSet;return(t,n)=>{if("object"==typeof n&&null!==n){if(e.has(n))return;e.add(n)}return n}};function a(e){try{return JSON.stringify(e,i())}catch(e){try{r.ee.emit("internal-error",[e])}catch(e){}}}},3960:(e,t,n)=>{n.d(t,{K:()=>o,b:()=>a});var r=n(3239);function i(){return"undefined"==typeof document||"complete"===document.readyState}function a(e,t){if(i())return e();(0,r.bP)("load",e,t)}function o(e){if(i())return e();(0,r.iz)("DOMContentLoaded",e)}},8632:(e,t,n)=>{n.d(t,{EZ:()=>d,Qy:()=>c,ce:()=>a,fP:()=>o,gG:()=>u,mF:()=>s});var r=n(7894),i=n(385);const a={beacon:"bam.nr-data.net",errorBeacon:"bam.nr-data.net"};function o(){return i._A.NREUM||(i._A.NREUM={}),void 0===i._A.newrelic&&(i._A.newrelic=i._A.NREUM),i._A.NREUM}function s(){let e=o();return e.o||(e.o={ST:i._A.setTimeout,SI:i._A.setImmediate,CT:i._A.clearTimeout,XHR:i._A.XMLHttpRequest,REQ:i._A.Request,EV:i._A.Event,PR:i._A.Promise,MO:i._A.MutationObserver,FETCH:i._A.fetch}),e}function c(e,t,n){let i=o();const a=i.initializedAgents||{},s=a[e]||{};return Object.keys(s).length||(s.initializedAt={ms:(0,r.z)(),date:new Date}),i.initializedAgents={...a,[e]:{...s,[n]:t}},i}function d(e,t){o()[e]=t}function u(){return function(){let e=o();const t=e.info||{};e.info={beacon:a.beacon,errorBeacon:a.errorBeacon,...t}}(),function(){let e=o();const t=e.init||{};e.init={...t}}(),s(),function(){let e=o();const t=e.loader_config||{};e.loader_config={...t}}(),o()}},7956:(e,t,n)=>{n.d(t,{N:()=>i});var r=n(3239);function i(e){let t=arguments.length>1&&void 0!==arguments[1]&&arguments[1],n=arguments.length>2?arguments[2]:void 0,i=arguments.length>3?arguments[3]:void 0;(0,r.iz)("visibilitychange",(function(){if(t)return void("hidden"===document.visibilityState&&e());e(document.visibilityState)}),n,i)}},3081:(e,t,n)=>{n.d(t,{gF:()=>a,mY:()=>i,t9:()=>r,vz:()=>s,xS:()=>o});const r=n(3325).D.metrics,i="sm",a="cm",o="storeSupportabilityMetrics",s="storeEventMetrics"},7633:(e,t,n)=>{n.d(t,{t:()=>r});const r=n(3325).D.pageViewEvent},9251:(e,t,n)=>{n.d(t,{t:()=>r});const r=n(3325).D.pageViewTiming},5938:(e,t,n)=>{n.d(t,{W:()=>i});var r=n(8325);class i{constructor(e,t,n){this.agentIdentifier=e,this.aggregator=t,this.ee=r.ee.get(e),this.featureName=n,this.blocked=!1}}},7530:(e,t,n)=>{n.d(t,{j:()=>b});var r=n(3325),i=n(234),a=n(5546),o=n(8325),s=n(7894),c=n(8e3),d=n(3960),u=n(385),l=n(50),f=n(3081),g=n(8632);function p(){const e=(0,g.gG)();["setErrorHandler","finished","addToTrace","addRelease","addPageAction","setCurrentRouteName","setPageViewName","setCustomAttribute","interaction","noticeError","setUserId","setApplicationVersion","start"].forEach((t=>{e[t]=function(){for(var n=arguments.length,r=new Array(n),i=0;i<n;i++)r[i]=arguments[i];return function(t){for(var n=arguments.length,r=new Array(n>1?n-1:0),i=1;i<n;i++)r[i-1]=arguments[i];let a=[];return Object.values(e.initializedAgents).forEach((e=>{e.exposed&&e.api[t]&&a.push(e.api[t](...r))})),a.length>1?a:a[0]}(t,...r)}}))}var h=n(2587);const v=e=>{const t=e.startsWith("http");e+="/",n.p=t?e:"https://"+e};let m=!1;function b(e){let t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{},b=arguments.length>2?arguments[2]:void 0,y=arguments.length>3?arguments[3]:void 0,{init:w,info:A,loader_config:_,runtime:x={loaderType:b},exposed:D=!0}=t;const k=(0,g.gG)();A||(w=k.init,A=k.info,_=k.loader_config),(0,i.Dg)(e,w||{}),(0,i.GE)(e,_||{}),A.jsAttributes??={},u.v6&&(A.jsAttributes.isWorker=!0),(0,i.CX)(e,A);const E=(0,i.P_)(e),j=[A.beacon,A.errorBeacon];m||(m=!0,E.proxy.assets&&(v(E.proxy.assets),j.push(E.proxy.assets)),E.proxy.beacon&&j.push(E.proxy.beacon)),x.denyList=[...E.ajax.deny_list||[],...E.ajax.block_internal?j:[]],(0,i.sU)(e,x),p();const T=function(e,t){t||(0,c.R)(e,"api");const g={};var p=o.ee.get(e),h=p.get("tracer"),v="api-",m=v+"ixn-";function b(t,n,r,a){const o=(0,i.C5)(e);return null===n?delete o.jsAttributes[t]:(0,i.CX)(e,{...o,jsAttributes:{...o.jsAttributes,[t]:n}}),A(v,r,!0,a||null===n?"session":void 0)(t,n)}function y(){}["setErrorHandler","finished","addToTrace","addRelease"].forEach((e=>{g[e]=A(v,e,!0,"api")})),g.addPageAction=A(v,"addPageAction",!0,r.D.pageAction),g.setCurrentRouteName=A(v,"routeName",!0,r.D.spa),g.setPageViewName=function(t,n){if("string"==typeof t)return"/"!==t.charAt(0)&&(t="/"+t),(0,i.OP)(e).customTransaction=(n||"http://custom.transaction")+t,A(v,"setPageViewName",!0)()},g.setCustomAttribute=function(e,t){let n=arguments.length>2&&void 0!==arguments[2]&&arguments[2];if("string"==typeof e){if(["string","number","boolean"].includes(typeof t)||null===t)return b(e,t,"setCustomAttribute",n);(0,l.Z)("Failed to execute setCustomAttribute.\nNon-null value must be a string, number or boolean type, but a type of <".concat(typeof t,"> was provided."))}else(0,l.Z)("Failed to execute setCustomAttribute.\nName must be a string type, but a type of <".concat(typeof e,"> was provided."))},g.setUserId=function(e){if("string"==typeof e||null===e)return b("enduser.id",e,"setUserId",!0);(0,l.Z)("Failed to execute setUserId.\nNon-null value must be a string type, but a type of <".concat(typeof e,"> was provided."))},g.setApplicationVersion=function(e){if("string"==typeof e||null===e)return b("application.version",e,"setApplicationVersion",!1);(0,l.Z)("Failed to execute setApplicationVersion. Expected <String | null>, but got <".concat(typeof e,">."))},g.start=e=>{try{const t=e?"defined":"undefined";(0,a.p)(f.xS,["API/start/".concat(t,"/called")],void 0,r.D.metrics,p);const n=Object.values(r.D);if(void 0===e)e=n;else{if((e=Array.isArray(e)&&e.length?e:[e]).some((e=>!n.includes(e))))return(0,l.Z)("Invalid feature name supplied. Acceptable feature names are: ".concat(n));e.includes(r.D.pageViewEvent)||e.push(r.D.pageViewEvent)}e.forEach((e=>{p.emit("".concat(e,"-opt-in"))}))}catch(e){(0,l.Z)("An unexpected issue occurred",e)}},g.interaction=function(){return(new y).get()};var w=y.prototype={createTracer:function(e,t){var n={},i=this,o="function"==typeof t;return(0,a.p)(m+"tracer",[(0,s.z)(),e,n],i,r.D.spa,p),function(){if(h.emit((o?"":"no-")+"fn-start",[(0,s.z)(),i,o],n),o)try{return t.apply(this,arguments)}catch(e){throw h.emit("fn-err",[arguments,this,e],n),e}finally{h.emit("fn-end",[(0,s.z)()],n)}}}};function A(e,t,n,i){return function(){return(0,a.p)(f.xS,["API/"+t+"/called"],void 0,r.D.metrics,p),i&&(0,a.p)(e+t,[(0,s.z)(),...arguments],n?null:this,i,p),n?void 0:this}}function _(){n.e(75).then(n.bind(n,7438)).then((t=>{let{setAPI:n}=t;n(e),(0,c.L)(e,"api")})).catch((()=>(0,l.Z)("Downloading runtime APIs failed...")))}return["actionText","setName","setAttribute","save","ignore","onEnd","getContext","end","get"].forEach((e=>{w[e]=A(m,e,void 0,r.D.spa)})),g.noticeError=function(e,t){"string"==typeof e&&(e=new Error(e)),(0,a.p)(f.xS,["API/noticeError/called"],void 0,r.D.metrics,p),(0,a.p)("err",[e,(0,s.z)(),!1,t],void 0,r.D.jserrors,p)},u.il?(0,d.b)((()=>_()),!0):_(),g}(e,y);return(0,g.Qy)(e,T,"api"),(0,g.Qy)(e,D,"exposed"),(0,g.EZ)("activatedFeatures",h.T),T}},3325:(e,t,n)=>{n.d(t,{D:()=>r,p:()=>i});const r={ajax:"ajax",jserrors:"jserrors",metrics:"metrics",pageAction:"page_action",pageViewEvent:"page_view_event",pageViewTiming:"page_view_timing",sessionReplay:"session_replay",sessionTrace:"session_trace",spa:"spa"},i={[r.pageViewEvent]:1,[r.pageViewTiming]:2,[r.metrics]:3,[r.jserrors]:4,[r.ajax]:5,[r.sessionTrace]:6,[r.pageAction]:7,[r.spa]:8,[r.sessionReplay]:9}}},r={};function i(e){var t=r[e];if(void 0!==t)return t.exports;var a=r[e]={exports:{}};return n[e](a,a.exports,i),a.exports}i.m=n,i.d=(e,t)=>{for(var n in t)i.o(t,n)&&!i.o(e,n)&&Object.defineProperty(e,n,{enumerable:!0,get:t[n]})},i.f={},i.e=e=>Promise.all(Object.keys(i.f).reduce(((t,n)=>(i.f[n](e,t),t)),[])),i.u=e=>"nr-rum-1.246.1.min.js",i.o=(e,t)=>Object.prototype.hasOwnProperty.call(e,t),e={},t="NRBA-1.246.1.PROD:",i.l=(n,r,a,o)=>{if(e[n])e[n].push(r);else{var s,c;if(void 0!==a)for(var d=document.getElementsByTagName("script"),u=0;u<d.length;u++){var l=d[u];if(l.getAttribute("src")==n||l.getAttribute("data-webpack")==t+a){s=l;break}}s||(c=!0,(s=document.createElement("script")).charset="utf-8",s.timeout=120,i.nc&&s.setAttribute("nonce",i.nc),s.setAttribute("data-webpack",t+a),s.src=n),e[n]=[r];var f=(t,r)=>{s.onerror=s.onload=null,clearTimeout(g);var i=e[n];if(delete e[n],s.parentNode&&s.parentNode.removeChild(s),i&&i.forEach((e=>e(r))),t)return t(r)},g=setTimeout(f.bind(null,void 0,{type:"timeout",target:s}),12e4);s.onerror=f.bind(null,s.onerror),s.onload=f.bind(null,s.onload),c&&document.head.appendChild(s)}},i.r=e=>{"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0})},i.p="https://js-agent.newrelic.com/",(()=>{var e={50:0,832:0};i.f.j=(t,n)=>{var r=i.o(e,t)?e[t]:void 0;if(0!==r)if(r)n.push(r[2]);else{var a=new Promise(((n,i)=>r=e[t]=[n,i]));n.push(r[2]=a);var o=i.p+i.u(t),s=new Error;i.l(o,(n=>{if(i.o(e,t)&&(0!==(r=e[t])&&(e[t]=void 0),r)){var a=n&&("load"===n.type?"missing":n.type),o=n&&n.target&&n.target.src;s.message="Loading chunk "+t+" failed.\n("+a+": "+o+")",s.name="ChunkLoadError",s.type=a,s.request=o,r[1](s)}}),"chunk-"+t,t)}};var t=(t,n)=>{var r,a,[o,s,c]=n,d=0;if(o.some((t=>0!==e[t]))){for(r in s)i.o(s,r)&&(i.m[r]=s[r]);if(c)c(i)}for(t&&t(n);d<o.length;d++)a=o[d],i.o(e,a)&&e[a]&&e[a][0](),e[a]=0},n=self["webpackChunk:NRBA-1.246.1.PROD"]=self["webpackChunk:NRBA-1.246.1.PROD"]||[];n.forEach(t.bind(null,0)),n.push=t.bind(null,n.push.bind(n))})(),(()=>{var e=i(50);class t{addPageAction(t,n){(0,e.Z)("Call to agent api addPageAction failed. The page action feature is not currently initialized.")}setPageViewName(t,n){(0,e.Z)("Call to agent api setPageViewName failed. The page view feature is not currently initialized.")}setCustomAttribute(t,n,r){(0,e.Z)("Call to agent api setCustomAttribute failed. The js errors feature is not currently initialized.")}noticeError(t,n){(0,e.Z)("Call to agent api noticeError failed. The js errors feature is not currently initialized.")}setUserId(t){(0,e.Z)("Call to agent api setUserId failed. The js errors feature is not currently initialized.")}setApplicationVersion(t){(0,e.Z)("Call to agent api setApplicationVersion failed. The agent is not currently initialized.")}setErrorHandler(t){(0,e.Z)("Call to agent api setErrorHandler failed. The js errors feature is not currently initialized.")}finished(t){(0,e.Z)("Call to agent api finished failed. The page action feature is not currently initialized.")}addRelease(t,n){(0,e.Z)("Call to agent api addRelease failed. The js errors feature is not currently initialized.")}start(t){(0,e.Z)("Call to agent api addRelease failed. The agent is not currently initialized.")}}var n=i(3325),r=i(234);const a=Object.values(n.D);function o(e){const t={};return a.forEach((n=>{t[n]=function(e,t){return!1!==(0,r.Mt)(t,"".concat(e,".enabled"))}(n,e)})),t}var s=i(7530);var c=i(8e3),d=i(5938),u=i(3960),l=i(385);class f extends d.W{constructor(e,t,n){let i=!(arguments.length>3&&void 0!==arguments[3])||arguments[3];super(e,t,n),this.auto=i,this.abortHandler=void 0,this.featAggregate=void 0,this.onAggregateImported=void 0,!1===(0,r.Mt)(this.agentIdentifier,"".concat(this.featureName,".autoStart"))&&(this.auto=!1),this.auto&&(0,c.R)(e,n)}importAggregator(){let t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{};if(this.featAggregate)return;if(!this.auto)return void this.ee.on("".concat(this.featureName,"-opt-in"),(()=>{(0,c.R)(this.agentIdentifier,this.featureName),this.auto=!0,this.importAggregator()}));const n=l.il&&!0===(0,r.Mt)(this.agentIdentifier,"privacy.cookies_enabled");let a;this.onAggregateImported=new Promise((e=>{a=e}));const o=async()=>{let r;try{if(n){const{setupAgentSession:e}=await i.e(75).then(i.bind(i,3228));r=e(this.agentIdentifier)}}catch(t){(0,e.Z)("A problem occurred when starting up session manager. This page will not start or extend any session.",t)}try{if(!this.shouldImportAgg(this.featureName,r))return(0,c.L)(this.agentIdentifier,this.featureName),void a(!1);const{lazyFeatureLoader:e}=await i.e(75).then(i.bind(i,8582)),{Aggregate:n}=await e(this.featureName,"aggregate");this.featAggregate=new n(this.agentIdentifier,this.aggregator,t),a(!0)}catch(t){(0,e.Z)("Downloading and initializing ".concat(this.featureName," failed..."),t),this.abortHandler?.(),(0,c.L)(this.agentIdentifier,this.featureName),a(!1)}};l.il?(0,u.b)((()=>o()),!0):o()}shouldImportAgg(e,t){return e!==n.D.sessionReplay||!!r.Yu.MO&&(!1!==(0,r.Mt)(this.agentIdentifier,"session_trace.enabled")&&(!!t?.isNew||!!t?.state.sessionReplayMode))}}var g=i(7633);class p extends f{static featureName=g.t;constructor(e,t){let n=!(arguments.length>2&&void 0!==arguments[2])||arguments[2];super(e,t,g.t,n),this.importAggregator()}}var h=i(1117),v=i(1284);class m extends h.w{constructor(e){super(e),this.aggregatedData={}}store(e,t,n,r,i){var a=this.getBucket(e,t,n,i);return a.metrics=function(e,t){t||(t={count:0});return t.count+=1,(0,v.D)(e,(function(e,n){t[e]=b(n,t[e])})),t}(r,a.metrics),a}merge(e,t,n,r,i){var a=this.getBucket(e,t,r,i);if(a.metrics){var o=a.metrics;o.count+=n.count,(0,v.D)(n,(function(e,t){if("count"!==e){var r=o[e],i=n[e];i&&!i.c?o[e]=b(i.t,r):o[e]=function(e,t){if(!t)return e;t.c||(t=y(t.t));return t.min=Math.min(e.min,t.min),t.max=Math.max(e.max,t.max),t.t+=e.t,t.sos+=e.sos,t.c+=e.c,t}(i,o[e])}}))}else a.metrics=n}storeMetric(e,t,n,r){var i=this.getBucket(e,t,n);return i.stats=b(r,i.stats),i}getBucket(e,t,n,r){this.aggregatedData[e]||(this.aggregatedData[e]={});var i=this.aggregatedData[e][t];return i||(i=this.aggregatedData[e][t]={params:n||{}},r&&(i.custom=r)),i}get(e,t){return t?this.aggregatedData[e]&&this.aggregatedData[e][t]:this.aggregatedData[e]}take(e){for(var t={},n="",r=!1,i=0;i<e.length;i++)t[n=e[i]]=w(this.aggregatedData[n]),t[n].length&&(r=!0),delete this.aggregatedData[n];return r?t:null}}function b(e,t){return null==e?function(e){e?e.c++:e={c:1};return e}(t):t?(t.c||(t=y(t.t)),t.c+=1,t.t+=e,t.sos+=e*e,e>t.max&&(t.max=e),e<t.min&&(t.min=e),t):{t:e}}function y(e){return{t:e,min:e,max:e,sos:e*e,c:1}}function w(e){return"object"!=typeof e?[]:(0,v.D)(e,A)}function A(e,t){return t}var _=i(8632),x=i(4402),D=i(4351);var k=i(5546),E=i(7956),j=i(3239),T=i(7894),S=i(9251);class N extends f{static featureName=S.t;constructor(e,t){let n=!(arguments.length>2&&void 0!==arguments[2])||arguments[2];super(e,t,S.t,n),l.il&&((0,E.N)((()=>(0,k.p)("docHidden",[(0,T.z)()],void 0,S.t,this.ee)),!0),(0,j.bP)("pagehide",(()=>(0,k.p)("winPagehide",[(0,T.z)()],void 0,S.t,this.ee))),this.importAggregator())}}var C=i(3081);class P extends f{static featureName=C.t9;constructor(e,t){let n=!(arguments.length>2&&void 0!==arguments[2])||arguments[2];super(e,t,C.t9,n),this.importAggregator()}}new class extends t{constructor(t){let n=arguments.length>1&&void 0!==arguments[1]?arguments[1]:(0,x.ky)(16);super(),l._A?(this.agentIdentifier=n,this.sharedAggregator=new m({agentIdentifier:this.agentIdentifier}),this.features={},this.desiredFeatures=new Set(t.features||[]),this.desiredFeatures.add(p),Object.assign(this,(0,s.j)(this.agentIdentifier,t,t.loaderType||"agent")),this.run()):(0,e.Z)("Failed to initial the agent. Could not determine the runtime environment.")}get config(){return{info:(0,r.C5)(this.agentIdentifier),init:(0,r.P_)(this.agentIdentifier),loader_config:(0,r.DL)(this.agentIdentifier),runtime:(0,r.OP)(this.agentIdentifier)}}run(){const t="features";try{const r=o(this.agentIdentifier),i=[...this.desiredFeatures];i.sort(((e,t)=>n.p[e.featureName]-n.p[t.featureName])),i.forEach((t=>{if(r[t.featureName]||t.featureName===n.D.pageViewEvent){const i=function(e){switch(e){case n.D.ajax:return[n.D.jserrors];case n.D.sessionTrace:return[n.D.ajax,n.D.pageViewEvent];case n.D.sessionReplay:return[n.D.sessionTrace];case n.D.pageViewTiming:return[n.D.pageViewEvent];default:return[]}}(t.featureName);i.every((e=>r[e]))||(0,e.Z)("".concat(t.featureName," is enabled but one or more dependent features has been disabled (").concat((0,D.P)(i),"). This may cause unintended consequences or missing data...")),this.features[t.featureName]=new t(this.agentIdentifier,this.sharedAggregator)}})),(0,_.Qy)(this.agentIdentifier,this.features,t)}catch(n){(0,e.Z)("Failed to initialize all enabled instrument classes (agent aborted) -",n);for(const e in this.features)this.features[e].abortHandler?.();const r=(0,_.fP)();return delete r.initializedAgents[this.agentIdentifier]?.api,delete r.initializedAgents[this.agentIdentifier]?.[t],delete this.sharedAggregator,r.ee?.abort(),delete r.ee?.get(this.agentIdentifier),!1}}addToTrace(t){(0,e.Z)("Call to agent api addToTrace failed. The session trace feature is not currently initialized.")}setCurrentRouteName(t){(0,e.Z)("Call to agent api setCurrentRouteName failed. The spa feature is not currently initialized.")}interaction(){(0,e.Z)("Call to agent api interaction failed. The spa feature is not currently initialized.")}}({features:[p,N,P],loaderType:"lite"})})()})();</script>
-<meta name="keywords" content="fanfiction, transformative works, otw, fair use, archive" />
-<meta name="language" content="en-US" />
-<meta name="subject" content="fandom" />
-<meta name="description" content="An Archive of Our Own, a project of the
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <meta name="keywords" content="fanfiction, transformative works, otw, fair use, archive" />
+    <meta name="language" content="en-US" />
+    <meta name="subject" content="fandom" />
+    <meta name="description" content="An Archive of Our Own, a project of the
     Organization for Transformative Works" />
-<meta name="distribution" content="GLOBAL" />
-<meta name="classification" content="transformative works" />
-<meta name="author" content="Organization for Transformative Works" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>
+    <meta name="distribution" content="GLOBAL" />
+    <meta name="classification" content="transformative works" />
+    <meta name="author" content="Organization for Transformative Works" />
+  	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>
         *Insert Fandom* but Social Media (one-shots) - Anonymous - Batman - All Media Types, Dream SMP RPF, Five Nights at Freddy&#39;s, Five Nights at Freddy&#39;s (Movie 2023), Marvel Cinematic Universe, Minecraft (Video Game), The Avengers (Marvel Movies), Turning Red (2022), Video Blogging RPF, 呪術廻戦 | Jujutsu Kaisen (Anime), 呪術廻戦 | Jujutsu Kaisen (Manga) [Archive of Our Own]
     </title>
-<link rel="stylesheet" type="text/css" media="screen" href="/stylesheets/site/2.0/01-core.css" />
-<link rel="stylesheet" type="text/css" media="screen" href="/stylesheets/site/2.0/02-elements.css" />
-<link rel="stylesheet" type="text/css" media="screen" href="/stylesheets/site/2.0/03-region-header.css" />
-<link rel="stylesheet" type="text/css" media="screen" href="/stylesheets/site/2.0/04-region-dashboard.css" />
-<link rel="stylesheet" type="text/css" media="screen" href="/stylesheets/site/2.0/05-region-main.css" />
-<link rel="stylesheet" type="text/css" media="screen" href="/stylesheets/site/2.0/06-region-footer.css" />
-<link rel="stylesheet" type="text/css" media="screen" href="/stylesheets/site/2.0/07-interactions.css" />
-<link rel="stylesheet" type="text/css" media="screen" href="/stylesheets/site/2.0/08-actions.css" />
-<link rel="stylesheet" type="text/css" media="screen" href="/stylesheets/site/2.0/09-roles-states.css" />
-<link rel="stylesheet" type="text/css" media="screen" href="/stylesheets/site/2.0/10-types-groups.css" />
-<link rel="stylesheet" type="text/css" media="screen" href="/stylesheets/site/2.0/11-group-listbox.css" />
-<link rel="stylesheet" type="text/css" media="screen" href="/stylesheets/site/2.0/12-group-meta.css" />
-<link rel="stylesheet" type="text/css" media="screen" href="/stylesheets/site/2.0/13-group-blurb.css" />
-<link rel="stylesheet" type="text/css" media="screen" href="/stylesheets/site/2.0/14-group-preface.css" />
-<link rel="stylesheet" type="text/css" media="screen" href="/stylesheets/site/2.0/15-group-comments.css" />
-<link rel="stylesheet" type="text/css" media="screen" href="/stylesheets/site/2.0/16-zone-system.css" />
-<link rel="stylesheet" type="text/css" media="screen" href="/stylesheets/site/2.0/17-zone-home.css" />
-<link rel="stylesheet" type="text/css" media="screen" href="/stylesheets/site/2.0/18-zone-searchbrowse.css" />
-<link rel="stylesheet" type="text/css" media="screen" href="/stylesheets/site/2.0/19-zone-tags.css" />
-<link rel="stylesheet" type="text/css" media="screen" href="/stylesheets/site/2.0/20-zone-translation.css" />
-<link rel="stylesheet" type="text/css" media="screen" href="/stylesheets/site/2.0/21-userstuff.css" />
-<link rel="stylesheet" type="text/css" media="screen" href="/stylesheets/site/2.0/22-system-messages.css" />
-<link rel="stylesheet" type="text/css" media="only screen and (max-width: 62em), handheld" href="/stylesheets/site/2.0/25-media-midsize.css" />
-<link rel="stylesheet" type="text/css" media="only screen and (max-width: 42em), handheld" href="/stylesheets/site/2.0/26-media-narrow.css" />
-<link rel="stylesheet" type="text/css" media="speech" href="/stylesheets/site/2.0/27-media-aural.css" />
-<link rel="stylesheet" type="text/css" media="print" href="/stylesheets/site/2.0/28-media-print.css" />
-<!--[if lte IE 8]><link rel="stylesheet" type="text/css" media="screen" href="/stylesheets/site/2.0/29-role-ie8_or_lower.css" /><![endif]-->
-<!--[if IE 5]><link rel="stylesheet" type="text/css" media="screen" href="/stylesheets/site/2.0/30-role-ie5.css" /><![endif]-->
-<!--[if IE 6]><link rel="stylesheet" type="text/css" media="screen" href="/stylesheets/site/2.0/31-role-ie6.css" /><![endif]-->
-<!--[if IE 7]><link rel="stylesheet" type="text/css" media="screen" href="/stylesheets/site/2.0/32-role-ie7.css" /><![endif]-->
 
-<link rel="stylesheet" media="screen" href="/stylesheets/sandbox.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="/stylesheets/skins/skin_1_default/1_site_screen_.css" />
+<link rel="stylesheet" type="text/css" media="only screen and (max-width: 62em), handheld" href="/stylesheets/skins/skin_1_default/4_site_midsize.handheld_.css" />
+<link rel="stylesheet" type="text/css" media="only screen and (max-width: 42em), handheld" href="/stylesheets/skins/skin_1_default/5_site_narrow.handheld_.css" />
+<link rel="stylesheet" type="text/css" media="speech" href="/stylesheets/skins/skin_1_default/6_site_speech_.css" />
+<link rel="stylesheet" type="text/css" media="print" href="/stylesheets/skins/skin_1_default/7_site_print_.css" />
+<!--[if IE 8]><link rel="stylesheet" type="text/css" media="screen" href="/stylesheets/skins/skin_1_default/8_site_screen_IE8_or_lower.css" /><![endif]-->
+<!--[if IE 5]><link rel="stylesheet" type="text/css" media="screen" href="/stylesheets/skins/skin_1_default/9_site_screen_IE5.css" /><![endif]-->
+<!--[if IE 6]><link rel="stylesheet" type="text/css" media="screen" href="/stylesheets/skins/skin_1_default/10_site_screen_IE6.css" /><![endif]-->
+<!--[if IE 7]><link rel="stylesheet" type="text/css" media="screen" href="/stylesheets/skins/skin_1_default/11_site_screen_IE7.css" /><![endif]-->
+
+
+<!--sandbox for developers	-->
+<link rel="stylesheet" href="/stylesheets/sandbox.css" />
+
+
+
 <script src="/javascripts/livevalidation_standalone.js"></script>
+
 <meta name="csrf-param" content="authenticity_token" />
-<meta name="csrf-token" content="fAN0m9Yv6tV6NXx/emTlRBlpZgBZ9iYhdkaoJ5Nm8mJNYtWc0znIAqXKOW7Tha8kxeDsSonPnMBKEQ+/iOYDgg==" />
-</head>
-<body class="logged-out">
-<div id="outer" class="wrapper">
-<ul id="skiplinks"><li><a href="#main">Main Content</a></li></ul>
+<meta name="csrf-token" content="jU_82_5AXP0BrAXvpWlvhPiidXxWpYVRcGrNVwA1xXKWMcdlWuZH__NDt9kt2_F1H87-FmnBe3G5AZPufBGf4g" />
 
-<noscript>
-  <p id="javascript-warning">
-    While we&#39;ve done our best to make the core functionality of this site accessible without javascript, it will work better with it enabled. Please consider turning it on!
+    
+  </head>
+
+  <body class="logged-out" >
+    <div id="outer" class="wrapper">
+      <ul id="skiplinks"><li><a href="#main">Main Content</a></li></ul>
+      <noscript><p id="javascript-warning">While we&#39;ve done our best to make the core functionality of this site accessible without JavaScript, it will work better with it enabled. Please consider turning it on!</p></noscript>
+
+<!-- BEGIN header -->
+
+<header id="header" class="region">
+
+  <h1 class="heading">
+    <a href="/"><span>Archive of Our Own</span><sup> beta</sup><img alt="Archive of Our Own" class="logo" src="/images/ao3_logos/logo_42.png" /></a>
+  </h1>
+
+    <div id="login" class="dropdown">
+      <p class="user actions">
+        <a id="login-dropdown" href="/users/login">Log In</a>
+      </p>
+      <div id="small_login" class="simple login">
+	<form class="new_user" id="new_user_session_small" action="/users/login" accept-charset="UTF-8" method="post"><input type="hidden" name="authenticity_token" value="TPyiZnLYBIuawqO7kwRVD9UNz79L5E3ua_XeI5IWfUIk8vqFlWDHFlhHAaLqM3yDWIHv4XI-IrvdOK-4926M_w" autocomplete="off" />
+	<dl>
+    <dt>
+      <label for="user_session_login_small">User name or email:</label></dt>
+    <dd><input id="user_session_login_small" type="text" name="user[login]" /></dd>
+    <dt><label for="user_session_password_small">Password:</label></dt>
+    <dd><input id="user_session_password_small" type="password" name="user[password]" /></dd>
+  </dl>
+  <p class="submit actions">
+    <label for="user_remember_me_small" class="action"><input type="checkbox" name="user[remember_me]" id="user_remember_me_small" value="1" />Remember Me</label>
+    <input type="submit" name="commit" value="Log In" />
   </p>
-</noscript>
-
-
-<div id="header" class="region">
-<h1 class="heading">
-<a href="/"><span>Archive of Our Own</span><sup> beta</sup><img alt="Archive of Our Own" class="logo" src="/images/ao3_logos/logo_42.png" /></a>
-</h1>
-<div id="login" class="dropdown">
-<p class="user actions" role="menu">
-<a id="login-dropdown" role="menuitem" href="/users/login">Log In</a>
-</p>
-<div id="small_login" class="simple login">
-<form class="new_user" id="new_user_session_small" action="/users/login" accept-charset="UTF-8" method="post"><input type="hidden" name="authenticity_token" value="qC2G91vNJcjxdbTjbio8b1Gp2N4/oXPmiBAdjLeO2dV9L4buH9GUaF+GjwxcjCPb2XnE+ECb+njQnD/5ufXodA==" autocomplete="off" />
-<dl>
-<dt>
-<label for="user_session_login_small">User name or email:</label></dt>
-<dd><input id="user_session_login_small" type="text" name="user[login]" /></dd>
-<dt><label for="user_session_password_small">Password:</label></dt>
-<dd><input id="user_session_password_small" type="password" name="user[password]" /></dd>
-</dl>
-<p class="submit actions">
-<label for="user_remember_me_small" class="action"><input type="checkbox" name="user[remember_me]" id="user_remember_me_small" value="1" />Remember Me</label>
-<input type="submit" name="commit" value="Log In" />
-</p>
 </form>
 <ul class="footnote actions">
-<li><a href="/users/password/new">Forgot password?</a></li>
-<li>
-<a href="/invite_requests">Get an Invitation</a>
-</li>
+  <li><a href="/users/password/new">Forgot password?</a></li>
+    <li>
+      <a href="/invite_requests">Get an Invitation</a>
+    </li>
 </ul>
+
 </div>
-</div>
-<h3 class="landmark heading">Site Navigation</h3>
-<ul class="primary navigation actions" role="navigation">
-<li class="dropdown">
-<a href="/menu/fandoms">Fandoms</a>
-<ul class="menu" role="menu">
-<li><a href="/media">All Fandoms</a></li>
-<li id="medium_5"><a href="/media/Anime%20*a*%20Manga/fandoms">Anime &amp; Manga</a></li>
-<li id="medium_3"><a href="/media/Books%20*a*%20Literature/fandoms">Books &amp; Literature</a></li>
-<li id="medium_4"><a href="/media/Cartoons%20*a*%20Comics%20*a*%20Graphic%20Novels/fandoms">Cartoons &amp; Comics &amp; Graphic Novels</a></li>
-<li id="medium_7"><a href="/media/Celebrities%20*a*%20Real%20People/fandoms">Celebrities &amp; Real People</a></li>
-<li id="medium_2"><a href="/media/Movies/fandoms">Movies</a></li>
-<li id="medium_6"><a href="/media/Music%20*a*%20Bands/fandoms">Music &amp; Bands</a></li>
-<li id="medium_8"><a href="/media/Other%20Media/fandoms">Other Media</a></li>
-<li id="medium_30198"><a href="/media/Theater/fandoms">Theater</a></li>
-<li id="medium_1"><a href="/media/TV%20Shows/fandoms">TV Shows</a></li>
-<li id="medium_476"><a href="/media/Video%20Games/fandoms">Video Games</a></li>
-<li id="medium_9971"><a href="/media/Uncategorized%20Fandoms/fandoms">Uncategorized Fandoms</a></li>
+
+    </div>
+
+  <nav aria-label="Site">
+    <ul class="primary navigation actions">
+      <li class="dropdown">
+        <a href="/menu/fandoms">Fandoms</a>
+        <ul class="menu">
+  <li><a href="/media">All Fandoms</a></li>
+        <li id="medium_5"><a href="/media/Anime%20*a*%20Manga/fandoms">Anime &amp; Manga</a></li>
+        <li id="medium_3"><a href="/media/Books%20*a*%20Literature/fandoms">Books &amp; Literature</a></li>
+        <li id="medium_4"><a href="/media/Cartoons%20*a*%20Comics%20*a*%20Graphic%20Novels/fandoms">Cartoons &amp; Comics &amp; Graphic Novels</a></li>
+        <li id="medium_7"><a href="/media/Celebrities%20*a*%20Real%20People/fandoms">Celebrities &amp; Real People</a></li>
+        <li id="medium_2"><a href="/media/Movies/fandoms">Movies</a></li>
+        <li id="medium_6"><a href="/media/Music%20*a*%20Bands/fandoms">Music &amp; Bands</a></li>
+        <li id="medium_8"><a href="/media/Other%20Media/fandoms">Other Media</a></li>
+        <li id="medium_30198"><a href="/media/Theater/fandoms">Theater</a></li>
+        <li id="medium_1"><a href="/media/TV%20Shows/fandoms">TV Shows</a></li>
+        <li id="medium_476"><a href="/media/Video%20Games/fandoms">Video Games</a></li>
+        <li id="medium_9971"><a href="/media/Uncategorized%20Fandoms/fandoms">Uncategorized Fandoms</a></li>
 </ul>
-</li>
-<li class="dropdown">
-<a href="/menu/browse">Browse</a>
-<ul class="menu" role="menu">
-<li><a href="/works">Works</a></li>
-<li><a href="/bookmarks">Bookmarks</a></li>
-<li><a href="/tags">Tags</a></li>
-<li><a href="/collections">Collections</a></li>
+
+      </li>
+      <li class="dropdown">
+        <a href="/menu/browse">Browse</a>
+        <ul class="menu">
+  <li><a href="/works">Works</a></li>
+  <li><a href="/bookmarks">Bookmarks</a></li>
+  <li><a href="/tags">Tags</a></li>
+  <li><a href="/collections">Collections</a></li>
 </ul>
-</li>
-<li class="dropdown">
-<a href="/menu/search">Search</a>
-<ul class="menu" role="menu">
-<li><a href="/works/search">Works</a></li>
-<li><a href="/bookmarks/search">Bookmarks</a></li>
-<li><a href="/tags/search">Tags</a></li>
-<li><a href="/people/search">People</a></li>
+
+      </li>
+      <li class="dropdown">
+        <a href="/menu/search">Search</a>
+        <ul class="menu">
+  <li><a href="/works/search">Works</a></li>
+  <li><a href="/bookmarks/search">Bookmarks</a></li>
+  <li><a href="/tags/search">Tags</a></li>
+  <li><a href="/people/search">People</a></li>
 </ul>
-</li>
-<li class="dropdown">
-<a href="/menu/about">About</a>
-<ul class="menu" role="menu">
-<li><a href="/about">About Us</a></li>
-<li><a href="/admin_posts">News</a></li>
-<li><a href="/faq">FAQ</a></li>
-<li><a href="/wrangling_guidelines">Wrangling Guidelines</a></li>
-<li><a href="/donate">Donate or Volunteer</a></li>
+
+      </li>
+      <li class="dropdown">
+        <a href="/menu/about">About</a>
+        <ul class="menu">
+  <li><a href="/about">About Us</a></li>
+  <li><a href="/admin_posts">News</a></li>
+  <li><a href="/faq">FAQ</a></li>
+  <li><a href="/wrangling_guidelines">Wrangling Guidelines</a></li>
+  <li><a href="/donate">Donate or Volunteer</a></li>
 </ul>
-</li>
-<li class="search"><form class="search" id="search" action="/works/search" accept-charset="UTF-8" method="get">
-<fieldset>
-<legend>Search Works</legend>
-<p>
-<label class="landmark" for="site_search">Work Search:</label>
-<input class="text" id="site_search" aria-describedby="site_search_tooltip" type="text" name="work_search[query]" />
-<span class="tip" role="tooltip" id="site_search_tooltip">tip: &quot;uchiha sasuke/uzumaki naruto&quot; angst kudos&gt;10</span>
-<span class="submit actions"><input type="submit" value="Search" class="button" /></span>
-</p>
-</fieldset>
+
+      </li>
+      <li class="search"><form class="search" id="search" role="search" aria-label="Work" action="/works/search" accept-charset="UTF-8" method="get">
+  <fieldset>
+    <p>
+      <label class="landmark" for="site_search">Work Search</label>
+      <input class="text" id="site_search" aria-describedby="site_search_tooltip" type="text" name="work_search[query]" />
+      <span class="tip" role="tooltip" id="site_search_tooltip">tip: austen words:10000-50000 sort:title</span>
+      <span class="submit actions"><input type="submit" value="Search" class="button" /></span>
+    </p>
+  </fieldset>
 </form></li>
-</ul>
-<div class="clear"></div>
-</div>
-
-<div id="inner" class="wrapper">
+    </ul>
+  </nav>
 
 
 
-<div id="main" class="series-show region" role="main">
-<div class="flash"></div>
+  <div class="clear"></div>
 
+</header>
+
+
+
+<!-- END header -->
+
+      <div id="inner" class="wrapper">
+        <!-- BEGIN sidebar -->
+        <!-- END sidebar -->
+
+        <!-- BEGIN main -->
+        <div id="main" class="series-show region" role="main">
+          
+          <div class="flash"></div>
+          <!--Descriptive page name, messages and instructions-->
 <h2 class="heading">
-*Insert Fandom* but Social Media (one-shots)
+	*Insert Fandom* but Social Media (one-shots)
 </h2>
+<!--/descriptions-->
 
 
+<!--subnav-->
+<!--/subnav-->
 
-
+<!--main content-->
 <h3 class="landmark heading">Series Metadata</h3>
 <div class="wrapper">
-<dl class="series meta group">
-<dt>Creator:</dt>
-<dd>Anonymous</dd>
-<dt>Series Begun:</dt>
-<dd>2021-10-29</dd>
-<dt>Series Updated:</dt>
-<dd>2023-11-01</dd>
-<dt>Description:</dt>
-<dd><blockquote class="userstuff"><p>Find out which series I am going to write a Social Media fic about *jazz hands*</p></blockquote></dd>
-<dt>Notes:</dt>
-<dd><blockquote class="userstuff"><p>Part 1: Turning Red and Avengers fusion<br/>Part 2-3: DSMP Fandom (2* is a Batman crossover)<br/>Part 4: FNAF Fandom<br/>Part 5: Jujutsu Kaisen</p></blockquote></dd>
-<dt class="stats">Stats:</dt>
-<dd class="stats">
-<dl class="stats">
-<dt>Words:</dt>
-<dd>16,938</dd>
-<dt>Works:</dt>
-<dd>5</dd>
-<dt>Complete:</dt>
-<dd>Yes</dd>
-<dt>Bookmarks:</dt>
-<dd><a href="/series/2817877/bookmarks">93</a></dd>
-</dl>
-</dd>
-</dl>
+  <dl class="series meta group">
+
+      <dt>Creator:</dt>
+      <dd>Anonymous</dd>
+
+    <dt>Series Begun:</dt>
+    <dd>2021-10-29</dd>
+    <dt>Series Updated:</dt>
+    <dd>2023-11-01</dd>
+
+      <dt>Description:</dt>
+      <dd><blockquote class="userstuff"><p>Find out which series I am going to write a Social Media fic about *jazz hands*</p></blockquote></dd>
+      <dt>Notes:</dt>
+      <dd><blockquote class="userstuff"><p>Part 1: Turning Red and Avengers fusion<br />Part 2-3: DSMP Fandom (2* is a Batman crossover)<br />Part 4: FNAF Fandom<br />Part 5: Jujutsu Kaisen</p></blockquote></dd>
+
+    <dt class="stats">Stats:</dt>
+    <dd class="stats">
+      <dl class="stats">
+        <dt class="words">Words:</dt>
+        <dd class="words">16,938</dd>
+        <dt class="works">Works:</dt>
+        <dd class="works">5</dd>
+        <dt>Complete:</dt>
+        <dd>Yes</dd>
+          <dt class="bookmarks">Bookmarks:</dt>
+          <dd class="bookmarks"><a href="/series/2817877/bookmarks">121</a></dd>
+      </dl>
+    </dd>
+
+  </dl>
 </div>
+
 <h3 class="landmark heading">Listing Series</h3>
+  <!--pagination here-->
+  
 <ul class="series work index group">
-<li id="work_37816267" class="work blurb group work-37816267" role="article">
+  <li id="work_37816267" class="work blurb group work-37816267" role="article">
+  
 
-<div class="header module">
-<h4 class="heading">
-<a href="/works/37816267">What's In My System</a>
-by
+  <!--title, author, fandom-->
+  <div class="header module">
 
-Anonymous
-</h4>
-<h5 class="fandoms heading">
-<span class="landmark">Fandoms:</span>
-<a class="tag" href="/tags/Turning%20Red%20(2022)/works">Turning Red (2022)</a>, <a class="tag" href="/tags/Marvel%20Cinematic%20Universe/works">Marvel Cinematic Universe</a>, <a class="tag" href="/tags/The%20Avengers%20(Marvel%20Movies)/works">The Avengers (Marvel Movies)</a>
-&nbsp;
-</h5>
+    <h4 class="heading">
+      <a href="/works/37816267">What's In My System</a>
+      by
+        
+      <!-- do not cache -->
+      Anonymous
 
-<ul class="required-tags">
-<li> <a class="help symbol question modal" title="Symbols key" aria-controls="#modal" href="/help/symbols-key.html"><span class="rating-general-audience rating" title="General Audiences"><span class="text">General Audiences</span></span></a></li>
-<li> <a class="help symbol question modal" title="Symbols key" aria-controls="#modal" href="/help/symbols-key.html"><span class="warning-choosenotto warnings" title="Choose Not To Use Archive Warnings, No Archive Warnings Apply"><span class="text">Choose Not To Use Archive Warnings, No Archive Warnings Apply</span></span></a></li>
-<li> <a class="help symbol question modal" title="Symbols key" aria-controls="#modal" href="/help/symbols-key.html"><span class="category-multi category" title="Gen, Multi"><span class="text">Gen, Multi</span></span></a></li>
-<li> <a class="help symbol question modal" title="Symbols key" aria-controls="#modal" href="/help/symbols-key.html"><span class="complete-yes iswip" title="Complete Work"><span class="text">Complete Work</span></span></a></li>
+
+
+      
+      
+    </h4>
+
+    <h5 class="fandoms heading">
+      <span class="landmark">Fandoms:</span>
+      <a class="tag" href="/tags/Turning%20Red%20(2022)/works">Turning Red (2022)</a>, <a class="tag" href="/tags/Marvel%20Cinematic%20Universe/works">Marvel Cinematic Universe</a>, <a class="tag" href="/tags/The%20Avengers%20(Marvel%20Movies)/works">The Avengers (Marvel Movies)</a>
+      &nbsp;
+    </h5>
+
+    <!--required tags-->
+    <ul class="required-tags">
+<li> <a class="help symbol question modal" title="Symbols key" href="/help/symbols-key.html"><span class="rating-general-audience rating" title="General Audiences"><span class="text">General Audiences</span></span></a></li>
+<li> <a class="help symbol question modal" title="Symbols key" href="/help/symbols-key.html"><span class="warning-choosenotto warnings" title="Choose Not To Use Archive Warnings, No Archive Warnings Apply"><span class="text">Choose Not To Use Archive Warnings, No Archive Warnings Apply</span></span></a></li>
+<li> <a class="help symbol question modal" title="Symbols key" href="/help/symbols-key.html"><span class="category-multi category" title="Gen, Multi"><span class="text">Gen, Multi</span></span></a></li>
+<li> <a class="help symbol question modal" title="Symbols key" href="/help/symbols-key.html"><span class="complete-yes iswip" title="Complete Work"><span class="text">Complete Work</span></span></a></li>
 </ul>
-<p class="datetime">26 Mar 2022</p>
-</div>
+    <p class="datetime">26 Mar 2022</p>
+  </div>
 
-<h6 class="landmark heading">Tags</h6>
-<ul class="tags commas">
-<li class="warnings"><strong><a class="tag" href="/tags/Choose%20Not%20To%20Use%20Archive%20Warnings/works">Creator Chose Not To Use Archive Warnings</a></strong></li> <li class="warnings"><strong><a class="tag" href="/tags/No%20Archive%20Warnings%20Apply/works">No Archive Warnings Apply</a></strong></li><li class="relationships"><a class="tag" href="/tags/Meilin%20%22Mei%22%20Lee*s*Miriam%20Wexler/works">Meilin &quot;Mei&quot; Lee/Miriam Wexler</a></li> <li class="relationships"><a class="tag" href="/tags/Priya%20Dewan%20*a*%20Meilin%20%E2%80%9CMei%E2%80%9D%20Lee%20*a*%20Tyler%20Nguyen-Baker%20*a*%20Abby%20Park%20*a*%20Miriam%20Wexler/works">Priya Dewan &amp; Meilin “Mei” Lee &amp; Tyler Nguyen-Baker &amp; Abby Park &amp; Miriam Wexler</a></li> <li class="relationships"><a class="tag" href="/tags/Tyler%20Nguyen-Baker*s*Aaron%20Z*d*/works">Tyler Nguyen-Baker/Aaron Z.</a></li><li class="characters"><a class="tag" href="/tags/Meilin%20%22Mei%22%20Lee/works">Meilin &quot;Mei&quot; Lee</a></li> <li class="characters"><a class="tag" href="/tags/Miriam%20Wexler/works">Miriam Wexler</a></li> <li class="characters"><a class="tag" href="/tags/Priya%20Dewan/works">Priya Dewan</a></li> <li class="characters"><a class="tag" href="/tags/Tyler%20Nguyen-Baker/works">Tyler Nguyen-Baker</a></li> <li class="characters"><a class="tag" href="/tags/Abby%20Park%20(Turning%20Red)/works">Abby Park (Turning Red)</a></li> <li class="characters"><a class="tag" href="/tags/Jesse%20(Turning%20Red)/works">Jesse (Turning Red)</a></li> <li class="characters"><a class="tag" href="/tags/Robaire%20(Turning%20Red)/works">Robaire (Turning Red)</a></li> <li class="characters"><a class="tag" href="/tags/Bruce%20Banner/works">Bruce Banner</a></li> <li class="characters"><a class="tag" href="/tags/Tony%20Stark/works">Tony Stark</a></li><li class="freeforms"><a class="tag" href="/tags/Crack/works">Crack</a></li> <li class="freeforms"><a class="tag" href="/tags/Crack%20Treated%20Seriously/works">Crack Treated Seriously</a></li> <li class="freeforms"><a class="tag" href="/tags/Social%20Media/works">Social Media</a></li> <li class="freeforms"><a class="tag" href="/tags/POV%20Outsider/works">POV Outsider</a></li> <li class="freeforms"><a class="tag" href="/tags/YouTube/works">YouTube</a></li> <li class="freeforms"><a class="tag" href="/tags/Embedded%20Images/works">Embedded Images</a></li> <li class="freeforms"><a class="tag" href="/tags/Non-Canon%20Relationship/works">Non-Canon Relationship</a></li> <li class="freeforms"><a class="tag" href="/tags/Alternate%20Universe%20-%20Canon%20Divergence/works">Alternate Universe - Canon Divergence</a></li> <li class="freeforms"><a class="tag" href="/tags/Alternate%20Universe%20-%20Future/works">Alternate Universe - Future</a></li> <li class="freeforms"><a class="tag" href="/tags/Post-Canon/works">Post-Canon</a></li> <li class="freeforms"><a class="tag" href="/tags/Post-Avengers:%20Endgame%20(Movie)/works">Post-Avengers: Endgame (Movie)</a></li> <li class="freeforms"><a class="tag" href="/tags/The%20Author%20Regrets%20Everything/works">The Author Regrets Everything</a></li> <li class="freeforms"><a class="tag" href="/tags/4%20Town%20(Turning%20Red)/works">4 Town (Turning Red)</a></li> <li class="freeforms"><a class="tag" href="/tags/someone%20had%20to%20make%20the%20weird%20crossover/works">someone had to make the weird crossover</a></li>
-</ul>
+  <!--warnings again, cast, freeform tags-->
+  <h6 class="landmark heading">Tags</h6>
+  <ul class="tags commas">
+    <li class='warnings'><strong><a class="tag" href="/tags/Choose%20Not%20To%20Use%20Archive%20Warnings/works">Creator Chose Not To Use Archive Warnings</a></strong></li> <li class='warnings'><strong><a class="tag" href="/tags/No%20Archive%20Warnings%20Apply/works">No Archive Warnings Apply</a></strong></li><li class='relationships'><a class="tag" href="/tags/Meilin%20%22Mei%22%20Lee*s*Miriam%20Wexler/works">Meilin &quot;Mei&quot; Lee/Miriam Wexler</a></li> <li class='relationships'><a class="tag" href="/tags/Priya%20Dewan%20*a*%20Meilin%20%E2%80%9CMei%E2%80%9D%20Lee%20*a*%20Tyler%20Nguyen-Baker%20*a*%20Abby%20Park%20*a*%20Miriam%20Wexler/works">Priya Dewan &amp; Meilin “Mei” Lee &amp; Tyler Nguyen-Baker &amp; Abby Park &amp; Miriam Wexler</a></li> <li class='relationships'><a class="tag" href="/tags/Tyler%20Nguyen-Baker*s*Aaron%20Z*d*/works">Tyler Nguyen-Baker/Aaron Z.</a></li><li class='characters'><a class="tag" href="/tags/Meilin%20%22Mei%22%20Lee/works">Meilin &quot;Mei&quot; Lee</a></li> <li class='characters'><a class="tag" href="/tags/Miriam%20Wexler/works">Miriam Wexler</a></li> <li class='characters'><a class="tag" href="/tags/Priya%20Dewan/works">Priya Dewan</a></li> <li class='characters'><a class="tag" href="/tags/Tyler%20Nguyen-Baker/works">Tyler Nguyen-Baker</a></li> <li class='characters'><a class="tag" href="/tags/Abby%20Park%20(Turning%20Red)/works">Abby Park (Turning Red)</a></li> <li class='characters'><a class="tag" href="/tags/Jesse%20(Turning%20Red)/works">Jesse (Turning Red)</a></li> <li class='characters'><a class="tag" href="/tags/Robaire%20(Turning%20Red)/works">Robaire (Turning Red)</a></li> <li class='characters'><a class="tag" href="/tags/Bruce%20Banner/works">Bruce Banner</a></li> <li class='characters'><a class="tag" href="/tags/Tony%20Stark/works">Tony Stark</a></li><li class='freeforms'><a class="tag" href="/tags/Crack/works">Crack</a></li> <li class='freeforms'><a class="tag" href="/tags/Crack%20Treated%20Seriously/works">Crack Treated Seriously</a></li> <li class='freeforms'><a class="tag" href="/tags/Social%20Media/works">Social Media</a></li> <li class='freeforms'><a class="tag" href="/tags/POV%20Outsider/works">POV Outsider</a></li> <li class='freeforms'><a class="tag" href="/tags/YouTube/works">YouTube</a></li> <li class='freeforms'><a class="tag" href="/tags/Embedded%20Images/works">Embedded Images</a></li> <li class='freeforms'><a class="tag" href="/tags/Non-Canon%20Relationship/works">Non-Canon Relationship</a></li> <li class='freeforms'><a class="tag" href="/tags/Alternate%20Universe%20-%20Canon%20Divergence/works">Alternate Universe - Canon Divergence</a></li> <li class='freeforms'><a class="tag" href="/tags/Alternate%20Universe%20-%20Future/works">Alternate Universe - Future</a></li> <li class='freeforms'><a class="tag" href="/tags/Post-Canon/works">Post-Canon</a></li> <li class='freeforms'><a class="tag" href="/tags/Post-Avengers:%20Endgame%20(Movie)/works">Post-Avengers: Endgame (Movie)</a></li> <li class='freeforms'><a class="tag" href="/tags/The%20Author%20Regrets%20Everything/works">The Author Regrets Everything</a></li> <li class='freeforms'><a class="tag" href="/tags/4%20Town%20(Turning%20Red)/works">4 Town (Turning Red)</a></li> <li class='freeforms'><a class="tag" href="/tags/someone%20had%20to%20make%20the%20weird%20crossover/works">someone had to make the weird crossover</a></li>
+  </ul>
 
-<h6 class="landmark heading">Summary</h6>
-<blockquote class="userstuff summary">
-<blockquote>
-<p><b>Thor is a himbo 🔨</b> <em>@janey</em></p>
-<p>
-<em> Replying to @ironmanass </em>
-</p>
-<p>Oh, isn't this the girl that Tony Stark was slapped by ?</p>
-<p><b>Canada dry soda</b> <em>@kmshottie</em></p>
-<p>
-<em> Replying to @ironmanass and @janey  </em>
-</p>
-<p>*mother… it was the girl's mother that slapped him </p>
-<p><b>Rain is my name</b> <em>@dontwearitout</em></p>
-<p>
-<em> Replying to @ironmanass @janey and @kmshottie </em>
-</p>
-<p>It was pretty iconic </p>
+  <!--summary-->
+    <h6 class="landmark heading">Summary</h6>
+    <blockquote class="userstuff summary">
+      <blockquote>
+  <p><b>Thor is a himbo 🔨</b> <em>@janey</em></p>
+  <p>
+    <em> Replying to @ironmanass </em>
+  </p>
+  <p>Oh, isn't this the girl that Tony Stark was slapped by ?</p>
+  <p><b>Canada dry soda</b> <em>@kmshottie</em></p>
+  <p>
+    <em> Replying to @ironmanass and @janey  </em>
+  </p>
+  <p>*mother… it was the girl's mother that slapped him </p>
+  <p><b>Rain is my name</b> <em>@dontwearitout</em></p>
+  <p>
+    <em> Replying to @ironmanass @janey and @kmshottie </em>
+  </p>
+  <p>It was pretty iconic </p>
 </blockquote><p>What if Turning Red and the MCU existed in the same timline?</p>
-</blockquote>
-<h6 class="landmark heading">Series</h6>
-<ul class="series">
-<li>
-Part <strong>1</strong> of <a href="/series/2817877">*Insert Fandom* but Social Media (one-shots)</a>
-</li>
-</ul>
+    </blockquote>
 
-<dl class="stats">
-<dt class="language">Language:</dt>
-<dd class="language" lang="en">English</dd>
-<dt class="words">Words:</dt>
-<dd class="words">1,963</dd>
-<dt class="chapters">Chapters:</dt>
-<dd class="chapters">1/1</dd>
-<dt class="collections">Collections:</dt>
-<dd class="collections"><a href="/works/37816267/collections">1</a></dd>
-<dt class="comments">Comments:</dt>
-<dd class="comments"><a href="/works/37816267?show_comments=true#comments">13</a></dd>
-<dt class="kudos">Kudos:</dt>
-<dd class="kudos"><a href="/works/37816267#kudos">395</a></dd>
-<dt class="bookmarks">Bookmarks:</dt>
-<dd class="bookmarks"><a href="/works/37816267/bookmarks">49</a></dd>
-<dt class="hits">Hits:</dt>
-<dd class="hits">2,992</dd>
-</dl>
+    <h6 class="landmark heading">Series</h6>
+    <ul class="series">
+        <li>
+          Part <strong>1</strong> of <a href="/series/2817877">*Insert Fandom* but Social Media (one-shots)</a>
+        </li>
+    </ul>
+
+  <!--stats-->
+
+  <dl class="stats">
+      <dt class="language">Language:</dt>
+      <dd class="language" lang="en">English</dd>
+    <dt class="words">Words:</dt>
+    <dd class="words">1,963</dd>
+    <dt class="chapters">Chapters:</dt>
+    <dd class="chapters">1/1</dd>
+
+
+    <dt class="collections">Collections:</dt>
+    <dd class="collections"><a href="/works/37816267/collections">1</a></dd>
+
+    <dt class="comments">Comments:</dt>
+    <dd class="comments"><a href="/works/37816267?show_comments=true#comments">13</a></dd>
+
+    <dt class="kudos">Kudos:</dt>
+    <dd class="kudos"><a href="/works/37816267#kudos">491</a></dd>
+
+    <dt class="bookmarks">Bookmarks:</dt>
+    <dd class="bookmarks"><a href="/works/37816267/bookmarks">54</a></dd>
+
+  <dt class="hits">Hits:</dt>
+  <dd class="hits">3,777</dd>
+
+  </dl>
+
+
 </li>
 <li id="work_34701700" class="work blurb group work-34701700" role="article">
+  
 
-<div class="header module">
-<h4 class="heading">
-<a href="/works/34701700">#OnlyinTheSMP</a>
-by
+  <!--title, author, fandom-->
+  <div class="header module">
 
-Anonymous
-</h4>
-<h5 class="fandoms heading">
-<span class="landmark">Fandoms:</span>
-<a class="tag" href="/tags/Video%20Blogging%20RPF/works">Video Blogging RPF</a>, <a class="tag" href="/tags/Minecraft%20(Video%20Game)/works">Minecraft (Video Game)</a>, <a class="tag" href="/tags/Batman%20-%20All%20Media%20Types/works">Batman - All Media Types</a>
-&nbsp;
-</h5>
+    <h4 class="heading">
+      <a href="/works/34701700">#OnlyinTheSMP</a>
+      by
+        
+      <!-- do not cache -->
+      Anonymous
 
-<ul class="required-tags">
-<li> <a class="help symbol question modal" title="Symbols key" aria-controls="#modal" href="/help/symbols-key.html"><span class="rating-teen rating" title="Teen And Up Audiences"><span class="text">Teen And Up Audiences</span></span></a></li>
-<li> <a class="help symbol question modal" title="Symbols key" aria-controls="#modal" href="/help/symbols-key.html"><span class="warning-choosenotto warnings" title="Choose Not To Use Archive Warnings"><span class="text">Choose Not To Use Archive Warnings</span></span></a></li>
-<li> <a class="help symbol question modal" title="Symbols key" aria-controls="#modal" href="/help/symbols-key.html"><span class="category-gen category" title="Gen"><span class="text">Gen</span></span></a></li>
-<li> <a class="help symbol question modal" title="Symbols key" aria-controls="#modal" href="/help/symbols-key.html"><span class="complete-yes iswip" title="Complete Work"><span class="text">Complete Work</span></span></a></li>
+
+
+      
+      
+    </h4>
+
+    <h5 class="fandoms heading">
+      <span class="landmark">Fandoms:</span>
+      <a class="tag" href="/tags/Video%20Blogging%20RPF/works">Video Blogging RPF</a>, <a class="tag" href="/tags/Minecraft%20(Video%20Game)/works">Minecraft (Video Game)</a>, <a class="tag" href="/tags/Batman%20-%20All%20Media%20Types/works">Batman - All Media Types</a>
+      &nbsp;
+    </h5>
+
+    <!--required tags-->
+    <ul class="required-tags">
+<li> <a class="help symbol question modal" title="Symbols key" href="/help/symbols-key.html"><span class="rating-teen rating" title="Teen And Up Audiences"><span class="text">Teen And Up Audiences</span></span></a></li>
+<li> <a class="help symbol question modal" title="Symbols key" href="/help/symbols-key.html"><span class="warning-choosenotto warnings" title="Choose Not To Use Archive Warnings"><span class="text">Choose Not To Use Archive Warnings</span></span></a></li>
+<li> <a class="help symbol question modal" title="Symbols key" href="/help/symbols-key.html"><span class="category-gen category" title="Gen"><span class="text">Gen</span></span></a></li>
+<li> <a class="help symbol question modal" title="Symbols key" href="/help/symbols-key.html"><span class="complete-yes iswip" title="Complete Work"><span class="text">Complete Work</span></span></a></li>
 </ul>
-<p class="datetime">29 Oct 2021</p>
-</div>
+    <p class="datetime">29 Oct 2021</p>
+  </div>
 
-<h6 class="landmark heading">Tags</h6>
-<ul class="tags commas">
-<li class="warnings"><strong><a class="tag" href="/tags/Choose%20Not%20To%20Use%20Archive%20Warnings/works">Creator Chose Not To Use Archive Warnings</a></strong></li><li class="relationships"><a class="tag" href="/tags/Toby%20Smith%20%7C%20Tubbo%20*a*%20TommyInnit/works">Toby Smith | Tubbo &amp; TommyInnit</a></li> <li class="relationships"><a class="tag" href="/tags/Ranboo%20*a*%20Toby%20Smith%20%7C%20Tubbo%20*a*%20TommyInnit/works">Ranboo &amp; Toby Smith | Tubbo &amp; TommyInnit</a></li> <li class="relationships"><a class="tag" href="/tags/Floris%20%7C%20Fundy%20*a*%20Wilbur%20Soot/works">Floris | Fundy &amp; Wilbur Soot</a></li> <li class="relationships"><a class="tag" href="/tags/Batfamily%20Members%20*a*%20Other(s)/works">Batfamily Members &amp; Other(s)</a></li> <li class="relationships"><a class="tag" href="/tags/Dream%20SMP%20Ensemble%20*a*%20Everyone/works">Dream SMP Ensemble &amp; Everyone</a></li><li class="characters"><a class="tag" href="/tags/Ranboo%20(Video%20Blogging%20RPF)/works">Ranboo (Video Blogging RPF)</a></li> <li class="characters"><a class="tag" href="/tags/TommyInnit%20(Video%20Blogging%20RPF)/works">TommyInnit (Video Blogging RPF)</a></li> <li class="characters"><a class="tag" href="/tags/Toby%20Smith%20%7C%20Tubbo/works">Toby Smith | Tubbo</a></li> <li class="characters"><a class="tag" href="/tags/Floris%20%7C%20Fundy/works">Floris | Fundy</a></li> <li class="characters"><a class="tag" href="/tags/Wilbur%20Soot/works">Wilbur Soot</a></li> <li class="characters"><a class="tag" href="/tags/Bruce%20Wayne/works">Bruce Wayne</a></li> <li class="characters"><a class="tag" href="/tags/Batfamily%20Members/works">Batfamily Members</a></li> <li class="characters"><a class="tag" href="/tags/Gotham%20City/works">Gotham City</a></li> <li class="characters"><a class="tag" href="/tags/Dream%20SMP%20Ensemble/works">Dream SMP Ensemble</a></li><li class="freeforms"><a class="tag" href="/tags/Crack/works">Crack</a></li> <li class="freeforms"><a class="tag" href="/tags/Fluff%20and%20Crack/works">Fluff and Crack</a></li> <li class="freeforms"><a class="tag" href="/tags/Twitter/works">Twitter</a></li> <li class="freeforms"><a class="tag" href="/tags/Embedded%20Images/works">Embedded Images</a></li> <li class="freeforms"><a class="tag" href="/tags/Crack%20Treated%20Seriously/works">Crack Treated Seriously</a></li> <li class="freeforms"><a class="tag" href="/tags/no%20beta%20we%20die%20like%20jason%20todd/works">no beta we die like jason todd</a></li> <li class="freeforms"><a class="tag" href="/tags/Alternate%20Universe%20-%20Canon%20Divergence/works">Alternate Universe - Canon Divergence</a></li> <li class="freeforms"><a class="tag" href="/tags/Canon-Typical%20Violence/works">Canon-Typical Violence</a></li> <li class="freeforms"><a class="tag" href="/tags/Alternate%20Universe%20-%20Modern%20with%20Magic/works">Alternate Universe - Modern with Magic</a></li> <li class="freeforms"><a class="tag" href="/tags/Ambiguous*s*Open%20Ending/works">Ambiguous/Open Ending</a></li> <li class="freeforms"><a class="tag" href="/tags/What%20If%20The%20SMP%20Was%20a%20Real%20Country*q**q*/works">What If The SMP Was a Real Country??</a></li> <li class="freeforms"><a class="tag" href="/tags/Social%20Media/works">Social Media</a></li> <li class="freeforms"><a class="tag" href="/tags/Platonically%20Married%20Ranboo%20and%20Toby%20Smith%20%7C%20Tubbo/works">Platonically Married Ranboo and Toby Smith | Tubbo</a></li> <li class="freeforms"><a class="tag" href="/tags/Sleepy%20Bois%20Inc%20as%20Family/works">Sleepy Bois Inc as Family</a></li> <li class="freeforms"><a class="tag" href="/tags/Dream%20SMP%20Ensemble-centric/works">Dream SMP Ensemble-centric</a></li> <li class="freeforms"><a class="tag" href="/tags/POV%20Outsider/works">POV Outsider</a></li>
-</ul>
+  <!--warnings again, cast, freeform tags-->
+  <h6 class="landmark heading">Tags</h6>
+  <ul class="tags commas">
+    <li class='warnings'><strong><a class="tag" href="/tags/Choose%20Not%20To%20Use%20Archive%20Warnings/works">Creator Chose Not To Use Archive Warnings</a></strong></li><li class='relationships'><a class="tag" href="/tags/Toby%20Smith%20%7C%20Tubbo%20*a*%20TommyInnit/works">Toby Smith | Tubbo &amp; TommyInnit</a></li> <li class='relationships'><a class="tag" href="/tags/Ranboo%20*a*%20Toby%20Smith%20%7C%20Tubbo%20*a*%20TommyInnit/works">Ranboo &amp; Toby Smith | Tubbo &amp; TommyInnit</a></li> <li class='relationships'><a class="tag" href="/tags/Floris%20%7C%20Fundy%20*a*%20Wilbur%20Soot/works">Floris | Fundy &amp; Wilbur Soot</a></li> <li class='relationships'><a class="tag" href="/tags/Batfamily%20Members%20*a*%20Other(s)/works">Batfamily Members &amp; Other(s)</a></li> <li class='relationships'><a class="tag" href="/tags/Dream%20SMP%20Ensemble%20*a*%20Everyone/works">Dream SMP Ensemble &amp; Everyone</a></li><li class='characters'><a class="tag" href="/tags/Ranboo%20(Video%20Blogging%20RPF)/works">Ranboo (Video Blogging RPF)</a></li> <li class='characters'><a class="tag" href="/tags/TommyInnit%20(Video%20Blogging%20RPF)/works">TommyInnit (Video Blogging RPF)</a></li> <li class='characters'><a class="tag" href="/tags/Toby%20Smith%20%7C%20Tubbo/works">Toby Smith | Tubbo</a></li> <li class='characters'><a class="tag" href="/tags/Floris%20%7C%20Fundy/works">Floris | Fundy</a></li> <li class='characters'><a class="tag" href="/tags/Wilbur%20Soot/works">Wilbur Soot</a></li> <li class='characters'><a class="tag" href="/tags/Bruce%20Wayne/works">Bruce Wayne</a></li> <li class='characters'><a class="tag" href="/tags/Batfamily%20Members/works">Batfamily Members</a></li> <li class='characters'><a class="tag" href="/tags/Gotham%20City/works">Gotham City</a></li> <li class='characters'><a class="tag" href="/tags/Dream%20SMP%20Ensemble/works">Dream SMP Ensemble</a></li><li class='freeforms'><a class="tag" href="/tags/Crack/works">Crack</a></li> <li class='freeforms'><a class="tag" href="/tags/Fluff%20and%20Crack/works">Fluff and Crack</a></li> <li class='freeforms'><a class="tag" href="/tags/Twitter/works">Twitter</a></li> <li class='freeforms'><a class="tag" href="/tags/Embedded%20Images/works">Embedded Images</a></li> <li class='freeforms'><a class="tag" href="/tags/Crack%20Treated%20Seriously/works">Crack Treated Seriously</a></li> <li class='freeforms'><a class="tag" href="/tags/no%20beta%20we%20die%20like%20jason%20todd/works">no beta we die like jason todd</a></li> <li class='freeforms'><a class="tag" href="/tags/Alternate%20Universe%20-%20Canon%20Divergence/works">Alternate Universe - Canon Divergence</a></li> <li class='freeforms'><a class="tag" href="/tags/Canon-Typical%20Violence/works">Canon-Typical Violence</a></li> <li class='freeforms'><a class="tag" href="/tags/Alternate%20Universe%20-%20Modern%20with%20Magic/works">Alternate Universe - Modern with Magic</a></li> <li class='freeforms'><a class="tag" href="/tags/Ambiguous*s*Open%20Ending/works">Ambiguous/Open Ending</a></li> <li class='freeforms'><a class="tag" href="/tags/What%20If%20The%20SMP%20Was%20a%20Real%20Country*q**q*/works">What If The SMP Was a Real Country??</a></li> <li class='freeforms'><a class="tag" href="/tags/Social%20Media/works">Social Media</a></li> <li class='freeforms'><a class="tag" href="/tags/Platonically%20Married%20Ranboo%20and%20Toby%20Smith%20%7C%20Tubbo/works">Platonically Married Ranboo and Toby Smith | Tubbo</a></li> <li class='freeforms'><a class="tag" href="/tags/Sleepy%20Bois%20Inc%20as%20Family/works">Sleepy Bois Inc as Family</a></li> <li class='freeforms'><a class="tag" href="/tags/Dream%20SMP%20Ensemble-centric/works">Dream SMP Ensemble-centric</a></li> <li class='freeforms'><a class="tag" href="/tags/POV%20Outsider/works">POV Outsider</a></li>
+  </ul>
 
-<h6 class="landmark heading">Summary</h6>
-<blockquote class="userstuff summary">
-<blockquote>
-<p><b>superman isn't a god</b> <em>@metropolisisoverated </em></p>
-<p>
-<em>Replying to @TubboBeloved_ </em>
-</p>
-<p>Um, shouldn't we notify the the government of this?? </p>
-<p><b>Tubbo Underscore-Beloved</b> <em>@TubboBeloved_ </em></p>
-<p>
-<em>Replying to @TubboBeloved_ and @metropolisisoverated </em>
-</p>
-<p>You can, but they can't stop me</p>
-<p><b>superman isn't a god</b> <em>@metropolisisoverated </em></p>
-<p>
-<em>Replying to @TubboBeloved_ and @metropolisisoverated </em>
-</p>
-<p>Is- is that a threat</p>
-<p><b>Tubbo Underscore-Beloved</b> <em>@TubboBeloved_ </em></p>
-<p>
-<em> Replying to @TubboBeloved_ and @metropolisisoverated </em>
-</p>
-<p>It's a promise</p>
+  <!--summary-->
+    <h6 class="landmark heading">Summary</h6>
+    <blockquote class="userstuff summary">
+      <blockquote>
+  <p><b>superman isn't a god</b> <em>@metropolisisoverated </em></p>
+  <p>
+    <em>Replying to @TubboBeloved_ </em>
+  </p>
+  <p>Um, shouldn't we notify the the government of this?? </p>
+  <p><b>Tubbo Underscore-Beloved</b> <em>@TubboBeloved_ </em></p>
+  <p>
+    <em>Replying to @TubboBeloved_ and @metropolisisoverated </em>
+  </p>
+  <p>You can, but they can't stop me</p>
+  <p><b>superman isn't a god</b> <em>@metropolisisoverated </em></p>
+  <p>
+    <em>Replying to @TubboBeloved_ and @metropolisisoverated </em>
+  </p>
+  <p>Is- is that a threat</p>
+  <p><b>Tubbo Underscore-Beloved</b> <em>@TubboBeloved_ </em></p>
+  <p>
+    <em> Replying to @TubboBeloved_ and @metropolisisoverated </em>
+  </p>
+  <p>It's a promise</p>
 </blockquote><p>Ranboo just wanted to post a picture of his son - Micheal. This somehow ends with Twitter learning about a place called The SMP.</p>
-</blockquote>
-<h6 class="landmark heading">Series</h6>
-<ul class="series">
-<li>
-Part <strong>2</strong> of <a href="/series/2817877">*Insert Fandom* but Social Media (one-shots)</a>
-</li>
-</ul>
+    </blockquote>
 
-<dl class="stats">
-<dt class="language">Language:</dt>
-<dd class="language" lang="en">English</dd>
-<dt class="words">Words:</dt>
-<dd class="words">3,488</dd>
-<dt class="chapters">Chapters:</dt>
-<dd class="chapters">1/1</dd>
-<dt class="collections">Collections:</dt>
-<dd class="collections"><a href="/works/34701700/collections">1</a></dd>
-<dt class="comments">Comments:</dt>
-<dd class="comments"><a href="/works/34701700?show_comments=true#comments">24</a></dd>
-<dt class="kudos">Kudos:</dt>
-<dd class="kudos"><a href="/works/34701700#kudos">1,083</a></dd>
-<dt class="bookmarks">Bookmarks:</dt>
-<dd class="bookmarks"><a href="/works/34701700/bookmarks">186</a></dd>
-<dt class="hits">Hits:</dt>
-<dd class="hits">10,173</dd>
-</dl>
+    <h6 class="landmark heading">Series</h6>
+    <ul class="series">
+        <li>
+          Part <strong>2</strong> of <a href="/series/2817877">*Insert Fandom* but Social Media (one-shots)</a>
+        </li>
+    </ul>
+
+  <!--stats-->
+
+  <dl class="stats">
+      <dt class="language">Language:</dt>
+      <dd class="language" lang="en">English</dd>
+    <dt class="words">Words:</dt>
+    <dd class="words">3,488</dd>
+    <dt class="chapters">Chapters:</dt>
+    <dd class="chapters">1/1</dd>
+
+
+    <dt class="collections">Collections:</dt>
+    <dd class="collections"><a href="/works/34701700/collections">1</a></dd>
+
+    <dt class="comments">Comments:</dt>
+    <dd class="comments"><a href="/works/34701700?show_comments=true#comments">28</a></dd>
+
+    <dt class="kudos">Kudos:</dt>
+    <dd class="kudos"><a href="/works/34701700#kudos">1,369</a></dd>
+
+    <dt class="bookmarks">Bookmarks:</dt>
+    <dd class="bookmarks"><a href="/works/34701700/bookmarks">223</a></dd>
+
+  <dt class="hits">Hits:</dt>
+  <dd class="hits">13,559</dd>
+
+  </dl>
+
+
 </li>
 <li id="work_35279224" class="work blurb group work-35279224" role="article">
+  
 
-<div class="header module">
-<h4 class="heading">
-<a href="/works/35279224">Write My Name In History</a>
-by
+  <!--title, author, fandom-->
+  <div class="header module">
 
-Anonymous
-</h4>
-<h5 class="fandoms heading">
-<span class="landmark">Fandoms:</span>
-<a class="tag" href="/tags/Video%20Blogging%20RPF/works">Video Blogging RPF</a>, <a class="tag" href="/tags/Dream%20SMP%20RPF/works">Dream SMP RPF</a>
-&nbsp;
-</h5>
+    <h4 class="heading">
+      <a href="/works/35279224">Write My Name In History</a>
+      by
+        
+      <!-- do not cache -->
+      Anonymous
 
-<ul class="required-tags">
-<li> <a class="help symbol question modal" title="Symbols key" aria-controls="#modal" href="/help/symbols-key.html"><span class="rating-teen rating" title="Teen And Up Audiences"><span class="text">Teen And Up Audiences</span></span></a></li>
-<li> <a class="help symbol question modal" title="Symbols key" aria-controls="#modal" href="/help/symbols-key.html"><span class="warning-choosenotto warnings" title="Choose Not To Use Archive Warnings, No Archive Warnings Apply"><span class="text">Choose Not To Use Archive Warnings, No Archive Warnings Apply</span></span></a></li>
-<li> <a class="help symbol question modal" title="Symbols key" aria-controls="#modal" href="/help/symbols-key.html"><span class="category-gen category" title="Gen"><span class="text">Gen</span></span></a></li>
-<li> <a class="help symbol question modal" title="Symbols key" aria-controls="#modal" href="/help/symbols-key.html"><span class="complete-yes iswip" title="Complete Work"><span class="text">Complete Work</span></span></a></li>
+
+
+      
+      
+    </h4>
+
+    <h5 class="fandoms heading">
+      <span class="landmark">Fandoms:</span>
+      <a class="tag" href="/tags/Video%20Blogging%20RPF/works">Video Blogging RPF</a>, <a class="tag" href="/tags/Dream%20SMP%20RPF/works">Dream SMP RPF</a>
+      &nbsp;
+    </h5>
+
+    <!--required tags-->
+    <ul class="required-tags">
+<li> <a class="help symbol question modal" title="Symbols key" href="/help/symbols-key.html"><span class="rating-teen rating" title="Teen And Up Audiences"><span class="text">Teen And Up Audiences</span></span></a></li>
+<li> <a class="help symbol question modal" title="Symbols key" href="/help/symbols-key.html"><span class="warning-choosenotto warnings" title="Choose Not To Use Archive Warnings, No Archive Warnings Apply"><span class="text">Choose Not To Use Archive Warnings, No Archive Warnings Apply</span></span></a></li>
+<li> <a class="help symbol question modal" title="Symbols key" href="/help/symbols-key.html"><span class="category-gen category" title="Gen"><span class="text">Gen</span></span></a></li>
+<li> <a class="help symbol question modal" title="Symbols key" href="/help/symbols-key.html"><span class="complete-yes iswip" title="Complete Work"><span class="text">Complete Work</span></span></a></li>
 </ul>
-<p class="datetime">13 Dec 2021</p>
-</div>
+    <p class="datetime">13 Dec 2021</p>
+  </div>
 
-<h6 class="landmark heading">Tags</h6>
-<ul class="tags commas">
-<li class="warnings"><strong><a class="tag" href="/tags/Choose%20Not%20To%20Use%20Archive%20Warnings/works">Creator Chose Not To Use Archive Warnings</a></strong></li> <li class="warnings"><strong><a class="tag" href="/tags/No%20Archive%20Warnings%20Apply/works">No Archive Warnings Apply</a></strong></li><li class="relationships"><a class="tag" href="/tags/Dream%20SMP%20Ensemble%20*a*%20Everyone/works">Dream SMP Ensemble &amp; Everyone</a></li> <li class="relationships"><a class="tag" href="/tags/Dream%20SMP%20Ensemble%20*a*%20Dream%20SMP%20Ensemble/works">Dream SMP Ensemble &amp; Dream SMP Ensemble</a></li> <li class="relationships"><a class="tag" href="/tags/Toby%20Smith%20%7C%20Tubbo%20*a*%20TommyInnit/works">Toby Smith | Tubbo &amp; TommyInnit</a></li> <li class="relationships"><a class="tag" href="/tags/Ranboo%20*a*%20Toby%20Smith%20%7C%20Tubbo/works">Ranboo &amp; Toby Smith | Tubbo</a></li><li class="characters"><a class="tag" href="/tags/Ranboo%20(Video%20Blogging%20RPF)/works">Ranboo (Video Blogging RPF)</a></li> <li class="characters"><a class="tag" href="/tags/Toby%20Smith%20%7C%20Tubbo/works">Toby Smith | Tubbo</a></li> <li class="characters"><a class="tag" href="/tags/Technoblade%20(Video%20Blogging%20RPF)/works">Technoblade (Video Blogging RPF)</a></li> <li class="characters"><a class="tag" href="/tags/Wilbur%20Soot/works">Wilbur Soot</a></li> <li class="characters"><a class="tag" href="/tags/Dream%20SMP%20Ensemble/works">Dream SMP Ensemble</a></li> <li class="characters"><a class="tag" href="/tags/Clay%20%7C%20Dream%20(Video%20Blogging%20RPF)/works">Clay | Dream (Video Blogging RPF)</a></li> <li class="characters"><a class="tag" href="/tags/TommyInnit%20(Video%20Blogging%20RPF)/works">TommyInnit (Video Blogging RPF)</a></li><li class="freeforms"><a class="tag" href="/tags/POV%20Outsider/works">POV Outsider</a></li> <li class="freeforms"><a class="tag" href="/tags/Twitter/works">Twitter</a></li> <li class="freeforms"><a class="tag" href="/tags/Crack/works">Crack</a></li> <li class="freeforms"><a class="tag" href="/tags/Crack%20Treated%20Seriously/works">Crack Treated Seriously</a></li> <li class="freeforms"><a class="tag" href="/tags/Time%20Skips/works">Time Skips</a></li> <li class="freeforms"><a class="tag" href="/tags/YouTube/works">YouTube</a></li> <li class="freeforms"><a class="tag" href="/tags/Embedded%20Images/works">Embedded Images</a></li> <li class="freeforms"><a class="tag" href="/tags/Canon-Typical%20Violence/works">Canon-Typical Violence</a></li> <li class="freeforms"><a class="tag" href="/tags/Social%20Media/works">Social Media</a></li> <li class="freeforms"><a class="tag" href="/tags/Dream%20SMP%20Ensemble-centric/works">Dream SMP Ensemble-centric</a></li> <li class="freeforms"><a class="tag" href="/tags/Once%20again%20i%20am%20asking/works">Once again i am asking</a></li> <li class="freeforms"><a class="tag" href="/tags/What%20If%20The%20SMP%20Was%20a%20Real%20Country*q**q*/works">What If The SMP Was a Real Country??</a></li> <li class="freeforms"><a class="tag" href="/tags/Ranboo%20and%20Toby%20Smith%20%7C%20Tubbo%20Have%20a%20Child%20Named%20Michael/works">Ranboo and Toby Smith | Tubbo Have a Child Named Michael</a></li> <li class="freeforms"><a class="tag" href="/tags/Alternate%20Universe%20-%20Canon%20Divergence/works">Alternate Universe - Canon Divergence</a></li> <li class="freeforms"><a class="tag" href="/tags/Nuclear%20Warfare/works">Nuclear Warfare</a></li> <li class="freeforms"><a class="tag" href="/tags/no%20I%20will%20not%20elaborate/works">no I will not elaborate</a></li>
-</ul>
+  <!--warnings again, cast, freeform tags-->
+  <h6 class="landmark heading">Tags</h6>
+  <ul class="tags commas">
+    <li class='warnings'><strong><a class="tag" href="/tags/Choose%20Not%20To%20Use%20Archive%20Warnings/works">Creator Chose Not To Use Archive Warnings</a></strong></li> <li class='warnings'><strong><a class="tag" href="/tags/No%20Archive%20Warnings%20Apply/works">No Archive Warnings Apply</a></strong></li><li class='relationships'><a class="tag" href="/tags/Dream%20SMP%20Ensemble%20*a*%20Everyone/works">Dream SMP Ensemble &amp; Everyone</a></li> <li class='relationships'><a class="tag" href="/tags/Dream%20SMP%20Ensemble%20*a*%20Dream%20SMP%20Ensemble/works">Dream SMP Ensemble &amp; Dream SMP Ensemble</a></li> <li class='relationships'><a class="tag" href="/tags/Toby%20Smith%20%7C%20Tubbo%20*a*%20TommyInnit/works">Toby Smith | Tubbo &amp; TommyInnit</a></li> <li class='relationships'><a class="tag" href="/tags/Ranboo%20*a*%20Toby%20Smith%20%7C%20Tubbo/works">Ranboo &amp; Toby Smith | Tubbo</a></li><li class='characters'><a class="tag" href="/tags/Ranboo%20(Video%20Blogging%20RPF)/works">Ranboo (Video Blogging RPF)</a></li> <li class='characters'><a class="tag" href="/tags/Toby%20Smith%20%7C%20Tubbo/works">Toby Smith | Tubbo</a></li> <li class='characters'><a class="tag" href="/tags/Technoblade%20(Video%20Blogging%20RPF)/works">Technoblade (Video Blogging RPF)</a></li> <li class='characters'><a class="tag" href="/tags/Wilbur%20Soot/works">Wilbur Soot</a></li> <li class='characters'><a class="tag" href="/tags/Dream%20SMP%20Ensemble/works">Dream SMP Ensemble</a></li> <li class='characters'><a class="tag" href="/tags/Clay%20%7C%20Dream%20(Video%20Blogging%20RPF)/works">Clay | Dream (Video Blogging RPF)</a></li> <li class='characters'><a class="tag" href="/tags/TommyInnit%20(Video%20Blogging%20RPF)/works">TommyInnit (Video Blogging RPF)</a></li><li class='freeforms'><a class="tag" href="/tags/POV%20Outsider/works">POV Outsider</a></li> <li class='freeforms'><a class="tag" href="/tags/Twitter/works">Twitter</a></li> <li class='freeforms'><a class="tag" href="/tags/Crack/works">Crack</a></li> <li class='freeforms'><a class="tag" href="/tags/Crack%20Treated%20Seriously/works">Crack Treated Seriously</a></li> <li class='freeforms'><a class="tag" href="/tags/Time%20Skips/works">Time Skips</a></li> <li class='freeforms'><a class="tag" href="/tags/YouTube/works">YouTube</a></li> <li class='freeforms'><a class="tag" href="/tags/Embedded%20Images/works">Embedded Images</a></li> <li class='freeforms'><a class="tag" href="/tags/Canon-Typical%20Violence/works">Canon-Typical Violence</a></li> <li class='freeforms'><a class="tag" href="/tags/Social%20Media/works">Social Media</a></li> <li class='freeforms'><a class="tag" href="/tags/Dream%20SMP%20Ensemble-centric/works">Dream SMP Ensemble-centric</a></li> <li class='freeforms'><a class="tag" href="/tags/Once%20again%20i%20am%20asking/works">Once again i am asking</a></li> <li class='freeforms'><a class="tag" href="/tags/What%20If%20The%20SMP%20Was%20a%20Real%20Country*q**q*/works">What If The SMP Was a Real Country??</a></li> <li class='freeforms'><a class="tag" href="/tags/Ranboo%20and%20Toby%20Smith%20%7C%20Tubbo%20Have%20a%20Child%20Named%20Michael/works">Ranboo and Toby Smith | Tubbo Have a Child Named Michael</a></li> <li class='freeforms'><a class="tag" href="/tags/Alternate%20Universe%20-%20Canon%20Divergence/works">Alternate Universe - Canon Divergence</a></li> <li class='freeforms'><a class="tag" href="/tags/Nuclear%20Warfare/works">Nuclear Warfare</a></li> <li class='freeforms'><a class="tag" href="/tags/no%20I%20will%20not%20elaborate/works">no I will not elaborate</a></li>
+  </ul>
 
-<h6 class="landmark heading">Summary</h6>
-<blockquote class="userstuff summary">
-<blockquote>
-<p><b>Respect the drip karen</b> <em>@vineruntilIdie</em></p>
-<p>
-<em> Replying to @TubboBU </em>
-</p>
-<p>Excited to see how you make nukes work out in the lore 😂😂</p>
-<p><b>TubboBU</b> <b>☑</b> <em>@TubboBU</em></p>
-<p>
-<em> Replying to @TubboBU and @vineruntilIdie</em>
-</p>
-<p>Lore??</p>
+  <!--summary-->
+    <h6 class="landmark heading">Summary</h6>
+    <blockquote class="userstuff summary">
+      <blockquote>
+  <p><b>Respect the drip karen</b> <em>@vineruntilIdie</em></p>
+  <p>
+    <em> Replying to @TubboBU </em>
+  </p>
+  <p>Excited to see how you make nukes work out in the lore 😂😂</p>
+  <p><b>TubboBU</b> <b>☑</b> <em>@TubboBU</em></p>
+  <p>
+    <em> Replying to @TubboBU and @vineruntilIdie</em>
+  </p>
+  <p>Lore??</p>
 </blockquote><p>Outsider POV but it's Twitter looking into the DSMP if it were a real country and the creators were still creators, but also no-one believes them</p><p>or; What If The SMP Was a Real Country?</p>
-</blockquote>
-<h6 class="landmark heading">Series</h6>
-<ul class="series">
-<li>
-Part <strong>3</strong> of <a href="/series/2817877">*Insert Fandom* but Social Media (one-shots)</a>
-</li>
-</ul>
+    </blockquote>
 
-<dl class="stats">
-<dt class="language">Language:</dt>
-<dd class="language" lang="en">English</dd>
-<dt class="words">Words:</dt>
-<dd class="words">4,709</dd>
-<dt class="chapters">Chapters:</dt>
-<dd class="chapters"><a href="/works/35279224/chapters/88699780">2</a>/2</dd>
-<dt class="collections">Collections:</dt>
-<dd class="collections"><a href="/works/35279224/collections">1</a></dd>
-<dt class="comments">Comments:</dt>
-<dd class="comments"><a href="/works/35279224?show_comments=true&amp;view_full_work=true#comments">70</a></dd>
-<dt class="kudos">Kudos:</dt>
-<dd class="kudos"><a href="/works/35279224?view_full_work=true#kudos">1,037</a></dd>
-<dt class="bookmarks">Bookmarks:</dt>
-<dd class="bookmarks"><a href="/works/35279224/bookmarks">231</a></dd>
-<dt class="hits">Hits:</dt>
-<dd class="hits">8,770</dd>
-</dl>
+    <h6 class="landmark heading">Series</h6>
+    <ul class="series">
+        <li>
+          Part <strong>3</strong> of <a href="/series/2817877">*Insert Fandom* but Social Media (one-shots)</a>
+        </li>
+    </ul>
+
+  <!--stats-->
+
+  <dl class="stats">
+      <dt class="language">Language:</dt>
+      <dd class="language" lang="en">English</dd>
+    <dt class="words">Words:</dt>
+    <dd class="words">4,709</dd>
+    <dt class="chapters">Chapters:</dt>
+    <dd class="chapters"><a href="/works/35279224/chapters/88699780">2</a>/2</dd>
+
+
+    <dt class="collections">Collections:</dt>
+    <dd class="collections"><a href="/works/35279224/collections">1</a></dd>
+
+    <dt class="comments">Comments:</dt>
+    <dd class="comments"><a href="/works/35279224?show_comments=true&amp;view_full_work=true#comments">76</a></dd>
+
+    <dt class="kudos">Kudos:</dt>
+    <dd class="kudos"><a href="/works/35279224?view_full_work=true#kudos">1,244</a></dd>
+
+    <dt class="bookmarks">Bookmarks:</dt>
+    <dd class="bookmarks"><a href="/works/35279224/bookmarks">256</a></dd>
+
+  <dt class="hits">Hits:</dt>
+  <dd class="hits">11,205</dd>
+
+  </dl>
+
+
 </li>
 <li id="work_36360379" class="work blurb group work-36360379" role="article">
+  
 
-<div class="header module">
-<h4 class="heading">
-<a href="/works/36360379">Blighted By Imperfection</a>
-by
+  <!--title, author, fandom-->
+  <div class="header module">
 
-Anonymous
-</h4>
-<h5 class="fandoms heading">
-<span class="landmark">Fandoms:</span>
-<a class="tag" href="/tags/Five%20Nights%20at%20Freddy&#39;s/works">Five Nights at Freddy&#39;s</a>, <a class="tag" href="/tags/Five%20Nights%20at%20Freddy&#39;s%20(Movie%202023)/works">Five Nights at Freddy&#39;s (Movie 2023)</a>
-&nbsp;
-</h5>
+    <h4 class="heading">
+      <a href="/works/36360379">Blighted By Imperfection</a>
+      by
+        
+      <!-- do not cache -->
+      Anonymous
 
-<ul class="required-tags">
-<li> <a class="help symbol question modal" title="Symbols key" aria-controls="#modal" href="/help/symbols-key.html"><span class="rating-teen rating" title="Teen And Up Audiences"><span class="text">Teen And Up Audiences</span></span></a></li>
-<li> <a class="help symbol question modal" title="Symbols key" aria-controls="#modal" href="/help/symbols-key.html"><span class="warning-yes warnings" title="Choose Not To Use Archive Warnings, Graphic Depictions Of Violence, No Archive Warnings Apply"><span class="text">Choose Not To Use Archive Warnings, Graphic Depictions Of Violence, No Archive Warnings Apply</span></span></a></li>
-<li> <a class="help symbol question modal" title="Symbols key" aria-controls="#modal" href="/help/symbols-key.html"><span class="category-gen category" title="Gen"><span class="text">Gen</span></span></a></li>
-<li> <a class="help symbol question modal" title="Symbols key" aria-controls="#modal" href="/help/symbols-key.html"><span class="complete-yes iswip" title="Complete Work"><span class="text">Complete Work</span></span></a></li>
+
+
+      
+      
+    </h4>
+
+    <h5 class="fandoms heading">
+      <span class="landmark">Fandoms:</span>
+      <a class="tag" href="/tags/Five%20Nights%20at%20Freddy&#39;s/works">Five Nights at Freddy&#39;s</a>, <a class="tag" href="/tags/Five%20Nights%20at%20Freddy&#39;s%20(Movie%202023)/works">Five Nights at Freddy&#39;s (Movie 2023)</a>
+      &nbsp;
+    </h5>
+
+    <!--required tags-->
+    <ul class="required-tags">
+<li> <a class="help symbol question modal" title="Symbols key" href="/help/symbols-key.html"><span class="rating-teen rating" title="Teen And Up Audiences"><span class="text">Teen And Up Audiences</span></span></a></li>
+<li> <a class="help symbol question modal" title="Symbols key" href="/help/symbols-key.html"><span class="warning-yes warnings" title="Choose Not To Use Archive Warnings, Graphic Depictions Of Violence, No Archive Warnings Apply"><span class="text">Choose Not To Use Archive Warnings, Graphic Depictions Of Violence, No Archive Warnings Apply</span></span></a></li>
+<li> <a class="help symbol question modal" title="Symbols key" href="/help/symbols-key.html"><span class="category-gen category" title="Gen"><span class="text">Gen</span></span></a></li>
+<li> <a class="help symbol question modal" title="Symbols key" href="/help/symbols-key.html"><span class="complete-yes iswip" title="Complete Work"><span class="text">Complete Work</span></span></a></li>
 </ul>
-<p class="datetime">01 Nov 2023</p>
-</div>
+    <p class="datetime">01 Nov 2023</p>
+  </div>
 
-<h6 class="landmark heading">Tags</h6>
-<ul class="tags commas">
-<li class="warnings"><strong><a class="tag" href="/tags/Choose%20Not%20To%20Use%20Archive%20Warnings/works">Creator Chose Not To Use Archive Warnings</a></strong></li> <li class="warnings"><strong><a class="tag" href="/tags/Graphic%20Depictions%20Of%20Violence/works">Graphic Depictions Of Violence</a></strong></li> <li class="warnings"><strong><a class="tag" href="/tags/No%20Archive%20Warnings%20Apply/works">No Archive Warnings Apply</a></strong></li><li class="relationships"><a class="tag" href="/tags/Glamrock%20Freddy%20*a*%20Gregory%20(Five%20Nights%20at%20Freddy&#39;s)/works">Glamrock Freddy &amp; Gregory (Five Nights at Freddy&#39;s)</a></li> <li class="relationships"><a class="tag" href="/tags/Michael%20Afton%20*a*%20William%20Afton%20%7C%20Dave%20Miller/works">Michael Afton &amp; William Afton | Dave Miller</a></li> <li class="relationships"><a class="tag" href="/tags/Elizabeth%20Afton%20*a*%20Michael%20Afton%20*a*%20William%20Afton%20%7C%20Dave%20Miller%20*a*%20The%20Crying%20Child/works">Elizabeth Afton &amp; Michael Afton &amp; William Afton | Dave Miller &amp; The Crying Child</a></li> <li class="relationships"><a class="tag" href="/tags/William%20Afton%20%7C%20Dave%20Miller%20*a*%20Henry%20Emily/works">William Afton | Dave Miller &amp; Henry Emily</a></li><li class="characters"><a class="tag" href="/tags/Gregory%20(Five%20Nights%20at%20Freddy&#39;s)/works">Gregory (Five Nights at Freddy&#39;s)</a></li> <li class="characters"><a class="tag" href="/tags/Glamrock%20Freddy%20(Five%20Nights%20at%20Freddy&#39;s)/works">Glamrock Freddy (Five Nights at Freddy&#39;s)</a></li> <li class="characters"><a class="tag" href="/tags/Michael%20Afton/works">Michael Afton</a></li> <li class="characters"><a class="tag" href="/tags/William%20Afton%20%7C%20Dave%20Miller/works">William Afton | Dave Miller</a></li> <li class="characters"><a class="tag" href="/tags/Henry%20Emily/works">Henry Emily</a></li> <li class="characters"><a class="tag" href="/tags/Elizabeth%20Afton/works">Elizabeth Afton</a></li> <li class="characters"><a class="tag" href="/tags/The%20Crying%20Child%20%7C%20Evan%20Afton%20(Five%20Nights%20at%20Freddy&#39;s)/works">The Crying Child | Evan Afton (Five Nights at Freddy&#39;s)</a></li> <li class="characters"><a class="tag" href="/tags/The%20Five%20Missing%20Children%20(Five%20Nights%20at%20Freddy&#39;s)/works">The Five Missing Children (Five Nights at Freddy&#39;s)</a></li> <li class="characters"><a class="tag" href="/tags/Animatronics%20(Five%20Nights%20at%20Freddy&#39;s)/works">Animatronics (Five Nights at Freddy&#39;s)</a></li> <li class="characters"><a class="tag" href="/tags/-%20most%20get%20a%20mentioned/works">- most get a mentioned</a></li> <li class="characters"><a class="tag" href="/tags/Mike%20Schmidt%20(Five%20Nights%20at%20Freddy&#39;s)/works">Mike Schmidt (Five Nights at Freddy&#39;s)</a></li><li class="freeforms"><a class="tag" href="/tags/POV%20Outsider/works">POV Outsider</a></li> <li class="freeforms"><a class="tag" href="/tags/Social%20Media/works">Social Media</a></li> <li class="freeforms"><a class="tag" href="/tags/Twitter/works">Twitter</a></li> <li class="freeforms"><a class="tag" href="/tags/Possessed%20Animatronics%20(Five%20Nights%20at%20Freddy&#39;s)/works">Possessed Animatronics (Five Nights at Freddy&#39;s)</a></li> <li class="freeforms"><a class="tag" href="/tags/Sentient%20Animatronics%20(Five%20Nights%20at%20Freddy&#39;s)/works">Sentient Animatronics (Five Nights at Freddy&#39;s)</a></li> <li class="freeforms"><a class="tag" href="/tags/Crack/works">Crack</a></li> <li class="freeforms"><a class="tag" href="/tags/Crack%20Treated%20Seriously/works">Crack Treated Seriously</a></li> <li class="freeforms"><a class="tag" href="/tags/Embedded%20Images/works">Embedded Images</a></li> <li class="freeforms"><a class="tag" href="/tags/YouTube/works">YouTube</a></li> <li class="freeforms"><a class="tag" href="/tags/Michael%20Afton%20is%20The%20Crying%20Child&#39;s%20Older%20Brother/works">Michael Afton is The Crying Child&#39;s Older Brother</a></li> <li class="freeforms"><a class="tag" href="/tags/Glamrock%20Freddy%20Adopts%20Gregory%20(Five%20Nights%20at%20Freddy&#39;s)/works">Glamrock Freddy Adopts Gregory (Five Nights at Freddy&#39;s)</a></li> <li class="freeforms"><a class="tag" href="/tags/more%20or%20less/works">more or less</a></li> <li class="freeforms"><a class="tag" href="/tags/Feral%20Gregory%20(Five%20Nights%20At%20Freddy&#39;s)/works">Feral Gregory (Five Nights At Freddy&#39;s)</a></li> <li class="freeforms"><a class="tag" href="/tags/Bad%20Parent%20William%20Afton%20%7C%20Dave%20Miller/works">Bad Parent William Afton | Dave Miller</a></li> <li class="freeforms"><a class="tag" href="/tags/Canon-Typical%20Violence/works">Canon-Typical Violence</a></li> <li class="freeforms"><a class="tag" href="/tags/Not%20Beta%20Read/works">Not Beta Read</a></li> <li class="freeforms"><a class="tag" href="/tags/Second%20chapter%20follows%20the%20movie%20more%20or%20less/works">Second chapter follows the movie more or less</a></li> <li class="freeforms"><a class="tag" href="/tags/Michael%20Afton%20and%20Mike%20Schmidt%20are%20Not%20the%20Same%20Person/works">Michael Afton and Mike Schmidt are Not the Same Person</a></li>
-</ul>
+  <!--warnings again, cast, freeform tags-->
+  <h6 class="landmark heading">Tags</h6>
+  <ul class="tags commas">
+    <li class='warnings'><strong><a class="tag" href="/tags/Choose%20Not%20To%20Use%20Archive%20Warnings/works">Creator Chose Not To Use Archive Warnings</a></strong></li> <li class='warnings'><strong><a class="tag" href="/tags/Graphic%20Depictions%20Of%20Violence/works">Graphic Depictions Of Violence</a></strong></li> <li class='warnings'><strong><a class="tag" href="/tags/No%20Archive%20Warnings%20Apply/works">No Archive Warnings Apply</a></strong></li><li class='relationships'><a class="tag" href="/tags/Glamrock%20Freddy%20*a*%20Gregory%20(Five%20Nights%20at%20Freddy&#39;s)/works">Glamrock Freddy &amp; Gregory (Five Nights at Freddy&#39;s)</a></li> <li class='relationships'><a class="tag" href="/tags/Michael%20Afton%20*a*%20William%20Afton%20%7C%20Dave%20Miller/works">Michael Afton &amp; William Afton | Dave Miller</a></li> <li class='relationships'><a class="tag" href="/tags/Elizabeth%20Afton%20*a*%20Michael%20Afton%20*a*%20William%20Afton%20%7C%20Dave%20Miller%20*a*%20The%20Crying%20Child/works">Elizabeth Afton &amp; Michael Afton &amp; William Afton | Dave Miller &amp; The Crying Child</a></li> <li class='relationships'><a class="tag" href="/tags/William%20Afton%20%7C%20Dave%20Miller%20*a*%20Henry%20Emily/works">William Afton | Dave Miller &amp; Henry Emily</a></li><li class='characters'><a class="tag" href="/tags/Gregory%20(Five%20Nights%20at%20Freddy&#39;s)/works">Gregory (Five Nights at Freddy&#39;s)</a></li> <li class='characters'><a class="tag" href="/tags/Glamrock%20Freddy%20(Five%20Nights%20at%20Freddy&#39;s)/works">Glamrock Freddy (Five Nights at Freddy&#39;s)</a></li> <li class='characters'><a class="tag" href="/tags/Michael%20Afton/works">Michael Afton</a></li> <li class='characters'><a class="tag" href="/tags/William%20Afton%20%7C%20Dave%20Miller/works">William Afton | Dave Miller</a></li> <li class='characters'><a class="tag" href="/tags/Henry%20Emily/works">Henry Emily</a></li> <li class='characters'><a class="tag" href="/tags/Elizabeth%20Afton/works">Elizabeth Afton</a></li> <li class='characters'><a class="tag" href="/tags/The%20Crying%20Child%20%7C%20Evan%20Afton%20(Five%20Nights%20at%20Freddy&#39;s)/works">The Crying Child | Evan Afton (Five Nights at Freddy&#39;s)</a></li> <li class='characters'><a class="tag" href="/tags/The%20Five%20Missing%20Children%20(Five%20Nights%20at%20Freddy&#39;s)/works">The Five Missing Children (Five Nights at Freddy&#39;s)</a></li> <li class='characters'><a class="tag" href="/tags/Animatronics%20(Five%20Nights%20at%20Freddy&#39;s)/works">Animatronics (Five Nights at Freddy&#39;s)</a></li> <li class='characters'><a class="tag" href="/tags/-%20most%20get%20a%20mentioned/works">- most get a mentioned</a></li> <li class='characters'><a class="tag" href="/tags/Mike%20Schmidt%20(Five%20Nights%20at%20Freddy&#39;s)/works">Mike Schmidt (Five Nights at Freddy&#39;s)</a></li><li class='freeforms'><a class="tag" href="/tags/POV%20Outsider/works">POV Outsider</a></li> <li class='freeforms'><a class="tag" href="/tags/Social%20Media/works">Social Media</a></li> <li class='freeforms'><a class="tag" href="/tags/Twitter/works">Twitter</a></li> <li class='freeforms'><a class="tag" href="/tags/Possessed%20Animatronics%20(Five%20Nights%20at%20Freddy&#39;s)/works">Possessed Animatronics (Five Nights at Freddy&#39;s)</a></li> <li class='freeforms'><a class="tag" href="/tags/Sentient%20Animatronics%20(Five%20Nights%20at%20Freddy&#39;s)/works">Sentient Animatronics (Five Nights at Freddy&#39;s)</a></li> <li class='freeforms'><a class="tag" href="/tags/Crack/works">Crack</a></li> <li class='freeforms'><a class="tag" href="/tags/Crack%20Treated%20Seriously/works">Crack Treated Seriously</a></li> <li class='freeforms'><a class="tag" href="/tags/Embedded%20Images/works">Embedded Images</a></li> <li class='freeforms'><a class="tag" href="/tags/YouTube/works">YouTube</a></li> <li class='freeforms'><a class="tag" href="/tags/Michael%20Afton%20is%20The%20Crying%20Child&#39;s%20Older%20Brother/works">Michael Afton is The Crying Child&#39;s Older Brother</a></li> <li class='freeforms'><a class="tag" href="/tags/Glamrock%20Freddy%20Adopts%20Gregory%20(Five%20Nights%20at%20Freddy&#39;s)/works">Glamrock Freddy Adopts Gregory (Five Nights at Freddy&#39;s)</a></li> <li class='freeforms'><a class="tag" href="/tags/more%20or%20less/works">more or less</a></li> <li class='freeforms'><a class="tag" href="/tags/Feral%20Gregory%20(Five%20Nights%20At%20Freddy&#39;s)/works">Feral Gregory (Five Nights At Freddy&#39;s)</a></li> <li class='freeforms'><a class="tag" href="/tags/Bad%20Parent%20William%20Afton%20%7C%20Dave%20Miller/works">Bad Parent William Afton | Dave Miller</a></li> <li class='freeforms'><a class="tag" href="/tags/Canon-Typical%20Violence/works">Canon-Typical Violence</a></li> <li class='freeforms'><a class="tag" href="/tags/Not%20Beta%20Read/works">Not Beta Read</a></li> <li class='freeforms'><a class="tag" href="/tags/Second%20chapter%20follows%20the%20movie%20more%20or%20less/works">Second chapter follows the movie more or less</a></li> <li class='freeforms'><a class="tag" href="/tags/Michael%20Afton%20and%20Mike%20Schmidt%20are%20Not%20the%20Same%20Person/works">Michael Afton and Mike Schmidt are Not the Same Person</a></li>
+  </ul>
 
-<h6 class="landmark heading">Summary</h6>
-<blockquote class="userstuff summary">
-<blockquote>
-<p><b>Yellow disk bitch</b> <em>@exclmatiomemma</em></p>
-<p>
-<em> Replying to @redhearing </em>
-</p>
-<p>What the fuck does Utah have??</p>
-<p><b>Daycare is hell</b> <em>@gonnapee</em></p>
-<p>
-<em> Replying to @redhearing </em>
-</p>
-<p>Killer robots </p>
-<p><b>Yellow disk bitch</b> <em>@exclmatiomemma</em></p>
-<p>
-<em> Replying to @redhearing </em>
-</p>
-<p>THEY HAVE WHAT-</p>
+  <!--summary-->
+    <h6 class="landmark heading">Summary</h6>
+    <blockquote class="userstuff summary">
+      <blockquote>
+  <p><b>Yellow disk bitch</b> <em>@exclmatiomemma</em></p>
+  <p>
+    <em> Replying to @redhearing </em>
+  </p>
+  <p>What the fuck does Utah have??</p>
+  <p><b>Daycare is hell</b> <em>@gonnapee</em></p>
+  <p>
+    <em> Replying to @redhearing </em>
+  </p>
+  <p>Killer robots </p>
+  <p><b>Yellow disk bitch</b> <em>@exclmatiomemma</em></p>
+  <p>
+    <em> Replying to @redhearing </em>
+  </p>
+  <p>THEY HAVE WHAT-</p>
 </blockquote><p>or; How Social media would react if FNAF was a real location/company</p>
-</blockquote>
-<h6 class="landmark heading">Series</h6>
-<ul class="series">
-<li>
-Part <strong>4</strong> of <a href="/series/2817877">*Insert Fandom* but Social Media (one-shots)</a>
-</li>
-</ul>
+    </blockquote>
 
-<dl class="stats">
-<dt class="language">Language:</dt>
-<dd class="language" lang="en">English</dd>
-<dt class="words">Words:</dt>
-<dd class="words">4,528</dd>
-<dt class="chapters">Chapters:</dt>
-<dd class="chapters"><a href="/works/36360379/chapters/129289357">2</a>/2</dd>
-<dt class="collections">Collections:</dt>
-<dd class="collections"><a href="/works/36360379/collections">1</a></dd>
-<dt class="comments">Comments:</dt>
-<dd class="comments"><a href="/works/36360379?show_comments=true&amp;view_full_work=true#comments">102</a></dd>
-<dt class="kudos">Kudos:</dt>
-<dd class="kudos"><a href="/works/36360379?view_full_work=true#kudos">1,754</a></dd>
-<dt class="bookmarks">Bookmarks:</dt>
-<dd class="bookmarks"><a href="/works/36360379/bookmarks">298</a></dd>
-<dt class="hits">Hits:</dt>
-<dd class="hits">11,864</dd>
-</dl>
+    <h6 class="landmark heading">Series</h6>
+    <ul class="series">
+        <li>
+          Part <strong>4</strong> of <a href="/series/2817877">*Insert Fandom* but Social Media (one-shots)</a>
+        </li>
+    </ul>
+
+  <!--stats-->
+
+  <dl class="stats">
+      <dt class="language">Language:</dt>
+      <dd class="language" lang="en">English</dd>
+    <dt class="words">Words:</dt>
+    <dd class="words">4,528</dd>
+    <dt class="chapters">Chapters:</dt>
+    <dd class="chapters"><a href="/works/36360379/chapters/129289357">2</a>/2</dd>
+
+
+    <dt class="collections">Collections:</dt>
+    <dd class="collections"><a href="/works/36360379/collections">1</a></dd>
+
+    <dt class="comments">Comments:</dt>
+    <dd class="comments"><a href="/works/36360379?show_comments=true&amp;view_full_work=true#comments">133</a></dd>
+
+    <dt class="kudos">Kudos:</dt>
+    <dd class="kudos"><a href="/works/36360379?view_full_work=true#kudos">2,554</a></dd>
+
+    <dt class="bookmarks">Bookmarks:</dt>
+    <dd class="bookmarks"><a href="/works/36360379/bookmarks">424</a></dd>
+
+  <dt class="hits">Hits:</dt>
+  <dd class="hits">19,554</dd>
+
+  </dl>
+
+
 </li>
 <li id="work_39468393" class="work blurb group work-39468393" role="article">
+  
 
-<div class="header module">
-<h4 class="heading">
-<a href="/works/39468393">Give Me One Week</a>
-by
+  <!--title, author, fandom-->
+  <div class="header module">
 
-Anonymous
-</h4>
-<h5 class="fandoms heading">
-<span class="landmark">Fandoms:</span>
-<a class="tag" href="/tags/%E5%91%AA%E8%A1%93%E5%BB%BB%E6%88%A6%20%7C%20Jujutsu%20Kaisen%20(Anime)/works">呪術廻戦 | Jujutsu Kaisen (Anime)</a>, <a class="tag" href="/tags/%E5%91%AA%E8%A1%93%E5%BB%BB%E6%88%A6%20%7C%20Jujutsu%20Kaisen%20(Manga)/works">呪術廻戦 | Jujutsu Kaisen (Manga)</a>
-&nbsp;
-</h5>
+    <h4 class="heading">
+      <a href="/works/39468393">Give Me One Week</a>
+      by
+        
+      <!-- do not cache -->
+      Anonymous
 
-<ul class="required-tags">
-<li> <a class="help symbol question modal" title="Symbols key" aria-controls="#modal" href="/help/symbols-key.html"><span class="rating-teen rating" title="Teen And Up Audiences"><span class="text">Teen And Up Audiences</span></span></a></li>
-<li> <a class="help symbol question modal" title="Symbols key" aria-controls="#modal" href="/help/symbols-key.html"><span class="warning-choosenotto warnings" title="Choose Not To Use Archive Warnings, No Archive Warnings Apply"><span class="text">Choose Not To Use Archive Warnings, No Archive Warnings Apply</span></span></a></li>
-<li> <a class="help symbol question modal" title="Symbols key" aria-controls="#modal" href="/help/symbols-key.html"><span class="category-multi category" title="Multi, Gen"><span class="text">Multi, Gen</span></span></a></li>
-<li> <a class="help symbol question modal" title="Symbols key" aria-controls="#modal" href="/help/symbols-key.html"><span class="complete-yes iswip" title="Complete Work"><span class="text">Complete Work</span></span></a></li>
+
+
+      
+      
+    </h4>
+
+    <h5 class="fandoms heading">
+      <span class="landmark">Fandoms:</span>
+      <a class="tag" href="/tags/%E5%91%AA%E8%A1%93%E5%BB%BB%E6%88%A6%20%7C%20Jujutsu%20Kaisen%20(Anime)/works">呪術廻戦 | Jujutsu Kaisen (Anime)</a>, <a class="tag" href="/tags/%E5%91%AA%E8%A1%93%E5%BB%BB%E6%88%A6%20%7C%20Jujutsu%20Kaisen%20(Manga)/works">呪術廻戦 | Jujutsu Kaisen (Manga)</a>
+      &nbsp;
+    </h5>
+
+    <!--required tags-->
+    <ul class="required-tags">
+<li> <a class="help symbol question modal" title="Symbols key" href="/help/symbols-key.html"><span class="rating-teen rating" title="Teen And Up Audiences"><span class="text">Teen And Up Audiences</span></span></a></li>
+<li> <a class="help symbol question modal" title="Symbols key" href="/help/symbols-key.html"><span class="warning-choosenotto warnings" title="Choose Not To Use Archive Warnings, No Archive Warnings Apply"><span class="text">Choose Not To Use Archive Warnings, No Archive Warnings Apply</span></span></a></li>
+<li> <a class="help symbol question modal" title="Symbols key" href="/help/symbols-key.html"><span class="category-multi category" title="Multi, Gen"><span class="text">Multi, Gen</span></span></a></li>
+<li> <a class="help symbol question modal" title="Symbols key" href="/help/symbols-key.html"><span class="complete-yes iswip" title="Complete Work"><span class="text">Complete Work</span></span></a></li>
 </ul>
-<p class="datetime">09 Jun 2022</p>
-</div>
+    <p class="datetime">09 Jun 2022</p>
+  </div>
 
-<h6 class="landmark heading">Tags</h6>
-<ul class="tags commas">
-<li class="warnings"><strong><a class="tag" href="/tags/Choose%20Not%20To%20Use%20Archive%20Warnings/works">Creator Chose Not To Use Archive Warnings</a></strong></li> <li class="warnings"><strong><a class="tag" href="/tags/No%20Archive%20Warnings%20Apply/works">No Archive Warnings Apply</a></strong></li><li class="relationships"><a class="tag" href="/tags/Fushiguro%20Megumi*s*Itadori%20Yuuji/works">Fushiguro Megumi/Itadori Yuuji</a></li> <li class="relationships"><a class="tag" href="/tags/Gojo%20Satoru*s*Nanami%20Kento/works">Gojo Satoru/Nanami Kento</a></li> <li class="relationships"><a class="tag" href="/tags/blink%20and%20you&#39;ll%20miss%20it%20lol%20-%20Relationship/works">blink and you&#39;ll miss it lol - Relationship</a></li><li class="characters"><a class="tag" href="/tags/Itadori%20Yuuji/works">Itadori Yuuji</a></li> <li class="characters"><a class="tag" href="/tags/Fushiguro%20Megumi/works">Fushiguro Megumi</a></li> <li class="characters"><a class="tag" href="/tags/Gojo%20Satoru/works">Gojo Satoru</a></li> <li class="characters"><a class="tag" href="/tags/cameos%20-%20Character/works">cameos - Character</a></li> <li class="characters"><a class="tag" href="/tags/Nanami%20Kento/works">Nanami Kento</a></li> <li class="characters"><a class="tag" href="/tags/Fushiguro%20Toji/works">Fushiguro Toji</a></li> <li class="characters"><a class="tag" href="/tags/Toudou%20Aoi/works">Toudou Aoi</a></li><li class="freeforms"><a class="tag" href="/tags/Twitter/works">Twitter</a></li> <li class="freeforms"><a class="tag" href="/tags/POV%20Outsider/works">POV Outsider</a></li> <li class="freeforms"><a class="tag" href="/tags/Social%20Media/works">Social Media</a></li> <li class="freeforms"><a class="tag" href="/tags/YouTube/works">YouTube</a></li> <li class="freeforms"><a class="tag" href="/tags/Embedded%20Images/works">Embedded Images</a></li> <li class="freeforms"><a class="tag" href="/tags/Crack/works">Crack</a></li> <li class="freeforms"><a class="tag" href="/tags/Crack%20Treated%20Seriously/works">Crack Treated Seriously</a></li> <li class="freeforms"><a class="tag" href="/tags/Mentioned%20Fushiguro%20Toji/works">Mentioned Fushiguro Toji</a></li> <li class="freeforms"><a class="tag" href="/tags/Mentioned%20Nanami%20Kento/works">Mentioned Nanami Kento</a></li> <li class="freeforms"><a class="tag" href="/tags/Curses/works">Curses</a></li> <li class="freeforms"><a class="tag" href="/tags/Canon%20Compliant/works">Canon Compliant</a></li> <li class="freeforms"><a class="tag" href="/tags/Pre-Shibuya%20Incident%20Arc%20(Jujutsu%20Kaisen)/works">Pre-Shibuya Incident Arc (Jujutsu Kaisen)</a></li> <li class="freeforms"><a class="tag" href="/tags/Jujutsu%20Kaisen%20Manga%20Spoilers/works">Jujutsu Kaisen Manga Spoilers</a></li> <li class="freeforms"><a class="tag" href="/tags/only%20like%20at%20the%20end/works">only like at the end</a></li> <li class="freeforms"><a class="tag" href="/tags/but%20more%20like%20youll%20be%20confused%20rather%20then%20mad/works">but more like youll be confused rather then mad</a></li> <li class="freeforms"><a class="tag" href="/tags/One%20Shot/works">One Shot</a></li> <li class="freeforms"><a class="tag" href="/tags/Implied%20Jujutsu%20Kaisen%20Ensemble/works">Implied Jujutsu Kaisen Ensemble</a></li>
-</ul>
+  <!--warnings again, cast, freeform tags-->
+  <h6 class="landmark heading">Tags</h6>
+  <ul class="tags commas">
+    <li class='warnings'><strong><a class="tag" href="/tags/Choose%20Not%20To%20Use%20Archive%20Warnings/works">Creator Chose Not To Use Archive Warnings</a></strong></li> <li class='warnings'><strong><a class="tag" href="/tags/No%20Archive%20Warnings%20Apply/works">No Archive Warnings Apply</a></strong></li><li class='relationships'><a class="tag" href="/tags/Fushiguro%20Megumi*s*Itadori%20Yuuji/works">Fushiguro Megumi/Itadori Yuuji</a></li> <li class='relationships'><a class="tag" href="/tags/Gojo%20Satoru*s*Nanami%20Kento/works">Gojo Satoru/Nanami Kento</a></li> <li class='relationships'><a class="tag" href="/tags/blink%20and%20you&#39;ll%20miss%20it%20lol%20-%20Relationship/works">blink and you&#39;ll miss it lol - Relationship</a></li><li class='characters'><a class="tag" href="/tags/Itadori%20Yuuji/works">Itadori Yuuji</a></li> <li class='characters'><a class="tag" href="/tags/Fushiguro%20Megumi/works">Fushiguro Megumi</a></li> <li class='characters'><a class="tag" href="/tags/Gojo%20Satoru/works">Gojo Satoru</a></li> <li class='characters'><a class="tag" href="/tags/cameos%20-%20Character/works">cameos - Character</a></li> <li class='characters'><a class="tag" href="/tags/Nanami%20Kento/works">Nanami Kento</a></li> <li class='characters'><a class="tag" href="/tags/Fushiguro%20Toji/works">Fushiguro Toji</a></li> <li class='characters'><a class="tag" href="/tags/Toudou%20Aoi/works">Toudou Aoi</a></li><li class='freeforms'><a class="tag" href="/tags/Twitter/works">Twitter</a></li> <li class='freeforms'><a class="tag" href="/tags/POV%20Outsider/works">POV Outsider</a></li> <li class='freeforms'><a class="tag" href="/tags/Social%20Media/works">Social Media</a></li> <li class='freeforms'><a class="tag" href="/tags/YouTube/works">YouTube</a></li> <li class='freeforms'><a class="tag" href="/tags/Embedded%20Images/works">Embedded Images</a></li> <li class='freeforms'><a class="tag" href="/tags/Crack/works">Crack</a></li> <li class='freeforms'><a class="tag" href="/tags/Crack%20Treated%20Seriously/works">Crack Treated Seriously</a></li> <li class='freeforms'><a class="tag" href="/tags/Mentioned%20Fushiguro%20Toji/works">Mentioned Fushiguro Toji</a></li> <li class='freeforms'><a class="tag" href="/tags/Mentioned%20Nanami%20Kento/works">Mentioned Nanami Kento</a></li> <li class='freeforms'><a class="tag" href="/tags/Curses/works">Curses</a></li> <li class='freeforms'><a class="tag" href="/tags/Canon%20Compliant/works">Canon Compliant</a></li> <li class='freeforms'><a class="tag" href="/tags/Pre-Shibuya%20Incident%20Arc%20(Jujutsu%20Kaisen)/works">Pre-Shibuya Incident Arc (Jujutsu Kaisen)</a></li> <li class='freeforms'><a class="tag" href="/tags/Jujutsu%20Kaisen%20Manga%20Spoilers/works">Jujutsu Kaisen Manga Spoilers</a></li> <li class='freeforms'><a class="tag" href="/tags/only%20like%20at%20the%20end/works">only like at the end</a></li> <li class='freeforms'><a class="tag" href="/tags/but%20more%20like%20youll%20be%20confused%20rather%20then%20mad/works">but more like youll be confused rather then mad</a></li> <li class='freeforms'><a class="tag" href="/tags/One%20Shot/works">One Shot</a></li> <li class='freeforms'><a class="tag" href="/tags/Implied%20Jujutsu%20Kaisen%20Ensemble/works">Implied Jujutsu Kaisen Ensemble</a></li>
+  </ul>
 
-<h6 class="landmark heading">Summary</h6>
-<blockquote class="userstuff summary">
-<blockquote>
-<p><b>Itadori is hungry</b> </p>
-<p>
-<em>@realpinkette</em>
-</p>
-<p>
-<em>Replying to @realpinkette </em>
-</p>
-<p>Won another battle!</p>
-<p><b>Megumi</b> <em>@realbluenette</em></p>
-<p>
-<em> Replying to @realpinkette</em>
-</p>
-<p>Hurry up and get to class, Itadori</p>
+  <!--summary-->
+    <h6 class="landmark heading">Summary</h6>
+    <blockquote class="userstuff summary">
+      <blockquote>
+  <p><b>Itadori is hungry</b> </p>
+  <p>
+    <em>@realpinkette</em>
+  </p>
+  <p>
+    <em>Replying to @realpinkette </em>
+  </p>
+  <p>Won another battle!</p>
+  <p><b>Megumi</b> <em>@realbluenette</em></p>
+  <p>
+    <em> Replying to @realpinkette</em>
+  </p>
+  <p>Hurry up and get to class, Itadori</p>
 </blockquote><p>What if curses did show up when you took pictures?</p><p>Or: Social media finds out about the Jiujitsu world</p>
-</blockquote>
-<h6 class="landmark heading">Series</h6>
-<ul class="series">
-<li>
-Part <strong>5</strong> of <a href="/series/2817877">*Insert Fandom* but Social Media (one-shots)</a>
+    </blockquote>
+
+    <h6 class="landmark heading">Series</h6>
+    <ul class="series">
+        <li>
+          Part <strong>5</strong> of <a href="/series/2817877">*Insert Fandom* but Social Media (one-shots)</a>
+        </li>
+    </ul>
+
+  <!--stats-->
+
+  <dl class="stats">
+      <dt class="language">Language:</dt>
+      <dd class="language" lang="en">English</dd>
+    <dt class="words">Words:</dt>
+    <dd class="words">2,250</dd>
+    <dt class="chapters">Chapters:</dt>
+    <dd class="chapters">1/1</dd>
+
+
+    <dt class="collections">Collections:</dt>
+    <dd class="collections"><a href="/works/39468393/collections">4</a></dd>
+
+    <dt class="comments">Comments:</dt>
+    <dd class="comments"><a href="/works/39468393?show_comments=true#comments">24</a></dd>
+
+    <dt class="kudos">Kudos:</dt>
+    <dd class="kudos"><a href="/works/39468393#kudos">797</a></dd>
+
+    <dt class="bookmarks">Bookmarks:</dt>
+    <dd class="bookmarks"><a href="/works/39468393/bookmarks">150</a></dd>
+
+  <dt class="hits">Hits:</dt>
+  <dd class="hits">6,381</dd>
+
+  </dl>
+
+
 </li>
+
 </ul>
 
-<dl class="stats">
-<dt class="language">Language:</dt>
-<dd class="language" lang="en">English</dd>
-<dt class="words">Words:</dt>
-<dd class="words">2,250</dd>
-<dt class="chapters">Chapters:</dt>
-<dd class="chapters">1/1</dd>
-<dt class="collections">Collections:</dt>
-<dd class="collections"><a href="/works/39468393/collections">4</a></dd>
-<dt class="comments">Comments:</dt>
-<dd class="comments"><a href="/works/39468393?show_comments=true#comments">15</a></dd>
-<dt class="kudos">Kudos:</dt>
-<dd class="kudos"><a href="/works/39468393#kudos">467</a></dd>
-<dt class="bookmarks">Bookmarks:</dt>
-<dd class="bookmarks"><a href="/works/39468393/bookmarks">91</a></dd>
-<dt class="hits">Hits:</dt>
-<dd class="hits">3,725</dd>
-</dl>
-</li>
-</ul>
+  <!--pagination here-->
+  
+<!--/content-->
 
+<!--subnav-->
+<!--/subnav-->
 
-
-<div class="clear"></div>
-</div>
-
-</div>
-
+          <div class="clear"><!--presentational--></div>
+        </div>
+        <!-- END main -->
+      </div>
+      <!-- BEGIN footer -->
 <div id="footer" role="contentinfo" class="region">
-<h3 class="landmark heading">Footer</h3>
-<ul class="navigation actions" role="navigation">
-<li class="module group">
-<h4 class="heading">About the Archive</h4>
-<ul class="menu">
-<li><a href="/site_map">Site Map</a></li>
-<li><a href="/diversity">Diversity Statement</a></li>
-<li><a href="/tos">Terms of Service</a></li>
-<li><a href="/dmca">DMCA Policy</a> </li>
-</ul>
-</li>
-<li class="module group">
-<h4 class="heading">Contact Us</h4>
-<ul class="menu">
-<li><a href="/abuse_reports/new">Policy Questions &amp; Abuse Reports</a></li>
-<li><a href="/support">Technical Support &amp; Feedback</a></li>
-</ul>
-</li>
-<li class="module group">
-<h4 class="heading">Development</h4>
-<ul class="menu">
-<li><a href="https://github.com/otwcode/otwarchive/commits/v0.9.351.16">otwarchive v0.9.351.16</a></li>
-<li><a href="/known_issues">Known Issues</a></li>
-<li><a href="https://www.gnu.org/licenses/old-licenses/gpl-2.0.html" title="View License">GPL</a> by the <a href="https://transformativeworks.org/" title="The Organization for Transformative Works">OTW</a></li>
-</ul>
-</li>
-</ul>
+  <h3 class="landmark heading">Footer</h3>
+  <ul class="navigation actions" role="navigation">
+    <li class="module group">
+      <h4 class="heading">About the Archive</h4>
+      <ul class="menu">
+        <li><a href="/site_map">Site Map</a></li>
+        <li><a href="/diversity">Diversity Statement</a></li>
+        <li><a href="/tos">Terms of Service</a></li>
+        <li><a href="/content">Content Policy</a></li>
+        <li><a href="/privacy">Privacy Policy</a></li>
+        <li><a href="/dmca">DMCA Policy</a> </li>
+      </ul>
+    </li>
+    <li class="module group">
+      <h4 class="heading">Contact Us</h4>
+      <ul class="menu">
+        <li><a href="/abuse_reports/new">Policy Questions &amp; Abuse Reports</a></li>
+        <li><a href="/support">Technical Support &amp; Feedback</a></li>
+      </ul>
+    </li>
+    <li class="module group">
+      <h4 class="heading">Development</h4>
+      <ul class="menu">
+          <li>
+            <a href="https://github.com/otwcode/otwarchive/commits/v0.9.383.1">otwarchive v0.9.383.1</a>
+          </li>
+        <li><a href="/known_issues">Known Issues</a></li>
+        <li>
+          <a title="View License" href="https://www.gnu.org/licenses/old-licenses/gpl-2.0.html">GPL-2.0-or-later</a> by the <a title="Organization for Transformative Works" href="https://transformativeworks.org/">OTW</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
 </div>
+<!-- END footer -->
 
-</div>
-
+    </div>
+    <!-- check to see if this controller/action allow tinymce before we load the gigantor js; see application_helper -->
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js" type="text/javascript"></script>
 <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.0/jquery-ui.min.js" type="text/javascript"></script>
-
+<!-- if user has googleapis blocked for some reason we need a fallback -->
 <script type="text/javascript">
   if (typeof jQuery == 'undefined') {
     document.write(unescape("%3Cscript src='/javascripts/jquery.min.js' type='text/javascript'%3E%3C/script%3E"));
     document.write(unescape("%3Cscript src='/javascripts/jquery-ui.min.js' type='text/javascript'%3E%3C/script%3E"));
   }
 </script>
+
+
 <script type="text/javascript">$j = jQuery.noConflict();</script>
 <script src="/javascripts/jquery.scrollTo.min.js"></script>
 <script src="/javascripts/jquery.livequery.min.js"></script>
@@ -635,46 +787,49 @@ Part <strong>5</strong> of <a href="/series/2817877">*Insert Fandom* but Social 
 <script src="/javascripts/jquery.trap.min.js"></script>
 <script src="/javascripts/ao3modal.min.js"></script>
 <script src="/javascripts/js.cookie.min.js"></script>
+
 <script src="/javascripts/filters.min.js"></script>
-<script>
+
+
+  <script>
 //<![CDATA[
 
-      // We can't rely on !window.localStorage to test localStorage support in
-      // browsers like Safari 9, which technically support it, but which have a
-      // storage length of 0 in private mode.
-      // Credit: https://github.com/getgrav/grav-plugin-admin/commit/cfe2188f10c4ca604e03c96f3e21537fda1cdf9a
-      function isSupported() {
-          var item = "localStoragePolyfill";
-          try {
-              localStorage.setItem(item, item);
-              localStorage.removeItem(item);
-              return true;
-          } catch (e) {
-              return false;
-          }
-      }
-
-      function acceptTOS() {
-        if (isSupported()) {
-          localStorage.setItem("accepted_tos", "20180523");
-        } else {
-          Cookies.set("accepted_tos", "20180523", { expires: 365 });
+    // We can't rely on !window.localStorage to test localStorage support in
+    // browsers like Safari 9, which technically support it, but which have a
+    // storage length of 0 in private mode.
+    // Credit: https://github.com/getgrav/grav-plugin-admin/commit/cfe2188f10c4ca604e03c96f3e21537fda1cdf9a
+    function isSupported() {
+        var item = "localStoragePolyfill";
+        try {
+            localStorage.setItem(item, item);
+            localStorage.removeItem(item);
+            return true;
+        } catch (e) {
+            return false;
         }
+    }
+
+    function acceptTOS() {
+      if (isSupported()) {
+        localStorage.setItem("accepted_tos", "20241119");
+      } else {
+        Cookies.set("accepted_tos", "20241119", { expires: 365 });
       }
+    }
 
     $j(document).ready(function() {
-        if (localStorage.getItem("accepted_tos") !== "20180523" && Cookies.get("accepted_tos") !== "20180523") {
-          $j("body").prepend("<div id=\"tos_prompt\" class=\"hidden\">\n  <h2 class=\"heading\">\n    <span>Archive of Our Own<\/span>\n  <\/h2>\n  <div class=\"agreement\">\n    <p class=\"summary\">\n      On Archive of Our Own (AO3), users can make profiles, create works and\n            other Content, post comments, give Kudos, create Collections and \n            Bookmarks, participate in Challenges, import works, and more. Any \n            information you publish in a comment, profile, work, or Content that you \n            post or import onto AO3 including in summaries, notes and tags, \n            will be accessible by the public (unless you limit access to a work only \n            to those with AO3 Accounts), and it will be available to \n            AO3 personnel. Be mindful when sharing personal information, \n            including  your religious or political views, health, racial background, \n            country of origin, sexual identity and/or personal relationships. To \n            learn more, check out our <a href=\"/tos\">Terms of Service<\/a> and <a href=\"/tos#privacy\">Privacy Policy<\/a>.\n    <\/p>\n\n    <p class=\"confirmation\">\n      <input type=\"checkbox\" id=\"tos_agree\" />\n      <label for=\"tos_agree\">I have read &amp; understood the new Terms of Service and Privacy Policy<\/label>\n    <\/p>\n\n      <p class=\"submit\">\n        <button name=\"button\" type=\"button\" disabled=\"disabled\" id=\"accept_tos\">I agree/consent to its terms<\/button>\n      <\/p>\n\n  <\/div>\n<\/div>\n\n<script>\n//<![CDATA[\n\n  \$j(document).ready(function() {\n    var container = \$j(\"#tos_prompt\");\n    var outer = \$j(\"#outer\");\n    var button = \$j(\"#accept_tos\");\n\n    setTimeout(showTOSPrompt, 1500);\n\n    function showTOSPrompt() {\n      \$j.when(container.fadeIn(500)).done(function() {\n        outer.addClass(\"hidden\").attr(\"aria-hidden\", \"true\");\n      });\n\n      \$j(\"#tos_agree\").on(\"click\", function() {\n        button.attr(\"disabled\", !this.checked);\n        if (this.checked) {\n          button.on(\"click\", function() {\n            acceptTOS();\n            outer.removeClass(\"hidden\").removeAttr(\"aria-hidden\");\n            \$j.when(container.fadeOut(500)).done(function() {\n              container.remove();\n            });\n          });\n        };\n      }).change();\n    };\n  });\n\n//]]]]><![CDATA[>\n<\/script>");
+        if (localStorage.getItem("accepted_tos") !== "20241119" && Cookies.get("accepted_tos") !== "20241119") {
+          $j("body").prepend("<div id=\"tos_prompt\" class=\"hidden\">\n  <h2 class=\"heading\">\n    <span>Archive of Our Own<\/span>\n  <\/h2>\n  <div class=\"agreement\">\n    <p>\n      On the Archive of Our Own (AO3), users can create works, bookmarks, comments, tags, and other <a href=\"/tos_faq#define_content\">Content<\/a>. Any information you publish on AO3 may be accessible by the public, AO3 users, and/or AO3 personnel. Be mindful when sharing personal information, including but not limited to your name, email, age, location, personal relationships, gender or sexual identity, racial or ethnic background, religious or political views, and/or account usernames for other sites.\n    <\/p>\n    <p>\n      To learn more, check out our <a href=\"/tos\">Terms of Service<\/a>, including the <a href=\"/content\">Content Policy<\/a> and <a href=\"/privacy\">Privacy Policy<\/a>.\n    <\/p>\n\n    <p class=\"confirmation\">\n      <input type=\"checkbox\" id=\"tos_agree\" />\n      <label for=\"tos_agree\">I have read &amp; understood the 2024 Terms of Service, including the Content Policy and Privacy Policy.<\/label>\n    <\/p>\n\n    <p class=\"confirmation\">\n      <input type=\"checkbox\" id=\"data_processing_agree\" />\n      <label for=\"data_processing_agree\">By checking this box, you consent to the processing of your personal data in the United States and other jurisdictions in connection with our provision of AO3 and its related services to you. You acknowledge that the data privacy laws of such jurisdictions may differ from those provided in your jurisdiction. For more information about how your personal data will be processed, please refer to our Privacy Policy.<\/label>\n    <\/p>\n\n      <p class=\"submit\">\n        <button name=\"button\" type=\"button\" disabled=\"disabled\" id=\"accept_tos\">I agree/consent to these Terms<\/button>\n      <\/p>\n\n  <\/div>\n<\/div>\n\n<script>\n//<![CDATA[\n\n  \$j(document).ready(function() {\n    var container = \$j(\"#tos_prompt\");\n    var outer = \$j(\"#outer\");\n    var button = \$j(\"#accept_tos\");\n    var tosCheckbox = document.getElementById(\"tos_agree\");\n    var dataProcessingCheckbox = document.getElementById(\"data_processing_agree\");\n\n    var checkboxClicked = function() {\n      button.attr(\"disabled\", !tosCheckbox.checked || !dataProcessingCheckbox.checked);\n      if (this.checked) {\n        button.on(\"click\", function() {\n          acceptTOS();\n          outer.removeClass(\"hidden\").removeAttr(\"aria-hidden\");\n          \$j.when(container.fadeOut(500)).done(function() {\n            container.remove();\n          });\n        });\n      };\n    };\n\n    setTimeout(showTOSPrompt, 1500);\n\n    function showTOSPrompt() {\n      \$j.when(container.fadeIn(500)).done(function() {\n        outer.addClass(\"hidden\").attr(\"aria-hidden\", \"true\");\n      });\n\n      \$j(\"#tos_agree\").on(\"click\", checkboxClicked).change();\n      \$j(\"#data_processing_agree\").on(\"click\", checkboxClicked).change();\n    };\n  });\n\n//]]]]><![CDATA[>\n<\/script>");
         }
     });
 
 //]]>
 </script>
-<script>
+  <script>
 //<![CDATA[
 
     $j(document).ready(function() {
-      var permitted_hosts = ["104.153.64.122","208.85.241.152","208.85.241.157","ao3.org","archiveofourown.com","archiveofourown.net","archiveofourown.org","download.archiveofourown.org","insecure.archiveofourown.org","secure.archiveofourown.org","www.archiveofourown.com","www.archiveofourown.net","www.archiveofourown.org","www.ao3.org"];
+      var permitted_hosts = ["104.153.64.122","208.85.241.152","208.85.241.157","ao3.org","archiveofourown.com","archiveofourown.gay","archiveofourown.net","archiveofourown.org","download.archiveofourown.org","insecure.archiveofourown.org","secure.archiveofourown.org","www.archiveofourown.com","www.archiveofourown.net","www.archiveofourown.org","www.ao3.org","archive.transformativeworks.org"];
       var current_host = window.location.hostname;
 
       if (!permitted_hosts.includes(current_host) && Cookies.get("proxy_notice") !== "0" && window.location.protocol !== "file:") {
@@ -684,5 +839,7 @@ Part <strong>5</strong> of <a href="/series/2817877">*Insert Fandom* but Social 
 
 //]]>
 </script>
-<script>(function(){var js = "window['__CF$cv$params']={r:'81f88ae55db11684',t:'MTY5ODg4Nzg5Ni4wNjMwMDA='};_cpo=document.createElement('script');_cpo.nonce='',_cpo.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js',document.getElementsByTagName('head')[0].appendChild(_cpo);";var _0xh = document.createElement('iframe');_0xh.height = 1;_0xh.width = 1;_0xh.style.position = 'absolute';_0xh.style.top = 0;_0xh.style.left = 0;_0xh.style.border = 'none';_0xh.style.visibility = 'hidden';document.body.appendChild(_0xh);function handler() {var _0xi = _0xh.contentDocument || _0xh.contentWindow.document;if (_0xi) {var _0xj = _0xi.createElement('script');_0xj.innerHTML = js;_0xi.getElementsByTagName('head')[0].appendChild(_0xj);}}if (document.readyState !== 'loading') {handler();} else if (window.addEventListener) {document.addEventListener('DOMContentLoaded', handler);} else {var prev = document.onreadystatechange || function () {};document.onreadystatechange = function (e) {prev(e);if (document.readyState !== 'loading') {document.onreadystatechange = prev;handler();}};}})();</script></body>
+
+
+  <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'8ea89b68be4c2710',t:'MTczMjk0NjMyMC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
