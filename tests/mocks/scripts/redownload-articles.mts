@@ -81,12 +81,18 @@ function decodeFilename(encodedName: string): string {
 
 function getUrlFromPath(relativePath: string): string {
   const urlPath = path.dirname(relativePath);
+  const filename = path.basename(relativePath);
   
   const segments = urlPath.split(path.sep).filter(Boolean);
   
   const encodedPath = segments
     .map(segment => encodeURIComponent(decodeFilename(segment)))
     .join('/');
+  
+  // Only include the filename if it's not index.html
+  if (filename !== 'index.html') {
+    return `https://archiveofourown.org/${encodedPath}/${filename}`;
+  }
   
   return `https://archiveofourown.org/${encodedPath}`;
 }

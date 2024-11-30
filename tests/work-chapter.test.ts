@@ -72,7 +72,7 @@ describe("Fetches chapter of work", () => {
         chapters: { published: 6, total: 6 },
         complete: true,
         series: [],        
-        stats: { bookmarks: 46, comments: 47, hits: expect.any(Number), kudos: 256 },
+        stats: { bookmarks: 79, comments: 61, hits: expect.any(Number), kudos: 521 },
         locked: false,
       });
     });

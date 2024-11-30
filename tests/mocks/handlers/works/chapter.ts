@@ -16,6 +16,7 @@ export default http.all(
       path.resolve(
         WORKS_DATA_DIR,
         filenamify(params.work_id as string),
+        "chapters",
         `${filenamify((params.chapter_id as string) || "index")}.html`
       )
     );
