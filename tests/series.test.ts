@@ -71,7 +71,7 @@ describe("Fetches series information", () => {
       words: 2733,
       chapters: { published: 1, total: 1 },
       complete: true,
-      stats: { bookmarks: 208, kudos: 1324, hits: expect.any(Number) },
+      stats: { bookmarks: expect.any(Number), kudos: expect.any(Number), hits: expect.any(Number) },
     });
 
     // // Work 2
@@ -145,7 +145,7 @@ describe("Fetches series information", () => {
       words: 17141,
       chapters: { published: 12, total: null },
       complete: false,
-      stats: { bookmarks: 644, kudos: 3032, hits: expect.any(Number) },
+      stats: { bookmarks: expect.any(Number), kudos: expect.any(Number), hits: expect.any(Number) },
     });
 
     // // Work 3
@@ -193,7 +193,7 @@ describe("Fetches series information", () => {
       words: 3021,
       chapters: { published: 1, total: 1 },
       complete: true,
-      stats: { bookmarks: 242, kudos: 1539, hits: expect.any(Number) },
+      stats: { bookmarks: expect.any(Number), kudos: expect.any(Number), hits: expect.any(Number) },
     });
 
     // // Work 4
@@ -235,7 +235,7 @@ describe("Fetches series information", () => {
       words: 832,
       chapters: { published: 1, total: 1 },
       complete: true,
-      stats: { bookmarks: 81, kudos: 683, hits: expect.any(Number) },
+      stats: { bookmarks: expect.any(Number), kudos: expect.any(Number), hits: expect.any(Number) },
     });
 
     // // Work 5
@@ -301,7 +301,7 @@ describe("Fetches series information", () => {
       words: 5718,
       chapters: { published: 2, total: 3 },
       complete: false,
-      stats: { bookmarks: 197, kudos: 1197, hits: expect.any(Number) },
+      stats: { bookmarks: expect.any(Number), kudos: expect.any(Number), hits: expect.any(Number) },
     });
 
     // // Work 6
@@ -355,7 +355,7 @@ describe("Fetches series information", () => {
       words: 590,
       chapters: { published: 1, total: 1 },
       complete: true,
-      stats: { bookmarks: 41, kudos: 346, hits: expect.any(Number) },
+      stats: { bookmarks: expect.any(Number), kudos: expect.any(Number), hits: expect.any(Number) },
     });
   });
 

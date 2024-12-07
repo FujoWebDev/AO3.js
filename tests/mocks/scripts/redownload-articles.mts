@@ -88,7 +88,7 @@ function getUrlFromPath(relativePath: string): string {
   const segments = urlPath.split(path.sep).filter(Boolean);
   
   const encodedPath = segments
-    .map(segment => encodeURIComponent(decodeFilename(segment).replaceAll('/', '*s*')).replaceAll('.', '*d*').replaceAll('&', '*a*'))
+    .map(segment => encodeURIComponent(decodeFilename(segment).replaceAll('/', '*s*').replaceAll('.', '*d*').replaceAll('&', '*a*')))
     .join('/');
   
   // Only include the filename if it's not index.html
