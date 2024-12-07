@@ -33,8 +33,10 @@ async function downloadWithRetry(url: string, attempt = 1): Promise<DownloadResu
     // Accept both successful responses and 404s
     if (!response.ok && response.status !== 404) {
       throw new Error(`Failed to download ${url}: ${response.statusText}`);
+    } else if (response.status === 404) {
+      console.log(`Received 404 for ${url}. Make sure this is intentional.`);
     }
-
+  
     return {
       content: await response.text()
     };
@@ -86,7 +88,7 @@ function getUrlFromPath(relativePath: string): string {
   const segments = urlPath.split(path.sep).filter(Boolean);
   
   const encodedPath = segments
-    .map(segment => encodeURIComponent(decodeFilename(segment)))
+    .map(segment => encodeURIComponent(decodeFilename(segment).replaceAll('/', '*s*')).replaceAll('.', '*d*').replaceAll('&', '*a*'))
     .join('/');
   
   // Only include the filename if it's not index.html

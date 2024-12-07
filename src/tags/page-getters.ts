@@ -27,7 +27,8 @@ export const isCommon = ($tagPage: TagPage) => {
 };
 
 export const isCanonical = ($tagPage: TagPage) => {
-  return isCommon($tagPage) && !hasMergers($tagPage);
+  const categorySentence = $tagPage($tagPage(".tag.profile > p")[0]).text();
+  return categorySentence.includes("It's a canonical tag.");
 };
 
 export const getTagName = ($tagPage: TagPage) => {

@@ -25,10 +25,10 @@ describe("Fetches id data", () => {
 
   test("Returns null for non-common tag", async () => {
     const tag = await getTag({
-      tagName: "Original Senator Characters",
+      tagName: "No Fandom - Freeform",
     });
     expect(tag).toMatchObject({
-      name: "Original Senator Characters",
+      name: "No Fandom - Freeform",
       id: null,
     });
   });
@@ -72,10 +72,10 @@ describe("Fetches canonical data", () => {
 
   test("Returns null for non-common tag", async () => {
     const tag = await getTag({
-      tagName: "Original Senator Characters",
+      tagName: "No Fandom - Freeform",
     });
     expect(tag).toMatchObject({
-      name: "Original Senator Characters",
+      name: "No Fandom - Freeform",
       canonical: false,
       canonicalName: null,
     });
@@ -188,10 +188,10 @@ describe("Fetches common tag data", () => {
   });
 
   test("Fetches uncommon tag", async () => {
-    const tag = await getTag({ tagName: "Original Senator Characters" });
+    const tag = await getTag({ tagName: "No Fandom - Freeform" });
 
     expect(tag).toMatchObject({
-      name: "Original Senator Characters",
+      name: "No Fandom - Freeform",
       common: false,
     });
   });
@@ -205,15 +205,15 @@ describe("Fetches parent tags", () => {
 
     expect(tag).toMatchObject({
       name: "Ever Given Container Ship - Anthropomorphic",
-      parentTags: ["Object and Concept Anthropomorphism"],
+      parentTags: ["Water Vehicles (Anthropomorphic)"],
     });
   });
 
   test("Fetches no fandom tag", async () => {
-    const tag = await getTag({ tagName: "Original Senator Characters" });
+    const tag = await getTag({ tagName: "No Fandom - Freeform" });
 
     expect(tag).toMatchObject({
-      name: "Original Senator Characters",
+      name: "No Fandom - Freeform",
       parentTags: ["No Fandom"],
     });
   });
@@ -227,6 +227,7 @@ describe("Fetches parent tags", () => {
         "221B Baker Towers",
         "A Study in Emerald - Neil Gaiman",
         "A Study in Terror (1965)",
+        "Elementary (TV)",
         "Enola Holmes (Movies)",
         "Enola Holmes Series - Nancy Springer",
         "Hark! A Vagrant",
@@ -234,9 +235,9 @@ describe("Fetches parent tags", () => {
         "Irene Adler Series - Carole Nelson Douglas",
         "Mary Russell - Laurie R. King",
         "Murder by Decree (1979)",
+        "Mycroft Holmes Series - Kareem Abdul-Jabbar & Anna Waterhouse",
         "Sherlock & Co. (Podcast)",
         "Sherlock (TV)",
-        "Sherlock Holmes & Related Fandoms",
         "Sherlock Holmes (1984 TV)",
         "Sherlock Holmes (Downey films)",
         "Sherlock Holmes (Radio 1989-2010 Coules)",
@@ -245,6 +246,7 @@ describe("Fetches parent tags", () => {
         "Sherlock Holmes Chapter One (Video Game)",
         "Sherlock Holmes in the 22nd Century (Cartoon)",
         "Sherlock Holmes: The Awakened (Video Game)",
+        "Sherlock: Find Hidden Objects (Video Game)",
         "The Irregulars (TV)",
         "The Private Life of Sherlock Holmes (1970)",
         "There Is No Game: Wrong Dimension (Video Game)",
