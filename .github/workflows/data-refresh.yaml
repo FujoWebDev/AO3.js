@@ -56,26 +56,3 @@ jobs:
         run: |
           git checkout main
           git branch -D $BRANCH_NAME
-
-      - name: Commit changes if tests pass
-        if: steps.tests.outcome == 'success'
-        run: |
-          git config --local user.email "github-actions[bot]@users.noreply.github.com"
-          git config --local user.name "github-actions[bot]"
-          git add tests/mocks/data/
-          git commit -m "chore: update mock data [skip ci]"
-          git push origin $BRANCH_NAME
-
-      - name: Create PR if tests pass
-        if: steps.tests.outcome == 'success'
-        uses: actions/github-script@v7
-        with:
-          script: |
-            github.rest.pulls.create({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              title: '📦 Update mock data',
-              body: 'This PR updates the mock data used in tests.',
-              head: process.env.BRANCH_NAME,
-              base: 'main'
-            })
