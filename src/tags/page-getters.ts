@@ -59,6 +59,7 @@ export const getSubTags = ($tagPage: TagPage) => {
     let tags: string[] = [];
     if ($tagPage($tagPage(element).has("ul"))) {
       $tagPage("ul.tags", element).children("li").each((_, child) => {
+        // If a given subtag has another list of subtags, this flattens the list into a single array
         if ($tagPage(child).has("ul")) {
           tags.push($tagPage(child).children().first().text());
         } else {
