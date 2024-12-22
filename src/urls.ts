@@ -27,9 +27,9 @@ export const getUserProfileUrl = ({ username }: { username: string }) =>
 
 export const getTagUrl = (tagName: string) =>
   `https://archiveofourown.org/tags/${encodeURI(tagName)
-    .replace("/", "*s*")
-    .replace("&", "*a*")
-    .replace(".", "*d*")}`;
+    .replaceAll("/", "*s*")
+    .replaceAll("&", "*a*")
+    .replaceAll(".", "*d*")}`;
 
 export const getTagWorksFeedUrl = (tagName: string) =>
   `${getTagUrl(tagName)}/works`;

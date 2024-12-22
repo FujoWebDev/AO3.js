@@ -253,4 +253,14 @@ describe("Fetches parent tags", () => {
       ],
     });
   });
+
+  test("Can fetch tags with multiple dots", async () => {
+    const tag = await getTag({
+      tagName: "A Song of Ice and Fire - George R. R. Martin",
+    });
+
+    expect(tag).toMatchObject({
+      name: "A Song of Ice and Fire - George R. R. Martin",
+    });
+  });
 });
