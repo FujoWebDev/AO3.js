@@ -52,3 +52,17 @@ export const getParentTags = ($tagPage: TagPage) => {
   });
   return parentTags;
 };
+
+export const getSubTags = ($tagPage: TagPage) => {
+  const subTags: { tagName: string; subTags: Array<string> }[] = [];
+  $tagPage(".sub > ul.tags > li").each((_, element) => {
+    let tags: string[] = [];
+    if ($tagPage($tagPage(element).has("ul"))) {
+      $tagPage("ul.tags", element).children("li").each((_, child) => {
+        tags.push($tagPage(child).text());
+      });
+    }
+    subTags.push({ tagName: $tagPage(element).children().first().text(), subTags: tags });
+  });
+  return subTags;
+};
