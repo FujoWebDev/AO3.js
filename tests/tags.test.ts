@@ -265,42 +265,75 @@ describe("Fetches parent tags", () => {
   });
 });
 
-describe("Fetch sub tags", () => {
-  test("Fetches sub tags and sub-subtags", async () => {
-    const tag = await getTag({ tagName: "Modern Era" });
+describe("Fetch subtags", () => {
+  test("Fetches subtags and sub-subtags", async () => {
+    const tag = await getTag({ tagName: "Dysphoria" });
 
     expect(tag).toMatchObject({
-      name: "Modern Era",
+      name: "Dysphoria",
       subTags: [
-        {
-          tagName: "Alternate Universe - Modern Setting", 
-          subTags: [
-            "Alternate Universe - Modern: Still Have Powers",
-            "Alternate Universe - Modern with Magic",
-            "Modern Westeros",
-            "Alternate Universe - Modern: No Powers",
-            "Modern Marauders (Harry Potter)",
-            "Modern Losers Club (IT)",
-            "Alternate Universe - Modern Fódlan Setting (Fire Emblem)",
-            "Modern Essos (A Song of Ice and Fire)",
-            "Modern Etheria (She-Ra)",
-            "Alternate Universe - Modern Dungeons & Dragons Setting",
-            "Modern Exandria (Critical Role)",
-            "Modern Minecraft World",
-          ]
-        },
-        { tagName: "Modern Wen Kexing/Zhou Zishu", subTags: [] },
-        { tagName: "Modern Jon Snow/Daenerys Targaryen", subTags: [] },
-        { 
-          tagName: "Modern Arthur Pendragon (Merlin)", 
-          subTags: [
-            "Modern Merlin/Arthur Pendragon (Merlin)",
-            "Arthur Pendragon Adjusting to the Modern Era (Merlin)",
-          ]
-        },
-        { tagName: "Modern Merlin (Merlin)", subTags: ["Modern Merlin/Arthur Pendragon (Merlin)"] },
-        { tagName: "Modern Setting Alhaitham/Kaveh (Genshin Impact)", subTags: [] },
+        { tagName: "Body Dysphoria", subTags: ["Nott | Veth Brenatto Has Body Dysphoria"] },
+        { tagName: "Gender Dysphoria", subTags: [] },
       ],
+    });
+  });
+
+  test("Fetches nested sub-subtags", async () => {
+    const tag = await getTag({ tagName: "Worldbuilding" });
+
+    expect(tag).toMatchObject({
+      name: "Worldbuilding",
+      subTags: [
+        { tagName: "Geofiction", subTags: [] },
+        {
+          tagName: "Naruto Worldbuilding",
+          subTags: [
+            "Shinobi Culture (Naruto)",
+            "Kirigakure | Hidden Mist Village Worldbuilding",
+            "Konohagakure | Hidden Leaf Village Worldbuilding",
+            "Uzushiogakure | Hidden Eddy Village Worldbuilding",
+            "Sunagakure | Hidden Sand Village Worldbuilding",
+            "Anbu Lore (Naruto)",
+            "Clan Lore (Naruto)",
+            "Senju Clan Lore (Naruto)",
+            "Aburame Clan Lore (Naruto)",
+            "Nara Clan Lore (Naruto)",
+            "Hatake Clan Lore (Naruto)",
+            "Uzumaki Clan Lore (Naruto)",
+            "Uchiha Clan Lore (Naruto)",
+            "Hyuuga Clan Lore (Naruto)",
+            "Uchiha Clan Politics (Naruto)",
+            "Hyuuga Clan Politics (Naruto)",
+          ]
+        },
+        { tagName: "Minecraft Worldbuilding", subTags: [] },
+        { tagName: "Earth C Worldbuilding (Homestuck)", subTags: [] },
+        { tagName: "Dixing Worldbuilding (Guardian)", subTags: [] },
+        { tagName: "Vidyadhara Lore and Worldbuilding (Honkai: Star Rail)", subTags: ["Vidyadhara Biology (Honkai: Star Rail)"] },
+        { tagName: "Shang Qinghua | Airplane Shooting Toward the Sky's Worldbuilding", subTags: [] },
+        { tagName: "Xianzhou Lore and Worldbuilding (Honkai: Star Rail)", subTags: ["Luminary Wardance Ceremony (Honkai: Star Rail)"] },
+      ],
+    });
+  });
+
+  test("Fetches subtags", async () => {
+    const tag = await getTag({ tagName: "Mind Palace" });
+
+    expect(tag).toMatchObject({
+      name: "Mind Palace",
+      subTags: [
+        { tagName: "Mind Palace John Watson", subTags: [] },
+        { tagName: "Sherlock Holmes's Mind Palace", subTags: [] },
+      ],
+    });
+  });
+
+  test("Returns no subtags", async () => {
+    const tag = await getTag({ tagName: "Eventual Romance" });
+
+    expect(tag).toMatchObject({
+      name: "Eventual Romance",
+      subTags: [],
     });
   });
 });
