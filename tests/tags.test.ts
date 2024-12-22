@@ -264,3 +264,43 @@ describe("Fetches parent tags", () => {
     });
   });
 });
+
+describe("Fetch sub tags", () => {
+  test("Fetches sub tags and sub-subtags", async () => {
+    const tag = await getTag({ tagName: "Modern Era" });
+
+    expect(tag).toMatchObject({
+      name: "Modern Era",
+      subTags: [
+        {
+          tagName: "Alternate Universe - Modern Setting", 
+          subTags: [
+            "Alternate Universe - Modern: Still Have Powers",
+            "Alternate Universe - Modern with Magic",
+            "Modern Westeros",
+            "Alternate Universe - Modern: No Powers",
+            "Modern Marauders (Harry Potter)",
+            "Modern Losers Club (IT)",
+            "Alternate Universe - Modern Fódlan Setting (Fire Emblem)",
+            "Modern Essos (A Song of Ice and Fire)",
+            "Modern Etheria (She-Ra)",
+            "Alternate Universe - Modern Dungeons & Dragons Setting",
+            "Modern Exandria (Critical Role)",
+            "Modern Minecraft World",
+          ]
+        },
+        { tagName: "Modern Wen Kexing/Zhou Zishu", subTags: [] },
+        { tagName: "Modern Jon Snow/Daenerys Targaryen", subTags: [] },
+        { 
+          tagName: "Modern Arthur Pendragon (Merlin)", 
+          subTags: [
+            "Modern Merlin/Arthur Pendragon (Merlin)",
+            "Arthur Pendragon Adjusting to the Modern Era (Merlin)",
+          ]
+        },
+        { tagName: "Modern Merlin (Merlin)", subTags: ["Modern Merlin/Arthur Pendragon (Merlin)"] },
+        { tagName: "Modern Setting Alhaitham/Kaveh (Genshin Impact)", subTags: [] },
+      ],
+    });
+  });
+});
