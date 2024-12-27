@@ -3,14 +3,14 @@ name: Daily Data Refresh
 on:
   schedule:
     # Run at 00:00 UTC every day
-    - cron: '0 0 * * *'
+    - cron: "0 0 * * Sun"
   # Allow manual triggering
   workflow_dispatch:
 
 jobs:
   refresh-data:
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -18,8 +18,8 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18.18'
-          cache: 'npm'
+          node-version: "18.18"
+          cache: "npm"
 
       - name: Create new branch
         run: |
