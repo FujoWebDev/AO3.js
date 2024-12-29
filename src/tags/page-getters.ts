@@ -54,20 +54,15 @@ export const getParentTags = ($tagPage: TagPage) => {
 };
 
 export const getSubTags = ($tagPage: TagPage) => {
-  const subTags: { tagName: string; subTags: Array<string> }[] = [];
+  const subTags: { tagName: string; parentSubTag: string | null }[] = [];
   $tagPage(".sub > ul.tags > li").each((_, element) => {
-    let tags: string[] = [];
     if ($tagPage($tagPage(element).has("ul"))) {
-      $tagPage("ul.tags", element).children("li").each((_, child) => {
-        // If a given subtag has another list of subtags, this flattens the list into a single array
-        if ($tagPage(child).has("ul")) {
-          tags.push($tagPage(child).children().first().text());
-        } else {
-          tags.push($tagPage(child).text());
-        }
+      $tagPage("ul.tags", element).children(".tag").each((_, child) => {
+        subTags.push({ tagName: $tagPage(child).children().first().text(), parentSubTag: $tagPage(child).closest("li").text() });
       });
+    } else {
+      subTags.push({ tagName: $tagPage(element).children().first().text(), parentSubTag: null });
     }
-    subTags.push({ tagName: $tagPage(element).children().first().text(), subTags: tags });
   });
   return subTags;
 };

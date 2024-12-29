@@ -272,8 +272,9 @@ describe("Fetch subtags", () => {
     expect(tag).toMatchObject({
       name: "Dysphoria",
       subTags: [
-        { tagName: "Body Dysphoria", subTags: ["Nott | Veth Brenatto Has Body Dysphoria"] },
-        { tagName: "Gender Dysphoria", subTags: [] },
+        { tagName: "Body Dysphoria", parentSubTag: null },
+        { tagName: "Nott | Veth Brenatto Has Body Dysphoria", parentSubTag: "Body Dysphoria" },
+        { tagName: "Gender Dysphoria", parentSubTag: null },
       ],
     });
   });
@@ -284,7 +285,7 @@ describe("Fetch subtags", () => {
     expect(tag).toMatchObject({
       name: "Worldbuilding",
       subTags: [
-        { tagName: "Geofiction", subTags: [] },
+        { tagName: "Geofiction", parentSubTag: null },
         {
           tagName: "Naruto Worldbuilding",
           subTags: [
@@ -306,12 +307,14 @@ describe("Fetch subtags", () => {
             "Hyuuga Clan Politics (Naruto)",
           ]
         },
-        { tagName: "Minecraft Worldbuilding", subTags: [] },
-        { tagName: "Earth C Worldbuilding (Homestuck)", subTags: [] },
-        { tagName: "Dixing Worldbuilding (Guardian)", subTags: [] },
-        { tagName: "Vidyadhara Lore and Worldbuilding (Honkai: Star Rail)", subTags: ["Vidyadhara Biology (Honkai: Star Rail)"] },
-        { tagName: "Shang Qinghua | Airplane Shooting Toward the Sky's Worldbuilding", subTags: [] },
-        { tagName: "Xianzhou Lore and Worldbuilding (Honkai: Star Rail)", subTags: ["Luminary Wardance Ceremony (Honkai: Star Rail)"] },
+        { tagName: "Minecraft Worldbuilding", parentSubTag: null },
+        { tagName: "Earth C Worldbuilding (Homestuck)", parentSubTag: null },
+        { tagName: "Dixing Worldbuilding (Guardian)", parentSubTag: null },
+        { tagName: "Vidyadhara Lore and Worldbuilding (Honkai: Star Rail)", parentSubTag: null },
+        { tagName: "Vidyadhara Biology (Honkai: Star Rail)", parentSubTag: "Vidyadhara Lore and Worldbuilding (Honkai: Star Rail)" },
+        { tagName: "Shang Qinghua | Airplane Shooting Toward the Sky's Worldbuilding", parentSubTag: null },
+        { tagName: "Xianzhou Lore and Worldbuilding (Honkai: Star Rail)", parentSubTag: null },
+        { tagName: "Luminary Wardance Ceremony (Honkai: Star Rail)", parentSubTag: "Xianzhou Lore and Worldbuilding (Honkai: Star Rail)" }
       ],
     });
   });
@@ -322,8 +325,8 @@ describe("Fetch subtags", () => {
     expect(tag).toMatchObject({
       name: "Mind Palace",
       subTags: [
-        { tagName: "Mind Palace John Watson", subTags: [] },
-        { tagName: "Sherlock Holmes's Mind Palace", subTags: [] },
+        { tagName: "Mind Palace John Watson", parentSubTag: null },
+        { tagName: "Sherlock Holmes's Mind Palace", parentSubTag: null },
       ],
     });
   });
@@ -333,7 +336,7 @@ describe("Fetch subtags", () => {
 
     expect(tag).toMatchObject({
       name: "Eventual Romance",
-      subTags: [],
+      parentSubTag: null,
     });
   });
 });
