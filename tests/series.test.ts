@@ -16,9 +16,9 @@ describe("Fetches series information", () => {
         "<p>My potentially related stories about the relationship between the OG Titans. Probably focused on Dick Grayson.</p>",
       notes: null,
       words: 30035,
-      bookmarks: 214,
+      bookmarks: 215,
       complete: false,
-      workCount: 6, 
+      workCount: 6,
     });
   });
 
@@ -71,7 +71,11 @@ describe("Fetches series information", () => {
       words: 2733,
       chapters: { published: 1, total: 1 },
       complete: true,
-      stats: { bookmarks: expect.any(Number), kudos: expect.any(Number), hits: expect.any(Number) },
+      stats: {
+        bookmarks: expect.any(Number),
+        kudos: expect.any(Number),
+        hits: expect.any(Number),
+      },
     });
 
     // // Work 2
@@ -145,7 +149,11 @@ describe("Fetches series information", () => {
       words: 17141,
       chapters: { published: 12, total: null },
       complete: false,
-      stats: { bookmarks: expect.any(Number), kudos: expect.any(Number), hits: expect.any(Number) },
+      stats: {
+        bookmarks: expect.any(Number),
+        kudos: expect.any(Number),
+        hits: expect.any(Number),
+      },
     });
 
     // // Work 3
@@ -193,7 +201,11 @@ describe("Fetches series information", () => {
       words: 3021,
       chapters: { published: 1, total: 1 },
       complete: true,
-      stats: { bookmarks: expect.any(Number), kudos: expect.any(Number), hits: expect.any(Number) },
+      stats: {
+        bookmarks: expect.any(Number),
+        kudos: expect.any(Number),
+        hits: expect.any(Number),
+      },
     });
 
     // // Work 4
@@ -235,7 +247,11 @@ describe("Fetches series information", () => {
       words: 832,
       chapters: { published: 1, total: 1 },
       complete: true,
-      stats: { bookmarks: expect.any(Number), kudos: expect.any(Number), hits: expect.any(Number) },
+      stats: {
+        bookmarks: expect.any(Number),
+        kudos: expect.any(Number),
+        hits: expect.any(Number),
+      },
     });
 
     // // Work 5
@@ -301,7 +317,11 @@ describe("Fetches series information", () => {
       words: 5718,
       chapters: { published: 2, total: 3 },
       complete: false,
-      stats: { bookmarks: expect.any(Number), kudos: expect.any(Number), hits: expect.any(Number) },
+      stats: {
+        bookmarks: expect.any(Number),
+        kudos: expect.any(Number),
+        hits: expect.any(Number),
+      },
     });
 
     // // Work 6
@@ -355,7 +375,11 @@ describe("Fetches series information", () => {
       words: 590,
       chapters: { published: 1, total: 1 },
       complete: true,
-      stats: { bookmarks: expect.any(Number), kudos: expect.any(Number), hits: expect.any(Number) },
+      stats: {
+        bookmarks: expect.any(Number),
+        kudos: expect.any(Number),
+        hits: expect.any(Number),
+      },
     });
   });
 
