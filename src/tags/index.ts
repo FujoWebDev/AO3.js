@@ -4,6 +4,7 @@ import {
   isCanonical,
   isCommon,
   getParentTags,
+  getChildTags,
 } from "./page-getters";
 import { getTagId, getTagNameFromFeed } from "./works-feed-getters";
 import {
@@ -30,6 +31,7 @@ export const getTag = async ({
     common: isCommon(tagPage),
     canonicalName: getCanonical(tagPage),
     parentTags: getParentTags(tagPage),
+    childTags: getChildTags(tagPage),
   };
 };
 
