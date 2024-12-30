@@ -22,6 +22,7 @@ export interface Tag {
     tagName: string;
     subTags: Array<string>;
   }>;
+  childTags: string[];
 }
 
 export interface User {

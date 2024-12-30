@@ -71,3 +71,16 @@ export const getSubTags = ($tagPage: TagPage) => {
   });
   return subTags;
 };
+
+export const getChildTags = ($tagPage: TagPage) => {
+  const childTags: string[] = [];
+  $tagPage(".child > div > ul > li").each((i, element) => {
+
+    //console.log(i, $tagPage(element).children().first().text());
+    let childTag = $tagPage(element).children("a").first().text();
+    if (childTag != '') {
+      childTags.push(childTag);
+    }
+  })
+  return childTags;
+}
