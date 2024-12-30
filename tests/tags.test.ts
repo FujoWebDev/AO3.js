@@ -286,27 +286,23 @@ describe("Fetch subtags", () => {
       name: "Worldbuilding",
       subTags: [
         { tagName: "Geofiction", parentSubTag: null },
-        {
-          tagName: "Naruto Worldbuilding",
-          subTags: [
-            "Shinobi Culture (Naruto)",
-            "Kirigakure | Hidden Mist Village Worldbuilding",
-            "Konohagakure | Hidden Leaf Village Worldbuilding",
-            "Uzushiogakure | Hidden Eddy Village Worldbuilding",
-            "Sunagakure | Hidden Sand Village Worldbuilding",
-            "Anbu Lore (Naruto)",
-            "Clan Lore (Naruto)",
-            "Senju Clan Lore (Naruto)",
-            "Aburame Clan Lore (Naruto)",
-            "Nara Clan Lore (Naruto)",
-            "Hatake Clan Lore (Naruto)",
-            "Uzumaki Clan Lore (Naruto)",
-            "Uchiha Clan Lore (Naruto)",
-            "Hyuuga Clan Lore (Naruto)",
-            "Uchiha Clan Politics (Naruto)",
-            "Hyuuga Clan Politics (Naruto)",
-          ]
-        },
+        { tagName: "Naruto Worldbuilding", parentSubTag: null },
+        { tagName: "Shinobi Culture (Naruto)", parentSubTag: "Naruto Worldbuilding" },
+        { tagName: "Kirigakure | Hidden Mist Village Worldbuilding", parentSubTag: "Naruto Worldbuilding" },
+        { tagName: "Konohagakure | Hidden Leaf Village Worldbuilding", parentSubTag: "Naruto Worldbuilding" },
+        { tagName: "Uzushiogakure | Hidden Eddy Village Worldbuilding", parentSubTag: "Naruto Worldbuilding" },
+        { tagName: "Sunagakure | Hidden Sand Village Worldbuilding", parentSubTag: "Naruto Worldbuilding" },
+        { tagName: "Anbu Lore (Naruto)", parentSubTag: "Naruto Worldbuilding" },
+        { tagName: "Clan Lore (Naruto)", parentSubTag: "Naruto Worldbuilding" },
+        { tagName: "Senju Clan Lore (Naruto)", parentSubTag: "Clan Lore (Naruto)" },
+        { tagName: "Aburame Clan Lore (Naruto)", parentSubTag: "Clan Lore (Naruto)" },
+        { tagName: "Nara Clan Lore (Naruto)", parentSubTag: "Clan Lore (Naruto)" },
+        { tagName: "Hatake Clan Lore (Naruto)", parentSubTag: "Clan Lore (Naruto)" },
+        { tagName: "Uzumaki Clan Lore (Naruto)", parentSubTag: "Clan Lore (Naruto)" },
+        { tagName: "Uchiha Clan Lore (Naruto)", parentSubTag: "Clan Lore (Naruto)" },
+        { tagName: "Hyuuga Clan Lore (Naruto)", parentSubTag: "Clan Lore (Naruto)" },
+        { tagName: "Uchiha Clan Politics (Naruto)", parentSubTag: "Uchiha Clan Lore (Naruto)" },
+        { tagName: "Hyuuga Clan Politics (Naruto)", parentSubTag: "Hyuuga Clan Lore (Naruto)" },
         { tagName: "Minecraft Worldbuilding", parentSubTag: null },
         { tagName: "Earth C Worldbuilding (Homestuck)", parentSubTag: null },
         { tagName: "Dixing Worldbuilding (Guardian)", parentSubTag: null },
@@ -334,9 +330,6 @@ describe("Fetch subtags", () => {
   test("Returns no subtags", async () => {
     const tag = await getTag({ tagName: "Eventual Romance" });
 
-    expect(tag).toMatchObject({
-      name: "Eventual Romance",
-      parentSubTag: null,
-    });
+    expect(tag).toMatchObject({ name: "Eventual Romance", subTags: [], });
   });
 });
