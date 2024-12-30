@@ -18,6 +18,11 @@ export interface Tag {
   // common and cannot be filtered on.
   canonicalName: string | null;
   parentTags: string[];
+  subTags: Array<{
+    tagName: string;
+    subTags: Array<string>;
+  }>;
+  childTags: string[];
 }
 
 export interface User {
