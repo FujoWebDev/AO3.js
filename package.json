@@ -38,7 +38,10 @@
     "redownload": "tsx tests/mocks/scripts/redownload-articles.mts",
     "download": "tsx tests/mocks/scripts/download-ao3-url.mts"
   },
-  "repository": "https://github.com/essential-randomness/AO3.js.git",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FujoWebDev/AO3.js.git"
+  },
   "author": "Essential Randomness <essential.randomn3ss@gmail.com>",
   "license": "MIT",
   "devDependencies": {
