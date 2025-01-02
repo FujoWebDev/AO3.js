@@ -19,6 +19,10 @@ export interface Tag {
   canonicalName: string | null;
   parentTags: string[];
   childTags: string[];
+  subTags: Array<{
+    tagName: string;
+    parentSubTag: string | null;
+  }>;
 }
 
 export interface User {
