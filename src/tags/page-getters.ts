@@ -54,7 +54,9 @@ export const getParentTags = ($tagPage: TagPage) => {
   return parentTags;
 };
 export const getChildTags = ($tagPage: TagPage) => {
+
   const childTags: {tagName: string; Category: TagCategory }[] = [];
+  /*
   $tagPage(".child > div > ul > li").each((i, element) => {
     let childTag = $tagPage(element).children("a").first().text();
     if (childTag != '') {
@@ -65,6 +67,18 @@ export const getChildTags = ($tagPage: TagPage) => {
       childTags.push({tagName: childTag, Category: tc});
     }
   })
+  */
+
+  const divCategory = $tagPage(".child > div");
+  divCategory.each((i, divelement) => {
+    let classcatagory = divelement.attribs?.class?.split(' ')[0];
+    let tagcatagory = (classcatagory != 'freeforms' ? classcatagory : 'additional tags') as TagCategory;
+    $tagPage(divelement).find('ul > li a').each((_, aElement) => {
+      let childTag = $tagPage(aElement).text();
+      (childTag != '') && childTags.push({tagName: childTag, Category: tagcatagory});
+    })
+  })
+
   return childTags;
 }
 
