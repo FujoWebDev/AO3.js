@@ -53,6 +53,17 @@ export const getParentTags = ($tagPage: TagPage) => {
   });
   return parentTags;
 };
+export const getChildTags = ($tagPage: TagPage) => {
+  return $tagPage(".child > div").map((_, divElement) => {
+    const $div = $tagPage(divElement);
+    const className = $div.attr("class")?.split(' ')[0] ?? "";
+    const category = (className !== "freeforms" ? className : "additional tags") as TagCategory;
+    return $div.find("ul > li a").map((_, aElement) => {
+      const childTag = $tagPage(aElement).text();
+      return childTag ? { tagName: childTag, category: category} : null;
+    }).get();
+  }).get();
+}
 
 export const getSubTags = ($tagPage: TagPage) => {
   const subTags: { tagName: string; parentSubTag: string | null }[] = [];
