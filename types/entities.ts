@@ -20,7 +20,7 @@ export interface Tag {
   parentTags: string[];
   childTags: Array<{
     tagName: string;
-    Category: TagCategory;
+    category: TagCategory;
   }>;
   subTags: Array<{
     tagName: string;

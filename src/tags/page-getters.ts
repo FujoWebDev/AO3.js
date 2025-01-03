@@ -60,7 +60,7 @@ export const getChildTags = ($tagPage: TagPage) => {
     const category = (className !== "freeforms" ? className : "additional tags") as TagCategory;
     return $div.find("ul > li a").map((_, aElement) => {
       const childTag = $tagPage(aElement).text();
-      return childTag ? { tagName: childTag, Category: category} : null;
+      return childTag ? { tagName: childTag, category: category} : null;
     }).get();
   }).get();
 }
