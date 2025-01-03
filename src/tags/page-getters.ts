@@ -1,4 +1,4 @@
-import { TagCategory } from "types/entities";
+import { TagCategory, Tag } from "types/entities";
 import { TagPage } from "../page-loaders";
 import { Element } from "cheerio";
 
@@ -65,7 +65,8 @@ export const getChildTags = ($tagPage: TagPage) => {
   }).get();
 }
 
-export const getSubTags = ($tagPage: TagPage) => {
+export const getSubTags = ($tagPage: TagPage): Tag["subTags"] => {
+  /*
   const subTags: { tagName: string; parentSubTag: string | null }[] = [];
   $tagPage(".sub > ul.tags > li").each((_, element) => {
     subTags.push({ tagName: $tagPage(element).children().first().text(), parentSubTag: null });
@@ -79,6 +80,17 @@ export const getSubTags = ($tagPage: TagPage) => {
         });
       });
     }
-  });
-  return subTags;
+  });*/
+  //return subTags; 
+  return $tagPage(".sub > ul.tags > li").map((_, element) => {
+    if($tagPage($tagPage(element).has("ul.tags")).length) {
+      return $tagPage("ul.tags", element).children("li").map((_, child) => {
+        return {
+          tagName: $tagPage(child).children().first().text(), 
+          parentSubTag: $tagPage($tagPage(child)).parents("li").children().first().text() 
+        };
+      }).get()
+    }
+    return { tagName: $tagPage(element).children().first().text(), parentSubTag: null } as Tag["subTags"][number];
+  }).get();
 };
