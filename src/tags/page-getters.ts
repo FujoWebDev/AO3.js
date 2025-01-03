@@ -54,32 +54,15 @@ export const getParentTags = ($tagPage: TagPage) => {
   return parentTags;
 };
 export const getChildTags = ($tagPage: TagPage) => {
-
-  const childTags: {tagName: string; Category: TagCategory }[] = [];
-  /*
-  $tagPage(".child > div > ul > li").each((i, element) => {
-    let childTag = $tagPage(element).children("a").first().text();
-    if (childTag != '') {
-      // parent and parent's parent is an element
-      let classcatagory = (element.parent?.parent as Element).attributes[0].value.split(' ')[0]
-      //console.log(classcatagory != 'freeforms' ? classcatagory : 'additional tags');
-      let tc = (classcatagory != 'freeforms' ? classcatagory : 'additional tags') as TagCategory;
-      childTags.push({tagName: childTag, Category: tc});
-    }
-  })
-  */
-
-  const divCategory = $tagPage(".child > div");
-  divCategory.each((i, divelement) => {
-    let classcatagory = divelement.attribs?.class?.split(' ')[0];
-    let tagcatagory = (classcatagory != 'freeforms' ? classcatagory : 'additional tags') as TagCategory;
-    $tagPage(divelement).find('ul > li a').each((_, aElement) => {
-      let childTag = $tagPage(aElement).text();
-      (childTag != '') && childTags.push({tagName: childTag, Category: tagcatagory});
-    })
-  })
-
-  return childTags;
+  return $tagPage(".child > div").map((_, divElement) => {
+    const $div = $tagPage(divElement);
+    const className = $div.attr("class")?.split(' ')[0] ?? "";
+    const category = (className !== "freeforms" ? className : "additional tags") as TagCategory;
+    return $div.find("ul > li a").map((_, aElement) => {
+      const childTag = $tagPage(aElement).text();
+      return childTag ? { tagName: childTag, Category: category} : null;
+    }).get();
+  }).get();
 }
 
 export const getSubTags = ($tagPage: TagPage) => {
