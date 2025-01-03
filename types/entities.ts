@@ -18,7 +18,10 @@ export interface Tag {
   // common and cannot be filtered on.
   canonicalName: string | null;
   parentTags: string[];
-  childTags: string[];
+  childTags: Array<{
+    tagName: string;
+    Category: TagCategory;
+  }>;
   subTags: Array<{
     tagName: string;
     parentSubTag: string | null;

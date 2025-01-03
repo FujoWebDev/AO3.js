@@ -54,13 +54,15 @@ export const getParentTags = ($tagPage: TagPage) => {
   return parentTags;
 };
 export const getChildTags = ($tagPage: TagPage) => {
-  const childTags: string[] = [];
+  const childTags: {tagName: string; Category: TagCategory }[] = [];
   $tagPage(".child > div > ul > li").each((i, element) => {
-
-    //console.log(i, $tagPage(element).children().first().text());
     let childTag = $tagPage(element).children("a").first().text();
     if (childTag != '') {
-      childTags.push(childTag);
+      // parent and parent's parent is an element
+      let classcatagory = (element.parent?.parent as Element).attributes[0].value.split(' ')[0]
+      //console.log(classcatagory != 'freeforms' ? classcatagory : 'additional tags');
+      let tc = (classcatagory != 'freeforms' ? classcatagory : 'additional tags') as TagCategory;
+      childTags.push({tagName: childTag, Category: tc});
     }
   })
   return childTags;
