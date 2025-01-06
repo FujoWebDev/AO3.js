@@ -84,12 +84,14 @@ export const getSubTags = ($tagPage: TagPage): Tag["subTags"] => {
   //return subTags; 
   return $tagPage(".sub > ul.tags > li").map((_, element) => {
     if($tagPage($tagPage(element).has("ul.tags")).length) {
-      return $tagPage("ul.tags", element).children("li").map((_, child) => {
+      const topElement = { tagName: $tagPage(element).children().first().text(), parentSubTag: null };
+      const subElements = $tagPage("ul.tags", element).children("li").map((_, child) => {
         return {
           tagName: $tagPage(child).children().first().text(), 
           parentSubTag: $tagPage($tagPage(child)).parents("li").children().first().text() 
         };
       }).get()
+      return [topElement, ...subElements];
     }
     return { tagName: $tagPage(element).children().first().text(), parentSubTag: null } as Tag["subTags"][number];
   }).get();
