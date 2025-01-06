@@ -37,26 +37,21 @@ export const getWorkTitle = ($chapterIndexPage: ChapterIndexPage) => {
   return $chapterIndexPage(".works-navigate h2 a[href^='/works/']").text();
 };
 
-export const getWorkAuthors = (
-  $chapterIndexPage: ChapterIndexPage
-): Author[] => {
+export const getWorkAuthors = ($chapterIndexPage: ChapterIndexPage): Author[] => {
   const authors: Author[] = [];
   const authorNode = $chapterIndexPage(".works-navigate h2 a[rel='author']");
   if (authorNode.text().trim() === "Anonymous") {
     return [{ username: "Anonymous", pseud: "Anonymous", anonymous: true }];
   }
-
-  if (authorNode.length !== 0) {
-    authorNode.each((i, element) => {
+  return authorNode.length !== 0
+    ? authorNode.map((_, element) => {
       const url = element.attribs.href;
       const [, username, pseud] = url.match(/users\/(.+)\/pseuds\/(.+)/)!;
-
-      authors.push({
+      return {
         username: username,
         pseud: decodeURI(pseud),
         anonymous: false,
-      });
-    });
-  }
-  return authors;
+      }
+    }).get()
+    : [] as Author[];
 };
