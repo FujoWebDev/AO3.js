@@ -198,12 +198,9 @@ const getSeriesWorkRelationships = ($work: SeriesWork): string[] => {
 };
 
 const getSeriesWorkAdditionalTags = ($work: SeriesWork): string[] => {
-  const tags: string[] = [];
-
-  $work("li.freeforms a.tag").each(function (i) {
-    tags[i] = $work(this).text().trim();
-  });
-  return tags;
+  return $work("li.freeforms a.tag").map((_, element) => {
+    return $work(element).text().trim();
+  }).get();
 };
 
 const getSeriesWorkAuthors = (
