@@ -47,11 +47,9 @@ export const getCanonical = ($tagPage: TagPage) => {
 };
 
 export const getParentTags = ($tagPage: TagPage) => {
-  const parentTags: string[] = [];
-  $tagPage(".parent ul.tags li").each((_, element) => {
-    parentTags.push($tagPage(element).text());
-  });
-  return parentTags;
+ return $tagPage(".parent ul.tags li").map((_, element) => {
+  return $tagPage(element).text();
+ }).get();
 };
 export const getChildTags = ($tagPage: TagPage) => {
   return $tagPage(".child > div").map((_, divElement) => {
