@@ -189,28 +189,23 @@ const getSeriesWorkAdditionalTags = ($work: SeriesWork): string[] => {
   }).get();
 };
 
-const getSeriesWorkAuthors = (
-  $work: SeriesWork
-): SeriesWorkSummary["authors"] => {
+const getSeriesWorkAuthors = ($work: SeriesWork): SeriesWorkSummary["authors"] => {
   const authorLinks = $work("h4.heading a[rel='author']");
-  const authors: Author[] = [];
-
   if ($work("h4.heading").text().split("by")[1].trim() === "Anonymous") {
     return [{ username: "Anonymous", pseud: "Anonymous", anonymous: true }];
   }
 
   if (authorLinks.length !== 0) {
-    authorLinks.each((i, element) => {
+    return authorLinks.map((_, element) => {
       const url = element.attribs.href;
       const [, username, pseud] = url.match(/users\/(.+)\/pseuds\/(.+)/)!;
-
-      authors.push({
+      return {
         username: username,
         pseud: decodeURI(pseud),
         anonymous: false,
-      });
-    });
+      }
+    }).get();
   }
 
-  return authors;
+  return [] as Author[];
 };
