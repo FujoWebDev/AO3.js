@@ -68,11 +68,7 @@ export const getSeriesDescription = (
 
 export const getSeriesNotes = ($seriesPage: SeriesPage): string | null => {
   const notes = $seriesPage("dl.series dd:nth-of-type(5)");
-  if (notes.prevAll().first().text().trim() === "Notes:") {
-    return notes.html()!.trim();
-  } else {
-    return null;
-  }
+  return notes.prevAll().first().text().trim() === "Notes:" ? notes.html()!.trim() : null;
 };
 
 export const getSeriesPublishDate = ($seriesPage: SeriesPage): string => {
