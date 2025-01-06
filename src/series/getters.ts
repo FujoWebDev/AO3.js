@@ -31,32 +31,25 @@ export const getSeriesTitle = ($seriesPage: SeriesPage): string => {
   return $seriesPage("h2.heading").text().trim();
 };
 
-export const getSeriesAuthors = (
-  $seriesPage: SeriesPage
-): Series["authors"] => {
+export const getSeriesAuthors = ($seriesPage: SeriesPage): Series["authors"] => {
   const authorLinks = $seriesPage("dl.meta a[rel=author]");
-  const authors: Author[] = [];
 
-  if (
-    $seriesPage("dl.meta > dd:nth-of-type(1)").text().trim() === "Anonymous"
-  ) {
+  if ($seriesPage("dl.meta > dd:nth-of-type(1)").text().trim() === "Anonymous") {
     return [{ username: "Anonymous", pseud: "Anonymous", anonymous: true }];
   }
 
   if (authorLinks.length !== 0) {
-    authorLinks.each((i, element) => {
+    return authorLinks.map((_, element) => {
       const url = element.attribs.href;
       const [, username, pseud] = url.match(/users\/(.+)\/pseuds\/(.+)/)!;
-
-      authors.push({
+      return {
         username: username,
         pseud: decodeURI(pseud),
         anonymous: false,
-      });
-    });
+      } as Author
+    }).get();
   }
-
-  return authors;
+  return [] as Author[];
 };
 
 export const getSeriesDescription = ($seriesPage: SeriesPage): string | null => {
