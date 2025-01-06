@@ -59,11 +59,8 @@ export const getSeriesAuthors = (
   return authors;
 };
 
-export const getSeriesDescription = (
-  $seriesPage: SeriesPage
-): string | null => {
-  const description = $seriesPage("dl.series blockquote.userstuff").html();
-  return description ? description.trim() : null;
+export const getSeriesDescription = ($seriesPage: SeriesPage): string | null => {
+  return $seriesPage("dl.series blockquote.userstuff").html()?.trim() || null;
 };
 
 export const getSeriesNotes = ($seriesPage: SeriesPage): string | null => {
