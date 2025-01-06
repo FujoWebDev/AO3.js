@@ -192,12 +192,9 @@ const getSeriesWorkCharacters = ($work: SeriesWork): string[] => {
 };
 
 const getSeriesWorkRelationships = ($work: SeriesWork): string[] => {
-  const ships: string[] = [];
-
-  $work("li.relationships a.tag").each(function (i, ship) {
-    ships[i] = $work(ship).text().trim();
-  });
-  return ships;
+  return $work("li.relationships a.tag").map((i, ship) => {
+    return $work(ship).text().trim();
+  }).get()
 };
 
 const getSeriesWorkAdditionalTags = ($work: SeriesWork): string[] => {
