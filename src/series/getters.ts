@@ -186,12 +186,9 @@ const getSeriesWorkFandoms = ($work: SeriesWork): string[] => {
 }
 
 const getSeriesWorkCharacters = ($work: SeriesWork): string[] => {
-  const characters: string[] = [];
-
-  $work("li.characters a.tag").each(function (i, character) {
-    characters[i] = $work(character).text().trim();
-  });
-  return characters;
+  return $work("li.characters a.tag").map((i, character) => {
+    return $work(character).text().trim();
+  }).get()
 };
 
 const getSeriesWorkRelationships = ($work: SeriesWork): string[] => {
