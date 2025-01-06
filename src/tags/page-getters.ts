@@ -65,23 +65,7 @@ export const getChildTags = ($tagPage: TagPage) => {
   }).get();
 }
 
-export const getSubTags = ($tagPage: TagPage): Tag["subTags"] => {
-  /*
-  const subTags: { tagName: string; parentSubTag: string | null }[] = [];
-  $tagPage(".sub > ul.tags > li").each((_, element) => {
-    subTags.push({ tagName: $tagPage(element).children().first().text(), parentSubTag: null });
-    if ($tagPage($tagPage(element)).has("ul.tags").length) {
-      $tagPage("ul.tags", element).children("li").each((_, child) => {
-        // each <li> element contains an <a> element, 
-        // which is why `.children().first()` is needed for both the `tagName` and `parentSubTag`
-        subTags.push({ 
-          tagName: $tagPage(child).children().first().text(), 
-          parentSubTag: $tagPage($tagPage(child)).parents("li").children().first().text() 
-        });
-      });
-    }
-  });*/
-  //return subTags; 
+export const getSubTags = ($tagPage: TagPage) => {
   return $tagPage(".sub > ul.tags > li").map((_, element) => {
     if($tagPage($tagPage(element).has("ul.tags")).length) {
       const topElement = { tagName: $tagPage(element).children().first().text(), parentSubTag: null };
@@ -93,6 +77,8 @@ export const getSubTags = ($tagPage: TagPage): Tag["subTags"] => {
       }).get()
       return [topElement, ...subElements];
     }
-    return { tagName: $tagPage(element).children().first().text(), parentSubTag: null } as Tag["subTags"][number];
+    return { tagName: $tagPage(element).children().first().text(), parentSubTag: null };
+    //return { tagName: $tagPage(element).children().first().text(), parentSubTag: null } as Tag["subTags"][number];
+
   }).get();
 };
