@@ -68,17 +68,19 @@ export const getChildTags = ($tagPage: TagPage) => {
 export const getSubTags = ($tagPage: TagPage) => {
   return $tagPage(".sub > ul.tags > li").map((_, element) => {
     if($tagPage($tagPage(element).has("ul.tags")).length) {
-      const topElement = { tagName: $tagPage(element).children().first().text(), parentSubTag: null };
-      const subElements = $tagPage("ul.tags", element).children("li").map((_, child) => {
-        return {
-          tagName: $tagPage(child).children().first().text(), 
-          parentSubTag: $tagPage($tagPage(child)).parents("li").children().first().text() 
-        };
-      }).get()
-      return [topElement, ...subElements];
+      return [
+        { 
+          tagName: $tagPage(element).children().first().text(), 
+          parentSubTag: null 
+        },
+        $tagPage("ul.tags", element).children("li").map((_, child) => {
+          return {
+            tagName: $tagPage(child).children().first().text(), 
+            parentSubTag: $tagPage($tagPage(child)).parents("li").children().first().text() 
+          };
+        }).get()
+       ].flat();
     }
     return { tagName: $tagPage(element).children().first().text(), parentSubTag: null };
-    //return { tagName: $tagPage(element).children().first().text(), parentSubTag: null } as Tag["subTags"][number];
-
   }).get();
 };
