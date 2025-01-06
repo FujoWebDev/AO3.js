@@ -1,3 +1,4 @@
+import { Element } from "cheerio";
 import { UserProfile } from "../page-loaders";
 import { getUserProfileUrl } from "../urls";
 
@@ -18,17 +19,11 @@ export const getUserProfileName = ($userProfile: UserProfile) => {
 const PSEUD_SUFFIX = ", ";
 export const getUserProfilePseuds = ($userProfile: UserProfile) => {
   const pseuds = $userProfile("dd.pseuds a");
-  const pseudsArray: string[] = [];
-
-  if (pseuds.length !== 0) {
-    pseuds.each((i, element) => {
-      const url = element.attribs.href;
-      const [, username, pseud] = url.match(/users\/(.+)\/pseuds\/(.+)/)!;
-
-      pseudsArray.push(decodeURI(pseud));
-    });
-  }
-  return pseudsArray.join(PSEUD_SUFFIX);
+  return pseuds.length !== 0 
+    ? pseuds.map((_, element) => decodeURI(element.attribs.href.match(/users\/(.+)\/pseuds\/(.+)/)![2]))
+    .get()
+    .join(PSEUD_SUFFIX)
+    : "";
 };
 
 //Trim the results to only the date:
