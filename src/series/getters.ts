@@ -180,13 +180,10 @@ const getSeriesWorkSummary = ($work: SeriesWork) => {
 };
 
 const getSeriesWorkFandoms = ($work: SeriesWork): string[] => {
-  const fandoms: string[] = [];
-
-  $work("h5.fandoms a.tag").each(function (i, element) {
-    fandoms[i] = $work(element).text().trim();
-  });
-  return fandoms;
-};
+  return $work("h5.fandoms a.tag").map((i, element) => {
+    return $work(element).text().trim();
+  }).get();
+}
 
 const getSeriesWorkCharacters = ($work: SeriesWork): string[] => {
   const characters: string[] = [];
