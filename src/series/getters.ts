@@ -1,5 +1,5 @@
 import { Author, Series, SeriesWorkSummary } from "types/entities";
-import { CheerioAPI, load } from "cheerio";
+import { CheerioAPI, Element, load } from "cheerio";
 import { SeriesPage, WorkPage } from "../page-loaders";
 import {
   getWorkBookmarkCount,
@@ -114,18 +114,11 @@ export const getSeriesBookmarkCount = ($seriesPage: SeriesPage): number => {
   );
 };
 
-export const getSeriesWorks = (
-  $seriesPage: SeriesPage
-): SeriesWorkSummary[] => {
-  const works: SeriesWorkSummary[] = [];
-
-  $seriesPage("ul.index > li.work").each((index, element) => {
-    works[index] = getSeriesWork($seriesPage(element).html() as string);
-  });
-
-  return works;
-};
-
+export const getSeriesWorks = ($seriesPage: SeriesPage): SeriesWorkSummary[] => {
+  return $seriesPage("ul.index > li.work").map((index, element) => {
+    return getSeriesWork($seriesPage(element).html() as string);
+  }).get()
+}
 // Helpers for series' works
 interface SeriesWork extends CheerioAPI {
   kind: "SeriesWork";
