@@ -103,7 +103,7 @@ export const getSeriesBookmarkCount = ($seriesPage: SeriesPage): number => {
 export const getSeriesWorks = ($seriesPage: SeriesPage): SeriesWorkSummary[] => {
   return $seriesPage("ul.index > li.work").map((index, element) => {
     return getSeriesWork($seriesPage(element).html() as string);
-  }).get()
+  }).get();
 }
 // Helpers for series' works
 interface SeriesWork extends CheerioAPI {
@@ -174,13 +174,13 @@ const getSeriesWorkFandoms = ($work: SeriesWork): string[] => {
 const getSeriesWorkCharacters = ($work: SeriesWork): string[] => {
   return $work("li.characters a.tag").map((i, character) => {
     return $work(character).text().trim();
-  }).get()
+  }).get();
 };
 
 const getSeriesWorkRelationships = ($work: SeriesWork): string[] => {
   return $work("li.relationships a.tag").map((i, ship) => {
     return $work(ship).text().trim();
-  }).get()
+  }).get();
 };
 
 const getSeriesWorkAdditionalTags = ($work: SeriesWork): string[] => {
