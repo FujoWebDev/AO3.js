@@ -4,9 +4,9 @@ import { getWorkDetailsFromUrl, getWorkUrl } from "src/urls";
 import { ChapterIndexPage } from "src/page-loaders";
 
 const TITLE_SEPARATOR = ". ";
-export const getChaptersList = ($chapterIndexPage: ChapterIndexPage) => {
-  const chapters: Chapter[] = [];
-  $chapterIndexPage("ol.index > li").each((index, li) => {
+export const getChaptersList = ($chapterIndexPage: ChapterIndexPage): Chapter[] => {
+  //return chapters;
+  return $chapterIndexPage("ol.index > li").map((index, li) => {
     const link = $chapterIndexPage(li).find("a")[0];
     const chapterText = $chapterIndexPage(link).text();
     const { workId, chapterId } = getWorkDetailsFromUrl({
@@ -18,8 +18,7 @@ export const getChaptersList = ($chapterIndexPage: ChapterIndexPage) => {
     const dateNode = $chapterIndexPage(
       $chapterIndexPage(li).find(".datetime")[0]
     );
-
-    chapters.push({
+    return {
       id: chapterId!,
       workId,
       index: index + 1,
@@ -28,9 +27,8 @@ export const getChaptersList = ($chapterIndexPage: ChapterIndexPage) => {
       publishedAt: dateNode.text().replace(/[\(\)]/g, ""),
       // We rebuild the url so it gets the full path
       url: getWorkUrl({ workId, chapterId }),
-    });
-  });
-  return chapters;
+    }
+  }).get();
 };
 
 export const getWorkTitle = ($chapterIndexPage: ChapterIndexPage) => {
