@@ -191,6 +191,11 @@ export const getWorkLocked = ($workPage: WorkPage) => {
   return !!$workPage("#signin > .heading").text();
 };
 
+export const getWorkAdult = ($workPage: WorkPage): boolean => {
+  const adultCategories: WorkRatings[] = [WorkRatings.EXPLICIT, WorkRatings.MATURE, WorkRatings.NOT_RATED];
+  return adultCategories.includes(getWorkRating($workPage));
+}
+
 // Chapter-specific (must be multi-chapter fic)
 export const getChapterIndex = (
   $workPage: WorkPage
