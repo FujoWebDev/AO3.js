@@ -238,6 +238,7 @@ describe("Fetches parent tags", () => {
         "Mycroft Holmes Series - Kareem Abdul-Jabbar & Anna Waterhouse",
         "Sherlock & Co. (Podcast)",
         "Sherlock (TV)",
+        "Sherlock Holmes & Related Fandoms",
         "Sherlock Holmes (1984 TV)",
         "Sherlock Holmes (Downey films)",
         "Sherlock Holmes (Radio 1989-2010 Coules)",
@@ -250,6 +251,7 @@ describe("Fetches parent tags", () => {
         "The Irregulars (TV)",
         "The Private Life of Sherlock Holmes (1970)",
         "There Is No Game: Wrong Dimension (Video Game)",
+        "憂国のモリアーティ | Yuukoku no Moriarty | Moriarty the Patriot (Manga)",
       ],
     });
   });
@@ -273,7 +275,10 @@ describe("Fetch subtags", () => {
       name: "Dysphoria",
       subTags: [
         { tagName: "Body Dysphoria", parentSubTag: null },
-        { tagName: "Nott | Veth Brenatto Has Body Dysphoria", parentSubTag: "Body Dysphoria" },
+        {
+          tagName: "Nott | Veth Brenatto Has Body Dysphoria",
+          parentSubTag: "Body Dysphoria",
+        },
         { tagName: "Gender Dysphoria", parentSubTag: null },
       ],
     });
@@ -287,30 +292,112 @@ describe("Fetch subtags", () => {
       subTags: [
         { tagName: "Geofiction", parentSubTag: null },
         { tagName: "Naruto Worldbuilding", parentSubTag: null },
-        { tagName: "Shinobi Culture (Naruto)", parentSubTag: "Naruto Worldbuilding" },
-        { tagName: "Kirigakure | Hidden Mist Village Worldbuilding", parentSubTag: "Naruto Worldbuilding" },
-        { tagName: "Konohagakure | Hidden Leaf Village Worldbuilding", parentSubTag: "Naruto Worldbuilding" },
-        { tagName: "Uzushiogakure | Hidden Eddy Village Worldbuilding", parentSubTag: "Naruto Worldbuilding" },
-        { tagName: "Sunagakure | Hidden Sand Village Worldbuilding", parentSubTag: "Naruto Worldbuilding" },
+        {
+          tagName: "Shinobi Politics (Naruto)",
+          parentSubTag: "Naruto Worldbuilding",
+        },
+        {
+          tagName: "Shinobi Culture (Naruto)",
+          parentSubTag: "Naruto Worldbuilding",
+        },
+        {
+          tagName: "Kirigakure | Hidden Mist Village Worldbuilding",
+          parentSubTag: "Naruto Worldbuilding",
+        },
+        {
+          tagName: "Konohagakure | Hidden Leaf Village Worldbuilding",
+          parentSubTag: "Naruto Worldbuilding",
+        },
+        {
+          tagName: "Uzushiogakure | Hidden Eddy Village Worldbuilding",
+          parentSubTag: "Naruto Worldbuilding",
+        },
+        {
+          tagName: "Sunagakure | Hidden Sand Village Worldbuilding",
+          parentSubTag: "Naruto Worldbuilding",
+        },
         { tagName: "Anbu Lore (Naruto)", parentSubTag: "Naruto Worldbuilding" },
         { tagName: "Clan Lore (Naruto)", parentSubTag: "Naruto Worldbuilding" },
-        { tagName: "Senju Clan Lore (Naruto)", parentSubTag: "Clan Lore (Naruto)" },
-        { tagName: "Aburame Clan Lore (Naruto)", parentSubTag: "Clan Lore (Naruto)" },
-        { tagName: "Nara Clan Lore (Naruto)", parentSubTag: "Clan Lore (Naruto)" },
-        { tagName: "Hatake Clan Lore (Naruto)", parentSubTag: "Clan Lore (Naruto)" },
-        { tagName: "Uzumaki Clan Lore (Naruto)", parentSubTag: "Clan Lore (Naruto)" },
-        { tagName: "Uchiha Clan Lore (Naruto)", parentSubTag: "Clan Lore (Naruto)" },
-        { tagName: "Hyuuga Clan Lore (Naruto)", parentSubTag: "Clan Lore (Naruto)" },
-        { tagName: "Uchiha Clan Politics (Naruto)", parentSubTag: "Uchiha Clan Lore (Naruto)" },
-        { tagName: "Hyuuga Clan Politics (Naruto)", parentSubTag: "Hyuuga Clan Lore (Naruto)" },
+        {
+          tagName: "Clan Politics (Naruto)",
+          parentSubTag: "Shinobi Politics (Naruto)",
+        },
+        {
+          tagName: "Konohagakure | Hidden Leaf Village Politics",
+          parentSubTag: "Shinobi Politics (Naruto)",
+        },
+        {
+          tagName: "Clan Restoration Act (Naruto)",
+          parentSubTag: "Clan Politics (Naruto)",
+        },
+        {
+          tagName: "Hyuuga Clan Politics (Naruto)",
+          parentSubTag: "Clan Politics (Naruto)",
+        },
+        {
+          tagName: "Uchiha Clan Politics (Naruto)",
+          parentSubTag: "Konohagakure | Hidden Leaf Village Politics",
+        },
+        {
+          tagName: "Senju Clan Lore (Naruto)",
+          parentSubTag: "Clan Lore (Naruto)",
+        },
+        {
+          tagName: "Aburame Clan Lore (Naruto)",
+          parentSubTag: "Clan Lore (Naruto)",
+        },
+        {
+          tagName: "Nara Clan Lore (Naruto)",
+          parentSubTag: "Clan Lore (Naruto)",
+        },
+        {
+          tagName: "Hatake Clan Lore (Naruto)",
+          parentSubTag: "Clan Lore (Naruto)",
+        },
+        {
+          tagName: "Uzumaki Clan Lore (Naruto)",
+          parentSubTag: "Clan Lore (Naruto)",
+        },
+        {
+          tagName: "Uchiha Clan Lore (Naruto)",
+          parentSubTag: "Clan Lore (Naruto)",
+        },
+        {
+          tagName: "Hyuuga Clan Lore (Naruto)",
+          parentSubTag: "Clan Lore (Naruto)",
+        },
+        {
+          tagName: "Uchiha Clan Politics (Naruto)",
+          parentSubTag: "Uchiha Clan Lore (Naruto)",
+        },
+        {
+          tagName: "Hyuuga Clan Politics (Naruto)",
+          parentSubTag: "Hyuuga Clan Lore (Naruto)",
+        },
         { tagName: "Minecraft Worldbuilding", parentSubTag: null },
         { tagName: "Earth C Worldbuilding (Homestuck)", parentSubTag: null },
         { tagName: "Dixing Worldbuilding (Guardian)", parentSubTag: null },
-        { tagName: "Vidyadhara Lore and Worldbuilding (Honkai: Star Rail)", parentSubTag: null },
-        { tagName: "Vidyadhara Biology (Honkai: Star Rail)", parentSubTag: "Vidyadhara Lore and Worldbuilding (Honkai: Star Rail)" },
-        { tagName: "Shang Qinghua | Airplane Shooting Toward the Sky's Worldbuilding", parentSubTag: null },
-        { tagName: "Xianzhou Lore and Worldbuilding (Honkai: Star Rail)", parentSubTag: null },
-        { tagName: "Luminary Wardance Ceremony (Honkai: Star Rail)", parentSubTag: "Xianzhou Lore and Worldbuilding (Honkai: Star Rail)" }
+        {
+          tagName: "Vidyadhara Lore and Worldbuilding (Honkai: Star Rail)",
+          parentSubTag: null,
+        },
+        {
+          tagName: "Vidyadhara Biology (Honkai: Star Rail)",
+          parentSubTag: "Vidyadhara Lore and Worldbuilding (Honkai: Star Rail)",
+        },
+        {
+          tagName:
+            "Shang Qinghua | Airplane Shooting Toward the Sky's Worldbuilding",
+          parentSubTag: null,
+        },
+        {
+          tagName: "Xianzhou Lore and Worldbuilding (Honkai: Star Rail)",
+          parentSubTag: null,
+        },
+        {
+          tagName: "Luminary Wardance Ceremony (Honkai: Star Rail)",
+          parentSubTag: "Xianzhou Lore and Worldbuilding (Honkai: Star Rail)",
+        },
       ],
     });
   });
@@ -330,6 +417,6 @@ describe("Fetch subtags", () => {
   test("Returns no subtags", async () => {
     const tag = await getTag({ tagName: "Eventual Romance" });
 
-    expect(tag).toMatchObject({ name: "Eventual Romance", subTags: [], });
+    expect(tag).toMatchObject({ name: "Eventual Romance", subTags: [] });
   });
 });

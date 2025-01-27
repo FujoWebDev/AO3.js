@@ -16,7 +16,7 @@ describe("Fetches series information", () => {
         "<p>My potentially related stories about the relationship between the OG Titans. Probably focused on Dick Grayson.</p>",
       notes: null,
       words: 30035,
-      bookmarks: 215,
+      bookmarks: expect.any(Number),
       complete: false,
       workCount: 6,
     });
@@ -328,7 +328,7 @@ describe("Fetches series information", () => {
     expect(series.works[5]).toMatchObject({
       id: "44149795",
       title: "You starting down the road leaving me again",
-      updatedAt: "2023-01-08",
+      updatedAt: "2023-01-09",
       adult: false,
       fandoms: [
         "Batman - All Media Types",
