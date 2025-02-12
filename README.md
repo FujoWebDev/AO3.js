@@ -221,4 +221,4 @@ The logging will help you understand what's going on, but it's by no mean necess
 
 # How do I help?
 
-See (CONTRIBUTE.md)[CONTRIBUTE.md].
+See [CONTRIBUTE.md](CONTRIBUTE.md).
