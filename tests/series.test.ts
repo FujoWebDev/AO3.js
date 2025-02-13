@@ -82,7 +82,7 @@ describe("Fetches series information", () => {
     expect(series.works[1]).toMatchObject({
       id: "30794750",
       title: "Code B",
-      updatedAt: "2023-02-01",
+      updatedAt: "2023-01-31",
       adult: false,
       fandoms: [
         "Batman - All Media Types",
