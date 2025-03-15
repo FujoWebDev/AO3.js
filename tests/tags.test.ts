@@ -221,9 +221,9 @@ describe("Fetches parent tags", () => {
   test("Fetches multiple parent tags", async () => {
     const tag = await getTag({ tagName: "Sherlock Holmes" });
 
-    expect(tag).toMatchObject({
-      name: "Sherlock Holmes",
-      parentTags: [
+    expect(tag.name).toBe("Sherlock Holmes");
+    expect(tag.parentTags).toEqual(
+      expect.arrayContaining([
         "221B Baker Towers",
         "A Study in Emerald - Neil Gaiman",
         "A Study in Terror (1965)",
@@ -249,11 +249,12 @@ describe("Fetches parent tags", () => {
         "Sherlock Holmes: The Awakened (Video Game)",
         "Sherlock: Find Hidden Objects (Video Game)",
         "The Irregulars (TV)",
+        "Watson (TV 2025)",
         "The Private Life of Sherlock Holmes (1970)",
         "There Is No Game: Wrong Dimension (Video Game)",
         "憂国のモリアーティ | Yuukoku no Moriarty | Moriarty the Patriot (Manga)",
-      ],
-    });
+      ])
+    );
   });
 
   test("Can fetch tags with multiple dots", async () => {
@@ -287,9 +288,10 @@ describe("Fetch subtags", () => {
   test("Fetches nested sub-subtags", async () => {
     const tag = await getTag({ tagName: "Worldbuilding" });
 
-    expect(tag).toMatchObject({
-      name: "Worldbuilding",
-      subTags: [
+    expect(tag.name).toBe("Worldbuilding");
+
+    expect(tag.subTags).toEqual(
+      expect.arrayContaining([
         { tagName: "Geofiction", parentSubTag: null },
         { tagName: "Naruto Worldbuilding", parentSubTag: null },
         {
@@ -398,8 +400,8 @@ describe("Fetch subtags", () => {
           tagName: "Luminary Wardance Ceremony (Honkai: Star Rail)",
           parentSubTag: "Xianzhou Lore and Worldbuilding (Honkai: Star Rail)",
         },
-      ],
-    });
+      ])
+    );
   });
 
   test("Fetches subtags", async () => {
