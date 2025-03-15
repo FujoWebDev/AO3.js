@@ -82,7 +82,9 @@ describe("Fetches series information", () => {
     expect(series.works[1]).toMatchObject({
       id: "30794750",
       title: "Code B",
-      updatedAt: "2023-01-31",
+      // For some unknown reason, the updatedAt date is sometimes January 31st
+      // and sometimes February 1st. This seems to be on AO3's end.
+      updatedAt: expect.stringMatching(/^2023-01-31|2023-02-01$/),
       adult: false,
       fandoms: [
         "Batman - All Media Types",
