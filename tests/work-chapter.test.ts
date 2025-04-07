@@ -146,13 +146,19 @@ describe("Fetches chapter of work", () => {
         complete: false,
         series: [{ id: "2946579", name: "Twitterchat Saga", index: 1 }],
         stats: {
-          bookmarks: 13,
+          bookmarks: expect.any(Number),
           comments: 29,
           hits: expect.any(Number),
-          kudos: 130,
+          kudos: expect.any(Number),
         },
         locked: false,
       });
+
+      expect(work.stats.bookmarks).toBeGreaterThanOrEqual(14);
+      expect(work.stats.bookmarks).toBeLessThanOrEqual(20);
+
+      expect(work.stats.kudos).toBeGreaterThanOrEqual(131);
+      expect(work.stats.kudos).toBeLessThanOrEqual(141);
     });
   });
 

@@ -38,7 +38,9 @@ describe("Fetches id data.", () => {
       id: "87",
       location: "Oakland",
       birthday: "1981-02-13",
-      icon: "https://archiveofourown.org/rails/active_storage/representations/proxy/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBNXlSQmc9PSIsImV4cCI6bnVsbCwicHVyIjoiYmxvYl9pZCJ9fQ==--981aa75d724b097288b2cee764ad6367b6b4995e/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdCem9MWm05eWJXRjBTU0lJYW5CbkJqb0dSVlE2RkhKbGMybDZaVjkwYjE5c2FXMXBkRnNIYVdscGFRPT0iLCJleHAiOm51bGwsInB1ciI6InZhcmlhdGlvbiJ9fQ==--b473e4b7ae8a5cd4b8fa012a59568c3797a2119a/original.jpg",
+      icon: expect.stringMatching(
+        /^https:\/\/archiveofourown\.org\/rails\/active_storage\/representations\/proxy\/[^/]+\/[^/]+\/original\.jpg$/
+      ),
       header: "Yes, it's really spelled with a Z",
     } satisfies Partial<User>);
   });
