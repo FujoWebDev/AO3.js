@@ -38,7 +38,7 @@
 <script src="/javascripts/livevalidation_standalone.js"></script>
 
 <meta name="csrf-param" content="authenticity_token" />
-<meta name="csrf-token" content="IsDnP0jfmOV45VnVRwJ7qfITvgpMlcFnL8N4SHGJx1i5QcE2xPCtEMHo885DQ_yE6gg5DDfuTCcZ6WiqQg4U0w" />
+<meta name="csrf-token" content="rpe2fCixsK2wve42Mo3QfVTX50hHnPazRx3GuT7eIBIQO0lQcm-Gsh6kWJHIQfzjA8mxs55EnyKUtVyw8WIxGg" />
 
     
   </head>
@@ -61,7 +61,7 @@
         <a id="login-dropdown" href="/users/login">Log In</a>
       </p>
       <div id="small_login" class="simple login">
-	<form class="new_user" id="new_user_session_small" action="/users/login" accept-charset="UTF-8" method="post"><input type="hidden" name="authenticity_token" value="uIYII3fTMaiyDeQ4Fit-4wIjoTfJo_pg6u8j0HlZp3HoTrd9pw-GeQXPTzR5IC4wISHnVn-I8HEFVOj730h14Q" autocomplete="off" />
+	<form class="new_user" id="new_user_session_small" action="/users/login" accept-charset="UTF-8" method="post"><input type="hidden" name="authenticity_token" value="MFGZ4ie-Wqs2k6omsnGLRUN4mG9uD556hLDYxxQVEP6n9rez_31y6cxjrI5sa9BJRVwnYtY5oaIcyMgzkbObfQ" autocomplete="off" />
 	<dl>
     <dt>
       <label for="user_session_login_small">User name or email:</label></dt>
@@ -201,7 +201,7 @@
       <h4 class="heading">Development</h4>
       <ul class="menu">
           <li>
-            <a href="https://github.com/otwcode/otwarchive/commits/v0.9.399.9">otwarchive v0.9.399.9</a>
+            <a href="https://github.com/otwcode/otwarchive/commits/v0.9.404.4">otwarchive v0.9.404.4</a>
           </li>
         <li><a href="/known_issues">Known Issues</a></li>
         <li>
@@ -291,5 +291,5 @@
 </script>
 
 
-  <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'92092ab2bf02cba7',t:'MTc0MjAxMTg5MS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+  <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'92bdcd5f2c3b20eb',t:'MTc0MzkwNTk5NS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
