@@ -22,7 +22,7 @@ describe("Fetches chapter of work", () => {
         language: "English",
         rating: "Not Rated",
         category: null,
-        adult: false,
+        adult: true,
         fandoms: ["Batman - All Media Types"],
         tags: {
           warnings: ["Creator Chose Not To Use Archive Warnings"],
