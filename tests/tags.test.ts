@@ -237,6 +237,7 @@ describe("Fetches parent tags", () => {
         "Murder by Decree (1979)",
         "Mycroft Holmes Series - Kareem Abdul-Jabbar & Anna Waterhouse",
         "Sherlock & Co. (Podcast)",
+        "Sherlock & Daughter (TV)",
         "Sherlock (TV)",
         "Sherlock Holmes & Related Fandoms",
         "Sherlock Holmes (1984 TV)",
@@ -249,10 +250,11 @@ describe("Fetches parent tags", () => {
         "Sherlock Holmes: The Awakened (Video Game)",
         "Sherlock: Find Hidden Objects (Video Game)",
         "The Irregulars (TV)",
-        "Watson (TV 2025)",
         "The Private Life of Sherlock Holmes (1970)",
         "There Is No Game: Wrong Dimension (Video Game)",
-        "憂国のモリアーティ | Yuukoku no Moriarty | Moriarty the Patriot (Manga)",
+        "Watson (TV 2025)",
+        "Шерлок Холмс | Sherlock Holmes (TV 2013)",
+        "名探偵ホームズ | Sherlock Hound",
       ])
     );
   });
