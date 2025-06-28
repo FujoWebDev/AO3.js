@@ -48,7 +48,9 @@ jobs:
               title: '🚨 Data Refresh Tests Failed',
               body: `The daily data refresh tests failed on ${new Date().toISOString().split('T')[0]}.
               
-              Please check the [workflow run](${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}) for details.`
+              Please check the [workflow run](${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}) for details.
+              
+              Want to learn more about this issue and help us fix it? Check out the [README](https://github.com/FujoWebDev/AO3.js/blob/main/README.md#about--data-refresh-tests-failed-issues) for more information!`
             })
 
       - name: Delete branch if tests fail
