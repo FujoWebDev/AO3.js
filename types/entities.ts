@@ -158,6 +158,9 @@ export interface WorkPreview {
     published: number;
     total: number | null;
   };
+  // Date in ISO format. See: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString
+  // Note that AO3 doesn't publish the actual time of publish, just the date.
+  updatedAt: string;
 }
 
 export interface WorkSummary extends WorkPreview {
