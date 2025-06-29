@@ -1,4 +1,9 @@
 import {
+  getBookmarksCount,
+  getCollectionsCount,
+  getGiftsCount,
+  getSeriesCount,
+  getTotalPages,
   getUserProfileBio,
   getUserProfileBirthday,
   getUserProfileBookmarks,
@@ -13,6 +18,7 @@ import {
   getUserProfilePseuds,
   getUserProfileSeries,
   getUserProfileWorks,
+  getWorkCount,
 } from "./getters";
 
 import { User, WorkPreview, WorkSummary } from "types/entities";
@@ -69,10 +75,10 @@ const parseUserWorksIntoObject = ($userWorks: UserWorksPage) => {
     datetime: '.header.module .datetime',
   }
   const numberKeys = ['kudos','comments','chapters','words','hits','bookmarks']
-  const works = [];
+  const works: WorkPreview[] = [];
   // unfortunately $userWorks(selector).map doesn't return an Array, it returns a Cheerio
   $userWorks(itemSelector).each((_i, el) => {
-    const data = {};
+    const data = {} as WorkPreview;
     const $item = $userWorks(el);
     /**
      * Parse into a number if it is a number data point
@@ -81,61 +87,13 @@ const parseUserWorksIntoObject = ($userWorks: UserWorksPage) => {
     for (const [key, selector] of Object.entries(selectors)) {
       data[key] = numberKeys.includes(key) ? parseInt($item.find(selector).text(), 10) : $item.find(selector).text();
     }
-    works.push(data);
+    works.push(data as WorkPreview);
   })
 
   return works
 }
 
-interface GetUserWorks {
-  username: string;
-  // very unsure about name
-  counts: {
-    works: number;
-    series: number;
-    bookmarks: number;
-    collections: number;
-    gifts: number;
-  }
-  pageInfo: {
-    currentPage: number;
-    totalPages: number;
-  }
-  worksInPage: WorkPreview[];
-}
-
-const getTotalPages = ($page: UserWorksPage) => {
-  const lastNumberPagination = $page('.pagination li:has(+ .next)');
-
-  return parseInt(lastNumberPagination.text(), 10);
-}
-
-const getWorkCount = ($page: UserWorksPage) => {
-  const worksNavItem = $page('.navigation.actions:nth-child(2) li:first-child');
-  return parseInt(worksNavItem.text().replaceAll(/\D/g, ''), 10);
-}
-
-const getSeriesCount = ($page: UserWorksPage) => {
-  const seriesNavItem = $page('.navigation.actions:nth-child(2) li:nth-child(3)');
-  return parseInt(seriesNavItem.text().replaceAll(/\D/g, ''), 10);
-}
-
-const getBookmarksCount = ($page: UserWorksPage) => {
-  const bookmarksNavItem = $page('.navigation.actions:nth-child(2) li:nth-child(4)');
-  return parseInt(bookmarksNavItem.text().replaceAll(/\D/g, ''), 10);
-}
-
-const getCollectionsCount = ($page: UserWorksPage) => {
-  const collectionsNavItem = $page('.navigation.actions:nth-child(2) li:last-child');
-  return parseInt(collectionsNavItem.text().replaceAll(/\D/g, ''), 10);
-}
-
-const getGiftsCount = ($page: UserWorksPage) => {
-  const giftsNavItem = $page('.navigation.actions:last-child li:last-child');
-  return parseInt(giftsNavItem.text().replaceAll(/\D/g, ''), 10);
-}
-
-export const getUserWorks = async ({ username, page = 0 }: { username: string, page: number }): Promise<GetUserWorks> => {
+export const getUserWorks = async ({ username, page = 0 }: { username: string, page?: number }): Promise<GetUserWorks> => {
   const worksPage = await loadUserWorksList({ username, page });
   // parse current works page
   // check for next page
