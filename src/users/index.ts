@@ -65,7 +65,8 @@ const parseUserWorksIntoObject = ($userWorks: UserWorksPage) => {
     category: '.category .text',
     rating: '.rating .text',
     warnings: '.warnings .tag',
-    complete: '.iswip .text'
+    complete: '.iswip .text',
+    datetime: '.header.module .datetime',
   }
   const numberKeys = ['kudos','comments','chapters','words','hits','bookmarks']
   const works = [];
@@ -73,6 +74,10 @@ const parseUserWorksIntoObject = ($userWorks: UserWorksPage) => {
   $userWorks(itemSelector).each((_i, el) => {
     const data = {};
     const $item = $userWorks(el);
+    /**
+     * Parse into a number if it is a number data point
+     * otherwise pass in the text
+     */
     for (const [key, selector] of Object.entries(selectors)) {
       data[key] = numberKeys.includes(key) ? parseInt($item.find(selector).text(), 10) : $item.find(selector).text();
     }
@@ -82,12 +87,74 @@ const parseUserWorksIntoObject = ($userWorks: UserWorksPage) => {
   return works
 }
 
-export const getUserWorks = async ({ username }: { username: string }): Promise<WorkSummary[]> => {
-  const worksPage = await loadUserWorksList({ username });
+interface GetUserWorks {
+  username: string;
+  // very unsure about name
+  counts: {
+    works: number;
+    series: number;
+    bookmarks: number;
+    collections: number;
+    gifts: number;
+  }
+  pageInfo: {
+    currentPage: number;
+    totalPages: number;
+  }
+  worksInPage: WorkPreview[];
+}
+
+const getTotalPages = ($page: UserWorksPage) => {
+  const lastNumberPagination = $page('.pagination li:has(+ .next)');
+
+  return parseInt(lastNumberPagination.text(), 10);
+}
+
+const getWorkCount = ($page: UserWorksPage) => {
+  const worksNavItem = $page('.navigation.actions:nth-child(2) li:first-child');
+  return parseInt(worksNavItem.text().replaceAll(/\D/g, ''), 10);
+}
+
+const getSeriesCount = ($page: UserWorksPage) => {
+  const seriesNavItem = $page('.navigation.actions:nth-child(2) li:nth-child(3)');
+  return parseInt(seriesNavItem.text().replaceAll(/\D/g, ''), 10);
+}
+
+const getBookmarksCount = ($page: UserWorksPage) => {
+  const bookmarksNavItem = $page('.navigation.actions:nth-child(2) li:nth-child(4)');
+  return parseInt(bookmarksNavItem.text().replaceAll(/\D/g, ''), 10);
+}
+
+const getCollectionsCount = ($page: UserWorksPage) => {
+  const collectionsNavItem = $page('.navigation.actions:nth-child(2) li:last-child');
+  return parseInt(collectionsNavItem.text().replaceAll(/\D/g, ''), 10);
+}
+
+const getGiftsCount = ($page: UserWorksPage) => {
+  const giftsNavItem = $page('.navigation.actions:last-child li:last-child');
+  return parseInt(giftsNavItem.text().replaceAll(/\D/g, ''), 10);
+}
+
+export const getUserWorks = async ({ username, page = 0 }: { username: string, page: number }): Promise<GetUserWorks> => {
+  const worksPage = await loadUserWorksList({ username, page });
   // parse current works page
   // check for next page
   // if next page
   // loop it
   // else return data
-  return [];
+  return {
+    username,
+    pageInfo: {
+      currentPage: page,
+      totalPages: getTotalPages(worksPage),
+    },
+    counts: {
+      works: getWorkCount(worksPage),
+      series: getSeriesCount(worksPage),
+      bookmarks: getBookmarksCount(worksPage),
+      collections: getCollectionsCount(worksPage),
+      gifts: getGiftsCount(worksPage),
+    },
+    worksInPage: parseUserWorksIntoObject(worksPage)
+  }
 }
