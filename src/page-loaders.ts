@@ -10,6 +10,28 @@ import { CheerioAPI } from "cheerio";
 import { load } from "cheerio";
 import { getFetcher } from "./fetcher";
 
+// This is a wrapper around the fetch function that loads the page into a CheerioAPI
+// instance and returns the type of the page.
+
+// By default, it also allows us to skip the adult banner.
+const fetchPage = async <ReturnType>({
+  url,
+  skipAdultBanner = true,
+}: {
+  url: string;
+  skipAdultBanner?: boolean;
+}) => {
+  return (await load(
+    await (
+      await getFetcher()(url, {
+        headers: {
+          Cookie: skipAdultBanner ? "view_adult=true;" : "",
+        },
+      })
+    ).text()
+  )) as ReturnType;
+};
+
 // We create separate interfaces for each page type to make sure that the
 // correct type of page is passed to each method that extracts data.
 // Other than this, all pages are instances of CheerioAPI and can be used interchangeably.
@@ -20,9 +42,9 @@ export interface TagWorksFeed extends CheerioAPI {
   kind: "TagWorksFeed";
 }
 export const loadTagWorksFeed = async ({ tagName }: { tagName: string }) => {
-  return load(
-    await (await getFetcher()(getTagWorksFeedUrl(tagName))).text()
-  ) as TagWorksFeed;
+  return await fetchPage<TagWorksFeed>({
+    url: getTagWorksFeedUrl(tagName),
+  });
 };
 
 // A page showing the details of a tag.
@@ -31,7 +53,9 @@ export interface TagPage extends CheerioAPI {
   kind: "TagPage";
 }
 export const loadTagPage = async ({ tagName }: { tagName: string }) => {
-  return load(await (await getFetcher()(getTagUrl(tagName))).text()) as TagPage;
+  return await fetchPage<TagPage>({
+    url: getTagUrl(tagName),
+  });
 };
 
 // Atom feed of the most recent works featuring a tag.
@@ -40,9 +64,9 @@ export interface TagWorksAtomFeed extends CheerioAPI {
   kind: "TagWorksAtomFeed";
 }
 export const loadTagFeedAtomPage = async ({ tagId }: { tagId: string }) => {
-  return load(
-    await (await getFetcher()(getTagWorksFeedAtomUrl(tagId))).text()
-  ) as TagWorksAtomFeed;
+  return await fetchPage<TagWorksAtomFeed>({
+    url: getTagWorksFeedAtomUrl(tagId),
+  });
 };
 
 // The first page of a work.
@@ -57,20 +81,9 @@ export const loadWorkPage = async ({
   workId: string;
   chapterId?: string;
 }) => {
-  return load(
-    await (
-      await getFetcher()(getWorkUrl({ workId, chapterId }), {
-        headers: {
-          // We set a cookie to bypass the Terms of Service agreement modal that
-          // appears when viewing works as a guest, which prevented some
-          // selectors from working. Appending ?view_adult=true to URLs doesn't
-          // work for chaptered works since that part gets cleared when those
-          // are automatically redirected.
-          Cookie: "view_adult=true;",
-        },
-      })
-    ).text()
-  ) as WorkPage;
+  return await fetchPage<WorkPage>({
+    url: getWorkUrl({ workId, chapterId }),
+  });
 };
 
 // A user profile page.
@@ -83,29 +96,25 @@ export const loadUserProfilePage = async ({
 }: {
   username: string;
 }) => {
-  return load(
-    await (await getFetcher()(getUserProfileUrl({ username }))).text()
-  ) as UserProfile;
+  return await fetchPage<UserProfile>({
+    url: getUserProfileUrl({ username }),
+  });
 };
 
 export interface ChapterIndexPage extends CheerioAPI {
   kind: "ChapterIndexPage";
 }
 export const loadChaptersIndexPage = async ({ workId }: { workId: string }) => {
-  return load(
-    await (
-      await getFetcher()(`https://archiveofourown.org/works/${workId}/navigate`)
-    ).text()
-  ) as ChapterIndexPage;
+  return await fetchPage<ChapterIndexPage>({
+    url: `https://archiveofourown.org/works/${workId}/navigate`,
+  });
 };
 
 export interface SeriesPage extends CheerioAPI {
   kind: "SeriesPage";
 }
 export const loadSeriesPage = async (seriesId: string) => {
-  return load(
-    await (
-      await getFetcher()(`https://archiveofourown.org/series/${seriesId}`)
-    ).text()
-  ) as SeriesPage;
+  return await fetchPage<SeriesPage>({
+    url: `https://archiveofourown.org/series/${seriesId}`,
+  });
 };
