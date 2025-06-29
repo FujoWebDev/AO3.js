@@ -1,4 +1,4 @@
-import { getUser } from "src/index";
+import { getUser, getUserWorks } from "src/index";
 import { User } from "types/entities";
 
 //NOTE: Some of these tests may fail if the referenced user has updated their profile!
@@ -44,4 +44,11 @@ describe("Fetches id data.", () => {
       header: "Yes, it's really spelled with a Z",
     } satisfies Partial<User>);
   });
+
+  test('Fetches user works list', async () => {
+    const works = await getUserWorks({
+      username: 'franzeska'
+    });
+    console.log(works);
+  })
 });

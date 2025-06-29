@@ -1,4 +1,4 @@
-import { UserProfile } from "../page-loaders";
+import { UserProfile, UserWorksPage } from "../page-loaders";
 import { getUserProfileUrl } from "../urls";
 
 //Dates are ten characters long in the following format:
@@ -123,3 +123,35 @@ export const getUserProfileGifts = ($userProfile: UserProfile) => {
       .slice(GIFTS_PREFIX.length, -STAT_SUFFIX.length) || "0"
   );
 };
+
+
+export const getTotalPages = ($page: UserWorksPage) => {
+  const lastNumberPagination = $page('.pagination li:has(+ .next)');
+
+  return parseInt(lastNumberPagination.text(), 10);
+}
+
+export const getWorkCount = ($page: UserWorksPage) => {
+  const worksNavItem = $page('.navigation.actions:nth-child(2) li:first-child');
+  return parseInt(worksNavItem.text().replaceAll(/\D/g, ''), 10);
+}
+
+export const getSeriesCount = ($page: UserWorksPage) => {
+  const seriesNavItem = $page('.navigation.actions:nth-child(2) li:nth-child(3)');
+  return parseInt(seriesNavItem.text().replaceAll(/\D/g, ''), 10);
+}
+
+export const getBookmarksCount = ($page: UserWorksPage) => {
+  const bookmarksNavItem = $page('.navigation.actions:nth-child(2) li:nth-child(4)');
+  return parseInt(bookmarksNavItem.text().replaceAll(/\D/g, ''), 10);
+}
+
+export const getCollectionsCount = ($page: UserWorksPage) => {
+  const collectionsNavItem = $page('.navigation.actions:nth-child(2) li:last-child');
+  return parseInt(collectionsNavItem.text().replaceAll(/\D/g, ''), 10);
+}
+
+export const getGiftsCount = ($page: UserWorksPage) => {
+  const giftsNavItem = $page('.navigation.actions:last-child li:last-child');
+  return parseInt(giftsNavItem.text().replaceAll(/\D/g, ''), 10);
+}
