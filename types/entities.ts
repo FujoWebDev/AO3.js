@@ -123,7 +123,7 @@ export interface Author {
   anonymous: boolean;
 }
 
-export interface WorkPreview {
+export interface WorkPreview extends Record<string, any> {
   id: string;
   title: string;
   category: WorkCategory[] | null;
