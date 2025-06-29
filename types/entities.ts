@@ -175,6 +175,24 @@ export interface WorkSummary extends WorkPreview {
   } | null;
 }
 
+
+export interface UserWorks {
+  username: string;
+  // very unsure about name
+  counts: {
+    works: number;
+    series: number;
+    bookmarks: number;
+    collections: number;
+    gifts: number;
+  }
+  pageInfo: {
+    currentPage: number;
+    totalPages: number;
+  }
+  worksInPage: WorkPreview[];
+}
+
 export interface LockedWorkSummary {
   id: string;
   locked: true;
