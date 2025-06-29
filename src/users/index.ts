@@ -15,9 +15,9 @@ import {
   getUserProfileWorks,
 } from "./getters";
 
-import { User } from "types/entities";
+import { User, WorkSummary } from "types/entities";
 import { getUserProfileUrl } from "../urls";
-import { loadUserProfilePage } from "../page-loaders";
+import { loadUserProfilePage, loadUserWorksList, loadWorkPage } from "../page-loaders";
 
 export const getUser = async ({
   username,
@@ -46,3 +46,13 @@ export const getUser = async ({
     bioHtml: getUserProfileBio(profilePage),
   };
 };
+
+export const getUserWorks = async ({ username }: {username: string}): Promise<WorkSummary[]> => {
+  const worksPage = await loadUserWorksList({ username });
+  // parse current works page
+  // check for next page
+  // if next page
+    // loop it
+  // else return data
+  return [];
+}
