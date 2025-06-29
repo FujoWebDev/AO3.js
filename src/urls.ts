@@ -25,6 +25,9 @@ export const getWorkUrl = ({
 export const getUserProfileUrl = ({ username }: { username: string }) =>
   `https://archiveofourown.org/users/${encodeURI(username)}/profile`;
 
+export const getUserWorksUrl = ({ username, page = 0 }: { username: string, page?: number }) =>
+  `https://archiveofourown.org/users/${encodeURI(username)}/works?page=${page}`
+
 export const getTagUrl = (tagName: string) =>
   `https://archiveofourown.org/tags/${encodeURI(tagName)
     .replaceAll("/", "*s*")
