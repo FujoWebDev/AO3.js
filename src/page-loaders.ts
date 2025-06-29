@@ -105,9 +105,9 @@ export const loadUserProfilePage = async ({
 export interface UserWorksPage extends CheerioAPI {
   kind: 'UserWorksPage'
 }
-export const loadUserWorksList = async ({ username }: { username: string }) => {
+export const loadUserWorksList = async ({ username, page = 0 }: { username: string, page: number }) => {
   return await fetchPage<UserWorksPage>({
-    url: getUserWorksUrl({ username }),
+    url: getUserWorksUrl({ username, page }),
   });
 }
 
