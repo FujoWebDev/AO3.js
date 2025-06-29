@@ -8,7 +8,8 @@
       "src/*": ["./src/*"],
       "types/*": ["./types/*"]
     },
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "lib": ["es2022"]
   },
   "include": ["**/*.ts"],
   "exclude": ["node_modules/"]
