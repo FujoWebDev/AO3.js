@@ -3,6 +3,7 @@ import {
   getTagWorksFeedAtomUrl,
   getTagWorksFeedUrl,
   getUserProfileUrl,
+  getUserWorksUrl,
   getWorkUrl,
 } from "./urls";
 
@@ -100,6 +101,15 @@ export const loadUserProfilePage = async ({
     url: getUserProfileUrl({ username }),
   });
 };
+
+export interface UserWorksPage extends CheerioAPI {
+  kind: 'UserWorksPage'
+}
+export const loadUserWorksList = async ({ username }: { username: string }) => {
+  return await fetchPage<UserWorksPage>({
+    url: getUserWorksUrl({ username }),
+  });
+}
 
 export interface ChapterIndexPage extends CheerioAPI {
   kind: "ChapterIndexPage";
