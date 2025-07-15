@@ -22,6 +22,8 @@ export const getWorkUrl = ({
   return workUrl;
 };
 
+export const getAsShortUrl = ({ url }: { url: string }) => url.replace(/archiveofourown/, 'ao3');
+
 export const getUserProfileUrl = ({ username }: { username: string }) =>
   `https://archiveofourown.org/users/${encodeURI(username)}/profile`;
 
