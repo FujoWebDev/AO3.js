@@ -33,6 +33,7 @@ export interface User {
   username: string;
   pseuds: string;
   url: string;
+  shortUrl: string;
   icon: string;
   header: string | null;
   joined: string;
@@ -59,6 +60,7 @@ export interface SeriesWorkSummary
     | "series"
   > {
   url: string;
+  shortUrl: string;
   tags: Omit<WorkSummary["tags"], "warnings">;
   stats: Omit<WorkSummary["stats"], "comments">;
 }
@@ -182,4 +184,5 @@ export interface Chapter {
   title: string;
   publishedAt: string;
   url: string;
+  shortUrl: string;
 }
