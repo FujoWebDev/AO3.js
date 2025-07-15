@@ -123,14 +123,10 @@ export interface Author {
   anonymous: boolean;
 }
 
-export interface WorkSummary {
+export interface WorkPreview extends Record<string, any> {
   id: string;
   title: string;
   category: WorkCategory[] | null;
-  // Date in ISO format. See: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString
-  // Note that AO3 doesn't publish the actual time of publish, just the date.
-  publishedAt: string;
-  updatedAt: string | null;
   // TODO: should this be in HTML?
   summary: string | null;
   rating: WorkRatings;
@@ -144,23 +140,10 @@ export interface WorkSummary {
     relationships: string[];
     additional: string[];
   };
-  // If the author is anonymous this array will contain a single
-  // entry whose "anonymous" property is "true".
-  authors: Author[];
   language: string;
   words: number;
-  chapters: {
-    published: number;
-    total: number | null;
-  };
-  chapterInfo: {
-    id: string;
-    index: number;
-    name: string | null;
-    summary: string | null;
-  } | null;
-  series: BasicSeries[];
   complete: boolean;
+  series: BasicSeries[];
   stats: {
     bookmarks: number;
     comments: number;
@@ -168,12 +151,53 @@ export interface WorkSummary {
     hits: number;
   };
   locked: false;
+  // If the author is anonymous this array will contain a single
+  // entry whose "anonymous" property is "true".
+  authors: Author[];
+  chapters: {
+    published: number;
+    total: number | null;
+  };
+  // Date in ISO format. See: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString
+  // Note that AO3 doesn't publish the actual time of publish, just the date.
+  updatedAt: string|null;
+}
+
+export interface WorkSummary extends WorkPreview {
+  // Date in ISO format. See: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString
+  // Note that AO3 doesn't publish the actual time of publish, just the date.
+  publishedAt: string;
+  chapterInfo: {
+    id: string;
+    index: number;
+    name: string | null;
+    summary: string | null;
+  } | null;
 }
 
 export interface LockedWorkSummary {
   id: string;
   locked: true;
 }
+
+
+export interface UserWorks {
+  username: string;
+  // very unsure about name
+  counts: {
+    works: number;
+    series: number;
+    bookmarks: number;
+    collections: number;
+    gifts: number;
+  }
+  pageInfo: {
+    currentPage: number;
+    totalPages: number;
+  }
+  worksInPage: WorkPreview[];
+}
+
 
 export interface Chapter {
   id: string;
@@ -183,3 +207,4 @@ export interface Chapter {
   publishedAt: string;
   url: string;
 }
+
