@@ -1,4 +1,4 @@
-import { TagCategory } from "types/entities";
+import { TagCategory, Tag } from "types/entities";
 import { TagPage } from "../page-loaders";
 import { Element } from "cheerio";
 
@@ -47,11 +47,9 @@ export const getCanonical = ($tagPage: TagPage) => {
 };
 
 export const getParentTags = ($tagPage: TagPage) => {
-  const parentTags: string[] = [];
-  $tagPage(".parent ul.tags li").each((_, element) => {
-    parentTags.push($tagPage(element).text());
-  });
-  return parentTags;
+ return $tagPage(".parent ul.tags li").map((_, element) => {
+  return $tagPage(element).text();
+ }).get();
 };
 export const getChildTags = ($tagPage: TagPage) => {
   return $tagPage(".child > div").map((_, divElement) => {
@@ -66,19 +64,21 @@ export const getChildTags = ($tagPage: TagPage) => {
 }
 
 export const getSubTags = ($tagPage: TagPage) => {
-  const subTags: { tagName: string; parentSubTag: string | null }[] = [];
-  $tagPage(".sub > ul.tags > li").each((_, element) => {
-    subTags.push({ tagName: $tagPage(element).children().first().text(), parentSubTag: null });
-    if ($tagPage($tagPage(element)).has("ul.tags").length) {
-      $tagPage("ul.tags", element).children("li").each((_, child) => {
-        // each <li> element contains an <a> element, 
-        // which is why `.children().first()` is needed for both the `tagName` and `parentSubTag`
-        subTags.push({ 
-          tagName: $tagPage(child).children().first().text(), 
-          parentSubTag: $tagPage($tagPage(child)).parents("li").children().first().text() 
-        });
-      });
+  return $tagPage(".sub > ul.tags > li").map((_, element) => {
+    if($tagPage($tagPage(element).has("ul.tags")).length) {
+      return [
+        { 
+          tagName: $tagPage(element).children().first().text(), 
+          parentSubTag: null 
+        },
+        $tagPage("ul.tags", element).children("li").map((_, child) => {
+          return {
+            tagName: $tagPage(child).children().first().text(), 
+            parentSubTag: $tagPage($tagPage(child)).parents("li").children().first().text() 
+          };
+        }).get()
+       ].flat();
     }
-  });
-  return subTags;
+    return { tagName: $tagPage(element).children().first().text(), parentSubTag: null };
+  }).get();
 };

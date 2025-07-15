@@ -1,5 +1,5 @@
 import { Author, Series, SeriesWorkSummary } from "types/entities";
-import { CheerioAPI, load } from "cheerio";
+import { CheerioAPI, Element, load } from "cheerio";
 import { SeriesPage, WorkPage } from "../page-loaders";
 import {
   getWorkBookmarkCount,
@@ -31,48 +31,34 @@ export const getSeriesTitle = ($seriesPage: SeriesPage): string => {
   return $seriesPage("h2.heading").text().trim();
 };
 
-export const getSeriesAuthors = (
-  $seriesPage: SeriesPage
-): Series["authors"] => {
+export const getSeriesAuthors = ($seriesPage: SeriesPage): Series["authors"] => {
   const authorLinks = $seriesPage("dl.meta a[rel=author]");
-  const authors: Author[] = [];
 
-  if (
-    $seriesPage("dl.meta > dd:nth-of-type(1)").text().trim() === "Anonymous"
-  ) {
+  if ($seriesPage("dl.meta > dd:nth-of-type(1)").text().trim() === "Anonymous") {
     return [{ username: "Anonymous", pseud: "Anonymous", anonymous: true }];
   }
 
   if (authorLinks.length !== 0) {
-    authorLinks.each((i, element) => {
+    return authorLinks.map((_, element) => {
       const url = element.attribs.href;
       const [, username, pseud] = url.match(/users\/(.+)\/pseuds\/(.+)/)!;
-
-      authors.push({
+      return {
         username: username,
         pseud: decodeURI(pseud),
         anonymous: false,
-      });
-    });
+      } as Author
+    }).get();
   }
-
-  return authors;
+  return [] as Author[];
 };
 
-export const getSeriesDescription = (
-  $seriesPage: SeriesPage
-): string | null => {
-  const description = $seriesPage("dl.series blockquote.userstuff").html();
-  return description ? description.trim() : null;
+export const getSeriesDescription = ($seriesPage: SeriesPage): string | null => {
+  return $seriesPage("dl.series blockquote.userstuff").html()?.trim() || null;
 };
 
 export const getSeriesNotes = ($seriesPage: SeriesPage): string | null => {
   const notes = $seriesPage("dl.series dd:nth-of-type(5)");
-  if (notes.prevAll().first().text().trim() === "Notes:") {
-    return notes.html()!.trim();
-  } else {
-    return null;
-  }
+  return notes.prevAll().first().text().trim() === "Notes:" ? notes.html()!.trim() : null;
 };
 
 export const getSeriesPublishDate = ($seriesPage: SeriesPage): string => {
@@ -114,18 +100,11 @@ export const getSeriesBookmarkCount = ($seriesPage: SeriesPage): number => {
   );
 };
 
-export const getSeriesWorks = (
-  $seriesPage: SeriesPage
-): SeriesWorkSummary[] => {
-  const works: SeriesWorkSummary[] = [];
-
-  $seriesPage("ul.index > li.work").each((index, element) => {
-    works[index] = getSeriesWork($seriesPage(element).html() as string);
-  });
-
-  return works;
-};
-
+export const getSeriesWorks = ($seriesPage: SeriesPage): SeriesWorkSummary[] => {
+  return $seriesPage("ul.index > li.work").map((index, element) => {
+    return getSeriesWork($seriesPage(element).html() as string);
+  }).get();
+}
 // Helpers for series' works
 interface SeriesWork extends CheerioAPI {
   kind: "SeriesWork";
@@ -187,63 +166,46 @@ const getSeriesWorkSummary = ($work: SeriesWork) => {
 };
 
 const getSeriesWorkFandoms = ($work: SeriesWork): string[] => {
-  const fandoms: string[] = [];
-
-  $work("h5.fandoms a.tag").each(function (i, element) {
-    fandoms[i] = $work(element).text().trim();
-  });
-  return fandoms;
-};
+  return $work("h5.fandoms a.tag").map((i, element) => {
+    return $work(element).text().trim();
+  }).get();
+}
 
 const getSeriesWorkCharacters = ($work: SeriesWork): string[] => {
-  const characters: string[] = [];
-
-  $work("li.characters a.tag").each(function (i, character) {
-    characters[i] = $work(character).text().trim();
-  });
-  return characters;
+  return $work("li.characters a.tag").map((i, character) => {
+    return $work(character).text().trim();
+  }).get();
 };
 
 const getSeriesWorkRelationships = ($work: SeriesWork): string[] => {
-  const ships: string[] = [];
-
-  $work("li.relationships a.tag").each(function (i, ship) {
-    ships[i] = $work(ship).text().trim();
-  });
-  return ships;
+  return $work("li.relationships a.tag").map((i, ship) => {
+    return $work(ship).text().trim();
+  }).get();
 };
 
 const getSeriesWorkAdditionalTags = ($work: SeriesWork): string[] => {
-  const tags: string[] = [];
-
-  $work("li.freeforms a.tag").each(function (i) {
-    tags[i] = $work(this).text().trim();
-  });
-  return tags;
+  return $work("li.freeforms a.tag").map((_, element) => {
+    return $work(element).text().trim();
+  }).get();
 };
 
-const getSeriesWorkAuthors = (
-  $work: SeriesWork
-): SeriesWorkSummary["authors"] => {
+const getSeriesWorkAuthors = ($work: SeriesWork): SeriesWorkSummary["authors"] => {
   const authorLinks = $work("h4.heading a[rel='author']");
-  const authors: Author[] = [];
-
   if ($work("h4.heading").text().split("by")[1].trim() === "Anonymous") {
     return [{ username: "Anonymous", pseud: "Anonymous", anonymous: true }];
   }
 
   if (authorLinks.length !== 0) {
-    authorLinks.each((i, element) => {
+    return authorLinks.map((_, element) => {
       const url = element.attribs.href;
       const [, username, pseud] = url.match(/users\/(.+)\/pseuds\/(.+)/)!;
-
-      authors.push({
+      return {
         username: username,
         pseud: decodeURI(pseud),
         anonymous: false,
-      });
-    });
+      }
+    }).get();
   }
 
-  return authors;
+  return [] as Author[];
 };

@@ -8,29 +8,25 @@ import {
 } from "types/entities";
 
 import { WorkPage } from "../page-loaders";
+import { Element } from "cheerio";
 
 export const getWorkAuthors = ($workPage: WorkPage): Author[] => {
   const authorLinks = $workPage("h3.byline a[rel='author']");
-  const authors: Author[] = [];
 
   if ($workPage("h3.byline").text().trim() === "Anonymous") {
     return [{ username: "Anonymous", pseud: "Anonymous", anonymous: true }];
   }
-
-  if (authorLinks.length !== 0) {
-    authorLinks.each((i, element) => {
-      const url = element.attribs.href;
-      const [, username, pseud] = url.match(/users\/(.+)\/pseuds\/(.+)/)!;
-
-      authors.push({
-        username: username,
-        pseud: decodeURI(pseud),
-        anonymous: false,
-      });
-    });
-  }
-
-  return authors;
+  return authorLinks.length !== 0
+  ? authorLinks.map((_, element) => {
+    const url = element.attribs.href;
+    const [, username, pseud] = url.match(/users\/(.+)\/pseuds\/(.+)/)!;
+    return {
+      username: username,
+      pseud: decodeURI(pseud),
+      anonymous: false,
+    } as Author
+  }).get()
+  : [] as Author[];
 };
 
 export const getWorkTitle = ($workPage: WorkPage): string => {
