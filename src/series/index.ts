@@ -1,5 +1,5 @@
-import { loadSeriesPage } from "src/page-loaders";
-import { Series } from "types/entities";
+import { loadSeriesPage } from "../page-loaders";
+import { Series } from "../../types/entities";
 import {
   getSeriesAuthors,
   getSeriesBookmarkCount,

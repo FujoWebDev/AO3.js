@@ -3,7 +3,7 @@ import {
   Chapter,
   LockedWorkSummary,
   WorkSummary,
-} from "types/entities";
+} from "../../types/entities";
 import {
   getChaptersList,
   getWorkAuthors as getWorkAuthorsFromChaptersIndex,

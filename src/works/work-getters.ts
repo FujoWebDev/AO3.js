@@ -5,7 +5,7 @@ import {
   WorkRatings,
   WorkSummary,
   WorkWarnings,
-} from "types/entities";
+} from "../../types/entities";
 
 import { WorkPage } from "../page-loaders";
 

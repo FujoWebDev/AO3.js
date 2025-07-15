@@ -15,7 +15,7 @@ import {
   getUserProfileWorks,
 } from "./getters";
 
-import { User } from "types/entities";
+import { User } from "../../types/entities";
 import { getUserProfileUrl } from "../urls";
 import { loadUserProfilePage } from "../page-loaders";
 
