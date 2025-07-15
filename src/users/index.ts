@@ -21,7 +21,7 @@ import {
   getWorkCount,
 } from "./getters";
 
-import { User, WorkPreview, WorkSummary } from "types/entities";
+import { User, UserWorks, WorkPreview } from "types/entities";
 import { getUserProfileUrl } from "../urls";
 import { loadUserProfilePage, loadUserWorksList, loadWorkPage, UserWorksPage } from "../page-loaders";
 
@@ -93,7 +93,7 @@ const parseUserWorksIntoObject = ($userWorks: UserWorksPage) => {
   return works
 }
 
-export const getUserWorks = async ({ username, page = 0 }: { username: string, page?: number }): Promise<GetUserWorks> => {
+export const getUserWorks = async ({ username, page = 0 }: { username: string, page?: number }): Promise<UserWorks> => {
   const worksPage = await loadUserWorksList({ username, page });
   // parse current works page
   // check for next page
