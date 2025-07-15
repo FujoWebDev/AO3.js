@@ -160,7 +160,7 @@ export interface WorkPreview extends Record<string, any> {
   };
   // Date in ISO format. See: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString
   // Note that AO3 doesn't publish the actual time of publish, just the date.
-  updatedAt: string;
+  updatedAt: string|null;
 }
 
 export interface WorkSummary extends WorkPreview {
@@ -173,6 +173,11 @@ export interface WorkSummary extends WorkPreview {
     name: string | null;
     summary: string | null;
   } | null;
+}
+
+export interface LockedWorkSummary {
+  id: string;
+  locked: true;
 }
 
 
@@ -193,10 +198,6 @@ export interface UserWorks {
   worksInPage: WorkPreview[];
 }
 
-export interface LockedWorkSummary {
-  id: string;
-  locked: true;
-}
 
 export interface Chapter {
   id: string;
