@@ -1,9 +1,6 @@
 import { getSeries } from "src/index";
 import { describe, it, expect } from 'vitest';
-import { initSetup } from "./setup";
 // TODO: Add more tests
-
-initSetup()
 
 describe("should fetch series information and", () => {
   it("check top level fields", async () => {

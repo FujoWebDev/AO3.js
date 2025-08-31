@@ -1,8 +1,5 @@
 import { getTag } from "src/index";
 import { describe, it, expect } from 'vitest';
-import { initSetup } from "./setup";
-
-initSetup();
 
 describe("should fetch id data", () => {
   it("canonical tag", async () => {

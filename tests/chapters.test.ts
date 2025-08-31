@@ -1,8 +1,5 @@
 import { getWorkWithChapters } from "src/index";
 import { describe, it, expect } from 'vitest';
-import { initSetup } from "./setup";
-
-initSetup();
 
 describe("should fetch chapters list from", () => {
   it("work id", async () => {

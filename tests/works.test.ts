@@ -2,12 +2,7 @@ import { getWorkDetailsFromUrl, getWorkUrl } from "src/urls";
 import { getWork } from "src/index";
 import { describe, it, expect } from "vitest";
 import type { WorkSummary } from "types/entities";
-import { initSetup } from "./setup";
-
 // TODO: this file is too long and should be split into multiple tests
-
-initSetup()
-
 
 describe("should fetch data from url", () => {
   it("work id", () => {
