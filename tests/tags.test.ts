@@ -1,7 +1,8 @@
 import { getTag } from "src/index";
+import { describe, it, expect } from 'vitest';
 
-describe("Fetches id data", () => {
-  test("Fetches canonical tag", async () => {
+describe("Tags/data", () => {
+  it("should fetch id data for canonical tags", async () => {
     const tag = await getTag({
       tagName: "Ever Given Container Ship (Anthropomorphic)",
     });
@@ -12,7 +13,7 @@ describe("Fetches id data", () => {
     });
   });
 
-  test("Fetches non-canonical tag", async () => {
+  it("should fetch id data for non-canonical tags", async () => {
     const tag = await getTag({
       tagName: "Ever Given Container Ship - Anthropomorphic",
     });
@@ -23,7 +24,7 @@ describe("Fetches id data", () => {
     });
   });
 
-  test("Returns null for non-common tag", async () => {
+  it("should use null for non-common tags", async () => {
     const tag = await getTag({
       tagName: "No Fandom - Freeform",
     });
@@ -33,7 +34,7 @@ describe("Fetches id data", () => {
     });
   });
 
-  test("Fetches tag with .", async () => {
+  it("should fetch id data for tags with .", async () => {
     const tag = await getTag({
       tagName: "Court Lady Go (Mr. Queen)",
     });
@@ -43,10 +44,20 @@ describe("Fetches id data", () => {
       id: "55920663",
     });
   });
+
+  it("should fetch tags with multiple dots", async () => {
+    const tag = await getTag({
+      tagName: "A Song of Ice and Fire - George R. R. Martin",
+    });
+
+    expect(tag).toMatchObject({
+      name: "A Song of Ice and Fire - George R. R. Martin",
+    });
+  });
 });
 
-describe("Fetches canonical data", () => {
-  test("Fetches canonical tag", async () => {
+describe("Tags/canonical", () => {
+  it("should fetch canonical data for canonical tags", async () => {
     const tag = await getTag({
       tagName: "Ever Given Container Ship (Anthropomorphic)",
     });
@@ -58,7 +69,7 @@ describe("Fetches canonical data", () => {
     });
   });
 
-  test("Fetches non-canonical tag", async () => {
+  it("should fetch canonical data for non-canonical tags", async () => {
     const tag = await getTag({
       tagName: "Ever Given Container Ship - Anthropomorphic",
     });
@@ -70,7 +81,7 @@ describe("Fetches canonical data", () => {
     });
   });
 
-  test("Returns null for non-common tag", async () => {
+  it("should fetch use null for non-common tags", async () => {
     const tag = await getTag({
       tagName: "No Fandom - Freeform",
     });
@@ -82,8 +93,8 @@ describe("Fetches canonical data", () => {
   });
 });
 
-describe("Fetches category data", () => {
-  test("Fetches fandom tag", async () => {
+describe("Tags/category", () => {
+  it("should fetch category tag data for fandoms", async () => {
     const tag = await getTag({ tagName: "The Lorax (2012)" });
 
     expect(tag).toMatchObject({
@@ -92,7 +103,7 @@ describe("Fetches category data", () => {
     });
   });
 
-  test("Fetches character tag", async () => {
+  it("should fetch category tag data for characters", async () => {
     const tag = await getTag({
       tagName: "Ever Given Container Ship (Anthropomorphic)",
     });
@@ -103,7 +114,7 @@ describe("Fetches category data", () => {
     });
   });
 
-  test("Fetches relationship tag (with /)", async () => {
+  it("should fetch category tag data for slash relationships", async () => {
     const tag = await getTag({ tagName: "Komaeda Nagito/Sans (Undertale)" });
 
     expect(tag).toMatchObject({
@@ -112,7 +123,7 @@ describe("Fetches category data", () => {
     });
   });
 
-  test("Fetches relationship tag (with &)", async () => {
+  it("should fetch category tag data for ampersand relationships", async () => {
     const tag = await getTag({
       tagName: "Castiel (Supernatural) & Misha Collins",
     });
@@ -123,7 +134,7 @@ describe("Fetches category data", () => {
     });
   });
 
-  test("Fetches archive warnings tag", async () => {
+  it("should fetch category tag data for archive warnings", async () => {
     const tag = await getTag({ tagName: "Choose Not To Use Archive Warnings" });
 
     expect(tag).toMatchObject({
@@ -132,7 +143,7 @@ describe("Fetches category data", () => {
     });
   });
 
-  test("Fetches additional tags tag", async () => {
+  it("should fetch category tag data for additional tags", async () => {
     const tag = await getTag({ tagName: "a shit ton of angst" });
 
     expect(tag).toMatchObject({
@@ -142,8 +153,8 @@ describe("Fetches category data", () => {
   });
 });
 
-describe("Fetches id data", () => {
-  test("Fetches character tag (canonical)", async () => {
+describe("Tags/id", () => {
+  it("should fetch id data for character (canonical)", async () => {
     const tag = await getTag({
       tagName: "Ever Given Container Ship (Anthropomorphic)",
     });
@@ -154,7 +165,7 @@ describe("Fetches id data", () => {
     });
   });
 
-  test("Fetches character tag (non-canonical)", async () => {
+  it("should fetch id data for character (non-canonical)", async () => {
     const tag = await getTag({
       tagName: "Ever Given Container Ship - Anthropomorphic",
     });
@@ -165,7 +176,7 @@ describe("Fetches id data", () => {
     });
   });
 
-  test("Fetches additional tags", async () => {
+  it("should use null for additional tags", async () => {
     const tag = await getTag({ tagName: "a shit ton of angst" });
 
     expect(tag).toMatchObject({
@@ -175,8 +186,8 @@ describe("Fetches id data", () => {
   });
 });
 
-describe("Fetches common tag data", () => {
-  test("Fetches common tag", async () => {
+describe("Tags/common", () => {
+  it("should fetch common tag data", async () => {
     const tag = await getTag({
       tagName: "Ever Given Container Ship - Anthropomorphic",
     });
@@ -187,7 +198,7 @@ describe("Fetches common tag data", () => {
     });
   });
 
-  test("Fetches uncommon tag", async () => {
+  it("should fetch uncommon tag data", async () => {
     const tag = await getTag({ tagName: "No Fandom - Freeform" });
 
     expect(tag).toMatchObject({
@@ -197,8 +208,8 @@ describe("Fetches common tag data", () => {
   });
 });
 
-describe("Fetches parent tags", () => {
-  test("Fetches parent tag", async () => {
+describe("Tags/parent", () => {
+  it("should fetch parent tags", async () => {
     const tag = await getTag({
       tagName: "Ever Given Container Ship - Anthropomorphic",
     });
@@ -209,7 +220,7 @@ describe("Fetches parent tags", () => {
     });
   });
 
-  test("Fetches no fandom tag", async () => {
+  it("should fetch no fandom tags", async () => {
     const tag = await getTag({ tagName: "No Fandom - Freeform" });
 
     expect(tag).toMatchObject({
@@ -218,7 +229,7 @@ describe("Fetches parent tags", () => {
     });
   });
 
-  test("Fetches multiple parent tags", async () => {
+  it("should fetch multiple parent tags", async () => {
     const tag = await getTag({ tagName: "Sherlock Holmes" });
 
     expect(tag.name).toBe("Sherlock Holmes");
@@ -258,20 +269,23 @@ describe("Fetches parent tags", () => {
       ])
     );
   });
-
-  test("Can fetch tags with multiple dots", async () => {
-    const tag = await getTag({
-      tagName: "A Song of Ice and Fire - George R. R. Martin",
-    });
-
-    expect(tag).toMatchObject({
-      name: "A Song of Ice and Fire - George R. R. Martin",
-    });
-  });
 });
 
-describe("Fetch subtags", () => {
-  test("Fetches subtags and sub-subtags", async () => {
+describe("Tags/sub", () => {
+
+  it("should fetch subtags", async () => {
+    const tag = await getTag({ tagName: "Mind Palace" });
+
+    expect(tag).toMatchObject({
+      name: "Mind Palace",
+      subTags: [
+        { tagName: "Mind Palace John Watson", parentSubTag: null },
+        { tagName: "Sherlock Holmes's Mind Palace", parentSubTag: null },
+      ],
+    });
+  });
+
+  it("should fetch subtags and sub-subtags", async () => {
     const tag = await getTag({ tagName: "Dysphoria" });
 
     expect(tag).toMatchObject({
@@ -287,7 +301,7 @@ describe("Fetch subtags", () => {
     });
   });
 
-  test("Fetches nested sub-subtags", async () => {
+  it("should fetch nested sub-subtags", async () => {
     const tag = await getTag({ tagName: "Worldbuilding" });
 
     expect(tag.name).toBe("Worldbuilding");
@@ -406,19 +420,7 @@ describe("Fetch subtags", () => {
     );
   });
 
-  test("Fetches subtags", async () => {
-    const tag = await getTag({ tagName: "Mind Palace" });
-
-    expect(tag).toMatchObject({
-      name: "Mind Palace",
-      subTags: [
-        { tagName: "Mind Palace John Watson", parentSubTag: null },
-        { tagName: "Sherlock Holmes's Mind Palace", parentSubTag: null },
-      ],
-    });
-  });
-
-  test("Returns no subtags", async () => {
+  it("should fetch no subtags", async () => {
     const tag = await getTag({ tagName: "Eventual Romance" });
 
     expect(tag).toMatchObject({ name: "Eventual Romance", subTags: [] });

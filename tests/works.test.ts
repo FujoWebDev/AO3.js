@@ -1,13 +1,12 @@
 import { getWorkDetailsFromUrl, getWorkUrl } from "src/urls";
-
-import assert from "assert";
 import { getWork } from "src/index";
-
+import { describe, it, expect } from "vitest";
+import type { WorkSummary } from "types/entities";
 // TODO: this file is too long and should be split into multiple tests
 
-describe("Fetches data from url", () => {
-  test("Fetches work id from url", async () => {
-    const workData = await getWorkDetailsFromUrl({
+describe("Works/parse", () => {
+  it("should parse work id from url", () => {
+    const workData = getWorkDetailsFromUrl({
       url: "https://archiveofourown.org/works/36667228",
     });
 
@@ -16,8 +15,8 @@ describe("Fetches data from url", () => {
     });
   });
 
-  test("Fetches chapter id from url", async () => {
-    const workData = await getWorkDetailsFromUrl({
+  it("should parse chapter id from url", () => {
+    const workData = getWorkDetailsFromUrl({
       url: "https://archiveofourown.org/works/398023/chapters/659774",
     });
 
@@ -27,8 +26,8 @@ describe("Fetches data from url", () => {
     });
   });
 
-  test("Fetches collection from url", async () => {
-    const workData = await getWorkDetailsFromUrl({
+  it("should parse collection from url", () => {
+    const workData = getWorkDetailsFromUrl({
       url: "https://archiveofourown.org/collections/YJ_Prompts/works/30216801",
     });
 
@@ -39,9 +38,9 @@ describe("Fetches data from url", () => {
   });
 });
 
-describe("Gets url from data", () => {
-  test("Gets url from workId", async () => {
-    const workUrl = await getWorkUrl(
+describe("Works/url", () => {
+  it("should get url from workId", () => {
+    const workUrl = getWorkUrl(
       getWorkDetailsFromUrl({
         url: "https://archiveofourown.org/works/36667228",
       })
@@ -50,8 +49,8 @@ describe("Gets url from data", () => {
     expect(workUrl).toBe("https://archiveofourown.org/works/36667228");
   });
 
-  test("Gets url with chapter id", async () => {
-    const workUrl = await getWorkUrl({
+  it("should get url from chapter id", () => {
+    const workUrl = getWorkUrl({
       workId: "398023",
       chapterId: "659774",
     });
@@ -61,8 +60,8 @@ describe("Gets url from data", () => {
     );
   });
 
-  test("Gets url with collection name", async () => {
-    const workUrl = await getWorkUrl({
+  it("should get url from collection name", () => {
+    const workUrl = getWorkUrl({
       workId: "30216801",
       collectionName: "YJ_Prompts",
     });
@@ -73,8 +72,8 @@ describe("Gets url from data", () => {
   });
 });
 
-describe("Fetches work information", () => {
-  test("Fetches work object in its entirety", async () => {
+describe("Works/data", () => {
+  it('should fetch work information in its entirety', async () => {
     const work = await getWork({
       workId: "29046888",
     });
@@ -140,8 +139,8 @@ describe("Fetches work information", () => {
         total: 7,
       },
       summary:
-        "<p>“<i>Bakugou will know what to do</i>. Top of the class, always quick on his feet and possessing the strongest nerves in all of 1-A – all of U.A., possibly. They’re at their most invincible with Bakugou there to hone their focus, to push them forward with that unique kind of teeth-bared tenacity Kaminari has come to rely on in the past year. When Kaminari looks, he sees–</p><p>Iida, helmet off, severe face twisted with agitation as he argues with the medics on the scene. Blood, so much blood, staining the gleaming chrome of his armor up to his neck in wet, intersecting streaks of crimson.</p><p>And in his arms, mask torn and body limp, is Bakugou Katsuki.”</p><p>In which disaster strikes, the Bakusquad comes together as a family once more, and Kaminari Denki is the MVP all the way through.</p>",
-      stats: { 
+        "<p>&#x201c;<i>Bakugou will know what to do</i>. Top of the class, always quick on his feet and possessing the strongest nerves in all of 1-A &#x2013; all of U.A., possibly. They&#x2019;re at their most invincible with Bakugou there to hone their focus, to push them forward with that unique kind of teeth-bared tenacity Kaminari has come to rely on in the past year. When Kaminari looks, he sees&#x2013;</p><p>Iida, helmet off, severe face twisted with agitation as he argues with the medics on the scene. Blood, so much blood, staining the gleaming chrome of his armor up to his neck in wet, intersecting streaks of crimson.</p><p>And in his arms, mask torn and body limp, is Bakugou Katsuki.&#x201d;</p><p>In which disaster strikes, the Bakusquad comes together as a family once more, and Kaminari Denki is the MVP all the way through.</p>",
+      stats: {
         "bookmarks": expect.any(Number),
         "comments": expect.any(Number),
         "hits": expect.any(Number),
@@ -149,434 +148,435 @@ describe("Fetches work information", () => {
       },
     });
   });
+})
 
-  describe("Fetches work author", () => {
-    test("Fetches author with default pseud", async () => {
-      const work = await getWork({
-        workId: "4491333",
-      });
+describe("Works/author", () => {
+  it("should fetch work author with default pseud", async () => {
+    const work = await getWork({
+      workId: "4491333",
+    }) as WorkSummary;
 
-      assert(!work.locked);
+    expect(!work.locked).toBeTruthy();
 
-      expect(work.authors).toMatchObject([
-        {
-          username: "astolat",
-          pseud: "astolat",
-        },
-      ]);
-    });
+    expect(work.authors).toMatchObject([
+      {
+        username: "astolat",
+        pseud: "astolat",
+      },
+    ]);
+  });
 
-    test("Fetches author of work in anonymous collection", async () => {
-      const work = await getWork({
-        workId: "168768",
-      });
+  it("should fetch work author of work in anonymous collection", async () => {
+    const work = await getWork({
+      workId: "168768",
+    }) as WorkSummary;
 
-      assert(!work.locked);
+    expect(!work.locked).toBeTruthy();
 
-      expect(work.authors).toMatchObject([
-        { anonymous: true, pseud: "Anonymous", username: "Anonymous" },
-      ]);
-    });
+    expect(work.authors).toMatchObject([
+      { anonymous: true, pseud: "Anonymous", username: "Anonymous" },
+    ]);
+  });
 
-    test("Fetches author with username Anonymous", async () => {
-      const work = await getWork({
-        workId: "6475531",
-      });
+  it("should fetch work author with username Anonymous", async () => {
+    const work = await getWork({
+      workId: "6475531",
+    }) as WorkSummary;
 
-      assert(!work.locked);
+    expect(!work.locked).toBeTruthy();
 
-      expect(work.authors).toMatchObject([
-        {
-          username: "Anonymous",
-          pseud: "Anonymous",
-          anonymous: false,
-        },
-        {
-          username: "orphan_account",
-          pseud: "orphan_account",
-        },
-      ]);
-    });
+    expect(work.authors).toMatchObject([
+      {
+        username: "Anonymous",
+        pseud: "Anonymous",
+        anonymous: false,
+      },
+      {
+        username: "orphan_account",
+        pseud: "orphan_account",
+      },
+    ]);
+  });
 
-    test("Fetches author with anonymous pseud", async () => {
-      const work = await getWork({
-        workId: "23824891",
-      });
+  it("should fetch work author with anonymous pseud", async () => {
+    const work = await getWork({
+      workId: "23824891",
+    }) as WorkSummary;
 
-      assert(!work.locked);
+    expect(!work.locked).toBeTruthy();
 
-      expect(work.authors).toMatchObject([
-        {
-          username: "orphan_account",
-          pseud: "Anonymous",
-          anonymous: false,
-        },
-        {
-          username: "Butterfly_Dream",
-          pseud: "Butterfly_Dream",
-        },
-        {
-          username: "orphan_account",
-          pseud: "orphan_account",
-        },
-      ]);
-    });
+    expect(work.authors).toMatchObject([
+      {
+        username: "orphan_account",
+        pseud: "Anonymous",
+        anonymous: false,
+      },
+      {
+        username: "Butterfly_Dream",
+        pseud: "Butterfly_Dream",
+      },
+      {
+        username: "orphan_account",
+        pseud: "orphan_account",
+      },
+    ]);
+  });
 
-    // TODO: 404
-    test.skip("Fetches author pseud with special characters", async () => {
-      const work = await getWork({
-        workId: "41237499",
-      });
+  // TODO: 404
+  it.skip("should fetch work author pseud with special characters", async () => {
+    const work = await getWork({
+      workId: "41237499",
+    }) as WorkSummary;
 
-      assert(!work.locked);
+    expect(!work.locked).toBeTruthy();
 
-      expect(work.authors).toMatchObject([
-        {
-          username: "Riazaia",
-          pseud: "Riazaia",
-        },
-        {
-          username: "Riazaia",
-          pseud: "ᴾᴋᴹɴ Ria",
-        },
-      ]);
+    expect(work.authors).toMatchObject([
+      {
+        username: "Riazaia",
+        pseud: "Riazaia",
+      },
+      {
+        username: "Riazaia",
+        pseud: "ᴾᴋᴹɴ Ria",
+      },
+    ]);
+  });
+});
+
+describe("Works/title", () => {
+  it("should fetch work title with space character", async () => {
+    const work = await getWork({
+      workId: "23824891",
+    }) as WorkSummary;
+
+    expect(!work.locked).toBeTruthy();
+
+    expect(work.title).toBe("Sister Dearest");
+  });
+
+  it("should fetch work title with slashes", async () => {
+    const work = await getWork({
+      workId: "29046888",
+    }) as WorkSummary;
+
+    expect(!work.locked).toBeTruthy();
+
+    expect(work.title).toBe("waiting//wishing");
+  });
+
+  it("should fetch work title with non-letter characters", async () => {
+    const work = await getWork({
+      workId: "323217",
+    }) as WorkSummary;
+
+    expect(!work.locked).toBeTruthy();
+
+    expect(work.title).toBe("Field Test no.7: Phone Calls & Boundaries");
+  });
+
+  it.todo("should fetch work title with special characters");
+});
+
+describe("Works/tags", () => {
+  it("should fetch warning tags", async () => {
+    const work = await getWork({
+      workId: "323217",
+    }) as WorkSummary;
+
+    expect(!work.locked).toBeTruthy();
+
+    expect(work.tags.warnings).toMatchObject([
+      "Creator Chose Not To Use Archive Warnings",
+    ]);
+  });
+
+  it("should fetch multiple warnings", async () => {
+    const work = await getWork({
+      workId: "3738184",
+    }) as WorkSummary;
+
+    expect(!work.locked).toBeTruthy();
+
+    expect(work.tags.warnings).toMatchObject([
+      "Creator Chose Not To Use Archive Warnings",
+      "Graphic Depictions Of Violence",
+      "Major Character Death",
+      "No Archive Warnings Apply",
+      "Rape/Non-Con",
+      "Underage Sex",
+    ]);
+  });
+
+  it("should fetch fandom", async () => {
+    const work = await getWork({
+      workId: "323217",
+    }) as WorkSummary;
+
+    expect(!work.locked).toBeTruthy();
+
+    expect(work.fandoms).toMatchObject(["The Mentalist"]);
+  });
+
+  it("should fetch relationships", async () => {
+    const work = await getWork({
+      workId: "323217",
+    }) as WorkSummary;
+
+    expect(!work.locked).toBeTruthy();
+
+    expect(work.tags.relationships).toMatchObject([
+      "Patrick Jane/Kimball Cho",
+    ]);
+  });
+
+  it("should fetch characters", async () => {
+    const work = await getWork({
+      workId: "323217",
+    }) as WorkSummary;
+
+    expect(!work.locked).toBeTruthy();
+
+    expect(work.tags.characters).toMatchObject([
+      "Jane",
+      "Kimball Cho",
+      "The rest of the team",
+    ]);
+  });
+
+  it("ashould fetch dditional tags", async () => {
+    const work = await getWork({
+      workId: "323217",
+    }) as WorkSummary;
+
+    expect(!work.locked).toBeTruthy();
+
+    expect(work.tags.additional).toMatchObject([]);
+  });
+
+  it("should fetch empty additional tags", async () => {
+    const work = await getWork({
+      workId: "323217",
+    }) as WorkSummary;
+
+    expect(!work.locked).toBeTruthy();
+
+    expect(work.tags.additional).toMatchObject([]);
+  });
+});
+
+describe("Work/other", () => {
+  it("should fetch wordcount", async () => {
+    const work = await getWork({
+      workId: "323217",
+    }) as WorkSummary;
+
+    expect(!work.locked).toBeTruthy();
+
+    expect(work.words).toBe(5652);
+  });
+
+  it("should fetch language", async () => {
+    const work = await getWork({
+      workId: "323217",
+    }) as WorkSummary;
+
+    expect(!work.locked).toBeTruthy();
+
+    expect(work.language).toBe("English");
+  });
+
+  it("should fetch rating", async () => {
+    const work = await getWork({
+      workId: "323217",
+    }) as WorkSummary;
+
+    expect(!work.locked).toBeTruthy();
+
+    expect(work.rating).toBe("Not Rated");
+  })
+
+  it("should fetch category", async () => {
+    const work = await getWork({
+      workId: "323217",
+    }) as WorkSummary;
+
+    expect(!work.locked).toBeTruthy();
+
+    expect(work.category).toMatchObject(["M/M"]);
+  });
+
+  it("should fetch multiple categories", async () => {
+    const work = await getWork({
+      workId: "3738184",
+    }) as WorkSummary;
+
+    expect(!work.locked).toBeTruthy();
+
+    expect(work.category).toMatchObject([
+      "F/F",
+      "F/M",
+      "Gen",
+      "M/M",
+      "Multi",
+      "Other",
+    ]);
+  });
+
+  // TODO: 404
+  it.skip("should fetch null category", async () => {
+    const work = await getWork({
+      workId: "41237499",
+    }) as WorkSummary;
+
+    expect(!work.locked).toBeTruthy();
+
+    expect(work.category).toBe(null);
+  });
+
+  it("should fetch updated date of completed work", async () => {
+    const work = await getWork({
+      workId: "23824891",
+    }) as WorkSummary;
+
+    expect(!work.locked).toBeTruthy();
+
+    expect(work.updatedAt).toBe("2020-11-30");
+  });
+
+  // TODO: 404
+  it.skip("should fetch update date of work in progress", async () => {
+    const work = await getWork({
+      workId: "41237499",
+    }) as WorkSummary;
+
+    expect(!work.locked).toBeTruthy();
+
+    expect(work.updatedAt).toBe("2022-08-25");
+  });
+
+  it("should fetch null updated date", async () => {
+    const work = await getWork({
+      workId: "168768",
+    }) as WorkSummary;
+
+    expect(!work.locked).toBeTruthy();
+
+    expect(work.updatedAt).toBe(null);
+  });
+
+  it("should fetch publish date", async () => {
+    const work = await getWork({
+      workId: "168768",
+    }) as WorkSummary;
+
+    expect(!work.locked).toBeTruthy();
+
+    expect(work.publishedAt).toBe("2011-02-08");
+  });
+
+  it("should fetch published chapters", async () => {
+    const work = await getWork({
+      workId: "168768",
+    }) as WorkSummary;
+
+    expect(!work.locked).toBeTruthy();
+
+    expect(work.chapters.published).toBe(1);
+  });
+
+  it("should fetch total chapters", async () => {
+    const work = await getWork({
+      workId: "168768",
+    }) as WorkSummary;
+
+    expect(!work.locked).toBeTruthy();
+
+    expect(work.chapters.total).toBe(1);
+  });
+
+  // TODO: 404
+  it.skip("should fetch unknown amount of total chapters", async () => {
+    const work = await getWork({
+      workId: "41237499",
+    }) as WorkSummary;
+
+    expect(!work.locked).toBeTruthy();
+
+    expect(work.chapters.total).toBe(null);
+  });
+
+  // TODO: 404
+  it.skip("should fetch null work summary", async () => {
+    const work = await getWork({
+      workId: "41237499",
+    }) as WorkSummary;
+
+    expect(!work.locked).toBeTruthy();
+
+    expect(work.summary).toBe(null);
+  });
+
+  it("should fetch work summary", async () => {
+    const work = await getWork({
+      workId: "323217",
+    }) as WorkSummary;
+
+    expect(!work.locked).toBeTruthy();
+
+    expect(work.summary).toMatchInlineSnapshot(
+      `"<p>Jane has had enough.</p>"`
+    );
+  });
+
+  it("should fetch only work summary when work + chapter summaries are present", async () => {
+    const work = await getWork({ workId: "17793689" }) as WorkSummary;
+
+    expect(!work.locked).toBeTruthy();
+
+    expect(work.summary).toMatchInlineSnapshot(
+      `"<p><b>A Modern Thedas AU</b>, in which Fen&apos;Harel and the Second Inquisitor tore down the Veil a thousand years ago, reshaping Thedas into something entirely new. Thedas now has modern technology powered by magic, and a society still plagued with problems that are all too familiar - issues of race, classism, and power.</p><p>Fenina Lavellan, a student at the College of Enchanters: New Haven, often escapes her reality by playing the MMORPG Dragon Age (set in the ancient past during the time of the Second Inquisition) and is part of the most powerful guild aptly named &quot;TheInquisition&quot; - a guild which has been running since the game was released. But when the guild discovers that they all live in the same city and decide to meet up, they unknowingly stumble into a plot to destroy their world as they know it. Can they navigate the difficulties of actually being social in the real world? Will their in-game skills translate into abilities that will actually help them in stopping a madman? Or is this the end of the world as they know it?</p>"`
+    );
+    expect(work.chapterInfo).toBeNull();
+  });
+
+  it("should fetch stats ", async () => {
+    const work = await getWork({
+      workId: "323217",
+    }) as WorkSummary;
+
+    expect(!work.locked).toBeTruthy();
+
+    expect(work.stats).toMatchObject({
+      bookmarks: expect.any(Number),
+      comments: expect.any(Number),
+      hits: expect.any(Number),
+      kudos: expect.any(Number),
     });
   });
 
-  describe("Fetches work title", () => {
-    test("Fetch work title with space character", async () => {
-      const work = await getWork({
-        workId: "23824891",
-      });
-
-      assert(!work.locked);
-
-      expect(work.title).toBe("Sister Dearest");
-    });
-
-    test("Fetch title with slashes", async () => {
-      const work = await getWork({
-        workId: "29046888",
-      });
-
-      assert(!work.locked);
-
-      expect(work.title).toBe("waiting//wishing");
-    });
-
-    test("Fetch title with non-letter characters", async () => {
-      const work = await getWork({
-        workId: "323217",
-      });
-
-      assert(!work.locked);
-
-      expect(work.title).toBe("Field Test no.7: Phone Calls & Boundaries");
-    });
-
-    test.todo("Fetch title with special characters");
-  });
-
-  describe("Fetch work tags", () => {
-    test("Fetch work warnings", async () => {
-      const work = await getWork({
-        workId: "323217",
-      });
-
-      assert(!work.locked);
-
-      expect(work.tags.warnings).toMatchObject([
-        "Creator Chose Not To Use Archive Warnings",
-      ]);
-    });
-
-    test("Fetch work with multiple warnings", async () => {
-      const work = await getWork({
-        workId: "3738184",
-      });
-
-      assert(!work.locked);
-
-      expect(work.tags.warnings).toMatchObject([
-        "Creator Chose Not To Use Archive Warnings",
-        "Graphic Depictions Of Violence",
-        "Major Character Death",
-        "No Archive Warnings Apply",
-        "Rape/Non-Con",
-        "Underage Sex",
-      ]);
-    });
-
-    test("Fetch work fandom", async () => {
-      const work = await getWork({
-        workId: "323217",
-      });
-
-      assert(!work.locked);
-
-      expect(work.fandoms).toMatchObject(["The Mentalist"]);
-    });
-
-    test("Fetch work relationships", async () => {
-      const work = await getWork({
-        workId: "323217",
-      });
-
-      assert(!work.locked);
-
-      expect(work.tags.relationships).toMatchObject([
-        "Patrick Jane/Kimball Cho",
-      ]);
-    });
-
-    test("Fetch work characters", async () => {
-      const work = await getWork({
-        workId: "323217",
-      });
-
-      assert(!work.locked);
-
-      expect(work.tags.characters).toMatchObject([
-        "Jane",
-        "Kimball Cho",
-        "The rest of the team",
-      ]);
-    });
-
-    test("Fetch work additional tags", async () => {
-      const work = await getWork({
-        workId: "323217",
-      });
-
-      assert(!work.locked);
-
-      expect(work.tags.additional).toMatchObject([]);
-    });
-
-    test("Fetch empty additional tags", async () => {
-      const work = await getWork({
-        workId: "323217",
-      });
-
-      assert(!work.locked);
-
-      expect(work.tags.additional).toMatchObject([]);
-    });
-  });
-
-  describe("Fetch other work information", () => {
-    test("Fetch work wordcount", async () => {
-      const work = await getWork({
-        workId: "323217",
-      });
-
-      assert(!work.locked);
-
-      expect(work.words).toBe(5652);
-    });
-
-    test("Fetch work language", async () => {
-      const work = await getWork({
-        workId: "323217",
-      });
-
-      assert(!work.locked);
-
-      expect(work.language).toBe("English");
-    });
-
-    test("Fetch work rating", async () => {
-      const work = await getWork({
-        workId: "323217",
-      });
-
-      assert(!work.locked);
-
-      expect(work.rating).toBe("Not Rated");
-    });
-
-    test("Fetch single category", async () => {
-      const work = await getWork({
-        workId: "323217",
-      });
-
-      assert(!work.locked);
-
-      expect(work.category).toMatchObject(["M/M"]);
-    });
-
-    test("Fetch multiple categories", async () => {
-      const work = await getWork({
-        workId: "3738184",
-      });
-
-      assert(!work.locked);
-
-      expect(work.category).toMatchObject([
-        "F/F",
-        "F/M",
-        "Gen",
-        "M/M",
-        "Multi",
-        "Other",
-      ]);
-    });
-
-    // TODO: 404
-    test.skip("Fetch null category", async () => {
-      const work = await getWork({
-        workId: "41237499",
-      });
-
-      assert(!work.locked);
-
-      expect(work.category).toBe(null);
-    });
-
-    test("Fetch updated date of completed work", async () => {
-      const work = await getWork({
-        workId: "23824891",
-      });
-
-      assert(!work.locked);
-
-      expect(work.updatedAt).toBe("2020-11-30");
-    });
-
-    // TODO: 404
-    test.skip("Fetch update date of work in progress", async () => {
-      const work = await getWork({
-        workId: "41237499",
-      });
-
-      assert(!work.locked);
-
-      expect(work.updatedAt).toBe("2022-08-25");
-    });
-
-    test("Fetch null updated date", async () => {
-      const work = await getWork({
-        workId: "168768",
-      });
-
-      assert(!work.locked);
-
-      expect(work.updatedAt).toBe(null);
-    });
-
-    test("Fetch publish date", async () => {
-      const work = await getWork({
-        workId: "168768",
-      });
-
-      assert(!work.locked);
-
-      expect(work.publishedAt).toBe("2011-02-08");
-    });
-
-    test("Fetch published chapters", async () => {
-      const work = await getWork({
-        workId: "168768",
-      });
-
-      assert(!work.locked);
-
-      expect(work.chapters.published).toBe(1);
-    });
-
-    test("Fetch total chapters", async () => {
-      const work = await getWork({
-        workId: "168768",
-      });
-
-      assert(!work.locked);
-
-      expect(work.chapters.total).toBe(1);
-    });
-
-    // TODO: 404
-    test.skip("Fetch unknown amount of total chapters", async () => {
-      const work = await getWork({
-        workId: "41237499",
-      });
-
-      assert(!work.locked);
-
-      expect(work.chapters.total).toBe(null);
-    });
-
-    // TODO: 404
-    test.skip("Fetch null work summary", async () => {
-      const work = await getWork({
-        workId: "41237499",
-      });
-
-      assert(!work.locked);
-
-      expect(work.summary).toBe(null);
-    });
-
-    test("Fetch a work summary", async () => {
-      const work = await getWork({
-        workId: "323217",
-      });
-
-      assert(!work.locked);
-
-      expect(work.summary).toMatchInlineSnapshot(
-        `"<p>Jane has had enough.</p>"`
-      );
-    });
-
-    test("Fetch only work summary when work + chapter summaries are present", async () => {
-      const work = await getWork({ workId: "17793689" });
-
-      assert(!work.locked);
-
-      expect(work.summary).toMatchInlineSnapshot(
-        `"<p><b>A Modern Thedas AU</b>, in which Fen'Harel and the Second Inquisitor tore down the Veil a thousand years ago, reshaping Thedas into something entirely new. Thedas now has modern technology powered by magic, and a society still plagued with problems that are all too familiar - issues of race, classism, and power.</p><p>Fenina Lavellan, a student at the College of Enchanters: New Haven, often escapes her reality by playing the MMORPG Dragon Age (set in the ancient past during the time of the Second Inquisition) and is part of the most powerful guild aptly named "TheInquisition" - a guild which has been running since the game was released. But when the guild discovers that they all live in the same city and decide to meet up, they unknowingly stumble into a plot to destroy their world as they know it. Can they navigate the difficulties of actually being social in the real world? Will their in-game skills translate into abilities that will actually help them in stopping a madman? Or is this the end of the world as they know it?</p>"`
-      );
-      expect(work.chapterInfo).toBeNull();
-    });
-
-    test("Fetch work stats ", async () => {
-      const work = await getWork({
-        workId: "323217",
-      });
-
-      assert(!work.locked);
-
-      expect(work.stats).toMatchObject({
-        bookmarks: expect.any(Number),
-        comments: expect.any(Number),
-        hits: expect.any(Number),
-        kudos: expect.any(Number),
-      });
-    });
-    test("Fetch stats when some are null", async () => {
-      const work = await getWork({
-        workId: "41289660",
-      });
-
-      assert(!work.locked);
-
-      expect(work.stats).toMatchObject({
-        bookmarks: expect.any(Number),
-        comments: 0,
-        hits: expect.any(Number),
-        kudos: expect.any(Number),
-      });
+  it("should fetch stats when some are null", async () => {
+    const work = await getWork({
+      workId: "41289660",
+    }) as WorkSummary;
+
+    expect(!work.locked).toBeTruthy();
+
+    expect(work.stats).toMatchObject({
+      bookmarks: expect.any(Number),
+      comments: 0,
+      hits: expect.any(Number),
+      kudos: expect.any(Number),
     });
   });
 });
 
-describe("Checks status of a restricted work.", () => {
-  test("Checks a known restricted work.", async () => {
-    const work = await getWork({ workId: "15461226" });
+describe("Work/restricted", () => {
+  it("should check status of a restricted work.", async () => {
+    const work = await getWork({ workId: "15461226" }) as WorkSummary;
 
     expect(work).toMatchObject({
       id: "15461226",
       locked: true,
     });
   });
-});
+})

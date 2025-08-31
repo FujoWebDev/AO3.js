@@ -1,8 +1,9 @@
 import { getWorkDetailsFromUrl, getWorkUrl } from "src/urls";
+import { describe, it, expect } from 'vitest';
 
-describe("Fetches data from url", () => {
-  test("Fetches work id from url", async () => {
-    const workData = await getWorkDetailsFromUrl({
+describe("Urls/parse", () => {
+  it("should parse work id", () => {
+    const workData = getWorkDetailsFromUrl({
       url: "https://archiveofourown.org/works/36667228",
     });
 
@@ -11,8 +12,8 @@ describe("Fetches data from url", () => {
     });
   });
 
-  test("Fetches chapter id from url", async () => {
-    const workData = await getWorkDetailsFromUrl({
+  it("should parse chapterId", () => {
+    const workData = getWorkDetailsFromUrl({
       url: "https://archiveofourown.org/works/398023/chapters/659774",
     });
 
@@ -22,8 +23,8 @@ describe("Fetches data from url", () => {
     });
   });
 
-  test("Fetches collection from url", async () => {
-    const workData = await getWorkDetailsFromUrl({
+  it("should parse collection", () => {
+    const workData = getWorkDetailsFromUrl({
       url: "https://archiveofourown.org/collections/YJ_Prompts/works/30216801",
     });
 
@@ -34,9 +35,9 @@ describe("Fetches data from url", () => {
   });
 });
 
-describe("Gets url from data", () => {
-  test("Gets url from workId", async () => {
-    const workUrl = await getWorkUrl(
+describe("Urls/fetch", () => {
+  it("should fetch workId", () => {
+    const workUrl = getWorkUrl(
       getWorkDetailsFromUrl({
         url: "https://archiveofourown.org/works/36667228",
       })
@@ -45,8 +46,8 @@ describe("Gets url from data", () => {
     expect(workUrl).toBe("https://archiveofourown.org/works/36667228");
   });
 
-  test("Fetches chapter id from url", async () => {
-    const workUrl = await getWorkUrl({
+  it("should fetch chapterId", () => {
+    const workUrl = getWorkUrl({
       workId: "398023",
       chapterId: "659774",
     });
@@ -56,8 +57,8 @@ describe("Gets url from data", () => {
     );
   });
 
-  test("Fetches collection from url", async () => {
-    const workUrl = await getWorkUrl({
+  it("should fetch collection", () => {
+    const workUrl = getWorkUrl({
       workId: "30216801",
       collectionName: "YJ_Prompts",
     });
