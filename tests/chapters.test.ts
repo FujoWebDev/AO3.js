@@ -1,8 +1,8 @@
 import { getWorkWithChapters } from "src/index";
 import { describe, it, expect } from 'vitest';
 
-describe("should fetch chapters list from", () => {
-  it("work id", async () => {
+describe("Chapters", () => {
+  it("should fetch chapters list from work id", async () => {
     const workData = await getWorkWithChapters({ workId: "43703871" });
 
     expect(workData.title).toBe("Let The River Run");

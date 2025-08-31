@@ -3,8 +3,8 @@ import type { User } from "types/entities";
 import { describe, it, expect } from "vitest";
 //NOTE: Some of these tests may fail if the referenced user has updated their profile!
 
-describe("should fetch id data.", () => {
-  it("username and ID", async () => {
+describe("User/data", () => {
+  it("should fetch user data using username", async () => {
     const user = await getUser({
       username: "astolat",
     });
@@ -17,8 +17,8 @@ describe("should fetch id data.", () => {
       joined: "2008-09-13",
     } satisfies Partial<User>);
   });
-
-  it("Fetches information about a user who filled in optional profile fields", async () => {
+  // Fetches information about a user who filled in optional profile fields
+  it("should fetch user data from optional profile fields", async () => {
     const astolat = await getUser({
       username: "astolat",
     });

@@ -1,8 +1,8 @@
 import { getWorkDetailsFromUrl, getWorkUrl } from "src/urls";
 import { describe, it, expect } from 'vitest';
 
-describe("should fetch data from url", () => {
-  it("work id", () => {
+describe("Urls/parse", () => {
+  it("should parse work id", () => {
     const workData = getWorkDetailsFromUrl({
       url: "https://archiveofourown.org/works/36667228",
     });
@@ -12,7 +12,7 @@ describe("should fetch data from url", () => {
     });
   });
 
-  it("chapter id", () => {
+  it("should parse chapterId", () => {
     const workData = getWorkDetailsFromUrl({
       url: "https://archiveofourown.org/works/398023/chapters/659774",
     });
@@ -23,7 +23,7 @@ describe("should fetch data from url", () => {
     });
   });
 
-  it("collection", () => {
+  it("should parse collection", () => {
     const workData = getWorkDetailsFromUrl({
       url: "https://archiveofourown.org/collections/YJ_Prompts/works/30216801",
     });
@@ -35,8 +35,8 @@ describe("should fetch data from url", () => {
   });
 });
 
-describe("should get url from data", () => {
-  it("workId", () => {
+describe("Urls/fetch", () => {
+  it("should fetch workId", () => {
     const workUrl = getWorkUrl(
       getWorkDetailsFromUrl({
         url: "https://archiveofourown.org/works/36667228",
@@ -46,7 +46,7 @@ describe("should get url from data", () => {
     expect(workUrl).toBe("https://archiveofourown.org/works/36667228");
   });
 
-  it("chapterId", () => {
+  it("should fetch chapterId", () => {
     const workUrl = getWorkUrl({
       workId: "398023",
       chapterId: "659774",
@@ -57,7 +57,7 @@ describe("should get url from data", () => {
     );
   });
 
-  it("collection", () => {
+  it("should fetch collection", () => {
     const workUrl = getWorkUrl({
       workId: "30216801",
       collectionName: "YJ_Prompts",

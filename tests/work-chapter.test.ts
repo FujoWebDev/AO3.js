@@ -2,8 +2,8 @@ import type { WorkSummary } from "types/entities";
 import { getWork } from "src/index";
 import { describe, it, expect } from "vitest";
 
-describe("Fetches chapter of work", () => {
-  it("Ensure chapter is null for single-chapter work", async () => {
+describe("Work Chapter/chapter", () => {
+  it("should use null for single-chapter work", async () => {
     const work = await getWork({ workId: "168768", chapterId: "" });
 
     expect(!work.locked).toBeTruthy();
@@ -44,7 +44,7 @@ describe("Fetches chapter of work", () => {
     });
   });
 
-  it("Ensure work summary and chapter summary are different", async () => {
+  it("should have different work summary and chapter summary", async () => {
     const work = await getWork({ workId: "17793689", chapterId: "41980418" }) as WorkSummary;
 
     expect(!work.locked).toBeTruthy();
@@ -58,8 +58,8 @@ describe("Fetches chapter of work", () => {
   });
 });
 
-describe("Fetches work + chapter object in its entirety", () => {
-  it("Get chapter object with all fields", async () => {
+describe("Work Chapter/work", () => {
+  it("should fetch work + chapter object with all fields", async () => {
     const work = await getWork({
       workId: "48582418",
       chapterId: "122861680",
@@ -138,7 +138,7 @@ describe("Fetches work + chapter object in its entirety", () => {
     });
   });
 
-  it("Get chapter object without title or summary", async () => {
+  it("should fetch chapter object without title or summary", async () => {
     const work = await getWork({
       workId: "37214506",
       chapterId: "92848687",
