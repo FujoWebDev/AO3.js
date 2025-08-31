@@ -12,9 +12,9 @@ import {
   loadTagFeedAtomPage,
   loadTagPage,
   loadTagWorksFeed,
-} from "../page-loaders";
+} from "src/page-loaders";
 
-import { Tag } from "types/entities";
+import type { Tag } from "types/entities";
 
 export const getTag = async ({
   tagName,

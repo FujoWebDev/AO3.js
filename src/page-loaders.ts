@@ -7,7 +7,7 @@ import {
 } from "./urls";
 
 import { CheerioAPI } from "cheerio";
-import { load } from "cheerio";
+import { load } from "cheerio/slim";
 import { getFetcher } from "./fetcher";
 
 // This is a wrapper around the fetch function that loads the page into a CheerioAPI

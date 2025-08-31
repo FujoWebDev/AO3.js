@@ -1,4 +1,4 @@
-import {
+import type {
   Author,
   Chapter,
   LockedWorkSummary,
@@ -36,7 +36,7 @@ import {
   getWorkWarnings,
   getWorkWordCount,
 } from "./work-getters";
-import { loadChaptersIndexPage, loadWorkPage } from "../page-loaders";
+import { loadChaptersIndexPage, loadWorkPage } from "src/page-loaders";
 
 export const getWork = async ({
   workId,

@@ -1,5 +1,5 @@
-import { UserProfile } from "../page-loaders";
-import { getUserProfileUrl } from "../urls";
+import type { UserProfile } from "src/page-loaders";
+// import { getUserProfileUrl } from "../urls";
 
 //Dates are ten characters long in the following format:
 const DATE_FORMAT = "0000-00-00";

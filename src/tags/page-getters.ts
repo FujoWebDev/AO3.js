@@ -1,6 +1,5 @@
-import { TagCategory } from "types/entities";
-import { TagPage } from "../page-loaders";
-import { Element } from "cheerio";
+import type { TagCategory } from "types/entities";
+import type { TagPage } from "src/page-loaders";
 
 export const getTagCategory = ($tagPage: TagPage): TagCategory => {
   // This will look similar to "This tag belongs to the Character Category."
@@ -43,7 +42,7 @@ export const getCanonical = ($tagPage: TagPage) => {
   if (!hasMergers($tagPage)) {
     return null;
   }
-  return $tagPage($tagPage(".merger a.tag")).text();
+  return $tagPage(".merger a.tag").text();
 };
 
 export const getParentTags = ($tagPage: TagPage) => {
@@ -71,11 +70,11 @@ export const getSubTags = ($tagPage: TagPage) => {
     subTags.push({ tagName: $tagPage(element).children().first().text(), parentSubTag: null });
     if ($tagPage($tagPage(element)).has("ul.tags").length) {
       $tagPage("ul.tags", element).children("li").each((_, child) => {
-        // each <li> element contains an <a> element, 
+        // each <li> element contains an <a> element,
         // which is why `.children().first()` is needed for both the `tagName` and `parentSubTag`
-        subTags.push({ 
-          tagName: $tagPage(child).children().first().text(), 
-          parentSubTag: $tagPage($tagPage(child)).parents("li").children().first().text() 
+        subTags.push({
+          tagName: $tagPage(child).children().first().text(),
+          parentSubTag: $tagPage($tagPage(child)).parents("li").children().first().text()
         });
       });
     }
