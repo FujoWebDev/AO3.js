@@ -14,7 +14,7 @@ import {
   loadTagWorksFeed,
 } from "../page-loaders";
 
-import { Tag } from "../../types/entities";
+import type { Tag } from "../../types/entities";
 
 export const getTag = async ({
   tagName,

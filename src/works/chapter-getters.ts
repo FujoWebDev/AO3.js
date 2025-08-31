@@ -1,4 +1,4 @@
-import { Author, Chapter } from "../../types/entities";
+import type { Author, Chapter } from "../../types/entities";
 import { getAsShortUrl, getWorkDetailsFromUrl, getWorkUrl } from "../urls";
 
 import { ChapterIndexPage } from "../page-loaders";

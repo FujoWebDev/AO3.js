@@ -1,12 +1,13 @@
-import {
+import type {
   Author,
   BasicSeries,
-  WorkCategory,
-  WorkRatings,
   WorkSummary,
-  WorkWarnings,
 } from "../../types/entities";
-
+import {
+  WorkRatings,
+  WorkCategory,
+  WorkWarnings,
+} from '../../types/entities';
 import { WorkPage } from "../page-loaders";
 
 export const getWorkAuthors = ($workPage: WorkPage): Author[] => {

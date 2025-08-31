@@ -1,6 +1,6 @@
-import { Author, Series, SeriesWorkSummary } from "../../types/entities";
-import { CheerioAPI, load } from "cheerio/slim";
-import { SeriesPage, WorkPage } from "../page-loaders";
+import type { Author, Series, SeriesWorkSummary } from "../../types/entities";
+import { type CheerioAPI, load } from "cheerio/slim";
+import type { SeriesPage, WorkPage } from "../page-loaders";
 import {
   getWorkBookmarkCount,
   getWorkHits,

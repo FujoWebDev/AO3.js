@@ -1,4 +1,4 @@
-import {
+import type {
   Author,
   Chapter,
   LockedWorkSummary,
