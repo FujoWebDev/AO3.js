@@ -5,8 +5,8 @@ import { initSetup } from "./setup";
 
 initSetup()
 
-describe("Fetches series information", () => {
-  it("Fetches series object, checks top level fields", async () => {
+describe("should fetch series information and", () => {
+  it("check top level fields", async () => {
     const series = await getSeries({ seriesId: "2270465" });
 
     expect(series).toMatchObject({
@@ -25,7 +25,7 @@ describe("Fetches series information", () => {
     });
   });
 
-  it("Fetches series object, check works", async () => {
+  it("check works", async () => {
     const series = await getSeries({ seriesId: "2270465" });
 
     // Work 1
@@ -388,36 +388,36 @@ describe("Fetches series information", () => {
     });
   });
 
-  it("Fetches author with username Anonymous", async () => {
+  it("handle author with username Anonymous", async () => {
     const series = await getSeries({ seriesId: "2946579" });
     expect(series.authors).toMatchObject([
       { anonymous: true, pseud: "Anonymous", username: "Anonymous" },
     ]);
   });
+});
 
-  describe("Fetches series title", () => {
-    it("Fetch series title with space character", async () => {
-      const series = await getSeries({
-        seriesId: "2270465",
-      });
-
-      expect(series.name).toBe("OG Titan");
+describe("should fetch series title with", () => {
+  it("space character", async () => {
+    const series = await getSeries({
+      seriesId: "2270465",
     });
 
-    it("Fetch series with slashes", async () => {
-      const series = await getSeries({
-        seriesId: "1728802",
-      });
+    expect(series.name).toBe("OG Titan");
+  });
 
-      expect(series.name).toBe("angsty oneshots/short stories");
+  it("slashes", async () => {
+    const series = await getSeries({
+      seriesId: "1728802",
     });
 
-    it("Fetch series with non-letter characters", async () => {
-      const series = await getSeries({
-        seriesId: "2817877",
-      });
+    expect(series.name).toBe("angsty oneshots/short stories");
+  });
 
-      expect(series.name).toBe("*Insert Fandom* but Social Media (one-shots)");
+  it("non-letter characters", async () => {
+    const series = await getSeries({
+      seriesId: "2817877",
     });
+
+    expect(series.name).toBe("*Insert Fandom* but Social Media (one-shots)");
   });
 });

@@ -4,8 +4,8 @@ import { initSetup } from "./setup";
 
 initSetup();
 
-describe("Fetches chapters list", () => {
-  it("Fetches chapters from work id", async () => {
+describe("should fetch chapters list from", () => {
+  it("work id", async () => {
     const workData = await getWorkWithChapters({ workId: "43703871" });
 
     expect(workData.title).toBe("Let The River Run");

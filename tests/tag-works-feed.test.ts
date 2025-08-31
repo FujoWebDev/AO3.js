@@ -4,9 +4,9 @@ import { initSetup } from "./setup";
 
 initSetup()
 
-describe("Fetches data from url", () => {
-  it("Fetches work id from url", async () => {
-    const workData = await getWorkDetailsFromUrl({
+describe("should fetch data from url", () => {
+  it("work id", () => {
+    const workData = getWorkDetailsFromUrl({
       url: "https://archiveofourown.org/works/36667228",
     });
 
@@ -15,8 +15,8 @@ describe("Fetches data from url", () => {
     });
   });
 
-  it("Fetches chapter id from url", async () => {
-    const workData = await getWorkDetailsFromUrl({
+  it("chapter id", () => {
+    const workData = getWorkDetailsFromUrl({
       url: "https://archiveofourown.org/works/398023/chapters/659774",
     });
 
@@ -26,8 +26,8 @@ describe("Fetches data from url", () => {
     });
   });
 
-  it("Fetches collection from url", async () => {
-    const workData = await getWorkDetailsFromUrl({
+  it("collection", () => {
+    const workData = getWorkDetailsFromUrl({
       url: "https://archiveofourown.org/collections/YJ_Prompts/works/30216801",
     });
 
@@ -38,9 +38,9 @@ describe("Fetches data from url", () => {
   });
 });
 
-describe("Gets url from data", () => {
-  it("Gets url from workId", async () => {
-    const workUrl = await getWorkUrl(
+describe("should get url from data", () => {
+  it("workId", () => {
+    const workUrl = getWorkUrl(
       getWorkDetailsFromUrl({
         url: "https://archiveofourown.org/works/36667228",
       })
@@ -49,8 +49,8 @@ describe("Gets url from data", () => {
     expect(workUrl).toBe("https://archiveofourown.org/works/36667228");
   });
 
-  it("Fetches chapter id from url", async () => {
-    const workUrl = await getWorkUrl({
+  it("chapterId", () => {
+    const workUrl = getWorkUrl({
       workId: "398023",
       chapterId: "659774",
     });
@@ -60,8 +60,8 @@ describe("Gets url from data", () => {
     );
   });
 
-  it("Fetches collection from url", async () => {
-    const workUrl = await getWorkUrl({
+  it("collection", () => {
+    const workUrl = getWorkUrl({
       workId: "30216801",
       collectionName: "YJ_Prompts",
     });
