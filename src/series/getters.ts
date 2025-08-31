@@ -141,10 +141,13 @@ const getSeriesWork = (workHtml: string): SeriesWorkSummary => {
 
   const url = $work("a[href*='/works/']").attr("href") as string;
   const id = getWorkDetailsFromUrl({ url }).workId;
+  const workUrl = getWorkUrl({ workId: id });
+  const shortUrl = getAsShortUrl({ url: workUrl });
 
   return {
     id,
-    url: getWorkUrl({ workId: id }),
+    url: workUrl,
+    shortUrl,
     title: getSeriesWorkTitle($work),
     updatedAt: getSeriesWorkUpdateDate($work),
 

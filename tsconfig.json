@@ -4,6 +4,7 @@
     "types": ["node", "@types/jest"],
     "moduleResolution": "bundler",
     "module": "es2022",
+    "lib":["es2022"],
     "paths": {
       "src/*": ["./src/*"],
       "types/*": ["./types/*"]

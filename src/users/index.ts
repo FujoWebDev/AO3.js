@@ -25,7 +25,8 @@ export const getUser = async ({
   username: string;
 }): Promise<User> => {
   const profilePage = await loadUserProfilePage({ username });
-
+  const url = getUserProfileUrl({ username });
+  const shortUrl = getAsShortUrl({ url });
   return {
     // We use this because capitalization might be different
     username: getUserProfileName(profilePage),
@@ -37,7 +38,8 @@ export const getUser = async ({
     header: getUserProfileHeader(profilePage),
     location: getUserProfileLocation(profilePage),
     birthday: getUserProfileBirthday(profilePage),
-    url: getUserProfileUrl({ username }),
+    url,
+    shortUrl,
     works: getUserProfileWorks(profilePage),
     series: getUserProfileSeries(profilePage),
     bookmarks: getUserProfileBookmarks(profilePage),
