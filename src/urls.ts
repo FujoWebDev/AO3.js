@@ -27,19 +27,22 @@ export const getAsShortUrl = ({ url }: { url: string }) => url.replace(/archiveo
 export const getUserProfileUrl = ({ username }: { username: string }) =>
   `https://archiveofourown.org/users/${encodeURI(username)}/profile`;
 
-const tagUrlReplaceChars = /(\/|\.|&|#|\?)/g;
-
-const replacerObject = {
-  '/': 's',
-  '&': 'a',
-  '.': 'd',
-  '#': 'h',
-  '?': 'q'
+const tokenReplacerObject = {
+  '/': '*s*',
+  '&': '*a*',
+  '.': '*d*',
+  '#': '*h*',
+  '?': '*q*'
 }
+const tokensToEscape = ['/', '?', '.']
+const replaceEscapableTokens = (c:string) => tokensToEscape.includes(c) ? `\\${c}` : c;
+const tagUrlReplaceChars = new RegExp(`(${Object.keys(tokenReplacerObject).map(replaceEscapableTokens).join('|')})`, 'g')///(\/|\.|&|#|\?)/g;
+
+type ReplacerObjectKeys = keyof typeof tokenReplacerObject
 
 export const getTagUrl = (tagName: string) =>
   `https://archiveofourown.org/tags/${encodeURI(tagName)
-    .replaceAll(tagUrlReplaceChars, ($char:string) => $char in replacerObject ? `*${replacerObject[$char as keyof typeof replacerObject]}*` : $char)}`;
+    .replaceAll(tagUrlReplaceChars, ($char:string) => tokenReplacerObject[$char as ReplacerObjectKeys] || $char)}`;
 
 export const getTagWorksFeedUrl = (tagName: string) =>
   `${getTagUrl(tagName)}/works`;
