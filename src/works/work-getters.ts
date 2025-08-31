@@ -2,13 +2,13 @@ import type {
   Author,
   BasicSeries,
   WorkSummary,
-} from "../../types/entities";
+} from "types/entities";
 import {
   WorkRatings,
   WorkCategory,
   WorkWarnings,
-} from '../../types/entities';
-import { WorkPage } from "../page-loaders";
+} from 'types/entities';
+import { WorkPage } from "src/page-loaders";
 
 export const getWorkAuthors = ($workPage: WorkPage): Author[] => {
   const authorLinks = $workPage("h3.byline a[rel='author']");

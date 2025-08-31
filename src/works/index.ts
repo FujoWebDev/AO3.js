@@ -3,7 +3,7 @@ import type {
   Chapter,
   LockedWorkSummary,
   WorkSummary,
-} from "../../types/entities";
+} from "types/entities";
 import {
   getChaptersList,
   getWorkAuthors as getWorkAuthorsFromChaptersIndex,
@@ -36,7 +36,7 @@ import {
   getWorkWarnings,
   getWorkWordCount,
 } from "./work-getters";
-import { loadChaptersIndexPage, loadWorkPage } from "../page-loaders";
+import { loadChaptersIndexPage, loadWorkPage } from "src/page-loaders";
 
 export const getWork = async ({
   workId,

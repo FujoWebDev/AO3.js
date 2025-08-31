@@ -1,7 +1,7 @@
-import type { Author, Chapter } from "../../types/entities";
-import { getAsShortUrl, getWorkDetailsFromUrl, getWorkUrl } from "../urls";
+import type { Author, Chapter } from "types/entities";
+import { getAsShortUrl, getWorkDetailsFromUrl, getWorkUrl } from "src/urls";
 
-import { ChapterIndexPage } from "../page-loaders";
+import { ChapterIndexPage } from "src/page-loaders";
 
 const TITLE_SEPARATOR = ". ";
 export const getChaptersList = ($chapterIndexPage: ChapterIndexPage) => {

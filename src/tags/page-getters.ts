@@ -1,5 +1,5 @@
-import type { TagCategory } from "../../types/entities";
-import type { TagPage } from "../page-loaders";
+import type { TagCategory } from "types/entities";
+import type { TagPage } from "src/page-loaders";
 // import { Element } from "cheerio";
 
 export const getTagCategory = ($tagPage: TagPage): TagCategory => {

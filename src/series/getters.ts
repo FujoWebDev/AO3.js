@@ -1,6 +1,6 @@
-import type { Author, Series, SeriesWorkSummary } from "../../types/entities";
+import type { Author, Series, SeriesWorkSummary } from "types/entities";
 import { type CheerioAPI, load } from "cheerio/slim";
-import type { SeriesPage, WorkPage } from "../page-loaders";
+import type { SeriesPage, WorkPage } from "src/page-loaders";
 import {
   getWorkBookmarkCount,
   getWorkHits,
@@ -9,8 +9,8 @@ import {
   getWorkPublishedChapters,
   getWorkTotalChapters,
   getWorkWordCount,
-} from "../works/work-getters";
-import { getAsShortUrl, getWorkDetailsFromUrl, getWorkUrl } from "../urls";
+} from "src/works/work-getters";
+import { getAsShortUrl, getWorkDetailsFromUrl, getWorkUrl } from "src/urls";
 
 const monthMap: { [month: string]: string } = {
   Jan: "01",
