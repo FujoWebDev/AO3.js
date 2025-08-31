@@ -2,8 +2,11 @@ import { getWorkDetailsFromUrl, getWorkUrl } from "src/urls";
 import { getWork } from "src/index";
 import { describe, it, expect } from "vitest";
 import type { WorkSummary } from "types/entities";
+import { initSetup } from "./setup";
 
 // TODO: this file is too long and should be split into multiple tests
+
+initSetup()
 
 describe("Fetches data from url", () => {
   it("Fetches work id from url", async () => {
@@ -223,7 +226,7 @@ describe("Fetches work information", () => {
     });
 
     // TODO: 404
-    test.skip("Fetches author pseud with special characters", async () => {
+    it.skip("Fetches author pseud with special characters", async () => {
       const work = await getWork({
         workId: "41237499",
       }) as WorkSummary;
@@ -274,7 +277,7 @@ describe("Fetches work information", () => {
       expect(work.title).toBe("Field Test no.7: Phone Calls & Boundaries");
     });
 
-    test.todo("Fetch title with special characters");
+    it.todo("Fetch title with special characters");
   });
 
   describe("Fetch work tags", () => {
@@ -423,7 +426,7 @@ describe("Fetches work information", () => {
     });
 
     // TODO: 404
-    test.skip("Fetch null category", async () => {
+    it.skip("Fetch null category", async () => {
       const work = await getWork({
         workId: "41237499",
       }) as WorkSummary;
@@ -444,7 +447,7 @@ describe("Fetches work information", () => {
     });
 
     // TODO: 404
-    test.skip("Fetch update date of work in progress", async () => {
+    it.skip("Fetch update date of work in progress", async () => {
       const work = await getWork({
         workId: "41237499",
       }) as WorkSummary;

@@ -1,7 +1,10 @@
 import { getUser } from "src/index";
 import type { User } from "types/entities";
 import { describe, it, expect } from "vitest";
+import { initSetup } from "./setup";
 //NOTE: Some of these tests may fail if the referenced user has updated their profile!
+
+initSetup();
 
 describe("Fetches id data.", () => {
   it("Fetches username and user ID", async () => {

@@ -1,5 +1,8 @@
 import { getWorkDetailsFromUrl, getWorkUrl } from "src/urls";
 import { describe, it, expect } from 'vitest';
+import { initSetup } from "./setup";
+
+initSetup()
 
 describe("Fetches data from url", () => {
   it("Fetches work id from url", async () => {

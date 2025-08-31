@@ -1,6 +1,9 @@
 import type { WorkSummary } from "types/entities";
 import { getWork } from "src/index";
 import { describe, it, expect } from "vitest";
+import { initSetup } from "./setup";
+
+initSetup();
 
 describe("Fetches chapter of work", () => {
   describe("Fetches work + chapter object in its entirety", () => {
