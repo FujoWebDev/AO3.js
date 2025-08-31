@@ -10,7 +10,7 @@ import {
   getWorkTotalChapters,
   getWorkWordCount,
 } from "../works/work-getters";
-import { getWorkDetailsFromUrl, getWorkUrl } from "../urls";
+import { getAsShortUrl, getWorkDetailsFromUrl, getWorkUrl } from "../urls";
 
 const monthMap: { [month: string]: string } = {
   Jan: "01",
