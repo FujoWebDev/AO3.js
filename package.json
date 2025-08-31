@@ -11,7 +11,7 @@
         "default": "./dist/index.js"
       },
       "require": {
-        "types": "./dist/index.d.cts",
+        "types": "./dist/index.d.ts",
         "default": "./dist/index.cjs"
       }
     },
@@ -21,7 +21,7 @@
         "default": "./dist/urls.js"
       },
       "require": {
-        "types": "./dist/urls.d.cts",
+        "types": "./dist/urls.d.ts",
         "default": "./dist/urls.cjs"
       }
     }
