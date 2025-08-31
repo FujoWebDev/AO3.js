@@ -1,6 +1,7 @@
 import type {
   Author,
   BasicSeries,
+  ID,
   WorkSummary,
 } from "types/entities";
 import {
@@ -9,6 +10,7 @@ import {
   WorkWarnings,
 } from 'types/entities';
 import { WorkPage } from "src/page-loaders";
+import { parseId } from "src/utils";
 
 export const getWorkAuthors = ($workPage: WorkPage): Author[] => {
   const authorLinks = $workPage("h3.byline a[rel='author']");
@@ -157,7 +159,7 @@ export const getWorkSeries = ($workPage: WorkPage): BasicSeries[] => {
     const link = seriesHtml.find("a:not(.next, .previous)");
 
     series[index] = {
-      id: link.attr("href")!.replace("/series/", ""),
+      id: parseId(link.attr("href")!.replace("/series/", "") as ID),
       name: link.text().trim(),
       index: matches!.length > 0 ? parseInt(matches![0]) : -1,
     };

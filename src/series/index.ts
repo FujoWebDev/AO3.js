@@ -13,18 +13,19 @@ import {
   getSeriesWorkCount,
   getSeriesWorks,
 } from "./getters";
+import { parseId } from "src/utils";
 
 export const getSeries = async ({
   seriesId,
 }: {
-  seriesId: string;
+  seriesId: `${number}`;
 }): Promise<Series> => {
   const seriesPage = await loadSeriesPage(seriesId);
 
   const seriesWorks = getSeriesWorks(seriesPage);
 
   return {
-    id: seriesId,
+    id: parseId(seriesId),
     name: getSeriesTitle(seriesPage),
     startedAt: getSeriesPublishDate(seriesPage),
     updatedAt: getSeriesUpdateDate(seriesPage),

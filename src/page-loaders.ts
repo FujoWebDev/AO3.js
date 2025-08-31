@@ -9,6 +9,7 @@ import {
 import { CheerioAPI } from "cheerio";
 import { load } from "cheerio/slim";
 import { getFetcher } from "./fetcher";
+import { ID } from "types/entities";
 
 // This is a wrapper around the fetch function that loads the page into a CheerioAPI
 // instance and returns the type of the page.
@@ -78,8 +79,8 @@ export const loadWorkPage = async ({
   workId,
   chapterId,
 }: {
-  workId: string;
-  chapterId?: string;
+  workId: ID;
+  chapterId?: ID;
 }) => {
   return await fetchPage<WorkPage>({
     url: getWorkUrl({ workId, chapterId }),
@@ -104,7 +105,7 @@ export const loadUserProfilePage = async ({
 export interface ChapterIndexPage extends CheerioAPI {
   kind: "ChapterIndexPage";
 }
-export const loadChaptersIndexPage = async ({ workId }: { workId: string }) => {
+export const loadChaptersIndexPage = async ({ workId }: { workId: ID }) => {
   return await fetchPage<ChapterIndexPage>({
     url: `https://archiveofourown.org/works/${workId}/navigate`,
   });

@@ -1,6 +1,7 @@
 import type {
   Author,
   Chapter,
+  ID,
   LockedWorkSummary,
   WorkSummary,
 } from "types/entities";
@@ -37,19 +38,21 @@ import {
   getWorkWordCount,
 } from "./work-getters";
 import { loadChaptersIndexPage, loadWorkPage } from "src/page-loaders";
+import { parseId } from "src/utils";
 
 export const getWork = async ({
   workId,
   chapterId,
 }: {
-  workId: string;
-  chapterId?: string;
+  workId: `${number}`;
+  chapterId?: `${number}`;
 }): Promise<WorkSummary | LockedWorkSummary> => {
   const workPage = await loadWorkPage({ workId, chapterId });
+  const id = parseId(workId);
 
   if (getWorkLocked(workPage)) {
     return {
-      id: workId.toString(),
+      id,
       locked: true,
     };
   }
@@ -59,7 +62,7 @@ export const getWork = async ({
   const chapterIndex = getChapterIndex(workPage);
 
   return {
-    id: workId.toString(),
+    id,
     authors: getWorkAuthors(workPage),
     title: getWorkTitle(workPage),
     words: getWorkWordCount(workPage),
@@ -83,7 +86,7 @@ export const getWork = async ({
     },
     chapterInfo: chapterId
       ? {
-          id: chapterId,
+          id: parseId(chapterId),
           index: chapterIndex,
           name: getChapterName(workPage),
           summary: getChapterSummary(workPage),
@@ -108,11 +111,11 @@ export const getWork = async ({
 export const getWorkWithChapters = async ({
   workId,
 }: {
-  workId: string;
+  workId: ID;
 }): Promise<{
   title: string;
   authors: "Anonymous" | Author[];
-  workId: string;
+  workId: number;
   chapters: Chapter[];
 }> => {
   const page = await loadChaptersIndexPage({ workId });
@@ -120,7 +123,7 @@ export const getWorkWithChapters = async ({
   return {
     title: getWorkTitleFromChaptersIndex(page),
     authors: getWorkAuthorsFromChaptersIndex(page),
-    workId,
+    workId: parseId(workId),
     chapters: getChaptersList(page),
   };
 };

@@ -1,10 +1,13 @@
+import { ID } from "types/entities";
+import { parseId } from "./utils";
+
 export const getWorkUrl = ({
   workId,
   chapterId,
   collectionName,
 }: {
-  workId: string;
-  chapterId?: string;
+  workId: ID;
+  chapterId?: ID;
   collectionName?: string;
 }) => {
   let workUrl = `https://archiveofourown.org`;
@@ -55,8 +58,8 @@ export const getWorkDetailsFromUrl = ({
 }: {
   url: string;
 }): {
-  workId: string;
-  chapterId?: string;
+  workId: number;
+  chapterId?: number;
   collectionName?: string;
 } => {
   const workUrlMatch = url.match(/works\/(\d+)/);
@@ -65,8 +68,8 @@ export const getWorkDetailsFromUrl = ({
   }
 
   return {
-    workId: workUrlMatch[1],
-    chapterId: url.match(/chapters\/(\d+)/)?.[1],
+    workId: parseId(workUrlMatch[1] as `${number}`),
+    chapterId: parseId(url.match(/chapters\/(\d+)/)?.[1] as `${number}`),
     collectionName: url.match(/collections\/(\w+)/)?.[1],
   };
 };
