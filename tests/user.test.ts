@@ -1,10 +1,10 @@
 import { getUser } from "src/index";
-import { User } from "types/entities";
-
+import type { User } from "types/entities";
+import { describe, it, expect } from "vitest";
 //NOTE: Some of these tests may fail if the referenced user has updated their profile!
 
 describe("Fetches id data.", () => {
-  test("Fetches username and user ID", async () => {
+  it("Fetches username and user ID", async () => {
     const user = await getUser({
       username: "astolat",
     });
@@ -18,7 +18,7 @@ describe("Fetches id data.", () => {
     } satisfies Partial<User>);
   });
 
-  test("Fetches information about a user who filled in optional profile fields", async () => {
+  it("Fetches information about a user who filled in optional profile fields", async () => {
     const user = await getUser({
       username: "astolat",
     });
@@ -28,7 +28,7 @@ describe("Fetches id data.", () => {
     );
   });
 
-  test("Fetches information about a user who filled in optional profile fields", async () => {
+  it("Fetches information about a user who filled in optional profile fields", async () => {
     const user = await getUser({
       username: "franzeska",
     });

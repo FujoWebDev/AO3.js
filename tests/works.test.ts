@@ -1,12 +1,12 @@
 import { getWorkDetailsFromUrl, getWorkUrl } from "src/urls";
-
-import assert from "assert";
 import { getWork } from "src/index";
+import { describe, it, expect } from "vitest";
+import type { WorkSummary } from "types/entities";
 
 // TODO: this file is too long and should be split into multiple tests
 
 describe("Fetches data from url", () => {
-  test("Fetches work id from url", async () => {
+  it("Fetches work id from url", async () => {
     const workData = await getWorkDetailsFromUrl({
       url: "https://archiveofourown.org/works/36667228",
     });
@@ -16,7 +16,7 @@ describe("Fetches data from url", () => {
     });
   });
 
-  test("Fetches chapter id from url", async () => {
+  it("Fetches chapter id from url", async () => {
     const workData = await getWorkDetailsFromUrl({
       url: "https://archiveofourown.org/works/398023/chapters/659774",
     });
@@ -27,7 +27,7 @@ describe("Fetches data from url", () => {
     });
   });
 
-  test("Fetches collection from url", async () => {
+  it("Fetches collection from url", async () => {
     const workData = await getWorkDetailsFromUrl({
       url: "https://archiveofourown.org/collections/YJ_Prompts/works/30216801",
     });
@@ -40,7 +40,7 @@ describe("Fetches data from url", () => {
 });
 
 describe("Gets url from data", () => {
-  test("Gets url from workId", async () => {
+  it("Gets url from workId", async () => {
     const workUrl = await getWorkUrl(
       getWorkDetailsFromUrl({
         url: "https://archiveofourown.org/works/36667228",
@@ -50,7 +50,7 @@ describe("Gets url from data", () => {
     expect(workUrl).toBe("https://archiveofourown.org/works/36667228");
   });
 
-  test("Gets url with chapter id", async () => {
+  it("Gets url with chapter id", async () => {
     const workUrl = await getWorkUrl({
       workId: "398023",
       chapterId: "659774",
@@ -61,7 +61,7 @@ describe("Gets url from data", () => {
     );
   });
 
-  test("Gets url with collection name", async () => {
+  it("Gets url with collection name", async () => {
     const workUrl = await getWorkUrl({
       workId: "30216801",
       collectionName: "YJ_Prompts",
@@ -74,7 +74,7 @@ describe("Gets url from data", () => {
 });
 
 describe("Fetches work information", () => {
-  test("Fetches work object in its entirety", async () => {
+  it("Fetches work object in its entirety", async () => {
     const work = await getWork({
       workId: "29046888",
     });
@@ -141,7 +141,7 @@ describe("Fetches work information", () => {
       },
       summary:
         "<p>“<i>Bakugou will know what to do</i>. Top of the class, always quick on his feet and possessing the strongest nerves in all of 1-A – all of U.A., possibly. They’re at their most invincible with Bakugou there to hone their focus, to push them forward with that unique kind of teeth-bared tenacity Kaminari has come to rely on in the past year. When Kaminari looks, he sees–</p><p>Iida, helmet off, severe face twisted with agitation as he argues with the medics on the scene. Blood, so much blood, staining the gleaming chrome of his armor up to his neck in wet, intersecting streaks of crimson.</p><p>And in his arms, mask torn and body limp, is Bakugou Katsuki.”</p><p>In which disaster strikes, the Bakusquad comes together as a family once more, and Kaminari Denki is the MVP all the way through.</p>",
-      stats: { 
+      stats: {
         "bookmarks": expect.any(Number),
         "comments": expect.any(Number),
         "hits": expect.any(Number),
@@ -151,12 +151,12 @@ describe("Fetches work information", () => {
   });
 
   describe("Fetches work author", () => {
-    test("Fetches author with default pseud", async () => {
+    it("Fetches author with default pseud", async () => {
       const work = await getWork({
         workId: "4491333",
-      });
+      }) as WorkSummary;
 
-      assert(!work.locked);
+      expect(!work.locked).toBeTruthy();
 
       expect(work.authors).toMatchObject([
         {
@@ -166,24 +166,24 @@ describe("Fetches work information", () => {
       ]);
     });
 
-    test("Fetches author of work in anonymous collection", async () => {
+    it("Fetches author of work in anonymous collection", async () => {
       const work = await getWork({
         workId: "168768",
-      });
+      }) as WorkSummary;
 
-      assert(!work.locked);
+      expect(!work.locked).toBeTruthy();
 
       expect(work.authors).toMatchObject([
         { anonymous: true, pseud: "Anonymous", username: "Anonymous" },
       ]);
     });
 
-    test("Fetches author with username Anonymous", async () => {
+    it("Fetches author with username Anonymous", async () => {
       const work = await getWork({
         workId: "6475531",
-      });
+      }) as WorkSummary;
 
-      assert(!work.locked);
+      expect(!work.locked).toBeTruthy();
 
       expect(work.authors).toMatchObject([
         {
@@ -198,12 +198,12 @@ describe("Fetches work information", () => {
       ]);
     });
 
-    test("Fetches author with anonymous pseud", async () => {
+    it("Fetches author with anonymous pseud", async () => {
       const work = await getWork({
         workId: "23824891",
-      });
+      }) as WorkSummary;
 
-      assert(!work.locked);
+      expect(!work.locked).toBeTruthy();
 
       expect(work.authors).toMatchObject([
         {
@@ -226,9 +226,9 @@ describe("Fetches work information", () => {
     test.skip("Fetches author pseud with special characters", async () => {
       const work = await getWork({
         workId: "41237499",
-      });
+      }) as WorkSummary;
 
-      assert(!work.locked);
+      expect(!work.locked).toBeTruthy();
 
       expect(work.authors).toMatchObject([
         {
@@ -244,32 +244,32 @@ describe("Fetches work information", () => {
   });
 
   describe("Fetches work title", () => {
-    test("Fetch work title with space character", async () => {
+    it("Fetch work title with space character", async () => {
       const work = await getWork({
         workId: "23824891",
-      });
+      }) as WorkSummary;
 
-      assert(!work.locked);
+      expect(!work.locked).toBeTruthy();
 
       expect(work.title).toBe("Sister Dearest");
     });
 
-    test("Fetch title with slashes", async () => {
+    it("Fetch title with slashes", async () => {
       const work = await getWork({
         workId: "29046888",
-      });
+      }) as WorkSummary;
 
-      assert(!work.locked);
+      expect(!work.locked).toBeTruthy();
 
       expect(work.title).toBe("waiting//wishing");
     });
 
-    test("Fetch title with non-letter characters", async () => {
+    it("Fetch title with non-letter characters", async () => {
       const work = await getWork({
         workId: "323217",
-      });
+      }) as WorkSummary;
 
-      assert(!work.locked);
+      expect(!work.locked).toBeTruthy();
 
       expect(work.title).toBe("Field Test no.7: Phone Calls & Boundaries");
     });
@@ -278,24 +278,24 @@ describe("Fetches work information", () => {
   });
 
   describe("Fetch work tags", () => {
-    test("Fetch work warnings", async () => {
+    it("Fetch work warnings", async () => {
       const work = await getWork({
         workId: "323217",
-      });
+      }) as WorkSummary;
 
-      assert(!work.locked);
+      expect(!work.locked).toBeTruthy();
 
       expect(work.tags.warnings).toMatchObject([
         "Creator Chose Not To Use Archive Warnings",
       ]);
     });
 
-    test("Fetch work with multiple warnings", async () => {
+    it("Fetch work with multiple warnings", async () => {
       const work = await getWork({
         workId: "3738184",
-      });
+      }) as WorkSummary;
 
-      assert(!work.locked);
+      expect(!work.locked).toBeTruthy();
 
       expect(work.tags.warnings).toMatchObject([
         "Creator Chose Not To Use Archive Warnings",
@@ -307,34 +307,34 @@ describe("Fetches work information", () => {
       ]);
     });
 
-    test("Fetch work fandom", async () => {
+    it("Fetch work fandom", async () => {
       const work = await getWork({
         workId: "323217",
-      });
+      }) as WorkSummary;
 
-      assert(!work.locked);
+      expect(!work.locked).toBeTruthy();
 
       expect(work.fandoms).toMatchObject(["The Mentalist"]);
     });
 
-    test("Fetch work relationships", async () => {
+    it("Fetch work relationships", async () => {
       const work = await getWork({
         workId: "323217",
-      });
+      }) as WorkSummary;
 
-      assert(!work.locked);
+      expect(!work.locked).toBeTruthy();
 
       expect(work.tags.relationships).toMatchObject([
         "Patrick Jane/Kimball Cho",
       ]);
     });
 
-    test("Fetch work characters", async () => {
+    it("Fetch work characters", async () => {
       const work = await getWork({
         workId: "323217",
-      });
+      }) as WorkSummary;
 
-      assert(!work.locked);
+      expect(!work.locked).toBeTruthy();
 
       expect(work.tags.characters).toMatchObject([
         "Jane",
@@ -343,74 +343,74 @@ describe("Fetches work information", () => {
       ]);
     });
 
-    test("Fetch work additional tags", async () => {
+    it("Fetch work additional tags", async () => {
       const work = await getWork({
         workId: "323217",
-      });
+      }) as WorkSummary;
 
-      assert(!work.locked);
+      expect(!work.locked).toBeTruthy();
 
       expect(work.tags.additional).toMatchObject([]);
     });
 
-    test("Fetch empty additional tags", async () => {
+    it("Fetch empty additional tags", async () => {
       const work = await getWork({
         workId: "323217",
-      });
+      }) as WorkSummary;
 
-      assert(!work.locked);
+      expect(!work.locked).toBeTruthy();
 
       expect(work.tags.additional).toMatchObject([]);
     });
   });
 
   describe("Fetch other work information", () => {
-    test("Fetch work wordcount", async () => {
+    it("Fetch work wordcount", async () => {
       const work = await getWork({
         workId: "323217",
-      });
+      }) as WorkSummary;
 
-      assert(!work.locked);
+      expect(!work.locked).toBeTruthy();
 
       expect(work.words).toBe(5652);
     });
 
-    test("Fetch work language", async () => {
+    it("Fetch work language", async () => {
       const work = await getWork({
         workId: "323217",
-      });
+      }) as WorkSummary;
 
-      assert(!work.locked);
+      expect(!work.locked).toBeTruthy();
 
       expect(work.language).toBe("English");
     });
 
-    test("Fetch work rating", async () => {
+    it("Fetch work rating", async () => {
       const work = await getWork({
         workId: "323217",
-      });
+      }) as WorkSummary;
 
-      assert(!work.locked);
+      expect(!work.locked).toBeTruthy();
 
       expect(work.rating).toBe("Not Rated");
-    });
+    })
 
-    test("Fetch single category", async () => {
+    it("Fetch single category", async () => {
       const work = await getWork({
         workId: "323217",
-      });
+      }) as WorkSummary;
 
-      assert(!work.locked);
+      expect(!work.locked).toBeTruthy();
 
       expect(work.category).toMatchObject(["M/M"]);
     });
 
-    test("Fetch multiple categories", async () => {
+    it("Fetch multiple categories", async () => {
       const work = await getWork({
         workId: "3738184",
-      });
+      }) as WorkSummary;
 
-      assert(!work.locked);
+      expect(!work.locked).toBeTruthy();
 
       expect(work.category).toMatchObject([
         "F/F",
@@ -426,19 +426,19 @@ describe("Fetches work information", () => {
     test.skip("Fetch null category", async () => {
       const work = await getWork({
         workId: "41237499",
-      });
+      }) as WorkSummary;
 
-      assert(!work.locked);
+      expect(!work.locked).toBeTruthy();
 
       expect(work.category).toBe(null);
     });
 
-    test("Fetch updated date of completed work", async () => {
+    it("Fetch updated date of completed work", async () => {
       const work = await getWork({
         workId: "23824891",
-      });
+      }) as WorkSummary;
 
-      assert(!work.locked);
+      expect(!work.locked).toBeTruthy();
 
       expect(work.updatedAt).toBe("2020-11-30");
     });
@@ -447,91 +447,91 @@ describe("Fetches work information", () => {
     test.skip("Fetch update date of work in progress", async () => {
       const work = await getWork({
         workId: "41237499",
-      });
+      }) as WorkSummary;
 
-      assert(!work.locked);
+      expect(!work.locked).toBeTruthy();
 
       expect(work.updatedAt).toBe("2022-08-25");
     });
 
-    test("Fetch null updated date", async () => {
+    it("Fetch null updated date", async () => {
       const work = await getWork({
         workId: "168768",
-      });
+      }) as WorkSummary;
 
-      assert(!work.locked);
+      expect(!work.locked).toBeTruthy();
 
       expect(work.updatedAt).toBe(null);
     });
 
-    test("Fetch publish date", async () => {
+    it("Fetch publish date", async () => {
       const work = await getWork({
         workId: "168768",
-      });
+      }) as WorkSummary;
 
-      assert(!work.locked);
+      expect(!work.locked).toBeTruthy();
 
       expect(work.publishedAt).toBe("2011-02-08");
     });
 
-    test("Fetch published chapters", async () => {
+    it("Fetch published chapters", async () => {
       const work = await getWork({
         workId: "168768",
-      });
+      }) as WorkSummary;
 
-      assert(!work.locked);
+      expect(!work.locked).toBeTruthy();
 
       expect(work.chapters.published).toBe(1);
     });
 
-    test("Fetch total chapters", async () => {
+    it("Fetch total chapters", async () => {
       const work = await getWork({
         workId: "168768",
-      });
+      }) as WorkSummary;
 
-      assert(!work.locked);
+      expect(!work.locked).toBeTruthy();
 
       expect(work.chapters.total).toBe(1);
     });
 
     // TODO: 404
-    test.skip("Fetch unknown amount of total chapters", async () => {
+    it.skip("Fetch unknown amount of total chapters", async () => {
       const work = await getWork({
         workId: "41237499",
-      });
+      }) as WorkSummary;
 
-      assert(!work.locked);
+      expect(!work.locked).toBeTruthy();
 
       expect(work.chapters.total).toBe(null);
     });
 
     // TODO: 404
-    test.skip("Fetch null work summary", async () => {
+    it.skip("Fetch null work summary", async () => {
       const work = await getWork({
         workId: "41237499",
-      });
+      }) as WorkSummary;
 
-      assert(!work.locked);
+      expect(!work.locked).toBeTruthy();
 
       expect(work.summary).toBe(null);
     });
 
-    test("Fetch a work summary", async () => {
+    it("Fetch a work summary", async () => {
       const work = await getWork({
         workId: "323217",
-      });
+      }) as WorkSummary;
 
-      assert(!work.locked);
+      expect(!work.locked).toBeTruthy();
 
       expect(work.summary).toMatchInlineSnapshot(
         `"<p>Jane has had enough.</p>"`
       );
     });
 
-    test("Fetch only work summary when work + chapter summaries are present", async () => {
-      const work = await getWork({ workId: "17793689" });
+    it("Fetch only work summary when work + chapter summaries are present", async () => {
+      const work = await getWork({ workId: "17793689" }) as WorkSummary;
 
-      assert(!work.locked);
+      expect(!work.locked).toBeTruthy();
 
       expect(work.summary).toMatchInlineSnapshot(
         `"<p><b>A Modern Thedas AU</b>, in which Fen'Harel and the Second Inquisitor tore down the Veil a thousand years ago, reshaping Thedas into something entirely new. Thedas now has modern technology powered by magic, and a society still plagued with problems that are all too familiar - issues of race, classism, and power.</p><p>Fenina Lavellan, a student at the College of Enchanters: New Haven, often escapes her reality by playing the MMORPG Dragon Age (set in the ancient past during the time of the Second Inquisition) and is part of the most powerful guild aptly named "TheInquisition" - a guild which has been running since the game was released. But when the guild discovers that they all live in the same city and decide to meet up, they unknowingly stumble into a plot to destroy their world as they know it. Can they navigate the difficulties of actually being social in the real world? Will their in-game skills translate into abilities that will actually help them in stopping a madman? Or is this the end of the world as they know it?</p>"`
@@ -539,12 +539,12 @@ describe("Fetches work information", () => {
       expect(work.chapterInfo).toBeNull();
     });
 
-    test("Fetch work stats ", async () => {
+    it("Fetch work stats ", async () => {
       const work = await getWork({
         workId: "323217",
-      });
+      }) as WorkSummary;
 
-      assert(!work.locked);
+      expect(!work.locked).toBeTruthy();
 
       expect(work.stats).toMatchObject({
         bookmarks: expect.any(Number),
@@ -553,12 +553,12 @@ describe("Fetches work information", () => {
         kudos: expect.any(Number),
       });
     });
-    test("Fetch stats when some are null", async () => {
+    it("Fetch stats when some are null", async () => {
       const work = await getWork({
         workId: "41289660",
-      });
+      }) as WorkSummary;
 
-      assert(!work.locked);
+      expect(!work.locked).toBeTruthy();
 
       expect(work.stats).toMatchObject({
         bookmarks: expect.any(Number),
@@ -571,8 +571,8 @@ describe("Fetches work information", () => {
 });
 
 describe("Checks status of a restricted work.", () => {
-  test("Checks a known restricted work.", async () => {
-    const work = await getWork({ workId: "15461226" });
+  it("Checks a known restricted work.", async () => {
+    const work = await getWork({ workId: "15461226" }) as WorkSummary;
 
     expect(work).toMatchObject({
       id: "15461226",

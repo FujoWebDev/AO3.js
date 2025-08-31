@@ -1,7 +1,8 @@
 import { getWorkDetailsFromUrl, getWorkUrl } from "src/urls";
+import { describe, it, expect } from 'vitest';
 
 describe("Fetches data from url", () => {
-  test("Fetches work id from url", async () => {
+  it("Fetches work id from url", async () => {
     const workData = await getWorkDetailsFromUrl({
       url: "https://archiveofourown.org/works/36667228",
     });
@@ -11,7 +12,7 @@ describe("Fetches data from url", () => {
     });
   });
 
-  test("Fetches chapter id from url", async () => {
+  it("Fetches chapter id from url", async () => {
     const workData = await getWorkDetailsFromUrl({
       url: "https://archiveofourown.org/works/398023/chapters/659774",
     });
@@ -22,7 +23,7 @@ describe("Fetches data from url", () => {
     });
   });
 
-  test("Fetches collection from url", async () => {
+  it("Fetches collection from url", async () => {
     const workData = await getWorkDetailsFromUrl({
       url: "https://archiveofourown.org/collections/YJ_Prompts/works/30216801",
     });
@@ -35,7 +36,7 @@ describe("Fetches data from url", () => {
 });
 
 describe("Gets url from data", () => {
-  test("Gets url from workId", async () => {
+  it("Gets url from workId", async () => {
     const workUrl = await getWorkUrl(
       getWorkDetailsFromUrl({
         url: "https://archiveofourown.org/works/36667228",
@@ -45,7 +46,7 @@ describe("Gets url from data", () => {
     expect(workUrl).toBe("https://archiveofourown.org/works/36667228");
   });
 
-  test("Fetches chapter id from url", async () => {
+  it("Fetches chapter id from url", async () => {
     const workUrl = await getWorkUrl({
       workId: "398023",
       chapterId: "659774",
@@ -56,7 +57,7 @@ describe("Gets url from data", () => {
     );
   });
 
-  test("Fetches collection from url", async () => {
+  it("Fetches collection from url", async () => {
     const workUrl = await getWorkUrl({
       workId: "30216801",
       collectionName: "YJ_Prompts",

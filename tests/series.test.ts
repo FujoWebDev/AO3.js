@@ -1,9 +1,9 @@
 import { getSeries } from "src/index";
-
+import { describe, it, expect } from 'vitest';
 // TODO: Add more tests
 
 describe("Fetches series information", () => {
-  test("Fetches series object, checks top level fields", async () => {
+  it("Fetches series object, checks top level fields", async () => {
     const series = await getSeries({ seriesId: "2270465" });
 
     expect(series).toMatchObject({
@@ -22,7 +22,7 @@ describe("Fetches series information", () => {
     });
   });
 
-  test("Fetches series object, check works", async () => {
+  it("Fetches series object, check works", async () => {
     const series = await getSeries({ seriesId: "2270465" });
 
     // Work 1
@@ -385,7 +385,7 @@ describe("Fetches series information", () => {
     });
   });
 
-  test("Fetches author with username Anonymous", async () => {
+  it("Fetches author with username Anonymous", async () => {
     const series = await getSeries({ seriesId: "2946579" });
     expect(series.authors).toMatchObject([
       { anonymous: true, pseud: "Anonymous", username: "Anonymous" },
@@ -393,7 +393,7 @@ describe("Fetches series information", () => {
   });
 
   describe("Fetches series title", () => {
-    test("Fetch series title with space character", async () => {
+    it("Fetch series title with space character", async () => {
       const series = await getSeries({
         seriesId: "2270465",
       });
@@ -401,7 +401,7 @@ describe("Fetches series information", () => {
       expect(series.name).toBe("OG Titan");
     });
 
-    test("Fetch series with slashes", async () => {
+    it("Fetch series with slashes", async () => {
       const series = await getSeries({
         seriesId: "1728802",
       });
@@ -409,7 +409,7 @@ describe("Fetches series information", () => {
       expect(series.name).toBe("angsty oneshots/short stories");
     });
 
-    test("Fetch series with non-letter characters", async () => {
+    it("Fetch series with non-letter characters", async () => {
       const series = await getSeries({
         seriesId: "2817877",
       });
