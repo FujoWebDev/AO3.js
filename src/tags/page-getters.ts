@@ -1,6 +1,5 @@
 import type { TagCategory } from "types/entities";
 import type { TagPage } from "src/page-loaders";
-// import { Element } from "cheerio";
 
 export const getTagCategory = ($tagPage: TagPage): TagCategory => {
   // This will look similar to "This tag belongs to the Character Category."
@@ -43,7 +42,7 @@ export const getCanonical = ($tagPage: TagPage) => {
   if (!hasMergers($tagPage)) {
     return null;
   }
-  return $tagPage($tagPage(".merger a.tag")).text();
+  return $tagPage(".merger a.tag").text();
 };
 
 export const getParentTags = ($tagPage: TagPage) => {
