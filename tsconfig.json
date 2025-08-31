@@ -2,7 +2,7 @@
   "extends": "@tsconfig/node-lts/tsconfig.json",
   "compilerOptions": {
     "types": ["node", "@types/jest"],
-    "moduleResolution": "Node",
+    "moduleResolution": "bundler",
     "module": "es2022",
     "paths": {
       "src/*": ["./src/*"],
