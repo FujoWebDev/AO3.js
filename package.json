@@ -34,6 +34,7 @@
   "scripts": {
     "build": "vite build",
     "test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest --no-cache .test.ts$ --verbose=true",
+    "test-vitest":"vitest",
     "encode-mock-files": "ts-node-esm tests/mocks/scripts/encode-mock-files.mts",
     "redownload": "tsx tests/mocks/scripts/redownload-articles.mts",
     "download": "tsx tests/mocks/scripts/download-ao3-url.mts"
