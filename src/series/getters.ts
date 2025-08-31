@@ -1,5 +1,5 @@
 import { Author, Series, SeriesWorkSummary } from "../../types/entities";
-import { CheerioAPI, load } from "cheerio";
+import { CheerioAPI, load } from "cheerio/lib/slim";
 import { SeriesPage, WorkPage } from "../page-loaders";
 import {
   getWorkBookmarkCount,

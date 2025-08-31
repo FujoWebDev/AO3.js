@@ -1,6 +1,6 @@
 import { TagCategory } from "../../types/entities";
 import { TagPage } from "../page-loaders";
-import { Element } from "cheerio";
+// import { Element } from "cheerio";
 
 export const getTagCategory = ($tagPage: TagPage): TagCategory => {
   // This will look similar to "This tag belongs to the Character Category."
