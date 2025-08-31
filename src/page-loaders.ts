@@ -7,7 +7,7 @@ import {
 } from "./urls";
 
 import { CheerioAPI } from "cheerio";
-import { load } from "cheerio/lib/slim";
+import { load } from "cheerio/slim";
 import { getFetcher } from "./fetcher";
 
 // We create separate interfaces for each page type to make sure that the
