@@ -1,4 +1,4 @@
-import { beforeAll, afterEach, afterAll, describe } from "vitest";
+import { beforeAll, afterEach, afterAll } from "vitest";
 import server from "./mocks/server";
 
 export const initSetup = () => {
