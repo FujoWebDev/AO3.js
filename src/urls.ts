@@ -27,11 +27,19 @@ export const getAsShortUrl = ({ url }: { url: string }) => url.replace(/archiveo
 export const getUserProfileUrl = ({ username }: { username: string }) =>
   `https://archiveofourown.org/users/${encodeURI(username)}/profile`;
 
+const tagUrlReplaceChars = /(\/|\.|&|#|\?)/g;
+
+const replacerObject = {
+  '/': 's',
+  '&': 'a',
+  '.': 'd',
+  '#': 'h',
+  '?': 'q'
+}
+
 export const getTagUrl = (tagName: string) =>
   `https://archiveofourown.org/tags/${encodeURI(tagName)
-    .replaceAll("/", "*s*")
-    .replaceAll("&", "*a*")
-    .replaceAll(".", "*d*")}`;
+    .replaceAll(tagUrlReplaceChars, ($char:string) => $char in replacerObject ? `*${replacerObject[$char as keyof typeof replacerObject]}*` : $char)}`;
 
 export const getTagWorksFeedUrl = (tagName: string) =>
   `${getTagUrl(tagName)}/works`;
