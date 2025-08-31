@@ -60,7 +60,8 @@
     "tsx": "^4.19.2",
     "typescript": "^5.1.6",
     "vite": "^7.0.4",
-    "vite-plugin-dts": "^4.5.4"
+    "vite-plugin-dts": "^4.5.4",
+    "vitest": "^3.2.4"
   },
   "dependencies": {
     "cheerio": "^1.1.2"
