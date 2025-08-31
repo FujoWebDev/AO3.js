@@ -9,6 +9,13 @@ export default defineConfig({
         index: resolve(__dirname, 'src/index.ts'),
         urls: resolve(__dirname, 'src/urls.ts')
       },
+      formats: ['es']
+    }
+  },
+  resolve: {
+    alias: {
+      src: resolve(__dirname, 'src/'),
+      types: resolve(__dirname, 'types/')
     }
   },
   plugins: [dts({ rollupTypes: true })]
