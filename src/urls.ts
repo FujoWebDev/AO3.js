@@ -37,7 +37,6 @@ export const getDownloadUrls = async ({ workId }: { workId: string }) => {
 
   const { title, updatedAt, publishedAt } = work as WorkSummary;
   const timestamp = (new Date(updatedAt ?? publishedAt)).valueOf();
-  console.log({ title, updatedAt, publishedAt });
   const downloadLinkBase = `https://archiveofourown.org/downloads/${workId}/${title.replaceAll(/\s/g, '_')}`;
   return {
     azw3: `${downloadLinkBase}.azw3?updated_at=${timestamp}`,
