@@ -1,4 +1,4 @@
-import { getWorkDetailsFromUrl, getWorkUrl } from "src/urls";
+import { getDownloadUrls, getWorkDetailsFromUrl, getWorkUrl } from "src/urls";
 import { describe, it, expect } from 'vitest';
 
 describe("Urls/parse", () => {
@@ -33,6 +33,18 @@ describe("Urls/parse", () => {
       collectionName: "YJ_Prompts",
     });
   });
+
+  it('should generate download links', async () => {
+    const downloadLinks = await getDownloadUrls({ workId: "168768" });
+
+    expect(downloadLinks).toStrictEqual({
+      "azw3": "https://archiveofourown.org/downloads/168768/Fill.azw3?updated_at=1297123200000",
+      "epub": "https://archiveofourown.org/downloads/168768/Fill.epub?updated_at=1297123200000",
+      "html": "https://archiveofourown.org/downloads/168768/Fill.html?updated_at=1297123200000",
+      "mobi": "https://archiveofourown.org/downloads/168768/Fill.mobi?updated_at=1297123200000",
+      "pdf": "https://archiveofourown.org/downloads/168768/Fill.pdf?updated_at=1297123200000",
+    });
+  })
 });
 
 describe("Urls/fetch", () => {
