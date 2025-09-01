@@ -79,7 +79,7 @@ describe("Works/data", () => {
     });
 
     expect(work).toMatchObject({
-      id: "29046888",
+      id: 29046888,
       authors: [{ username: "KBstories", pseud: "KBstories" }],
       title: "waiting//wishing",
       words: 36352,
@@ -575,7 +575,7 @@ describe("Work/restricted", () => {
     const work = await getWork({ workId: "15461226" }) as WorkSummary;
 
     expect(work).toMatchObject({
-      id: "15461226",
+      id: 15461226,
       locked: true,
     });
   });

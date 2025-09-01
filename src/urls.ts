@@ -1,14 +1,14 @@
-import { WorkSummary } from "types/entities";
+import { parseId } from "./utils";
+import { WorkSummary, ArchiveId } from "types/entities";
 import { getWork } from "./works";
-import { getWorkTitle } from "./works/work-getters";
 
 export const getWorkUrl = ({
   workId,
   chapterId,
   collectionName,
 }: {
-  workId: string;
-  chapterId?: string;
+  workId: ArchiveId;
+  chapterId?: ArchiveId;
   collectionName?: string;
 }) => {
   let workUrl = `https://archiveofourown.org`;
@@ -28,7 +28,7 @@ export const getWorkUrl = ({
 
 export const getAsShortUrl = ({ url }: { url: string }) => url.replace(/archiveofourown/, 'ao3');
 
-export const getDownloadUrls = async ({ workId }: { workId: string }) => {
+export const getDownloadUrls = async ({ workId }: { workId: ArchiveId }) => {
   const work = await getWork({ workId });
 
   if (work.locked) {
@@ -50,11 +50,22 @@ export const getDownloadUrls = async ({ workId }: { workId: string }) => {
 export const getUserProfileUrl = ({ username }: { username: string }) =>
   `https://archiveofourown.org/users/${encodeURI(username)}/profile`;
 
+const tokenReplacerObject = {
+  '/': '*s*',
+  '&': '*a*',
+  '.': '*d*',
+  '#': '*h*',
+  '?': '*q*'
+}
+const tokensToEscape = ['/', '?', '.']
+const replaceEscapableTokens = (c:string) => tokensToEscape.includes(c) ? `\\${c}` : c;
+const tagUrlReplaceChars = new RegExp(`(${Object.keys(tokenReplacerObject).map(replaceEscapableTokens).join('|')})`, 'g')///(\/|\.|&|#|\?)/g;
+
+type ReplacerObjectKeys = keyof typeof tokenReplacerObject
+
 export const getTagUrl = (tagName: string) =>
   `https://archiveofourown.org/tags/${encodeURI(tagName)
-    .replaceAll("/", "*s*")
-    .replaceAll("&", "*a*")
-    .replaceAll(".", "*d*")}`;
+    .replaceAll(tagUrlReplaceChars, ($char:string) => tokenReplacerObject[$char as ReplacerObjectKeys] || $char)}`;
 
 export const getTagWorksFeedUrl = (tagName: string) =>
   `${getTagUrl(tagName)}/works`;
@@ -67,8 +78,8 @@ export const getWorkDetailsFromUrl = ({
 }: {
   url: string;
 }): {
-  workId: string;
-  chapterId?: string;
+  workId: number;
+  chapterId?: number;
   collectionName?: string;
 } => {
   const workUrlMatch = url.match(/works\/(\d+)/);
@@ -77,8 +88,8 @@ export const getWorkDetailsFromUrl = ({
   }
 
   return {
-    workId: workUrlMatch[1],
-    chapterId: url.match(/chapters\/(\d+)/)?.[1],
+    workId: parseId(workUrlMatch[1] as `${number}`),
+    chapterId: parseId(url.match(/chapters\/(\d+)/)?.[1] as `${number}`),
     collectionName: url.match(/collections\/(\w+)/)?.[1],
   };
 };

@@ -4,12 +4,12 @@ import { describe, it, expect } from "vitest";
 
 describe("Work Chapter/chapter", () => {
   it("should use null for single-chapter work", async () => {
-    const work = await getWork({ workId: "168768", chapterId: "" });
+    const work = await getWork({ workId: "168768" });
 
     expect(!work.locked).toBeTruthy();
 
     expect(work).toMatchObject({
-      id: "168768",
+      id: 168768,
       authors: [
         {
           username: "Anonymous",
@@ -68,7 +68,7 @@ describe("Work Chapter/work", () => {
     expect(!work.locked).toBeTruthy();
 
     expect(work).toMatchObject({
-      id: "48582418",
+      id: 48582418,
       authors: [
         { username: "rejected_bisexual", pseud: "rejected_bisexual" },
       ],
@@ -119,7 +119,7 @@ describe("Work Chapter/work", () => {
       publishedAt: "2023-07-14",
       updatedAt: "2023-10-30",
       chapterInfo: {
-        id: "122861680",
+        id: 122861680,
         index: 2,
         name: "2. Tim",
         summary:
@@ -147,7 +147,7 @@ describe("Work Chapter/work", () => {
     expect(!work.locked).toBeTruthy();
 
     expect(work).toMatchObject({
-      id: "37214506",
+      id: 37214506,
       authors: [
         {
           username: "Anonymous",
@@ -197,10 +197,10 @@ describe("Work Chapter/work", () => {
       },
       publishedAt: "2022-02-18",
       updatedAt: "2022-06-26",
-      chapterInfo: { id: "92848687", index: 1, name: null, summary: null },
+      chapterInfo: { id: 92848687, index: 1, name: null, summary: null },
       chapters: { published: 20, total: null },
       complete: false,
-      series: [{ id: "2946579", name: "Twitterchat Saga", index: 1 }],
+      series: [{ id: 2946579, name: "Twitterchat Saga", index: 1 }],
       stats: {
         bookmarks: expect.any(Number),
         comments: 29,
