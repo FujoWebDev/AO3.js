@@ -1,15 +1,14 @@
 import { parseId } from "./utils";
-import { WorkSummary, ID } from "types/entities";
+import { WorkSummary, ArchiveId } from "types/entities";
 import { getWork } from "./works";
-import { getWorkTitle } from "./works/work-getters";
 
 export const getWorkUrl = ({
   workId,
   chapterId,
   collectionName,
 }: {
-  workId: ID;
-  chapterId?: ID;
+  workId: ArchiveId;
+  chapterId?: ArchiveId;
   collectionName?: string;
 }) => {
   let workUrl = `https://archiveofourown.org`;
@@ -29,7 +28,7 @@ export const getWorkUrl = ({
 
 export const getAsShortUrl = ({ url }: { url: string }) => url.replace(/archiveofourown/, 'ao3');
 
-export const getDownloadUrls = async ({ workId }: { workId: string }) => {
+export const getDownloadUrls = async ({ workId }: { workId: ArchiveId }) => {
   const work = await getWork({ workId });
 
   if (work.locked) {

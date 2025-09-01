@@ -1,3 +1,3 @@
-import { ID } from "types/entities";
+import { ArchiveId } from "types/entities";
 
-export const parseId = (id:ID):number => typeof id === 'number' ? id : parseInt(id, 10);
+export const parseId = (id:ArchiveId): number => typeof id === 'number' ? id : parseInt(id, 10);

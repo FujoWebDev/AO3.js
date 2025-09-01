@@ -1,4 +1,4 @@
-export type ID = number | `${number}`;
+export type ArchiveId = number | `${number}`;
 
 export type TagCategory =
   | "fandom"
@@ -68,7 +68,7 @@ export interface SeriesWorkSummary
 }
 
 export interface Series {
-  id: ID;
+  id: ArchiveId;
   name: string;
   startedAt: string;
   updatedAt: string;
@@ -116,7 +116,7 @@ export enum WorkWarnings {
 }
 
 export interface BasicSeries {
-  id: ID;
+  id: ArchiveId;
   index: number;
   name: string;
 }
@@ -128,7 +128,7 @@ export interface Author {
 }
 
 export interface WorkSummary {
-  id: ID;
+  id: ArchiveId;
   title: string;
   category: WorkCategory[] | null;
   // Date in ISO format. See: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString
@@ -158,7 +158,7 @@ export interface WorkSummary {
     total: number | null;
   };
   chapterInfo: {
-    id: ID;
+    id: ArchiveId;
     index: number;
     name: string | null;
     summary: string | null;
@@ -175,13 +175,13 @@ export interface WorkSummary {
 }
 
 export interface LockedWorkSummary {
-  id: ID;
+  id: ArchiveId;
   locked: true;
 }
 
 export interface Chapter {
-  id: ID;
-  workId: ID;
+  id: ArchiveId;
+  workId: ArchiveId;
   index: number;
   title: string;
   publishedAt: string;

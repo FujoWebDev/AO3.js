@@ -1,7 +1,7 @@
 import type {
   Author,
   BasicSeries,
-  ID,
+  ArchiveId,
   WorkSummary,
 } from "types/entities";
 import {
@@ -159,7 +159,7 @@ export const getWorkSeries = ($workPage: WorkPage): BasicSeries[] => {
     const link = seriesHtml.find("a:not(.next, .previous)");
 
     series[index] = {
-      id: parseId(link.attr("href")!.replace("/series/", "") as ID),
+      id: parseId(link.attr("href")!.replace("/series/", "") as ArchiveId),
       name: link.text().trim(),
       index: matches!.length > 0 ? parseInt(matches![0]) : -1,
     };

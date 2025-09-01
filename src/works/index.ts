@@ -1,7 +1,7 @@
 import type {
   Author,
   Chapter,
-  ID,
+  ArchiveId,
   LockedWorkSummary,
   WorkSummary,
 } from "types/entities";
@@ -44,8 +44,8 @@ export const getWork = async ({
   workId,
   chapterId,
 }: {
-  workId: `${number}`;
-  chapterId?: `${number}`;
+  workId: ArchiveId;
+  chapterId?: ArchiveId;
 }): Promise<WorkSummary | LockedWorkSummary> => {
   const workPage = await loadWorkPage({ workId, chapterId });
   const id = parseId(workId);
@@ -111,7 +111,7 @@ export const getWork = async ({
 export const getWorkWithChapters = async ({
   workId,
 }: {
-  workId: ID;
+  workId: ArchiveId;
 }): Promise<{
   title: string;
   authors: "Anonymous" | Author[];
