@@ -1,5 +1,7 @@
-import { ID } from "types/entities";
 import { parseId } from "./utils";
+import { WorkSummary, ID } from "types/entities";
+import { getWork } from "./works";
+import { getWorkTitle } from "./works/work-getters";
 
 export const getWorkUrl = ({
   workId,
@@ -26,6 +28,25 @@ export const getWorkUrl = ({
 };
 
 export const getAsShortUrl = ({ url }: { url: string }) => url.replace(/archiveofourown/, 'ao3');
+
+export const getDownloadUrls = async ({ workId }: { workId: string }) => {
+  const work = await getWork({ workId });
+
+  if (work.locked) {
+    console.warn('Work is locked, might not be able to download')
+  }
+
+  const { title, updatedAt, publishedAt } = work as WorkSummary;
+  const timestamp = (new Date(updatedAt ?? publishedAt)).valueOf();
+  const downloadLinkBase = `https://archiveofourown.org/downloads/${workId}/${title.replaceAll(/\s/g, '_')}`;
+  return {
+    azw3: `${downloadLinkBase}.azw3?updated_at=${timestamp}`,
+    epub: `${downloadLinkBase}.epub?updated_at=${timestamp}`,
+    mobi: `${downloadLinkBase}.mobi?updated_at=${timestamp}`,
+    html: `${downloadLinkBase}.html?updated_at=${timestamp}`,
+    pdf: `${downloadLinkBase}.pdf?updated_at=${timestamp}`,
+  }
+}
 
 export const getUserProfileUrl = ({ username }: { username: string }) =>
   `https://archiveofourown.org/users/${encodeURI(username)}/profile`;
