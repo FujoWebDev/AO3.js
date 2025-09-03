@@ -22,27 +22,49 @@ export const getWorkUrl = ({
   return workUrl;
 };
 
-export const getAsShortUrl = ({ url }: { url: string }) => url.replace(/archiveofourown/, 'ao3');
+export const getAsShortUrl = ({ url }: { url: string }) =>
+  url.replace(/archiveofourown/, "ao3");
 
 export const getUserProfileUrl = ({ username }: { username: string }) =>
   `https://archiveofourown.org/users/${encodeURI(username)}/profile`;
 
-const tokenReplacerObject = {
-  '/': '*s*',
-  '&': '*a*',
-  '.': '*d*',
-  '#': '*h*',
-  '?': '*q*'
-}
-const tokensToEscape = ['/', '?', '.']
-const replaceEscapableTokens = (c:string) => tokensToEscape.includes(c) ? `\\${c}` : c;
-const tagUrlReplaceChars = new RegExp(`(${Object.keys(tokenReplacerObject).map(replaceEscapableTokens).join('|')})`, 'g')///(\/|\.|&|#|\?)/g;
+const TOKEN_REPLACEMENTS_MAP = {
+  "/": "*s*",
+  "&": "*a*",
+  ".": "*d*",
+  "#": "*h*",
+  "?": "*q*",
+} as const;
 
-type ReplacerObjectKeys = keyof typeof tokenReplacerObject
+type ReplaceableToken = keyof typeof TOKEN_REPLACEMENTS_MAP;
+
+const REPLACEABLE_TOKENS = Object.keys(
+  TOKEN_REPLACEMENTS_MAP
+) as ReplaceableToken[];
+
+const TOKENS_TO_ESCAPE = ["/", "?", "."];
+
+const shouldEscapeToken = (c: string) => TOKENS_TO_ESCAPE.includes(c);
+const isReplaceableToken = (c: string): c is ReplaceableToken =>
+  REPLACEABLE_TOKENS.includes(c as ReplaceableToken);
+
+/**
+ * A global regex that matches any of the replaceable tokens.
+ * Should result in something like /(\/|\.|&|#|\?)/g.
+ */
+const REPLACE_TOKENS_REGEX = new RegExp(
+  `(${REPLACEABLE_TOKENS.map((token) =>
+    shouldEscapeToken(token) ? `\\${token}` : token
+  ).join("|")})`,
+  "g"
+);
 
 export const getTagUrl = (tagName: string) =>
-  `https://archiveofourown.org/tags/${encodeURI(tagName)
-    .replaceAll(tagUrlReplaceChars, ($char:string) => tokenReplacerObject[$char as ReplacerObjectKeys] || $char)}`;
+  `https://archiveofourown.org/tags/${encodeURI(tagName).replaceAll(
+    REPLACE_TOKENS_REGEX,
+    (char: string) =>
+      isReplaceableToken(char) ? TOKEN_REPLACEMENTS_MAP[char] : char
+  )}`;
 
 export const getTagWorksFeedUrl = (tagName: string) =>
   `${getTagUrl(tagName)}/works`;
