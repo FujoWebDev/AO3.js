@@ -1,5 +1,5 @@
 import { getTag } from "src/index";
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect } from "vitest";
 
 describe("Tags/data", () => {
   it("should fetch id data for canonical tags", async () => {
@@ -233,8 +233,8 @@ describe("Tags/parent", () => {
     const tag = await getTag({ tagName: "Sherlock Holmes" });
 
     expect(tag.name).toBe("Sherlock Holmes");
-    expect(tag.parentTags).toEqual(
-      expect.arrayContaining([
+    expect(tag.parentTags).toMatchInlineSnapshot(`
+      [
         "221B Baker Towers",
         "A Study in Emerald - Neil Gaiman",
         "A Study in Terror (1965)",
@@ -251,8 +251,8 @@ describe("Tags/parent", () => {
         "Sherlock & Daughter (TV)",
         "Sherlock (TV)",
         "Sherlock Holmes & Related Fandoms",
-        "Sherlock Holmes (1984 TV)",
-        "Sherlock Holmes (Downey films)",
+        "Sherlock Holmes (Downey Movies)",
+        "Sherlock Holmes (Granada TV 1984)",
         "Sherlock Holmes (Radio 1989-2010 Coules)",
         "Sherlock Holmes (TV 1965)",
         "Sherlock Holmes - Arthur Conan Doyle",
@@ -266,13 +266,12 @@ describe("Tags/parent", () => {
         "Watson (TV 2025)",
         "Шерлок Холмс | Sherlock Holmes (TV 2013)",
         "名探偵ホームズ | Sherlock Hound",
-      ])
-    );
+      ]
+    `);
   });
 });
 
 describe("Tags/sub", () => {
-
   it("should fetch subtags", async () => {
     const tag = await getTag({ tagName: "Mind Palace" });
 
