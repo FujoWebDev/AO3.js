@@ -4,7 +4,8 @@ import { fileURLToPath } from "url";
 import filenamify from "filenamify";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const DATA_DIR = path.join(__dirname, "..", "data/ao3");
+const getDataDir = (archive: "ao3" | "superlove" = "ao3") =>
+  path.join(__dirname, "..", "data", archive);
 const MAX_RETRIES = 5;
 const BASE_DELAY = 1000; // 1 second
 
@@ -67,11 +68,22 @@ function encodePathSegment(segment: string): string {
     .replaceAll("&", "!a!");
 }
 
+const ARCHIVE_URLS = {
+  ao3: "archiveofourown.org",
+  superlove: "superlove.sayitditto.net",
+};
+
 async function downloadUrl(url: string) {
   try {
     const parsedUrl = new URL(url);
-    if (!parsedUrl.hostname.includes("archiveofourown.org")) {
-      throw new Error("URL must be from archiveofourown.org");
+    if (
+      !Object.values(ARCHIVE_URLS).some((archive) =>
+        parsedUrl.hostname.includes(archive)
+      )
+    ) {
+      throw new Error(
+        `URL must be from ${Object.values(ARCHIVE_URLS).join(" or ")}`
+      );
     }
 
     // Split path into segments and remove empty strings
@@ -85,7 +97,11 @@ async function downloadUrl(url: string) {
     const dirSegments =
       hasExtension || lastSegment == "works" ? segments.slice(0, -1) : segments;
     const dirPath = path.join(
-      DATA_DIR,
+      getDataDir(
+        parsedUrl.hostname.includes(ARCHIVE_URLS.superlove)
+          ? "superlove"
+          : "ao3"
+      ),
       ...dirSegments.map((segment) => filenamify(decodeURIComponent(segment)))
     );
     await fs.mkdir(dirPath, { recursive: true });
@@ -130,7 +146,7 @@ async function downloadUrl(url: string) {
 // Get URL from command line argument
 const url = process.argv[2];
 if (!url) {
-  console.error("Please provide an AO3 URL as an argument");
+  console.error("Please provide an AO3 or superlove URL as an argument");
   process.exit(1);
 }
 
