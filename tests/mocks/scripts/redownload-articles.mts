@@ -1,9 +1,9 @@
-import fs from 'fs/promises';
-import path from 'path';
-import { fileURLToPath } from 'url';
+import fs from "fs/promises";
+import path from "path";
+import { fileURLToPath } from "url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const DATA_DIR = path.join(__dirname, '..', 'data');
+const DATA_DIR = path.join(__dirname, "..", "data");
 const MAX_RETRIES = 5;
 const BASE_DELAY = 1000; // 1 second
 
@@ -13,20 +13,31 @@ interface DownloadResult {
 }
 
 async function delay(ms: number): Promise<void> {
-  return new Promise(resolve => setTimeout(resolve, ms));
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-async function downloadWithRetry(url: string, attempt = 1): Promise<DownloadResult> {
+const ARCHIVE_URLS = {
+  ao3: "archiveofourown.org",
+  superlove: "superlove.sayitditto.net",
+};
+
+async function downloadWithRetry(
+  url: string,
+  attempt = 1
+): Promise<DownloadResult> {
   try {
     const response = await fetch(url);
-    
+
     // Check for rate limiting response
     if (response.status === 429) {
       // Get retry-after header (in seconds)
-      const retryAfter = parseInt(response.headers.get('retry-after') || '0', 10);
+      const retryAfter = parseInt(
+        response.headers.get("retry-after") || "0",
+        10
+      );
       return {
-        content: '',
-        retryAfter: retryAfter > 0 ? retryAfter * 1000 : undefined
+        content: "",
+        retryAfter: retryAfter > 0 ? retryAfter * 1000 : undefined,
       };
     }
 
@@ -36,9 +47,9 @@ async function downloadWithRetry(url: string, attempt = 1): Promise<DownloadResu
     } else if (response.status === 404) {
       console.log(`Received 404 for ${url}. Make sure this is intentional.`);
     }
-  
+
     return {
-      content: await response.text()
+      content: await response.text(),
     };
   } catch (error) {
     if (attempt >= MAX_RETRIES) {
@@ -49,8 +60,10 @@ async function downloadWithRetry(url: string, attempt = 1): Promise<DownloadResu
       BASE_DELAY * Math.pow(2, attempt - 1) + Math.random() * 1000,
       30000 // Max 30 seconds
     );
-    
-    console.log(`Attempt ${attempt} failed, retrying after ${backoffDelay}ms...`);
+
+    console.log(
+      `Attempt ${attempt} failed, retrying after ${backoffDelay}ms...`
+    );
     await delay(backoffDelay);
     return downloadWithRetry(url, attempt + 1);
   }
@@ -64,7 +77,11 @@ async function getAllFiles(dir: string): Promise<string[]> {
     const fullPath = path.join(dir, entry.name);
     if (entry.isDirectory()) {
       files.push(...(await getAllFiles(fullPath)));
-    } else if (entry.name === 'index.html' || entry.name.endsWith('.html') || entry.name.endsWith('.atom')) {
+    } else if (
+      entry.name === "index.html" ||
+      entry.name.endsWith(".html") ||
+      entry.name.endsWith(".atom")
+    ) {
       files.push(fullPath);
     }
   }
@@ -74,53 +91,63 @@ async function getAllFiles(dir: string): Promise<string[]> {
 
 // Function to decode an encoded filename
 function decodeFilename(encodedName: string): string {
-    return encodedName
-      .replace(/!d!/g, '.') // Period
-      .replace(/!a!/g, '&') // Ampersand
-      .replace(/!s!/g, '/') // Forward slash
-      .replace(/\*a\*/g, '&'); // Alternative ampersand encoding
-  }
+  return encodedName
+    .replace(/!d!/g, ".") // Period
+    .replace(/!a!/g, "&") // Ampersand
+    .replace(/!s!/g, "/") // Forward slash
+    .replace(/\*a\*/g, "&"); // Alternative ampersand encoding
+}
 
-function getUrlFromPath(relativePath: string): string {
+function getUrlFromPath(
+  relativePath: string,
+  archive: "ao3" | "superlove"
+): string {
   const urlPath = path.dirname(relativePath);
   const filename = path.basename(relativePath);
-  
+
   const segments = urlPath.split(path.sep).filter(Boolean);
-  
+
   const encodedPath = segments
-    .map(segment => encodeURIComponent(decodeFilename(segment).replaceAll('/', '*s*').replaceAll('.', '*d*').replaceAll('&', '*a*')))
-    .join('/');
-  
+    .map((segment) =>
+      encodeURIComponent(
+        decodeFilename(segment)
+          .replaceAll("/", "*s*")
+          .replaceAll(".", "*d*")
+          .replaceAll("&", "*a*")
+      )
+    )
+    .join("/");
+
   // Only include the filename if it's not index.html
-  if (filename !== 'index.html') {
+  if (filename !== "index.html") {
     return `https://archiveofourown.org/${encodedPath}/${filename}`;
   }
-  
+
   return `https://archiveofourown.org/${encodedPath}`;
 }
-  
 
 async function redownloadArticles() {
   try {
     const files = await getAllFiles(DATA_DIR);
-    
+
     for (const fullPath of files) {
       const relativePath = path.relative(DATA_DIR, fullPath);
-      const url = getUrlFromPath(relativePath);
-      
+      const archive = relativePath.startsWith("ao3") ? "ao3" : "superlove";
+      const url = getUrlFromPath(path.relative(relativePath, archive), archive);
+
       console.log(`Downloading ${url}`);
       console.log(`Target file: ${fullPath}`);
-      
+
       try {
         let result: DownloadResult;
         let success = false;
 
         while (!success) {
           result = await downloadWithRetry(url);
-          
+
           if (result.retryAfter) {
             const waitTime = result.retryAfter;
-            console.log(`Rate limited. Waiting ${waitTime/1000} seconds...`);
+            console.log(`Rate limited. Waiting ${waitTime / 1000} seconds...`);
             await delay(waitTime);
             continue;
           }
@@ -137,9 +164,9 @@ async function redownloadArticles() {
       }
     }
   } catch (error) {
-    console.error('Failed to process files:', error);
+    console.error("Failed to process files:", error);
     process.exit(1);
   }
 }
 
-redownloadArticles(); 
+redownloadArticles();
