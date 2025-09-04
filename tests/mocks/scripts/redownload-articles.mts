@@ -133,7 +133,15 @@ async function redownloadArticles() {
     for (const fullPath of files) {
       const relativePath = path.relative(DATA_DIR, fullPath);
       const archive = relativePath.startsWith("ao3") ? "ao3" : "superlove";
-      const url = getUrlFromPath(path.relative(relativePath, archive), archive);
+
+      console.log(relativePath);
+      console.log(archive);
+      console.log(path.relative(archive, relativePath));
+      console.log(
+        getUrlFromPath(path.relative(archive, relativePath), archive)
+      );
+
+      const url = getUrlFromPath(path.relative(archive, relativePath), archive);
 
       console.log(`Downloading ${url}`);
       console.log(`Target file: ${fullPath}`);
