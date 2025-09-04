@@ -1,8 +1,10 @@
 import {
+  getSeriesUrl,
   getTagUrl,
   getTagWorksFeedAtomUrl,
   getTagWorksFeedUrl,
   getUserProfileUrl,
+  getWorkIndexUrl,
   getWorkUrl,
 } from "./urls";
 
@@ -107,7 +109,7 @@ export interface ChapterIndexPage extends CheerioAPI {
 }
 export const loadChaptersIndexPage = async ({ workId }: { workId: ArchiveId }) => {
   return await fetchPage<ChapterIndexPage>({
-    url: `https://archiveofourown.org/works/${workId}/navigate`,
+    url: getWorkIndexUrl({ workId }),
   });
 };
 
@@ -116,6 +118,6 @@ export interface SeriesPage extends CheerioAPI {
 }
 export const loadSeriesPage = async (seriesId: string) => {
   return await fetchPage<SeriesPage>({
-    url: `https://archiveofourown.org/series/${seriesId}`,
+    url: getSeriesUrl({ seriesId }),
   });
 };
