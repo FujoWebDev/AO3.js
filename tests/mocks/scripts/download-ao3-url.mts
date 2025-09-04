@@ -4,7 +4,7 @@ import { fileURLToPath } from "url";
 import filenamify from "filenamify";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const DATA_DIR = path.join(__dirname, "..", "data");
+const DATA_DIR = path.join(__dirname, "..", "data/ao3");
 const MAX_RETRIES = 5;
 const BASE_DELAY = 1000; // 1 second
 
