@@ -4,17 +4,18 @@ import fs from "fs";
 import path from "path";
 import { http, HttpResponse } from "msw";
 
-const USERS_DATA_DIR = path.resolve(
-  fileURLToPath(import.meta.url),
-  "../../../data/users"
-);
+const getDataDir = (archive: "ao3" | "superlove" = "ao3") =>
+  path.resolve(
+    fileURLToPath(import.meta.url),
+    `../../../data/${archive}/users`
+  );
 
 export default http.all(
   "https://archiveofourown.org/users/:name/profile",
   ({ params }) => {
     const html = fs.readFileSync(
       path.resolve(
-        USERS_DATA_DIR,
+        getDataDir(),
         filenamify(params.name as string),
         "profile",
         "index.html"
