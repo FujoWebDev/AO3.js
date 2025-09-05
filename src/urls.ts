@@ -2,6 +2,11 @@ import { parseId } from "./utils";
 import { WorkSummary, ArchiveId } from "types/entities";
 import { getWork } from "./works";
 
+let archiveBaseUrl =
+  process.env.ARCHIVE_BASE_URL ?? "https://archiveofourown.org";
+
+export const setArchiveBaseUrl = (url: string) => (archiveBaseUrl = url);
+
 export const getWorkUrl = ({
   workId,
   chapterId,
@@ -11,31 +16,36 @@ export const getWorkUrl = ({
   chapterId?: ArchiveId;
   collectionName?: string;
 }) => {
-  let workUrl = `https://archiveofourown.org`;
+  let workPath = "";
 
   if (collectionName) {
-    workUrl += `/collections/${collectionName}`;
+    // TODO: write tests for collections
+    workPath += `/collections/${collectionName}`;
   }
 
-  workUrl += `/works/${workId}`;
+  workPath += `/works/${workId}`;
 
   if (chapterId) {
-    workUrl += `/chapters/${chapterId}`;
+    workPath += `/chapters/${chapterId}`;
   }
 
-  return workUrl;
+  return new URL(workPath, archiveBaseUrl).href;
 };
 
 export const getWorkIndexUrl = ({ workId }: { workId: string }) => {
-  return `https://archiveofourown.org/works/${workId}/navigate`;
+  return new URL(`works/${workId}/navigate`, archiveBaseUrl).href;
 };
 
 export const getSeriesUrl = ({ seriesId }: { seriesId: string }) => {
-  return `https://archiveofourown.org/series/${seriesId}`;
+  return new URL(`series/${seriesId}`, archiveBaseUrl).href;
 };
 
-export const getAsShortUrl = ({ url }: { url: string }) =>
-  url.replace(/archiveofourown/, "ao3");
+export const getAsShortUrl = ({ url }: { url: string }) => {
+  if (!url.includes("archiveofourown")) {
+    throw new Error("We only support short URLs for AO3");
+  }
+  return url.replace(/archiveofourown/, "ao3");
+};
 
 export const getDownloadUrls = async ({ workId }: { workId: ArchiveId }) => {
   const work = await getWork({ workId });
@@ -46,10 +56,10 @@ export const getDownloadUrls = async ({ workId }: { workId: ArchiveId }) => {
 
   const { title, updatedAt, publishedAt } = work as WorkSummary;
   const timestamp = new Date(updatedAt ?? publishedAt).valueOf();
-  const downloadLinkBase = `https://archiveofourown.org/downloads/${workId}/${title.replaceAll(
-    /\s/g,
-    "_"
-  )}`;
+  const downloadLinkBase = new URL(
+    `downloads/${workId}/${title.replaceAll(/\s/g, "_")}`,
+    archiveBaseUrl
+  );
   return {
     azw3: `${downloadLinkBase}.azw3?updated_at=${timestamp}`,
     epub: `${downloadLinkBase}.epub?updated_at=${timestamp}`,
@@ -60,7 +70,7 @@ export const getDownloadUrls = async ({ workId }: { workId: ArchiveId }) => {
 };
 
 export const getUserProfileUrl = ({ username }: { username: string }) =>
-  `https://archiveofourown.org/users/${encodeURI(username)}/profile`;
+  new URL(`/users/${encodeURI(username)}/profile`, archiveBaseUrl).href;
 
 const TOKEN_REPLACEMENTS_MAP = {
   "/": "*s*",
@@ -94,17 +104,20 @@ const REPLACE_TOKENS_REGEX = new RegExp(
 );
 
 export const getTagUrl = (tagName: string) =>
-  `https://archiveofourown.org/tags/${encodeURI(tagName).replaceAll(
-    REPLACE_TOKENS_REGEX,
-    (char: string) =>
-      isReplaceableToken(char) ? TOKEN_REPLACEMENTS_MAP[char] : char
-  )}`;
+  new URL(
+    `tags/${encodeURI(tagName).replaceAll(
+      REPLACE_TOKENS_REGEX,
+      (char: string) =>
+        isReplaceableToken(char) ? TOKEN_REPLACEMENTS_MAP[char] : char
+    )}/`,
+    archiveBaseUrl
+  ).href;
 
 export const getTagWorksFeedUrl = (tagName: string) =>
-  `${getTagUrl(tagName)}/works`;
+  new URL(`works`, getTagUrl(tagName)).href;
 
 export const getTagWorksFeedAtomUrl = (tagId: string) =>
-  `https://archiveofourown.org/tags/${tagId}/feed.atom`;
+  new URL(`tags/${tagId}/feed.atom`, archiveBaseUrl).href;
 
 export const getWorkDetailsFromUrl = ({
   url,
