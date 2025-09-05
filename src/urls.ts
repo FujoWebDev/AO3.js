@@ -1,12 +1,26 @@
 import { WorkSummary } from "types/entities";
 import { getWork } from "./works";
 
+declare global {
+  var archiveBaseUrl: string;
+}
+
 const DEFAULT_BASE_URL =
   process.env.ARCHIVE_BASE_URL ?? "https://archiveofourown.org";
-let archiveBaseUrl = DEFAULT_BASE_URL;
 
-export const setArchiveBaseUrl = (url: string) => (archiveBaseUrl = url);
-export const resetArchiveBaseUrl = () => (archiveBaseUrl = DEFAULT_BASE_URL);
+globalThis.archiveBaseUrl = DEFAULT_BASE_URL;
+
+export const setArchiveBaseUrl = (url: string) => {
+  globalThis.archiveBaseUrl = url;
+};
+
+export const getArchiveBaseUrl = (url: string) => {
+  return globalThis.archiveBaseUrl;
+};
+
+export const resetArchiveBaseUrl = () => {
+  globalThis.archiveBaseUrl = DEFAULT_BASE_URL;
+};
 
 export const getWorkUrl = ({
   workId,
@@ -17,6 +31,7 @@ export const getWorkUrl = ({
   chapterId?: string;
   collectionName?: string;
 }) => {
+  console.log(`Current base path ${globalThis.archiveBaseUrl}`);
   let workPath = "";
 
   if (collectionName) {
@@ -30,15 +45,15 @@ export const getWorkUrl = ({
     workPath += `/chapters/${chapterId}`;
   }
 
-  return new URL(workPath, archiveBaseUrl).href;
+  return new URL(workPath, globalThis.archiveBaseUrl).href;
 };
 
 export const getWorkIndexUrl = ({ workId }: { workId: string }) => {
-  return new URL(`works/${workId}/navigate`, archiveBaseUrl).href;
+  return new URL(`works/${workId}/navigate`, globalThis.archiveBaseUrl).href;
 };
 
 export const getSeriesUrl = ({ seriesId }: { seriesId: string }) => {
-  return new URL(`series/${seriesId}`, archiveBaseUrl).href;
+  return new URL(`series/${seriesId}`, globalThis.archiveBaseUrl).href;
 };
 
 export const getAsShortUrl = ({ url }: { url: string }) => {
@@ -73,7 +88,8 @@ export const getDownloadUrls = async ({ workId }: { workId: string }) => {
 };
 
 export const getUserProfileUrl = ({ username }: { username: string }) =>
-  new URL(`/users/${encodeURI(username)}/profile`, archiveBaseUrl).href;
+  new URL(`/users/${encodeURI(username)}/profile`, globalThis.archiveBaseUrl)
+    .href;
 
 const TOKEN_REPLACEMENTS_MAP = {
   "/": "*s*",
@@ -120,7 +136,7 @@ export const getTagWorksFeedUrl = (tagName: string) =>
   new URL(`works`, getTagUrl(tagName)).href;
 
 export const getTagWorksFeedAtomUrl = (tagId: string) =>
-  new URL(`tags/${tagId}/feed.atom`, archiveBaseUrl).href;
+  new URL(`tags/${tagId}/feed.atom`, globalThis.archiveBaseUrl).href;
 
 export const getWorkDetailsFromUrl = ({
   url,
