@@ -2,10 +2,12 @@ import { parseId } from "./utils";
 import { WorkSummary, ArchiveId } from "types/entities";
 import { getWork } from "./works";
 
-let archiveBaseUrl =
+const DEFAULT_BASE_URL =
   process.env.ARCHIVE_BASE_URL ?? "https://archiveofourown.org";
+let archiveBaseUrl = DEFAULT_BASE_URL;
 
 export const setArchiveBaseUrl = (url: string) => (archiveBaseUrl = url);
+export const resetArchiveBaseUrl = () => (archiveBaseUrl = DEFAULT_BASE_URL);
 
 export const getWorkUrl = ({
   workId,
