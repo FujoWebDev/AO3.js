@@ -34,6 +34,7 @@
   "scripts": {
     "build": "vite build",
     "test": "vitest",
+    "test:update": "vitest -u",
     "dev": "vite build --watch",
     "coverage": "vitest run --coverage",
     "encode-mock-files": "ts-node-esm tests/mocks/scripts/encode-mock-files.mts",
