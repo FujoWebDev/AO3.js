@@ -1,5 +1,5 @@
 import { getDownloadUrls, getWorkDetailsFromUrl, getWorkUrl } from "src/urls";
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect } from "vitest";
 
 describe("Urls/parse", () => {
   it("should parse work id", () => {
@@ -8,7 +8,7 @@ describe("Urls/parse", () => {
     });
 
     expect(workData).toMatchObject({
-      workId: "36667228",
+      workId: 36667228,
     });
   });
 
@@ -18,8 +18,8 @@ describe("Urls/parse", () => {
     });
 
     expect(workData).toMatchObject({
-      workId: "398023",
-      chapterId: "659774",
+      workId: 398023,
+      chapterId: 659774,
     });
   });
 
@@ -29,22 +29,27 @@ describe("Urls/parse", () => {
     });
 
     expect(workData).toMatchObject({
-      workId: "30216801",
+      workId: 30216801,
       collectionName: "YJ_Prompts",
     });
   });
 
-  it('should generate download links', async () => {
-    const downloadLinks = await getDownloadUrls({ workId: "168768" });
+  it("should generate download links", () => {
+    const downloadLinks = getDownloadUrls({
+      id: 168768,
+      title: "Fill",
+      publishedAt: "2011-02-08",
+      updatedAt: null,
+    });
 
     expect(downloadLinks).toStrictEqual({
-      "azw3": "https://archiveofourown.org/downloads/168768/Fill.azw3?updated_at=1297123200000",
-      "epub": "https://archiveofourown.org/downloads/168768/Fill.epub?updated_at=1297123200000",
-      "html": "https://archiveofourown.org/downloads/168768/Fill.html?updated_at=1297123200000",
-      "mobi": "https://archiveofourown.org/downloads/168768/Fill.mobi?updated_at=1297123200000",
-      "pdf": "https://archiveofourown.org/downloads/168768/Fill.pdf?updated_at=1297123200000",
+      azw3: "https://archiveofourown.org/downloads/168768/Fill.azw3?updated_at=1297123200000",
+      epub: "https://archiveofourown.org/downloads/168768/Fill.epub?updated_at=1297123200000",
+      html: "https://archiveofourown.org/downloads/168768/Fill.html?updated_at=1297123200000",
+      mobi: "https://archiveofourown.org/downloads/168768/Fill.mobi?updated_at=1297123200000",
+      pdf: "https://archiveofourown.org/downloads/168768/Fill.pdf?updated_at=1297123200000",
     });
-  })
+  });
 });
 
 describe("Urls/fetch", () => {
@@ -60,8 +65,8 @@ describe("Urls/fetch", () => {
 
   it("should fetch chapterId", () => {
     const workUrl = getWorkUrl({
-      workId: "398023",
-      chapterId: "659774",
+      workId: 398023,
+      chapterId: 659774,
     });
 
     expect(workUrl).toBe(
@@ -71,7 +76,7 @@ describe("Urls/fetch", () => {
 
   it("should fetch collection", () => {
     const workUrl = getWorkUrl({
-      workId: "30216801",
+      workId: 30216801,
       collectionName: "YJ_Prompts",
     });
 

@@ -1,4 +1,4 @@
-import { http, HttpResponse } from "msw";
+import { http, HttpHandler, HttpResponse } from "msw";
 
 export default http.all("https://archiveofourown.org/*", ({ request }) => {
   console.error(
@@ -8,4 +8,4 @@ export default http.all("https://archiveofourown.org/*", ({ request }) => {
   return new HttpResponse(null, {
     status: 500,
   });
-});
+}) satisfies HttpHandler;

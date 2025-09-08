@@ -2,7 +2,7 @@ import { fileURLToPath } from "url";
 import filenamify from "filenamify";
 import fs from "fs";
 import path from "path";
-import { http, HttpResponse } from "msw";
+import { http, HttpHandler, HttpResponse } from "msw";
 
 const TAGS_DATA_DIR = path.resolve(
   fileURLToPath(import.meta.url),
@@ -24,4 +24,4 @@ export default http.all(
       headers: { "Content-Type": "text/html" },
     });
   }
-);
+) satisfies HttpHandler;

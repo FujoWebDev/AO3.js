@@ -9,6 +9,7 @@ import worksHandlers from "./handlers/works";
 // TODO: export these directly from worksHandlers
 import worksNavigateHandlers from "./handlers/works/navigate";
 import worksChapterHandlers from "./handlers/works/chapter";
+import { HttpHandler } from "msw";
 
 export default [
   profileHandlers,
@@ -21,4 +22,4 @@ export default [
   worksChapterHandlers,
   seriesHandlers,
   allHandlers,
-];
+] satisfies HttpHandler[];

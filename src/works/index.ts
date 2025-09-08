@@ -38,17 +38,28 @@ import {
   getWorkWordCount,
 } from "./work-getters";
 import { loadChaptersIndexPage, loadWorkPage } from "src/page-loaders";
-import { parseId } from "src/utils";
+import {
+  isValidArchiveId,
+  parseArchiveId,
+  isValidArchiveIdOrNullish,
+} from "src/utils";
 
 export const getWork = async ({
   workId,
   chapterId,
 }: {
-  workId: ArchiveId;
-  chapterId?: ArchiveId;
+  workId: string | number;
+  chapterId?: string | number;
 }): Promise<WorkSummary | LockedWorkSummary> => {
+  if (!isValidArchiveId(workId)) {
+    throw new Error(`${workId} is not a valid work id`);
+  }
+  if (!isValidArchiveIdOrNullish(chapterId)) {
+    throw new Error(`${workId} is not a valid chapter id`);
+  }
+
   const workPage = await loadWorkPage({ workId, chapterId });
-  const id = parseId(workId);
+  const id = parseArchiveId(workId);
 
   if (getWorkLocked(workPage)) {
     return {
@@ -86,7 +97,7 @@ export const getWork = async ({
     },
     chapterInfo: chapterId
       ? {
-          id: parseId(chapterId),
+          id: parseArchiveId(chapterId),
           index: chapterIndex,
           name: getChapterName(workPage),
           summary: getChapterSummary(workPage),
@@ -111,19 +122,22 @@ export const getWork = async ({
 export const getWorkWithChapters = async ({
   workId,
 }: {
-  workId: ArchiveId;
+  workId: string | number;
 }): Promise<{
   title: string;
   authors: "Anonymous" | Author[];
   workId: number;
   chapters: Chapter[];
 }> => {
+  if (!isValidArchiveId(workId)) {
+    throw new Error(`${workId} is not a valid work id`);
+  }
   const page = await loadChaptersIndexPage({ workId });
 
   return {
     title: getWorkTitleFromChaptersIndex(page),
     authors: getWorkAuthorsFromChaptersIndex(page),
-    workId: parseId(workId),
+    workId: parseArchiveId(workId),
     chapters: getChaptersList(page),
   };
 };

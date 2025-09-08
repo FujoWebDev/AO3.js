@@ -1,16 +1,7 @@
-import type {
-  Author,
-  BasicSeries,
-  ArchiveId,
-  WorkSummary,
-} from "types/entities";
-import {
-  WorkRatings,
-  WorkCategory,
-  WorkWarnings,
-} from 'types/entities';
+import type { Author, BasicSeries, WorkSummary } from "types/entities";
+import { WorkRatings, WorkCategory, WorkWarnings } from "types/entities";
 import { WorkPage } from "src/page-loaders";
-import { parseId } from "src/utils";
+import { isValidArchiveId, parseArchiveId } from "src/utils";
 
 export const getWorkAuthors = ($workPage: WorkPage): Author[] => {
   const authorLinks = $workPage("h3.byline a[rel='author']");
@@ -158,8 +149,14 @@ export const getWorkSeries = ($workPage: WorkPage): BasicSeries[] => {
     const matches = seriesHtml.text().trim().match(/\d+/);
     const link = seriesHtml.find("a:not(.next, .previous)");
 
+    // Ensure id extracted is numeric
+    const id = link.attr("href")!.replace("/series/", "");
+    if (!isValidArchiveId(id)) {
+      throw new Error(`Found non-numberical id in work ${id}}`);
+    }
+
     series[index] = {
-      id: parseId(link.attr("href")!.replace("/series/", "") as ArchiveId),
+      id: parseArchiveId(id),
       name: link.text().trim(),
       index: matches!.length > 0 ? parseInt(matches![0]) : -1,
     };
@@ -181,7 +178,10 @@ export const getWorkKudosCount = ($workPage: WorkPage) => {
 };
 
 export const getWorkBookmarkCount = ($workPage: WorkPage) => {
-  const bookmarks = $workPage("dd.bookmarks a").text().replaceAll(",", "").trim();
+  const bookmarks = $workPage("dd.bookmarks a")
+    .text()
+    .replaceAll(",", "")
+    .trim();
 
   return bookmarks ? parseInt(bookmarks) : 0;
 };

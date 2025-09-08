@@ -1,3 +1,4 @@
+import { isValidArchiveIdOrNullish, parseArchiveId } from "src/utils";
 import {
   getCanonical,
   getTagCategory,
@@ -24,9 +25,14 @@ export const getTag = async ({
   const tagPage = await loadTagPage({ tagName });
   const worksFeed = await loadTagWorksFeed({ tagName });
 
+  const tagId = getTagId(worksFeed);
+  if (!isValidArchiveIdOrNullish(tagId)) {
+    throw new Error(`Found invalid tag id: ${tagId}`);
+  }
+
   return {
     name: tagName,
-    id: getTagId(worksFeed),
+    id: tagId && parseArchiveId(tagId),
     category: getTagCategory(tagPage),
     canonical: isCanonical(tagPage),
     common: isCommon(tagPage),

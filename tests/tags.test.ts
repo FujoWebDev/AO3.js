@@ -9,7 +9,7 @@ describe("Tags/data", () => {
 
     expect(tag).toMatchObject({
       name: "Ever Given Container Ship (Anthropomorphic)",
-      id: "56312676",
+      id: 56312676,
     });
   });
 
@@ -20,7 +20,7 @@ describe("Tags/data", () => {
 
     expect(tag).toMatchObject({
       name: "Ever Given Container Ship - Anthropomorphic",
-      id: "56312676",
+      id: 56312676,
     });
   });
 
@@ -41,7 +41,7 @@ describe("Tags/data", () => {
 
     expect(tag).toMatchObject({
       name: "Court Lady Go (Mr. Queen)",
-      id: "55920663",
+      id: 55920663,
     });
   });
 
@@ -161,7 +161,7 @@ describe("Tags/id", () => {
 
     expect(tag).toMatchObject({
       name: "Ever Given Container Ship (Anthropomorphic)",
-      id: "56312676",
+      id: 56312676,
     });
   });
 
@@ -172,7 +172,7 @@ describe("Tags/id", () => {
 
     expect(tag).toMatchObject({
       name: "Ever Given Container Ship - Anthropomorphic",
-      id: "56312676",
+      id: 56312676,
     });
   });
 

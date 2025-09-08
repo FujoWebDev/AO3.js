@@ -4,7 +4,7 @@ import { describe, it, expect } from "vitest";
 
 describe("Work Chapter/chapter", () => {
   it("should use null for single-chapter work", async () => {
-    const work = await getWork({ workId: "168768" });
+    const work = await getWork({ workId: 168768 });
 
     expect(!work.locked).toBeTruthy();
 
@@ -45,7 +45,10 @@ describe("Work Chapter/chapter", () => {
   });
 
   it("should have different work summary and chapter summary", async () => {
-    const work = await getWork({ workId: "17793689", chapterId: "41980418" }) as WorkSummary;
+    const work = (await getWork({
+      workId: 17793689,
+      chapterId: 41980418,
+    })) as WorkSummary;
 
     expect(!work.locked).toBeTruthy();
 
@@ -61,17 +64,15 @@ describe("Work Chapter/chapter", () => {
 describe("Work Chapter/work", () => {
   it("should fetch work + chapter object with all fields", async () => {
     const work = await getWork({
-      workId: "48582418",
-      chapterId: "122861680",
+      workId: 48582418,
+      chapterId: 122861680,
     });
 
     expect(!work.locked).toBeTruthy();
 
     expect(work).toMatchObject({
       id: 48582418,
-      authors: [
-        { username: "rejected_bisexual", pseud: "rejected_bisexual" },
-      ],
+      authors: [{ username: "rejected_bisexual", pseud: "rejected_bisexual" }],
       title:
         "5 times Gotham (and everyone else except Bruce and Alfred) were Confused.",
       words: 4444,
@@ -139,10 +140,10 @@ describe("Work Chapter/work", () => {
   });
 
   it("should fetch chapter object without title or summary", async () => {
-    const work = await getWork({
-      workId: "37214506",
-      chapterId: "92848687",
-    }) as WorkSummary;
+    const work = (await getWork({
+      workId: 37214506,
+      chapterId: 92848687,
+    })) as WorkSummary;
 
     expect(!work.locked).toBeTruthy();
 

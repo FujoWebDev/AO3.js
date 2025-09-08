@@ -13,19 +13,23 @@ import {
   getSeriesWorkCount,
   getSeriesWorks,
 } from "./getters";
-import { parseId } from "src/utils";
+import { isValidArchiveId, parseArchiveId } from "src/utils";
 
 export const getSeries = async ({
   seriesId,
 }: {
-  seriesId: `${number}`;
+  seriesId: string | number;
 }): Promise<Series> => {
+  if (!isValidArchiveId(seriesId)) {
+    throw new Error(`${seriesId} is not a valid series id`);
+  }
+
   const seriesPage = await loadSeriesPage(seriesId);
 
   const seriesWorks = getSeriesWorks(seriesPage);
 
   return {
-    id: parseId(seriesId),
+    id: parseArchiveId(seriesId),
     name: getSeriesTitle(seriesPage),
     startedAt: getSeriesPublishDate(seriesPage),
     updatedAt: getSeriesUpdateDate(seriesPage),

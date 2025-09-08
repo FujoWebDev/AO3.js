@@ -11,7 +11,7 @@ describe("User/data", () => {
 
     expect(user).toMatchObject({
       username: "astolat",
-      id: "8",
+      id: 8,
       url: "https://archiveofourown.org/users/astolat/profile",
       pseuds: "astolat, shalott, the lady of shalott",
       joined: "2008-09-13",
@@ -35,7 +35,7 @@ describe("User/data", () => {
 
     expect(franzeska).toMatchObject({
       username: "Franzeska",
-      id: "87",
+      id: 87,
       // Note: birthday and location were recently removed from AO3, but might still
       // be visible in other archives
       // TODO: use another archive to test this
