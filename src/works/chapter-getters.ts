@@ -2,6 +2,7 @@ import type { Author, Chapter } from "types/entities";
 import { getAsShortUrl, getWorkDetailsFromUrl, getWorkUrl } from "src/urls";
 
 import { ChapterIndexPage } from "src/page-loaders";
+import { parseId } from "src/utils";
 
 const TITLE_SEPARATOR = ". ";
 export const getChaptersList = ($chapterIndexPage: ChapterIndexPage) => {
@@ -21,8 +22,8 @@ export const getChaptersList = ($chapterIndexPage: ChapterIndexPage) => {
     const url = getWorkUrl({ workId, chapterId });
     const shortUrl = getAsShortUrl({ url });
     chapters.push({
-      id: chapterId!,
-      workId,
+      id: parseId(chapterId!),
+      workId: parseId(workId),
       index: index + 1,
       title,
       // Remove parenthesis from the date
