@@ -1,4 +1,4 @@
-export type ArchiveId = number | `${number}`;
+export type ArchiveId = number;
 
 export type TagCategory =
   | "fandom"
@@ -11,7 +11,7 @@ export interface Tag {
   name: string;
   // Not all tags have user-facing IDs Example: additional tags.
   // TODO: figure out other types (or whether they can be extracted from somewhere else).
-  id: string | null;
+  id: ArchiveId | null;
   category: TagCategory;
   canonical: boolean;
   common: boolean;
@@ -31,7 +31,7 @@ export interface Tag {
 }
 
 export interface User {
-  id: string;
+  id: ArchiveId;
   username: string;
   pseuds: string;
   url: string;

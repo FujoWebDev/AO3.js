@@ -1,4 +1,5 @@
 import type { UserProfile } from "src/page-loaders";
+import { parseArchiveId } from "src/utils";
 // import { getUserProfileUrl } from "../urls";
 
 //Dates are ten characters long in the following format:
@@ -44,7 +45,7 @@ export const getUserProfileId = ($userProfile: UserProfile) => {
   const dds = $userProfile(
     ".meta dd:not(.email):not(dt.location+dd):not(.birthday):not(.pseuds)"
   ).text();
-  return dds.slice(DATE_FORMAT.length);
+  return parseArchiveId(dds.slice(DATE_FORMAT.length));
 };
 
 export const getUserProfilePic = ($userProfile: UserProfile) => {

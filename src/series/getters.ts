@@ -11,7 +11,7 @@ import {
   getWorkWordCount,
 } from "src/works/work-getters";
 import { getAsShortUrl, getWorkDetailsFromUrl, getWorkUrl } from "src/urls";
-import { parseId } from "src/utils";
+import { parseArchiveId } from "src/utils";
 
 const monthMap: { [month: string]: string } = {
   Jan: "01",
@@ -146,7 +146,7 @@ const getSeriesWork = (workHtml: string): SeriesWorkSummary => {
   const shortUrl = getAsShortUrl({ url: workUrl });
 
   return {
-    id: parseId(id),
+    id: parseArchiveId(id),
     url: workUrl,
     shortUrl,
     title: getSeriesWorkTitle($work),

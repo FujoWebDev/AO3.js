@@ -75,7 +75,7 @@ import { getTag, getWork } from "@bobaboard/ao3.js";
 const tag = await getTag({
   tagName: "Ever Given Container Ship (Anthropomorphic)",
 });
-const work = await getWork({ workId: "123456" });
+const work = await getWork({ workId: 123456 });
 ```
 
 Further explanation of AO3.js works and suggestions for how to add to it can be found [in this comment](https://github.com/essential-randomness/AO3.js/issues/2#issuecomment-1032213524). Also consider taking a look at [TypeScript types](./types/entities.ts).

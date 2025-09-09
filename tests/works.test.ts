@@ -11,7 +11,7 @@ describe("Works/parse", () => {
     });
 
     expect(workData).toMatchObject({
-      workId: "36667228",
+      workId: 36667228,
     });
   });
 
@@ -21,8 +21,8 @@ describe("Works/parse", () => {
     });
 
     expect(workData).toMatchObject({
-      workId: "398023",
-      chapterId: "659774",
+      workId: 398023,
+      chapterId: 659774,
     });
   });
 
@@ -32,7 +32,7 @@ describe("Works/parse", () => {
     });
 
     expect(workData).toMatchObject({
-      workId: "30216801",
+      workId: 30216801,
       collectionName: "YJ_Prompts",
     });
   });
@@ -51,8 +51,8 @@ describe("Works/url", () => {
 
   it("should get url from chapter id", () => {
     const workUrl = getWorkUrl({
-      workId: "398023",
-      chapterId: "659774",
+      workId: 398023,
+      chapterId: 659774,
     });
 
     expect(workUrl).toBe(
@@ -62,7 +62,7 @@ describe("Works/url", () => {
 
   it("should get url from collection name", () => {
     const workUrl = getWorkUrl({
-      workId: "30216801",
+      workId: 30216801,
       collectionName: "YJ_Prompts",
     });
 
@@ -73,9 +73,9 @@ describe("Works/url", () => {
 });
 
 describe("Works/data", () => {
-  it('should fetch work information in its entirety', async () => {
+  it("should fetch work information in its entirety", async () => {
     const work = await getWork({
-      workId: "29046888",
+      workId: 29046888,
     });
 
     expect(work).toMatchObject({
@@ -141,20 +141,20 @@ describe("Works/data", () => {
       summary:
         "<p>&#x201c;<i>Bakugou will know what to do</i>. Top of the class, always quick on his feet and possessing the strongest nerves in all of 1-A &#x2013; all of U.A., possibly. They&#x2019;re at their most invincible with Bakugou there to hone their focus, to push them forward with that unique kind of teeth-bared tenacity Kaminari has come to rely on in the past year. When Kaminari looks, he sees&#x2013;</p><p>Iida, helmet off, severe face twisted with agitation as he argues with the medics on the scene. Blood, so much blood, staining the gleaming chrome of his armor up to his neck in wet, intersecting streaks of crimson.</p><p>And in his arms, mask torn and body limp, is Bakugou Katsuki.&#x201d;</p><p>In which disaster strikes, the Bakusquad comes together as a family once more, and Kaminari Denki is the MVP all the way through.</p>",
       stats: {
-        "bookmarks": expect.any(Number),
-        "comments": expect.any(Number),
-        "hits": expect.any(Number),
-        "kudos": expect.any(Number),
+        bookmarks: expect.any(Number),
+        comments: expect.any(Number),
+        hits: expect.any(Number),
+        kudos: expect.any(Number),
       },
     });
   });
-})
+});
 
 describe("Works/author", () => {
   it("should fetch work author with default pseud", async () => {
-    const work = await getWork({
-      workId: "4491333",
-    }) as WorkSummary;
+    const work = (await getWork({
+      workId: 4491333,
+    })) as WorkSummary;
 
     expect(!work.locked).toBeTruthy();
 
@@ -167,9 +167,9 @@ describe("Works/author", () => {
   });
 
   it("should fetch work author of work in anonymous collection", async () => {
-    const work = await getWork({
-      workId: "168768",
-    }) as WorkSummary;
+    const work = (await getWork({
+      workId: 168768,
+    })) as WorkSummary;
 
     expect(!work.locked).toBeTruthy();
 
@@ -179,9 +179,9 @@ describe("Works/author", () => {
   });
 
   it("should fetch work author with username Anonymous", async () => {
-    const work = await getWork({
-      workId: "6475531",
-    }) as WorkSummary;
+    const work = (await getWork({
+      workId: 6475531,
+    })) as WorkSummary;
 
     expect(!work.locked).toBeTruthy();
 
@@ -199,9 +199,9 @@ describe("Works/author", () => {
   });
 
   it("should fetch work author with anonymous pseud", async () => {
-    const work = await getWork({
-      workId: "23824891",
-    }) as WorkSummary;
+    const work = (await getWork({
+      workId: 23824891,
+    })) as WorkSummary;
 
     expect(!work.locked).toBeTruthy();
 
@@ -224,9 +224,9 @@ describe("Works/author", () => {
 
   // TODO: 404
   it.skip("should fetch work author pseud with special characters", async () => {
-    const work = await getWork({
-      workId: "41237499",
-    }) as WorkSummary;
+    const work = (await getWork({
+      workId: 41237499,
+    })) as WorkSummary;
 
     expect(!work.locked).toBeTruthy();
 
@@ -245,9 +245,9 @@ describe("Works/author", () => {
 
 describe("Works/title", () => {
   it("should fetch work title with space character", async () => {
-    const work = await getWork({
-      workId: "23824891",
-    }) as WorkSummary;
+    const work = (await getWork({
+      workId: 23824891,
+    })) as WorkSummary;
 
     expect(!work.locked).toBeTruthy();
 
@@ -255,9 +255,9 @@ describe("Works/title", () => {
   });
 
   it("should fetch work title with slashes", async () => {
-    const work = await getWork({
-      workId: "29046888",
-    }) as WorkSummary;
+    const work = (await getWork({
+      workId: 29046888,
+    })) as WorkSummary;
 
     expect(!work.locked).toBeTruthy();
 
@@ -265,9 +265,9 @@ describe("Works/title", () => {
   });
 
   it("should fetch work title with non-letter characters", async () => {
-    const work = await getWork({
-      workId: "323217",
-    }) as WorkSummary;
+    const work = (await getWork({
+      workId: 323217,
+    })) as WorkSummary;
 
     expect(!work.locked).toBeTruthy();
 
@@ -279,9 +279,9 @@ describe("Works/title", () => {
 
 describe("Works/tags", () => {
   it("should fetch warning tags", async () => {
-    const work = await getWork({
-      workId: "323217",
-    }) as WorkSummary;
+    const work = (await getWork({
+      workId: 323217,
+    })) as WorkSummary;
 
     expect(!work.locked).toBeTruthy();
 
@@ -291,9 +291,9 @@ describe("Works/tags", () => {
   });
 
   it("should fetch multiple warnings", async () => {
-    const work = await getWork({
-      workId: "3738184",
-    }) as WorkSummary;
+    const work = (await getWork({
+      workId: 3738184,
+    })) as WorkSummary;
 
     expect(!work.locked).toBeTruthy();
 
@@ -308,9 +308,9 @@ describe("Works/tags", () => {
   });
 
   it("should fetch fandom", async () => {
-    const work = await getWork({
-      workId: "323217",
-    }) as WorkSummary;
+    const work = (await getWork({
+      workId: 323217,
+    })) as WorkSummary;
 
     expect(!work.locked).toBeTruthy();
 
@@ -318,21 +318,19 @@ describe("Works/tags", () => {
   });
 
   it("should fetch relationships", async () => {
-    const work = await getWork({
-      workId: "323217",
-    }) as WorkSummary;
+    const work = (await getWork({
+      workId: 323217,
+    })) as WorkSummary;
 
     expect(!work.locked).toBeTruthy();
 
-    expect(work.tags.relationships).toMatchObject([
-      "Patrick Jane/Kimball Cho",
-    ]);
+    expect(work.tags.relationships).toMatchObject(["Patrick Jane/Kimball Cho"]);
   });
 
   it("should fetch characters", async () => {
-    const work = await getWork({
-      workId: "323217",
-    }) as WorkSummary;
+    const work = (await getWork({
+      workId: 323217,
+    })) as WorkSummary;
 
     expect(!work.locked).toBeTruthy();
 
@@ -344,9 +342,9 @@ describe("Works/tags", () => {
   });
 
   it("ashould fetch dditional tags", async () => {
-    const work = await getWork({
-      workId: "323217",
-    }) as WorkSummary;
+    const work = (await getWork({
+      workId: 323217,
+    })) as WorkSummary;
 
     expect(!work.locked).toBeTruthy();
 
@@ -354,9 +352,9 @@ describe("Works/tags", () => {
   });
 
   it("should fetch empty additional tags", async () => {
-    const work = await getWork({
-      workId: "323217",
-    }) as WorkSummary;
+    const work = (await getWork({
+      workId: 323217,
+    })) as WorkSummary;
 
     expect(!work.locked).toBeTruthy();
 
@@ -366,9 +364,9 @@ describe("Works/tags", () => {
 
 describe("Work/other", () => {
   it("should fetch wordcount", async () => {
-    const work = await getWork({
-      workId: "323217",
-    }) as WorkSummary;
+    const work = (await getWork({
+      workId: 323217,
+    })) as WorkSummary;
 
     expect(!work.locked).toBeTruthy();
 
@@ -376,9 +374,9 @@ describe("Work/other", () => {
   });
 
   it("should fetch language", async () => {
-    const work = await getWork({
-      workId: "323217",
-    }) as WorkSummary;
+    const work = (await getWork({
+      workId: 323217,
+    })) as WorkSummary;
 
     expect(!work.locked).toBeTruthy();
 
@@ -386,19 +384,19 @@ describe("Work/other", () => {
   });
 
   it("should fetch rating", async () => {
-    const work = await getWork({
-      workId: "323217",
-    }) as WorkSummary;
+    const work = (await getWork({
+      workId: 323217,
+    })) as WorkSummary;
 
     expect(!work.locked).toBeTruthy();
 
     expect(work.rating).toBe("Not Rated");
-  })
+  });
 
   it("should fetch category", async () => {
-    const work = await getWork({
-      workId: "323217",
-    }) as WorkSummary;
+    const work = (await getWork({
+      workId: 323217,
+    })) as WorkSummary;
 
     expect(!work.locked).toBeTruthy();
 
@@ -406,9 +404,9 @@ describe("Work/other", () => {
   });
 
   it("should fetch multiple categories", async () => {
-    const work = await getWork({
-      workId: "3738184",
-    }) as WorkSummary;
+    const work = (await getWork({
+      workId: 3738184,
+    })) as WorkSummary;
 
     expect(!work.locked).toBeTruthy();
 
@@ -424,9 +422,9 @@ describe("Work/other", () => {
 
   // TODO: 404
   it.skip("should fetch null category", async () => {
-    const work = await getWork({
-      workId: "41237499",
-    }) as WorkSummary;
+    const work = (await getWork({
+      workId: 41237499,
+    })) as WorkSummary;
 
     expect(!work.locked).toBeTruthy();
 
@@ -434,9 +432,9 @@ describe("Work/other", () => {
   });
 
   it("should fetch updated date of completed work", async () => {
-    const work = await getWork({
-      workId: "23824891",
-    }) as WorkSummary;
+    const work = (await getWork({
+      workId: 23824891,
+    })) as WorkSummary;
 
     expect(!work.locked).toBeTruthy();
 
@@ -445,9 +443,9 @@ describe("Work/other", () => {
 
   // TODO: 404
   it.skip("should fetch update date of work in progress", async () => {
-    const work = await getWork({
-      workId: "41237499",
-    }) as WorkSummary;
+    const work = (await getWork({
+      workId: 41237499,
+    })) as WorkSummary;
 
     expect(!work.locked).toBeTruthy();
 
@@ -455,9 +453,9 @@ describe("Work/other", () => {
   });
 
   it("should fetch null updated date", async () => {
-    const work = await getWork({
-      workId: "168768",
-    }) as WorkSummary;
+    const work = (await getWork({
+      workId: 168768,
+    })) as WorkSummary;
 
     expect(!work.locked).toBeTruthy();
 
@@ -465,9 +463,9 @@ describe("Work/other", () => {
   });
 
   it("should fetch publish date", async () => {
-    const work = await getWork({
-      workId: "168768",
-    }) as WorkSummary;
+    const work = (await getWork({
+      workId: 168768,
+    })) as WorkSummary;
 
     expect(!work.locked).toBeTruthy();
 
@@ -475,9 +473,9 @@ describe("Work/other", () => {
   });
 
   it("should fetch published chapters", async () => {
-    const work = await getWork({
-      workId: "168768",
-    }) as WorkSummary;
+    const work = (await getWork({
+      workId: 168768,
+    })) as WorkSummary;
 
     expect(!work.locked).toBeTruthy();
 
@@ -485,9 +483,9 @@ describe("Work/other", () => {
   });
 
   it("should fetch total chapters", async () => {
-    const work = await getWork({
-      workId: "168768",
-    }) as WorkSummary;
+    const work = (await getWork({
+      workId: 168768,
+    })) as WorkSummary;
 
     expect(!work.locked).toBeTruthy();
 
@@ -496,9 +494,9 @@ describe("Work/other", () => {
 
   // TODO: 404
   it.skip("should fetch unknown amount of total chapters", async () => {
-    const work = await getWork({
-      workId: "41237499",
-    }) as WorkSummary;
+    const work = (await getWork({
+      workId: 41237499,
+    })) as WorkSummary;
 
     expect(!work.locked).toBeTruthy();
 
@@ -507,9 +505,9 @@ describe("Work/other", () => {
 
   // TODO: 404
   it.skip("should fetch null work summary", async () => {
-    const work = await getWork({
-      workId: "41237499",
-    }) as WorkSummary;
+    const work = (await getWork({
+      workId: 41237499,
+    })) as WorkSummary;
 
     expect(!work.locked).toBeTruthy();
 
@@ -517,19 +515,17 @@ describe("Work/other", () => {
   });
 
   it("should fetch work summary", async () => {
-    const work = await getWork({
-      workId: "323217",
-    }) as WorkSummary;
+    const work = (await getWork({
+      workId: 323217,
+    })) as WorkSummary;
 
     expect(!work.locked).toBeTruthy();
 
-    expect(work.summary).toMatchInlineSnapshot(
-      `"<p>Jane has had enough.</p>"`
-    );
+    expect(work.summary).toMatchInlineSnapshot(`"<p>Jane has had enough.</p>"`);
   });
 
   it("should fetch only work summary when work + chapter summaries are present", async () => {
-    const work = await getWork({ workId: "17793689" }) as WorkSummary;
+    const work = (await getWork({ workId: 17793689 })) as WorkSummary;
 
     expect(!work.locked).toBeTruthy();
 
@@ -540,9 +536,9 @@ describe("Work/other", () => {
   });
 
   it("should fetch stats ", async () => {
-    const work = await getWork({
-      workId: "323217",
-    }) as WorkSummary;
+    const work = (await getWork({
+      workId: 323217,
+    })) as WorkSummary;
 
     expect(!work.locked).toBeTruthy();
 
@@ -555,9 +551,9 @@ describe("Work/other", () => {
   });
 
   it("should fetch stats when some are null", async () => {
-    const work = await getWork({
-      workId: "41289660",
-    }) as WorkSummary;
+    const work = (await getWork({
+      workId: 41289660,
+    })) as WorkSummary;
 
     expect(!work.locked).toBeTruthy();
 
@@ -572,11 +568,11 @@ describe("Work/other", () => {
 
 describe("Work/restricted", () => {
   it("should check status of a restricted work.", async () => {
-    const work = await getWork({ workId: "15461226" }) as WorkSummary;
+    const work = (await getWork({ workId: 15461226 })) as WorkSummary;
 
     expect(work).toMatchObject({
       id: 15461226,
       locked: true,
     });
   });
-})
+});

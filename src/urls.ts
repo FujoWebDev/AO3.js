@@ -1,55 +1,94 @@
-import { parseId } from "./utils";
-import { WorkSummary, ArchiveId } from "types/entities";
-import { getWork } from "./works";
+import {
+  isValidArchiveId,
+  isValidArchiveIdOrNullish,
+  parseArchiveId,
+} from "./utils";
+import { WorkSummary } from "types/entities";
+
+const ARCHIVE_BASE_URL =
+  process.env.ARCHIVE_BASE_URL ?? "https://archiveofourown.org";
 
 export const getWorkUrl = ({
   workId,
   chapterId,
   collectionName,
 }: {
-  workId: ArchiveId;
-  chapterId?: ArchiveId;
+  workId: string | number;
+  chapterId?: string | number;
   collectionName?: string;
 }) => {
-  let workUrl = `https://archiveofourown.org`;
+  let workPath = "";
+
+  if (!isValidArchiveId(workId)) {
+    throw new Error(`${workId} is not a valid work id`);
+  }
 
   if (collectionName) {
-    workUrl += `/collections/${collectionName}`;
+    // TODO: write tests for collections
+    workPath += `/collections/${collectionName}`;
   }
 
-  workUrl += `/works/${workId}`;
+  workPath += `/works/${workId}`;
 
   if (chapterId) {
-    workUrl += `/chapters/${chapterId}`;
+    if (!isValidArchiveId(chapterId)) {
+      throw new Error(`${workId} is not a valid chapter id`);
+    }
+
+    workPath += `/chapters/${chapterId}`;
   }
 
-  return workUrl;
+  return new URL(workPath, ARCHIVE_BASE_URL).href;
 };
 
-export const getAsShortUrl = ({ url }: { url: string }) =>
-  url.replace(/archiveofourown/, "ao3");
-
-export const getDownloadUrls = async ({ workId }: { workId: ArchiveId }) => {
-  const work = await getWork({ workId });
-
-  if (work.locked) {
-    console.warn('Work is locked, might not be able to download')
+export const getWorkIndexUrl = ({ workId }: { workId: string | number }) => {
+  if (!isValidArchiveId(workId)) {
+    throw new Error(`${workId} is not a valid work id`);
   }
 
-  const { title, updatedAt, publishedAt } = work as WorkSummary;
-  const timestamp = (new Date(updatedAt ?? publishedAt)).valueOf();
-  const downloadLinkBase = `https://archiveofourown.org/downloads/${workId}/${title.replaceAll(/\s/g, '_')}`;
+  return new URL(`works/${workId}/navigate`, ARCHIVE_BASE_URL).href;
+};
+
+export const getSeriesUrl = ({ seriesId }: { seriesId: string | number }) => {
+  if (!isValidArchiveId(seriesId)) {
+    throw new Error(`${seriesId} is not a valid series id`);
+  }
+
+  return new URL(`series/${seriesId}`, ARCHIVE_BASE_URL).href;
+};
+
+export const getAsShortUrl = ({ url }: { url: string }) => {
+  if (!url.includes("archiveofourown")) {
+    throw new Error("We only support short URLs for AO3");
+  }
+
+  return url.replace(/archiveofourown/, "ao3");
+};
+
+export const getDownloadUrls = ({
+  id,
+  title,
+  updatedAt,
+  publishedAt,
+}: // Make it so you can either pass specifically the needed elements of a work,
+// but also the whole summary if you prefer
+| Pick<WorkSummary, "id" | "title" | "updatedAt" | "publishedAt">
+  | WorkSummary) => {
+  const timestamp = new Date(updatedAt ?? publishedAt).valueOf();
+  const downloadLinkBase = new URL(`downloads/${id}/`, ARCHIVE_BASE_URL).href;
+  const urlSafeTitle = title.replaceAll(/\s/g, "_");
+
   return {
-    azw3: `${downloadLinkBase}.azw3?updated_at=${timestamp}`,
-    epub: `${downloadLinkBase}.epub?updated_at=${timestamp}`,
-    mobi: `${downloadLinkBase}.mobi?updated_at=${timestamp}`,
-    html: `${downloadLinkBase}.html?updated_at=${timestamp}`,
-    pdf: `${downloadLinkBase}.pdf?updated_at=${timestamp}`,
-  }
-}
+    azw3: `${downloadLinkBase}${urlSafeTitle}.azw3?updated_at=${timestamp}`,
+    epub: `${downloadLinkBase}${urlSafeTitle}.epub?updated_at=${timestamp}`,
+    mobi: `${downloadLinkBase}${urlSafeTitle}.mobi?updated_at=${timestamp}`,
+    html: `${downloadLinkBase}${urlSafeTitle}.html?updated_at=${timestamp}`,
+    pdf: `${downloadLinkBase}${urlSafeTitle}.pdf?updated_at=${timestamp}`,
+  };
+};
 
 export const getUserProfileUrl = ({ username }: { username: string }) =>
-  `https://archiveofourown.org/users/${encodeURI(username)}/profile`;
+  new URL(`/users/${encodeURI(username)}/profile`, ARCHIVE_BASE_URL).href;
 
 const TOKEN_REPLACEMENTS_MAP = {
   "/": "*s*",
@@ -83,17 +122,20 @@ const REPLACE_TOKENS_REGEX = new RegExp(
 );
 
 export const getTagUrl = (tagName: string) =>
-  `https://archiveofourown.org/tags/${encodeURI(tagName).replaceAll(
-    REPLACE_TOKENS_REGEX,
-    (char: string) =>
-      isReplaceableToken(char) ? TOKEN_REPLACEMENTS_MAP[char] : char
-  )}`;
+  new URL(
+    `tags/${encodeURI(tagName).replaceAll(
+      REPLACE_TOKENS_REGEX,
+      (char: string) =>
+        isReplaceableToken(char) ? TOKEN_REPLACEMENTS_MAP[char] : char
+    )}/`,
+    ARCHIVE_BASE_URL
+  ).href;
 
 export const getTagWorksFeedUrl = (tagName: string) =>
-  `${getTagUrl(tagName)}/works`;
+  new URL(`works`, getTagUrl(tagName)).href;
 
 export const getTagWorksFeedAtomUrl = (tagId: string) =>
-  `https://archiveofourown.org/tags/${tagId}/feed.atom`;
+  new URL(`tags/${tagId}/feed.atom`, ARCHIVE_BASE_URL).href;
 
 export const getWorkDetailsFromUrl = ({
   url,
@@ -109,9 +151,19 @@ export const getWorkDetailsFromUrl = ({
     throw new Error("Invalid work URL");
   }
 
+  const matchedWorkId = workUrlMatch[1];
+  const matchedChapterId = url.match(/chapters\/(\d+)/)?.[1];
+  if (!isValidArchiveId(matchedWorkId)) {
+    throw new Error(`${matchedWorkId} is not a valid work id`);
+  }
+
+  if (!isValidArchiveIdOrNullish(matchedChapterId)) {
+    throw new Error(`${matchedChapterId} is not a valid chapter id`);
+  }
+
   return {
-    workId: parseId(workUrlMatch[1] as `${number}`),
-    chapterId: parseId(url.match(/chapters\/(\d+)/)?.[1] as `${number}`),
+    workId: parseArchiveId(matchedWorkId),
+    chapterId: matchedChapterId && parseArchiveId(matchedChapterId),
     collectionName: url.match(/collections\/(\w+)/)?.[1],
   };
 };
