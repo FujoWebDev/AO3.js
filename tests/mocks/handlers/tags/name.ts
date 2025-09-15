@@ -3,18 +3,15 @@ import filenamify from "filenamify";
 import fs from "fs";
 import path from "path";
 import { http, HttpHandler, HttpResponse } from "msw";
-
-const TAGS_DATA_DIR = path.resolve(
-  fileURLToPath(import.meta.url),
-  "../../../data/tags"
-);
+import { getArchiveDataDir } from "../../scripts/utils.mjs";
 
 export default http.all(
   "https://archiveofourown.org/tags/:name",
   ({ params }) => {
     const html = fs.readFileSync(
       path.resolve(
-        TAGS_DATA_DIR,
+        getArchiveDataDir(),
+        "tags",
         filenamify(params.name as string),
         "index.html"
       )
