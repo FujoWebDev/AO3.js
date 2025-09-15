@@ -57,7 +57,6 @@ export const getWorkUrl = ({
     workPath += `/chapters/${chapterId}`;
   }
 
-  console.log(getArchiveBaseUrl());
   return new URL(workPath, getArchiveBaseUrl()).href;
 };
 
