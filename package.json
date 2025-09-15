@@ -39,7 +39,7 @@
     "coverage": "vitest run --coverage",
     "encode-mock-files": "ts-node-esm tests/mocks/scripts/encode-mock-files.mts",
     "redownload": "tsx tests/mocks/scripts/redownload-articles.mts",
-    "download": "tsx tests/mocks/scripts/download-ao3-url.mts"
+    "download": "tsx tests/mocks/scripts/download-archive-url.mts"
   },
   "repository": {
     "type": "git",
