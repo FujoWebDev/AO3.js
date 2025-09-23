@@ -1,4 +1,3 @@
-import { L } from "vitest/dist/chunks/reporters.d.BFLkQcL6.js";
 import {
   isValidArchiveId,
   isValidArchiveIdOrNullish,
@@ -157,7 +156,7 @@ export const getTagUrl = (tagName: string) =>
       (char: string) =>
         isReplaceableToken(char) ? TOKEN_REPLACEMENTS_MAP[char] : char
     )}/`,
-    archiveBaseUrl
+    getArchiveBaseUrl()
   ).href;
 
 export const getTagWorksFeedUrl = (tagName: string) =>

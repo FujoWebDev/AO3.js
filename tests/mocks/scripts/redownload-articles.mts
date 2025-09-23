@@ -4,11 +4,11 @@ import path from "path";
 import {
   delay,
   downloadWithRetry,
-  DownloadResult,
   recursivelyGetFiles,
   getRootDataDir,
   getArchiveFromPath,
   getArchiveUrl,
+  Http404Error,
 } from "./utils.mts";
 
 // Function to decode an encoded filename
@@ -50,66 +50,43 @@ function getUrlFromPath(
 }
 
 async function redownloadArticles() {
-  try {
-    const rootDataDir = getRootDataDir();
-    const files = await recursivelyGetFiles(rootDataDir);
+  const rootDataDir = getRootDataDir();
+  const files = await recursivelyGetFiles(rootDataDir);
 
-    for (const fullPath of files) {
-      const relativePath = path.relative(rootDataDir, fullPath);
-      const archive = getArchiveFromPath(relativePath);
-      const url = getUrlFromPath(path.relative(archive, relativePath), archive);
-      console.log(`Downloading ${url}`);
-      console.log(`Target file: ${fullPath}`);
+  const pathsWith404: { path: string; url: string }[] = [];
 
-      try {
-        let result: DownloadResult;
-        let success = false;
+  for (const fullPath of files) {
+    const relativePath = path.relative(rootDataDir, fullPath);
+    const archive = getArchiveFromPath(relativePath);
+    const url = getUrlFromPath(path.relative(archive, relativePath), archive);
+    console.log(`Downloading ${url}`);
+    console.log(`Target file: ${fullPath}`);
 
-        while (!success) {
-          try {
-            result = await downloadWithRetry(url);
-
-            if (result.retryAfter) {
-              const waitTime = result.retryAfter;
-              console.log(
-                `Rate limited. Waiting ${waitTime / 1000} seconds...`
-              );
-              await delay(waitTime);
-              continue;
-            }
-
-            await fs.writeFile(fullPath, result.content);
-            console.log(`Successfully updated ${relativePath}`);
-            success = true;
-          } catch (error) {
-            const errorMessage =
-              error instanceof Error ? error.message : String(error);
-            if (errorMessage.includes("404")) {
-              console.log(
-                `Received 404 for ${url}. Make sure this is intentional.`
-              );
-              await fs.writeFile(fullPath, "");
-              console.log(
-                `Updated ${relativePath} with empty content due to 404`
-              );
-              success = true;
-            } else {
-              // Non-404 errors will be handled by retry logic
-              throw error;
-            }
-          }
-
-          // Add a small delay between successful downloads to be nice to the server
-          await delay(1000);
-        }
-      } catch (error) {
-        console.error(`Failed to update ${relativePath}:`, error);
+    try {
+      const result = await downloadWithRetry(url);
+      await fs.writeFile(fullPath, result);
+      console.log(`Successfully updated ${relativePath}`);
+    } catch (error) {
+      if (error instanceof Http404Error) {
+        console.log("******");
+        console.log(`Received 404 for ${url}. Make sure this is intentional.`);
+        await fs.writeFile(fullPath, error.content);
+        console.log("******");
+        pathsWith404.push({
+          path: fullPath,
+          url,
+        });
+        continue;
       }
-    }
-  } catch (error) {
-    console.error("Failed to process files:", error);
-    process.exit(1);
+      console.error(`Failed to update ${relativePath}:`, error);
+      process.exit(1);
+    } // Add a small delay between successful downloads to be nice to the server
+    await delay(1000);
   }
+
+  console.log("All files downloaded with success.");
+  console.log("Make sure all 404 are intentional:");
+  console.dir(pathsWith404, { depth: null });
 }
 
 redownloadArticles();

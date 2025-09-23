@@ -3,27 +3,29 @@ import fs from "fs/promises";
 import path from "path";
 import { fileURLToPath } from "url";
 
-const MAX_RETRIES = 5;
 const BASE_DELAY = 1000; // 1 second
-
-export interface DownloadResult {
-  content: string;
-  retryAfter?: number;
-}
-
-export async function delay(ms: number): Promise<void> {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
 
 const ARCHIVE_URLS = {
   ao3: "archiveofourown.org",
   superlove: "superlove.sayitditto.net",
 };
 
+export class Http404Error extends Error {
+  // AO3 still returns content also for 404 pages
+  // We return it with the error so our own pages can be consistent
+  // with its behavior
+  content: string = "";
+}
+
+export async function delay(ms: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 export async function downloadWithRetry(
   url: string,
-  attempt = 1
-): Promise<DownloadResult> {
+  maxAttempts = 3,
+  currentAttempt = 1
+) {
   try {
     const response = await fetch(url);
 
@@ -32,34 +34,43 @@ export async function downloadWithRetry(
         response.headers.get("retry-after") || "0",
         10
       );
-      return {
-        content: "",
-        retryAfter: retryAfter > 0 ? retryAfter * 1000 : undefined,
-      };
+
+      console.log(`Rate limited. Waiting ${retryAfter / 1000} seconds...`);
+      await delay(retryAfter);
+
+      // Skip the rest and try to redownload from scratch
+      // We don't increase currentAttempt when we're just being rate limited
+      return downloadWithRetry(url, maxAttempts, currentAttempt);
     }
 
     if (!response.ok) {
-      throw new Error(`Failed to download ${url}: ${response.statusText}`);
+      if (response.status !== 404) {
+        throw new Error(`Failed to download ${url}: ${response.status}`);
+      }
+      // We let 404 errors be handled by the consumers as they wish
+      const newError = new Http404Error("404 error returned");
+      newError.content = await response.text();
+      throw newError;
     }
 
-    return {
-      content: await response.text(),
-    };
+    return await response.text();
   } catch (error) {
-    if (attempt >= MAX_RETRIES) {
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    if (currentAttempt >= maxAttempts) {
       throw error;
     }
 
     const backoffDelay = Math.min(
-      BASE_DELAY * Math.pow(2, attempt - 1) + Math.random() * 1000,
+      BASE_DELAY * Math.pow(2, currentAttempt - 1) + Math.random() * 1000,
       30000 // Max 30 seconds
     );
 
     console.log(
-      `Attempt ${attempt} failed, retrying after ${backoffDelay}ms...`
+      `Attempt ${currentAttempt} failed, retrying after ${backoffDelay}ms...`
     );
+    console.log(`Error message was ${errorMessage}`);
     await delay(backoffDelay);
-    return downloadWithRetry(url, attempt + 1);
+    return downloadWithRetry(url, maxAttempts, currentAttempt + 1);
   }
 }
 
