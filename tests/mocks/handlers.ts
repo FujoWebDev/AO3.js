@@ -22,4 +22,4 @@ export default [
   worksChapterHandlers,
   seriesHandlers,
   allHandlers,
-] satisfies HttpHandler[];
+] satisfies (HttpHandler | HttpHandler[])[];

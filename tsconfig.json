@@ -1,7 +1,7 @@
 {
   "extends": "@tsconfig/node-lts/tsconfig.json",
   "compilerOptions": {
-    "types": ["node"],
+    "types": ["node", "vite/client"],
     "moduleResolution": "bundler",
     "module": "es2022",
     "lib": ["es2022"],

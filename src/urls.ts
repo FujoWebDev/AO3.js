@@ -5,8 +5,26 @@ import {
 } from "./utils";
 import { WorkSummary } from "types/entities";
 
-const ARCHIVE_BASE_URL =
-  process.env.ARCHIVE_BASE_URL ?? "https://archiveofourown.org";
+declare global {
+  var archiveBaseUrl: string;
+}
+
+const DEFAULT_BASE_URL =
+  import.meta.env.ARCHIVE_BASE_URL ?? "https://archiveofourown.org";
+
+globalThis.archiveBaseUrl = DEFAULT_BASE_URL;
+
+export const setArchiveBaseUrl = (url: string) => {
+  globalThis.archiveBaseUrl = url;
+};
+
+export const getArchiveBaseUrl = () => {
+  return globalThis.archiveBaseUrl;
+};
+
+export const resetArchiveBaseUrl = () => {
+  globalThis.archiveBaseUrl = DEFAULT_BASE_URL;
+};
 
 export const getWorkUrl = ({
   workId,
@@ -38,15 +56,14 @@ export const getWorkUrl = ({
     workPath += `/chapters/${chapterId}`;
   }
 
-  return new URL(workPath, ARCHIVE_BASE_URL).href;
+  return new URL(workPath, getArchiveBaseUrl()).href;
 };
 
 export const getWorkIndexUrl = ({ workId }: { workId: string | number }) => {
   if (!isValidArchiveId(workId)) {
     throw new Error(`${workId} is not a valid work id`);
   }
-
-  return new URL(`works/${workId}/navigate`, ARCHIVE_BASE_URL).href;
+  return new URL(`works/${workId}/navigate`, getArchiveBaseUrl()).href;
 };
 
 export const getSeriesUrl = ({ seriesId }: { seriesId: string | number }) => {
@@ -54,17 +71,27 @@ export const getSeriesUrl = ({ seriesId }: { seriesId: string | number }) => {
     throw new Error(`${seriesId} is not a valid series id`);
   }
 
-  return new URL(`series/${seriesId}`, ARCHIVE_BASE_URL).href;
+  return new URL(`series/${seriesId}`, getArchiveBaseUrl()).href;
 };
 
-export const getAsShortUrl = ({ url }: { url: string }) => {
-  if (!url.includes("archiveofourown")) {
-    throw new Error("We only support short URLs for AO3");
+export const getAsShortUrl = ({ url }: { url: string | URL }) => {
+  const longUrl = new URL(url);
+  if (longUrl.hostname !== "archiveofourown.org") {
+    throw new Error(
+      `Short URLs are only supported for AO3 (found: ${longUrl.hostname})`
+    );
   }
 
-  return url.replace(/archiveofourown/, "ao3");
+  longUrl.host = "ao3.org";
+  return longUrl.href;
 };
 
+/**
+ * Gets the download URLs for a work.
+ *
+ * Warning: while this method will return the download URLs for locked works,
+ * people may not be able to download them.
+ */
 export const getDownloadUrls = ({
   id,
   title,
@@ -75,7 +102,8 @@ export const getDownloadUrls = ({
 | Pick<WorkSummary, "id" | "title" | "updatedAt" | "publishedAt">
   | WorkSummary) => {
   const timestamp = new Date(updatedAt ?? publishedAt).valueOf();
-  const downloadLinkBase = new URL(`downloads/${id}/`, ARCHIVE_BASE_URL).href;
+  const downloadLinkBase = new URL(`downloads/${id}/`, getArchiveBaseUrl())
+    .href;
   const urlSafeTitle = title.replaceAll(/\s/g, "_");
 
   return {
@@ -88,7 +116,7 @@ export const getDownloadUrls = ({
 };
 
 export const getUserProfileUrl = ({ username }: { username: string }) =>
-  new URL(`/users/${encodeURI(username)}/profile`, ARCHIVE_BASE_URL).href;
+  new URL(`/users/${encodeURI(username)}/profile`, getArchiveBaseUrl()).href;
 
 const TOKEN_REPLACEMENTS_MAP = {
   "/": "*s*",
@@ -128,14 +156,14 @@ export const getTagUrl = (tagName: string) =>
       (char: string) =>
         isReplaceableToken(char) ? TOKEN_REPLACEMENTS_MAP[char] : char
     )}/`,
-    ARCHIVE_BASE_URL
+    getArchiveBaseUrl()
   ).href;
 
 export const getTagWorksFeedUrl = (tagName: string) =>
   new URL(`works`, getTagUrl(tagName)).href;
 
 export const getTagWorksFeedAtomUrl = (tagId: string) =>
-  new URL(`tags/${tagId}/feed.atom`, ARCHIVE_BASE_URL).href;
+  new URL(`tags/${tagId}/feed.atom`, getArchiveBaseUrl()).href;
 
 export const getWorkDetailsFromUrl = ({
   url,
