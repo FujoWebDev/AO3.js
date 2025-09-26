@@ -10,7 +10,7 @@ declare global {
 }
 
 const DEFAULT_BASE_URL =
-  process.env.ARCHIVE_BASE_URL ?? "https://archiveofourown.org";
+  import.meta.env.ARCHIVE_BASE_URL ?? "https://archiveofourown.org";
 
 globalThis.archiveBaseUrl = DEFAULT_BASE_URL;
 
@@ -83,7 +83,7 @@ export const getAsShortUrl = ({ url }: { url: string | URL }) => {
   }
 
   longUrl.host = "ao3.org";
-  return longUrl;
+  return longUrl.href;
 };
 
 /**
