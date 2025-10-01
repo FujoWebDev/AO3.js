@@ -27,7 +27,11 @@ export async function downloadWithRetry(
   currentAttempt = 1
 ) {
   try {
-    const response = await fetch(url);
+    const response = await fetch(url, {
+      headers: {
+        Cookie: "view_adult=true;",
+      },
+    });
 
     if (response.status === 429) {
       const retryAfter = parseInt(
