@@ -39,7 +39,7 @@ describe("Work Chapter/chapter", () => {
       chapters: { published: 1, total: 1 },
       complete: true,
       series: [],
-      stats: { bookmarks: 2, comments: 1, hits: expect.any(Number), kudos: 44 },
+      stats: { bookmarks: 2, comments: 1, hits: expect.any(Number), kudos: 45 },
       locked: false,
     });
   });
