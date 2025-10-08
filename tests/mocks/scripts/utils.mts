@@ -87,26 +87,21 @@ export function getArchiveDataDir(archive: "ao3" | "superlove" = "ao3") {
   return path.join(getRootDataDir(), archive);
 }
 
-// These parameters are excluded from the tag search folder name.
-// Page is used for the page number instead (i.e. 01.html, 02.html, etc.),
-// while view_adult is excluded because we simply add it to the all pages
-// to make sure we bypass the adult banner.
-const TAG_SEARCH_EXCLUDED_PARAMS = new Set(["page", "view_adult"]);
-
 const getNormalizedTagSearchFolder = (searchParams: URLSearchParams) => {
   const entries: string[] = [];
   // Sort the parameters to make the folder name deterministic
   const keys = Array.from(new Set([...searchParams.keys()])).sort();
 
   for (const key of keys) {
-    if (TAG_SEARCH_EXCLUDED_PARAMS.has(key)) {
+    // Page is used for the page number instead (i.e. 01.html, 02.html, etc.)
+    if (key === "page") {
       continue;
     }
     const values = searchParams.getAll(key);
     // Also sort the values of the same keys
     const sortedValues = values.length > 1 ? [...values].sort() : values;
     for (const value of sortedValues) {
-      const segment = `${key}=${value}`;
+      const segment = `${key}=${value == "any" ? "" : value}`;
       entries.push(filenamify(segment, { replacement: "_", maxLength: 100 }));
     }
   }
