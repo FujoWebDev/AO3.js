@@ -102,7 +102,7 @@ const getNormalizedTagSearchFolder = (searchParams: URLSearchParams) => {
     const sortedValues = values.length > 1 ? [...values].sort() : values;
     for (const value of sortedValues) {
       const segment = `${key}=${value == "any" ? "" : value}`;
-      entries.push(filenamify(segment, { replacement: "_", maxLength: 100 }));
+      entries.push(filenamify(segment.toLowerCase(), { replacement: "_", maxLength: 100 }));
     }
   }
 
