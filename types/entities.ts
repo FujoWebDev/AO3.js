@@ -174,6 +174,13 @@ export interface WorkSummary {
   locked: false;
 }
 
+export interface WorkContent {
+  summary: string | null;
+  startNotes: string | null;
+  content: string | null;
+  endNotes: string | null;
+}
+
 export interface LockedWorkSummary {
   id: ArchiveId;
   locked: true;

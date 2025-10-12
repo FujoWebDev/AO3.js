@@ -1,7 +1,7 @@
 import type {
   Author,
   Chapter,
-  ArchiveId,
+  WorkContent,
   LockedWorkSummary,
   WorkSummary,
 } from "types/entities";
@@ -139,5 +139,63 @@ export const getWorkWithChapters = async ({
     authors: getWorkAuthorsFromChaptersIndex(page),
     workId: parseArchiveId(workId),
     chapters: getChaptersList(page),
+  };
+};
+
+export const getWorkContent = async ({
+  workId,
+  chapter = 1,
+}: {
+  workId: string | number;
+  chapter?: number;
+}): Promise<WorkContent> => {
+  if (!isValidArchiveId(workId)) {
+    throw new Error(`${workId} is not a valid work id`);
+  }
+
+  // For single-chapter works or chapter 1, we can just load the work page directly
+  // For multi-chapter works with a specific chapter, we need to get the chapter ID
+  let chapterId: number | undefined = undefined;
+
+  if (chapter !== 1) {
+    // We need to get the chapters list to find the chapter ID for the requested chapter
+    const chaptersPage = await loadChaptersIndexPage({ workId });
+    const chapters = getChaptersList(chaptersPage);
+
+    if (chapter < 1 || chapter > chapters.length) {
+      throw new Error(`Chapter ${chapter} does not exist for work ${workId}`);
+    }
+
+    chapterId = chapters[chapter - 1].id;
+  }
+
+  const workPage = await loadWorkPage({ workId, chapterId });
+
+  // Extract the story content
+  // Try AO3 structure first (.userstuff.module[role="article"])
+  let content = workPage('.userstuff.module[role="article"]').html();
+  // Fall back to simpler structure (#chapters .userstuff)
+  if (!content) {
+    content = workPage("#chapters .userstuff").html();
+  }
+
+  // Extract author's notes at the beginning (in the chapter preface, before the content)
+  const startNotes = workPage(
+    ".chapter.preface #notes.notes.module .userstuff"
+  ).html();
+
+  // Extract end notes (after the content)
+  const endNotes = workPage(
+    ".chapter.preface .end.notes.module .userstuff"
+  ).html();
+
+  // Extract summary (work summary or chapter summary)
+  const summary = workPage(".preface .summary.module .userstuff").html();
+
+  return {
+    content: content ? content.trim() : null,
+    startNotes: startNotes ? startNotes.trim() : null,
+    endNotes: endNotes ? endNotes.trim() : null,
+    summary: summary ? summary.trim() : null,
   };
 };
