@@ -90,12 +90,12 @@ describe("Works/data", () => {
     });
 
     expect(workContent.summary).not.toBeNull();
-    expect(prettifyOrNullish(workContent.summary)).toMatchFileSnapshot(
+    await expect(prettifyOrNullish(workContent.summary)).toMatchFileSnapshot(
       "./snapshots/superlove/works/1269/chapter-1-summary.html"
     );
 
     expect(workContent.content).not.toBeNull();
-    expect(prettifyOrNullish(workContent.content)).toMatchFileSnapshot(
+    await expect(prettifyOrNullish(workContent.content)).toMatchFileSnapshot(
       "./snapshots/superlove/works/1269/chapter-1-content.html"
     );
 
@@ -109,12 +109,12 @@ describe("Works/data", () => {
     });
 
     expect(workContent.summary).not.toBeNull();
-    expect(prettifyOrNullish(workContent.summary)).toMatchFileSnapshot(
+    await expect(prettifyOrNullish(workContent.summary)).toMatchFileSnapshot(
       "./snapshots/superlove/works/1269/chapter-1-summary.html"
     );
 
     expect(workContent.content).not.toBeNull();
-    expect(prettifyOrNullish(workContent.content)).toMatchFileSnapshot(
+    await expect(prettifyOrNullish(workContent.content)).toMatchFileSnapshot(
       "./snapshots/superlove/works/1269/chapter-1-content.html"
     );
 

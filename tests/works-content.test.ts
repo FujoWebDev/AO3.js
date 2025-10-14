@@ -10,26 +10,25 @@ describe("Works/content", () => {
   it("should fetch work content with author notes and end notes", async () => {
     const workContent = await getWorkContent({
       workId: 29046888,
-      chapter: 1,
     });
 
     expect(workContent.summary).not.toBeNull();
-    expect(prettifyOrNullish(workContent.summary)).toMatchFileSnapshot(
+    await expect(prettifyOrNullish(workContent.summary)).toMatchFileSnapshot(
       "./snapshots/ao3/works/29046888/chapter-1-summary.html"
     );
 
     expect(workContent.startNotes).not.toBeNull();
-    expect(prettifyOrNullish(workContent.startNotes)).toMatchFileSnapshot(
+    await expect(prettifyOrNullish(workContent.startNotes)).toMatchFileSnapshot(
       "./snapshots/ao3/works/29046888/chapter-1-start-notes.html"
     );
 
     expect(workContent.endNotes).not.toBeNull();
-    expect(prettifyOrNullish(workContent.endNotes)).toMatchFileSnapshot(
+    await expect(prettifyOrNullish(workContent.endNotes)).toMatchFileSnapshot(
       "./snapshots/ao3/works/29046888/chapter-1-end-notes.html"
     );
 
     expect(workContent.content).not.toBeNull();
-    expect(prettifyOrNullish(workContent.content)).toMatchFileSnapshot(
+    await expect(prettifyOrNullish(workContent.content)).toMatchFileSnapshot(
       "./snapshots/ao3/works/29046888/chapter-1-content.html"
     );
   });
@@ -40,14 +39,14 @@ describe("Works/content", () => {
     });
 
     expect(workContent.summary).not.toBeNull();
-    expect(prettifyOrNullish(workContent.summary)).toMatchFileSnapshot(
+    await expect(prettifyOrNullish(workContent.summary)).toMatchFileSnapshot(
       "./snapshots/ao3/works/323217/chapter-1-summary.html"
     );
 
     expect(workContent.startNotes).toBeNull();
 
     expect(workContent.content).not.toBeNull();
-    expect(prettifyOrNullish(workContent.content)).toMatchFileSnapshot(
+    await expect(prettifyOrNullish(workContent.content)).toMatchFileSnapshot(
       "./snapshots/ao3/works/323217/chapter-1-content.html"
     );
 
@@ -61,22 +60,22 @@ describe("Works/content", () => {
     });
 
     expect(workContent.summary).not.toBeNull();
-    expect(prettifyOrNullish(workContent.summary)).toMatchFileSnapshot(
+    await expect(prettifyOrNullish(workContent.summary)).toMatchFileSnapshot(
       "./snapshots/ao3/works/17793689/chapter-1-summary.html"
     );
 
     expect(workContent.startNotes).not.toBeNull();
-    expect(prettifyOrNullish(workContent.startNotes)).toMatchFileSnapshot(
+    await expect(prettifyOrNullish(workContent.startNotes)).toMatchFileSnapshot(
       "./snapshots/ao3/works/17793689/chapter-1-start-notes.html"
     );
 
     expect(workContent.content).not.toBeNull();
-    expect(prettifyOrNullish(workContent.content)).toMatchFileSnapshot(
+    await expect(prettifyOrNullish(workContent.content)).toMatchFileSnapshot(
       "./snapshots/ao3/works/17793689/chapter-1-content.html"
     );
 
     expect(workContent.endNotes).not.toBeNull();
-    expect(prettifyOrNullish(workContent.endNotes)).toMatchFileSnapshot(
+    await expect(prettifyOrNullish(workContent.endNotes)).toMatchFileSnapshot(
       "./snapshots/ao3/works/17793689/chapter-1-end-notes.html"
     );
   });
@@ -89,22 +88,22 @@ describe("Works/content", () => {
   //   });
 
   //   expect(workContent.summary).not.toBeNull();
-  //   expect(prettify(workContent.summary)).toMatchFileSnapshot(
+  //   await expect(prettify(workContent.summary)).toMatchFileSnapshot(
   //     "./snapshots/ao3/works/17793689/chapter-2-summary.html"
   //   );
 
   //   expect(workContent.startNotes).not.toBeNull();
-  //   expect(prettify(workContent.startNotes)).toMatchFileSnapshot(
+  //   await expect(prettify(workContent.startNotes)).toMatchFileSnapshot(
   //     "./snapshots/ao3/works/17793689/chapter-2-start-notes.html"
   //   );
 
   //   expect(workContent.content).not.toBeNull();
-  //   expect(prettify(workContent.content)).toMatchFileSnapshot(
+  //   await expect(prettify(workContent.content)).toMatchFileSnapshot(
   //     "./snapshots/ao3/works/17793689/chapter-1-end-notes.html"
   //   );
 
   //   expect(workContent.endNotes).not.toBeNull();
-  //   expect(prettify(workContent.endNotes)).toMatchFileSnapshot(
+  //   await expect(prettify(workContent.endNotes)).toMatchFileSnapshot(
   //     "./snapshots/ao3/works/17793689/chapter-1-end-notes.html"
   //   );
   // });
