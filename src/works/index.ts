@@ -20,6 +20,9 @@ import {
   getWorkCategory,
   getWorkCharacters,
   getWorkCommentCount,
+  getWorkContentHtml,
+  getWorkContentSummary,
+  getWorkEndNotes,
   getWorkFandoms,
   getWorkHits,
   getWorkKudosCount,
@@ -30,6 +33,7 @@ import {
   getWorkRating,
   getWorkRelationships,
   getWorkSeries,
+  getWorkStartNotes,
   getWorkSummary,
   getWorkTitle,
   getWorkTotalChapters,
@@ -158,29 +162,10 @@ export const getWorkContent = async ({
     chapterId: chapterId ?? undefined,
   });
 
-  let content = workPage('.userstuff.module[role="article"]').html();
-  // Old work pages have different structures for the content...I think
-  if (!content) {
-    content = workPage("#chapters .userstuff").html();
-  }
-
-  // Extract author's notes at the beginning (in the chapter preface, before the content)
-  const startNotes = workPage(
-    ".chapter.preface #notes.notes.module .userstuff"
-  ).html();
-
-  // Extract end notes (after the content)
-  const endNotes = workPage(
-    ".chapter.preface .end.notes.module .userstuff"
-  ).html();
-
-  // Extract summary (work summary or chapter summary)
-  const summary = workPage(".preface .summary.module .userstuff").html();
-
   return {
-    content: content ? content.trim() : null,
-    startNotes: startNotes ? startNotes.trim() : null,
-    endNotes: endNotes ? endNotes.trim() : null,
-    summary: summary ? summary.trim() : null,
+    content: getWorkContentHtml(workPage),
+    startNotes: getWorkStartNotes(workPage),
+    endNotes: getWorkEndNotes(workPage),
+    summary: getWorkContentSummary(workPage),
   };
 };

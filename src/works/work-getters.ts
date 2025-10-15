@@ -194,7 +194,34 @@ export const getWorkLocked = ($workPage: WorkPage) => {
   return !!$workPage("#signin > .heading").text();
 };
 
-// Chapter-specific (must be multi-chapter fic)
+export const getWorkContentHtml = ($workPage: WorkPage): string | null => {
+  let content = $workPage('.userstuff.module[role="article"]').html();
+  // Old work pages have different structures for the content...I think
+  if (!content) {
+    content = $workPage("#chapters .userstuff").html();
+  }
+  return content ? content.trim() : null;
+};
+
+export const getWorkStartNotes = ($workPage: WorkPage): string | null => {
+  const startNotes = $workPage(
+    ".chapter.preface #notes.notes.module .userstuff"
+  ).html();
+  return startNotes ? startNotes.trim() : null;
+};
+
+export const getWorkEndNotes = ($workPage: WorkPage): string | null => {
+  const endNotes = $workPage(
+    ".chapter.preface .end.notes.module .userstuff"
+  ).html();
+  return endNotes ? endNotes.trim() : null;
+};
+
+export const getWorkContentSummary = ($workPage: WorkPage): string | null => {
+  const summary = $workPage(".preface .summary.module .userstuff").html();
+  return summary ? summary.trim() : null;
+};
+
 export const getChapterIndex = (
   $workPage: WorkPage
 ): NonNullable<WorkSummary["chapterInfo"]>["index"] => {
