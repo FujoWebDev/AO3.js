@@ -53,10 +53,9 @@ describe("Works/content", () => {
     expect(workContent.endNotes).toBeNull();
   });
 
-  it("should fetch content from multi-chapter work with chapter summary", async () => {
+  it("should fetch content from multi-chapter work", async () => {
     const workContent = await getWorkContent({
       workId: 17793689,
-      chapter: 1,
     });
 
     expect(workContent.summary).not.toBeNull();
@@ -80,31 +79,27 @@ describe("Works/content", () => {
     );
   });
 
-  // TODO: it's not chapter number we need chapter ID
-  // it("should fetch content from non-first chapter in multi-chapter work", async () => {
-  //   const workContent = await getWorkContent({
-  //     workId: 17793689,
-  //     chapter: 2,
-  //   });
+  it("should fetch content from non-first chapter in multi-chapter work", async () => {
+    const workContent = await getWorkContent({
+      workId: 17793689,
+      chapterId: 42035519,
+    });
 
-  //   expect(workContent.summary).not.toBeNull();
-  //   await expect(prettify(workContent.summary)).toMatchFileSnapshot(
-  //     "./snapshots/ao3/works/17793689/chapter-2-summary.html"
-  //   );
+    expect(workContent.summary).not.toBeNull();
+    await expect(prettifyOrNullish(workContent.summary)).toMatchFileSnapshot(
+      "./snapshots/ao3/works/17793689/chapter-2-summary.html"
+    );
 
-  //   expect(workContent.startNotes).not.toBeNull();
-  //   await expect(prettify(workContent.startNotes)).toMatchFileSnapshot(
-  //     "./snapshots/ao3/works/17793689/chapter-2-start-notes.html"
-  //   );
+    expect(workContent.startNotes).not.toBeNull();
+    await expect(prettifyOrNullish(workContent.startNotes)).toMatchFileSnapshot(
+      "./snapshots/ao3/works/17793689/chapter-2-start-notes.html"
+    );
 
-  //   expect(workContent.content).not.toBeNull();
-  //   await expect(prettify(workContent.content)).toMatchFileSnapshot(
-  //     "./snapshots/ao3/works/17793689/chapter-1-end-notes.html"
-  //   );
+    expect(workContent.content).not.toBeNull();
+    await expect(prettifyOrNullish(workContent.content)).toMatchFileSnapshot(
+      "./snapshots/ao3/works/17793689/chapter-2-content.html"
+    );
 
-  //   expect(workContent.endNotes).not.toBeNull();
-  //   await expect(prettify(workContent.endNotes)).toMatchFileSnapshot(
-  //     "./snapshots/ao3/works/17793689/chapter-1-end-notes.html"
-  //   );
-  // });
+    expect(workContent.endNotes).toBeNull();
+  });
 });

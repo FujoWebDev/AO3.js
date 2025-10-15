@@ -86,7 +86,6 @@ describe("Works/data", () => {
   it("should fetch work content with explicit chapter", async () => {
     const workContent = await getWorkContent({
       workId: "1269",
-      chapter: 1,
     });
 
     expect(workContent.summary).not.toBeNull();
