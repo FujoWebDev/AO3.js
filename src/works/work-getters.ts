@@ -194,13 +194,16 @@ export const getWorkLocked = ($workPage: WorkPage) => {
   return !!$workPage("#signin > .heading").text();
 };
 
-export const getWorkContentHtml = ($workPage: WorkPage): string | null => {
+export const getWorkContentHtml = ($workPage: WorkPage): string => {
   let content = $workPage('.userstuff.module[role="article"]').html();
   // Old work pages have different structures for the content...I think
   if (!content) {
     content = $workPage("#chapters .userstuff").html();
   }
-  return content ? content.trim() : null;
+  if (!content) {
+    throw new Error("No content found on work page");
+  }
+  return content.trim();
 };
 
 export const getWorkStartNotes = ($workPage: WorkPage): string | null => {
