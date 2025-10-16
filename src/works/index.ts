@@ -1,7 +1,7 @@
 import type {
   Author,
   Chapter,
-  ArchiveId,
+  WorkContent,
   LockedWorkSummary,
   WorkSummary,
 } from "types/entities";
@@ -20,6 +20,9 @@ import {
   getWorkCategory,
   getWorkCharacters,
   getWorkCommentCount,
+  getWorkContentHtml,
+  getWorkContentSummary,
+  getWorkEndNotes,
   getWorkFandoms,
   getWorkHits,
   getWorkKudosCount,
@@ -30,6 +33,7 @@ import {
   getWorkRating,
   getWorkRelationships,
   getWorkSeries,
+  getWorkStartNotes,
   getWorkSummary,
   getWorkTitle,
   getWorkTotalChapters,
@@ -43,6 +47,7 @@ import {
   parseArchiveId,
   isValidArchiveIdOrNullish,
 } from "src/utils";
+import { getWorkUrl } from "../../dist/urls";
 
 export const getWork = async ({
   workId,
@@ -139,5 +144,28 @@ export const getWorkWithChapters = async ({
     authors: getWorkAuthorsFromChaptersIndex(page),
     workId: parseArchiveId(workId),
     chapters: getChaptersList(page),
+  };
+};
+
+export const getWorkContent = async ({
+  workId,
+  chapterId = null,
+}: {
+  workId: string | number;
+  chapterId?: string | number | null;
+}): Promise<WorkContent> => {
+  if (!isValidArchiveId(workId) || !isValidArchiveIdOrNullish(chapterId)) {
+    throw new Error(`${workId} is not a valid work id`);
+  }
+  const workPage = await loadWorkPage({
+    workId,
+    chapterId: chapterId ?? undefined,
+  });
+
+  return {
+    content: getWorkContentHtml(workPage),
+    startNotes: getWorkStartNotes(workPage),
+    endNotes: getWorkEndNotes(workPage),
+    summary: getWorkContentSummary(workPage),
   };
 };

@@ -28,7 +28,6 @@ export const getChaptersList = ($chapterIndexPage: ChapterIndexPage) => {
       title,
       // Remove parenthesis from the date
       publishedAt: dateNode.text().replace(/[\(\)]/g, ""),
-      // We rebuild the url so it gets the full path
       url,
       shortUrl,
     });

@@ -1,6 +1,11 @@
-import { getWork } from "src/index";
+import { getWork, getWorkContent } from "src/index";
 import { describe, it, expect, beforeAll, afterAll } from "vitest";
 import { resetArchiveBaseUrl, setArchiveBaseUrl } from "src/urls";
+import { prettify } from "htmlfy";
+
+const prettifyOrNullish = (content: string | null) => {
+  return content ? prettify(content) : null;
+};
 
 describe("Works/data", () => {
   beforeAll(() => {
@@ -76,5 +81,43 @@ describe("Works/data", () => {
         "words": 500,
       }
     `);
+  });
+
+  it("should fetch work content with explicit chapter", async () => {
+    const workContent = await getWorkContent({
+      workId: "1269",
+    });
+
+    expect(workContent.summary).not.toBeNull();
+    await expect(prettifyOrNullish(workContent.summary)).toMatchFileSnapshot(
+      "./snapshots/superlove/works/1269/chapter-1-summary.html"
+    );
+
+    expect(workContent.content).not.toBeNull();
+    await expect(prettifyOrNullish(workContent.content)).toMatchFileSnapshot(
+      "./snapshots/superlove/works/1269/chapter-1-content.html"
+    );
+
+    expect(workContent.startNotes).toBeNull();
+    expect(workContent.endNotes).toBeNull();
+  });
+
+  it("should fetch work content with default chapter", async () => {
+    const workContent = await getWorkContent({
+      workId: "1269",
+    });
+
+    expect(workContent.summary).not.toBeNull();
+    await expect(prettifyOrNullish(workContent.summary)).toMatchFileSnapshot(
+      "./snapshots/superlove/works/1269/chapter-1-summary.html"
+    );
+
+    expect(workContent.content).not.toBeNull();
+    await expect(prettifyOrNullish(workContent.content)).toMatchFileSnapshot(
+      "./snapshots/superlove/works/1269/chapter-1-content.html"
+    );
+
+    expect(workContent.startNotes).toBeNull();
+    expect(workContent.endNotes).toBeNull();
   });
 });
