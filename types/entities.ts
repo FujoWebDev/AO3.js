@@ -177,7 +177,7 @@ export interface WorkSummary {
 export interface WorkContent {
   summary: string | null;
   startNotes: string | null;
-  content: string | null;
+  content: string;
   endNotes: string | null;
 }
 
