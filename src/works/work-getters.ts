@@ -196,7 +196,7 @@ export const getWorkLocked = ($workPage: WorkPage) => {
 
 export const getWorkContentHtml = ($workPage: WorkPage): string => {
   let content = $workPage('.userstuff.module[role="article"]').html();
-  // Old work pages have different structures for the content...I think
+  // Works with multiple chapters have a different structure for the content
   if (!content) {
     content = $workPage("#chapters .userstuff").html();
   }
