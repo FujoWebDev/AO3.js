@@ -9,7 +9,7 @@ jobs:
   publish-npm:
     runs-on: ubuntu-latest
     permissions:
-      contents: read
+      contents: write
       id-token: write # Allows GitHub to generate OIDC tokens required for provenance
 
     steps:
@@ -41,3 +41,13 @@ jobs:
       - run: npm publish --provenance --access=public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Commit package version
+        run: |
+          git config --global user.name "boba-tan[bot]"
+          git config --global user.email "boba-tan[bot]@users.noreply.github.com"
+
+          git add package.json package-lock.json
+
+          # The [skip ci] in the commit message prevents this commit from re-triggering workflows.
+          git commit -m "${VERSION} has shipped ⛵🌟💖 [skip ci]"
