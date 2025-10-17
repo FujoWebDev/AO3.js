@@ -1,5 +1,5 @@
 {
-  "name": "@bobaboard/ao3.js",
+  "name": "@fujocoded/ao3.js",
   "version": "0.21.0",
   "description": "A NodeJS API for scraping AO3 data",
   "type": "module",

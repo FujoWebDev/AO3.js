@@ -58,19 +58,19 @@ Using `setFetcher`, you can override the default `fetch` method used by the libr
 With yarn
 
 ```sh
-yarn install @bobaboard/ao3.js
+yarn install @fujocoded/ao3.js
 ```
 
 or npm
 
 ```sh
-npm install @bobaboard/ao3.js
+npm install @fujocoded/ao3.js
 ```
 
 Then go to town in your JavaScript (or TypeScript) files:
 
 ```ts
-import { getTag, getWork } from "@bobaboard/ao3.js";
+import { getTag, getWork } from "@fujocoded/ao3.js";
 
 const tag = await getTag({
   tagName: "Ever Given Container Ship (Anthropomorphic)",
@@ -166,7 +166,7 @@ If you wish to override `fetch` with your own implementation, you can use the
 next section for more details.
 
 ```ts
-import { setFetcher } from "@bobaboard/ao3.js";
+import { setFetcher } from "@fujocoded/ao3.js";
 import fetch from "node-fetch";
 
 // You MUST call this before calling other ao3.js methods
@@ -182,7 +182,7 @@ by using the exported `setFetch` function.
 For example, to override `fetch` with the `node-fetch` implementation:
 
 ```ts
-import { setFetcher } from "@bobaboard/ao3.js";
+import { setFetcher } from "@fujocoded/ao3.js";
 import fetch from "node-fetch";
 
 // You MUST call this before calling other ao3.js methods
@@ -203,7 +203,7 @@ If you want to avoid these issues, you can use the following code to add caching
 automatic retrying to the library:
 
 ```ts
-import { setFetcher } from "@bobaboard/ao3.js";
+import { setFetcher } from "@fujocoded/ao3.js";
 
 const CACHE = new Map();
 setFetcher(async (...params: Parameters<typeof fetch>) => {
