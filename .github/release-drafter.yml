@@ -1,0 +1,25 @@
+name-template: "v$NEXT_MAJOR_VERSION.$NEXT_MINOR_VERSION.$NEXT_PATCH_VERSION"
+tag-template: "v$NEXT_MAJOR_VERSION.$NEXT_MINOR_VERSION.$NEXT_PATCH_VERSION"
+
+exclude-labels:
+  - skip-release
+
+categories:
+  - title: "🌟 New Features"
+    title-regex: "/(Add|Adds|Create|New|Support|Implement)/i"
+  - title: "🔧 Fixed"
+    title-regex: "/(fix|fixed)/i"
+  - title: "📖 Docs"
+    title-regex: "/(Doc|Docs)/i"
+  - title: "🧹 Tidying Up"
+    title-regex: "/(Clean|Update|Remove|Refactor|Redownload)/i"
+  - title: "🎙️ Testing testing testing"
+    title-regex: "/(test|testing)/i"
+
+change-template: "- $TITLE (#$NUMBER) @$AUTHOR"
+change-title-escapes: '\<*_&'
+
+template: |
+  ## Changes in this Release
+
+  $CHANGES
