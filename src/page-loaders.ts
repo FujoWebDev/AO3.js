@@ -1,6 +1,7 @@
 import {
   getSeriesUrl,
   getTagUrl,
+  getSearchUrlFromTagFilters,
   getTagWorksFeedAtomUrl,
   getTagWorksFeedUrl,
   getUserProfileUrl,
@@ -11,7 +12,7 @@ import {
 import { CheerioAPI } from "cheerio";
 import { load } from "cheerio/slim";
 import { getFetcher } from "./fetcher";
-import { ArchiveId } from "types/entities";
+import { ArchiveId, TagSearchFilters } from "types/entities";
 
 // This is a wrapper around the fetch function that loads the page into a CheerioAPI
 // instance and returns the type of the page.
@@ -58,6 +59,19 @@ export interface TagPage extends CheerioAPI {
 export const loadTagPage = async ({ tagName }: { tagName: string }) => {
   return await fetchPage<TagPage>({
     url: getTagUrl(tagName),
+  });
+};
+
+export interface TagSearchPage extends CheerioAPI {
+  kind: "TagSearchPage";
+}
+export const loadTagSearchPage = async ({
+  tagSearchFilters,
+}: {
+  tagSearchFilters: TagSearchFilters;
+}) => {
+  return await fetchPage<TagSearchPage>({
+    url: getSearchUrlFromTagFilters(tagSearchFilters),
   });
 };
 

@@ -30,6 +30,46 @@ export interface Tag {
   }>;
 }
 
+export type TagSearchType =
+  | "fandom"
+  | "character"
+  | "relationship"
+  | "freeform"
+  | "any";
+
+export type TagWranglingStatus =
+  | "canonical"
+  | "noncanonical"
+  | "synonymous"
+  | "canonical_or_synonymous"
+  | "noncanonical_and_nonsynonymous"
+  | "any";
+
+export interface TagSearchFilters {
+  tagName: string | null;
+  fandoms: string[];
+  type: TagSearchType;
+  wranglingStatus: TagWranglingStatus;
+  sortColumn: "name" | "created_at" | "works_count";
+  sortDirection: "asc" | "desc";
+  page: number;
+}
+
+export interface TagSearchResultSummary {
+  filters: TagSearchFilters;
+  totalResults: number;
+  pages: {
+    total: number;
+    current: number;
+  };
+  tags: Array<{
+    name: string;
+    type: "fandom" | "character" | "relationship" | "freeform" | "unsorted";
+    canonical: boolean;
+    worksCount: number;
+  }>;
+}
+
 export interface User {
   id: ArchiveId;
   username: string;

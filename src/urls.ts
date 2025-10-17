@@ -3,7 +3,7 @@ import {
   isValidArchiveIdOrNullish,
   parseArchiveId,
 } from "./utils";
-import { WorkSummary } from "types/entities";
+import { TagSearchFilters, WorkSummary } from "types/entities";
 
 declare global {
   var archiveBaseUrl: string;
@@ -194,4 +194,47 @@ export const getWorkDetailsFromUrl = ({
     chapterId: matchedChapterId && parseArchiveId(matchedChapterId),
     collectionName: url.match(/collections\/(\w+)/)?.[1],
   };
+};
+
+const getSearchParamsFromTagFilters = (
+  searchFilters: Partial<TagSearchFilters>
+) => {
+  // Prepare the parameters for the search as a map first. This makes them a bit
+  // more readable, since these parameters will all need to be wrapped with with
+  // "tag_search[]" in the URL.
+  const parameters = {
+    name: searchFilters.tagName ?? "",
+    fandoms: searchFilters.fandoms?.join(",") ?? "",
+    type: searchFilters.type?.toLowerCase() ?? "",
+    wrangling_status:
+      searchFilters.wranglingStatus
+        // We remove the _or_ and _and_ that we added for readability
+        // so that the values match the expected values for the API.
+        ?.replaceAll("_or_", "_")
+        .replaceAll("_and_", "_") ?? "any",
+    sort_column:
+      searchFilters.sortColumn === "works_count"
+        ? "uses"
+        : searchFilters.sortColumn ?? "name",
+    sort_direction: searchFilters.sortDirection ?? "asc",
+  };
+
+  const searchParams = new URLSearchParams();
+  if (searchFilters.page) {
+    searchParams.set("page", String(searchFilters.page));
+  }
+  searchParams.set("commit", "Search Tags");
+
+  // Now add the parameters to the search params, wrapped with "tag_search[]"
+  for (const [key, value] of Object.entries(parameters)) {
+    searchParams.set(`tag_search[${key}]`, value);
+  }
+
+  return searchParams;
+};
+
+export const getSearchUrlFromTagFilters = (searchFilters: TagSearchFilters) => {
+  const url = new URL(`tags/search`, getArchiveBaseUrl());
+  url.search = getSearchParamsFromTagFilters(searchFilters).toString();
+  return url.href;
 };

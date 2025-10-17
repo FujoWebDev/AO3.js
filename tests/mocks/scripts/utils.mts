@@ -87,6 +87,42 @@ export function getArchiveDataDir(archive: "ao3" | "superlove" = "ao3") {
   return path.join(getRootDataDir(), archive);
 }
 
+const getNormalizedTagSearchFolder = (searchParams: URLSearchParams) => {
+  const entries: string[] = [];
+  // Sort the parameters to make the folder name deterministic
+  const keys = Array.from(new Set([...searchParams.keys()])).sort();
+
+  for (const key of keys) {
+    // Page is used for the page number instead (i.e. 01.html, 02.html, etc.)
+    if (key === "page") {
+      continue;
+    }
+    const values = searchParams.getAll(key);
+    // Also sort the values of the same keys
+    const sortedValues = values.length > 1 ? [...values].sort() : values;
+    for (const value of sortedValues) {
+      const segment = `${key}=${value == "any" ? "" : value}`;
+      entries.push(filenamify(segment.toLowerCase(), { replacement: "_", maxLength: 100 }));
+    }
+  }
+
+  if (entries.length === 0) {
+    return "default";
+  }
+
+  return entries.join("__");
+};
+
+export const getFilePathForSearchUrl = (parsedUrl: URL) => {
+  const folderName = getNormalizedTagSearchFolder(parsedUrl.searchParams);
+  const rawPage = parsedUrl.searchParams.get("page");
+  const page = Number.parseInt(rawPage ?? "1", 10);
+  const fileName = `${String(page).padStart(2, "0")}.html`;
+
+  // TODO: make this support other search types with time
+  return path.join("tag-search", folderName, fileName);
+};
+
 export function getFilePathFromUrl(url: string | URL) {
   const archive = getArchiveFromUrl(url);
   const parsedUrl = new URL(url);
@@ -96,6 +132,13 @@ export function getFilePathFromUrl(url: string | URL) {
 
   const lastSegment = segments[segments.length - 1];
   const hasExtension = lastSegment?.includes(".");
+
+  if (segments[0] === "tags" && lastSegment === "search") {
+    return path.join(
+      getArchiveDataDir(archive),
+      getFilePathForSearchUrl(parsedUrl)
+    );
+  }
 
   // If the last segment is a file, use segments up to the last one for the directory
   // Otherwise use all segments, unless the last path is "works".
