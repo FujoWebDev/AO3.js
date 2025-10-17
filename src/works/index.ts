@@ -47,7 +47,6 @@ import {
   parseArchiveId,
   isValidArchiveIdOrNullish,
 } from "src/utils";
-import { getWorkUrl } from "../../dist/urls";
 
 export const getWork = async ({
   workId,

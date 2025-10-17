@@ -32,6 +32,7 @@
     "LICENSE"
   ],
   "scripts": {
+    "type-check": "tsc --noEmit",
     "build": "vite build",
     "test": "vitest --disable-console-intercept",
     "test:update": "vitest -u",
