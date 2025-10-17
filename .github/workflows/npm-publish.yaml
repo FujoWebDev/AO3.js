@@ -1,6 +1,7 @@
 name: Publish Package
 
 on:
+  workflow_dispatch:
   release:
     types: [published]
 
@@ -22,9 +23,18 @@ jobs:
       - run: npm ci
       - run: npm test
 
-      - name: Update version
+      - name: Set package version
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
-          VERSION=${GITHUB_REF#refs/tags/v}
+          if [[ "${{ github.event_name }}" == "release" ]]; then
+            VERSION=${GITHUB_REF#refs/tags/v}
+          else
+            # Fetch the latest release tag using the GitHub CLI
+            VERSION=$(gh release view --json tagName --jq .tagName | sed 's/^v//')
+          fi
+
+          echo "Setting package version to ${VERSION}"
           npm version $VERSION --no-git-tag-version
 
       - run: npm publish --provenance --access=public
