@@ -21,18 +21,18 @@ categories:
     labels:
       - feature
       - enhancement
-  - title: "🔧 Fixed"
+  - title: "🔧 Issues Vanquished"
     labels:
       - fix
       - bugfix
-  - title: "📖 Docs"
+  - title: "📖 Knowledge Passed Down"
     labels:
       - documentation
-  - title: "🧹 Tidying Up"
+  - title: "🧹 Tidied Up"
     labels:
       - housekeeping
       - refactor
-  - title: "🎙️ Testing testing testing"
+  - title: "🎙️ Testing testing—"
     labels:
       - test
 
@@ -54,6 +54,15 @@ version-resolver:
   default: patch
 
 template: |
-  ## In the Latest Episode of `AO3.js`...
+  ## In the Latest Episode of `@fujocoded/ao3.js`...
 
   $CHANGES
+
+  ### Upgrading to the latest version
+
+  You can install or upgrade to the latest version of `@fujocoded/ao3.js` by running
+  the following command in your terminal:
+
+  ```sh
+  npm install @fujocoded/ao3.js@latest
+  ```

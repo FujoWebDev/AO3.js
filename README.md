@@ -4,7 +4,7 @@
 
 ![AO3.js logo](./logo-transparent-small.png)
 
-Scrapes data from [ao3.org](https://ao3.org). Now with Types™.
+Scrapes data from [ao3.org](https://ao3.org) and beyond. Now with Types™.
 
 <!-- Add the <a> so IMGs will stay on the same line -->
 <a href="#">
@@ -19,13 +19,18 @@ Scrapes data from [ao3.org](https://ao3.org). Now with Types™.
 <a href="https://fancoders.com/">
     <img src="https://img.shields.io/badge/fandom-coders-ff69b4" alt="Fandom Coders badge"/>
 </a>
+<a href="https://npmjs.com/package/@fujocoded/ao3.js">
+
+![npm version](https://badge.fury.io/js/%40fujocoded%2Fao3.js.svg)
+
+</a>
 </div>
 
-## What it is
+## What is `@fujocoded/ao3.js`?
 
-**AO3.js** is a Node.js (et al.) API for scraping AO3 (Archive of Our Own) data straight to your own JavaScript (or TypeScript) server. It provides an interface to retrieve information on AO3 tags, works, series, and more!
+**AO3.js is a Node.js library for fetching Archive of Our Own data** from your own JavaScript (or TypeScript!) server or command line tool. It provides an easy-to-use interface for retrieving information like tags, works, series, and more, from any AO3-compatible archive.
 
-## What is capable of
+## What can `@fujocoded/ao3.js` do?
 
 | Method                                                | Description                                | Parameters                                                                        | Return Type                                                                                                              |
 | ----------------------------------------------------- | ------------------------------------------ | --------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ |

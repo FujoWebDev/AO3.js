@@ -50,5 +50,11 @@ jobs:
 
           git add package.json package-lock.json
 
-          # The [skip ci] in the commit message prevents this commit from re-triggering workflows.
-          git commit -m "${VERSION} has shipped ⛵🌟💖 [skip ci]"
+          # Only commit if there are changes to commit so the action doesn't fail
+          if ! git diff --staged --quiet; then
+            # The [skip ci] in the commit message prevents this commit from re-triggering workflows.
+            git commit -m "${VERSION} has shipped ⛵🌟💖 [skip ci]"
+            git push
+          else
+            echo "No changes to commit."
+          fi
