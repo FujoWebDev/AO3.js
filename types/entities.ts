@@ -235,3 +235,21 @@ export interface Chapter {
   url: string;
   shortUrl: string;
 }
+
+export interface WorkSeries {
+  id: string;
+  title: string;
+  url: string;
+  currentWork: {
+    id: string;
+    index: number;
+    prevWorkId: string | null;
+    nextWorkId: string | null;
+  };
+}
+
+export interface WorkCollection {
+  displayTitle: string;
+  collectionName: string;
+  url: string;
+}
