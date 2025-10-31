@@ -137,7 +137,7 @@ jobs:
 
   create-failure-pr-and-issue:
     runs-on: ubuntu-latest
-    needs: update-snapshots
+    needs: [test-data, update-snapshots]
     if: ${{ needs.update-snapshots.outputs.tests-passed == 'false' }}
 
     steps:
