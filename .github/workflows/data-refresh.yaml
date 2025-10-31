@@ -59,6 +59,10 @@ jobs:
   update-snapshots:
     runs-on: ubuntu-latest
     needs: test-data
+    # TODO: this is a workaround to allow the job to continue even if the tests fail so
+    # we can post the outcome of the job in case of failure but it will show the job as successful
+    # even if the tests fail. We should figure out how to do this without continuing on error.
+    continue-on-error: true
     if: ${{ needs.test-data.outputs.tests-passed == 'false' }}
     outputs:
       tests-passed: ${{ (steps.retest.outcome == 'success' && 'true') || 'false' }}
