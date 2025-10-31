@@ -16,7 +16,7 @@ jobs:
   test-data:
     runs-on: ubuntu-latest
     outputs:
-      tests-passed: ${{ steps.test.outcome == 'success' }}
+      tests-passed: ${{ (steps.test.outcome == 'success' && 'true') || 'false' }}
       branch-name: ${{ steps.branch.outputs.name }}
 
     steps:
@@ -59,9 +59,9 @@ jobs:
   update-snapshots:
     runs-on: ubuntu-latest
     needs: test-data
-    if: needs.test-data.outputs.tests-passed == false
+    if: ${{ needs.test-data.outputs.tests-passed == 'false' }}
     outputs:
-      tests-passed: ${{ steps.retest.outcome == 'success' }}
+      tests-passed: ${{ (steps.retest.outcome == 'success' && 'true') || 'false' }}
 
     steps:
       - name: Checkout repository
@@ -110,7 +110,7 @@ jobs:
   create-success-pr:
     runs-on: ubuntu-latest
     needs: [test-data, update-snapshots]
-    if: needs.update-snapshots.outputs.tests-passed == true
+    if: ${{ needs.update-snapshots.outputs.tests-passed == 'true' }}
 
     steps:
       - name: Create Pull Request
@@ -133,8 +133,8 @@ jobs:
 
   create-failure-pr-and-issue:
     runs-on: ubuntu-latest
-    needs: [test-data, update-snapshots]
-    if: needs.update-snapshots.outputs.tests-passed == false
+    needs: update-snapshots
+    if: ${{ needs.update-snapshots.outputs.tests-passed == 'false' }}
 
     steps:
       - name: Create issue for failed tests
