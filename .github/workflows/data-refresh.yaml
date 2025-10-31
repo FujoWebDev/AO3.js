@@ -59,7 +59,7 @@ jobs:
   update-snapshots:
     runs-on: ubuntu-latest
     needs: test-data
-    if: needs.test-data.outputs.tests-passed == 'false'
+    if: needs.test-data.outputs.tests-passed == false
     outputs:
       tests-passed: ${{ steps.retest.outcome == 'success' }}
 
@@ -110,7 +110,7 @@ jobs:
   create-success-pr:
     runs-on: ubuntu-latest
     needs: [test-data, update-snapshots]
-    if: needs.update-snapshots.outputs.tests-passed == 'true'
+    if: needs.update-snapshots.outputs.tests-passed == true
 
     steps:
       - name: Create Pull Request
@@ -134,7 +134,7 @@ jobs:
   create-failure-pr-and-issue:
     runs-on: ubuntu-latest
     needs: [test-data, update-snapshots]
-    if: needs.update-snapshots.outputs.tests-passed == 'false'
+    if: needs.update-snapshots.outputs.tests-passed == false
 
     steps:
       - name: Create issue for failed tests
