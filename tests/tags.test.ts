@@ -258,6 +258,7 @@ describe("Tags/parent", () => {
         "Sherlock Holmes - Arthur Conan Doyle",
         "Sherlock Holmes Chapter One (Video Game)",
         "Sherlock Holmes in the 22nd Century (Cartoon)",
+        "Sherlock Holmes: Die geheimen Fälle des Meisterdetektivs (Radio)",
         "Sherlock Holmes: The Awakened (Video Game)",
         "Sherlock: Find Hidden Objects (Video Game)",
         "The Irregulars (TV)",
@@ -296,6 +297,10 @@ describe("Tags/sub", () => {
           parentSubTag: "Body Dysphoria",
         },
         { tagName: "Gender Dysphoria", parentSubTag: null },
+        {
+          "parentSubTag": "Gender Dysphoria",
+          "tagName": "TommyInnit Has Gender Dysphoria (Video Blogging RPF)",
+        }
       ],
     });
   });

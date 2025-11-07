@@ -139,6 +139,7 @@ describe("Tags/search", () => {
         "Susan (Hazbin Hotel)",
         "The Egg Bois (Hazbin Hotel)",
         "The Seven Deadly Sins (Hazbin Hotel & Helluva Boss)",
+        "The Speaker of God (Hazbin Hotel)",
         "The Three V's (Hazbin Hotel)",
         "Tiffany Titfucker (Hazbin Hotel)",
         "Tom Trench",
@@ -153,7 +154,6 @@ describe("Tags/search", () => {
         "Victor (Daisies - Black Gryph0n & Baasik)",
         "Vinny Shortcake (Hazbin Hotel)",
         "Vox (Hazbin Hotel)",
-        "Vox's Assistant (Hazbin Hotel)",
       ]
     `);
   });
@@ -182,6 +182,7 @@ describe("Tags/search", () => {
     // because this fandom gets a lot of new works
     expect(result.tags.map((tag) => tag.name)).toMatchInlineSnapshot(`
       [
+        "Vox's Assistant (Hazbin Hotel)",
         "Zeezi (Hazbin Hotel)",
         "Zestial (Hazbin Hotel)",
       ]
@@ -228,7 +229,7 @@ describe("Tags/search", () => {
       page: 2,
     });
 
-    expect(result.totalResults).toBe(199);
+    expect(result.totalResults).toBe(204);
 
     // Some tags we should find to make sure the parser is working correctly.
     const UNSORTED_TAG = "an unusual ship that actually works very well! :)";
