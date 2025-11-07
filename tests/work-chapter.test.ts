@@ -6,7 +6,7 @@ describe("Work Chapter/chapter", () => {
   it("should use null for single-chapter work", async () => {
     const work = await getWork({ workId: 168768 });
 
-    expect(!work.locked).toBeTruthy();
+    expect(work.locked).toBeFalsy();
 
     expect(work).toMatchObject({
       id: 168768,

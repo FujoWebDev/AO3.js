@@ -30,6 +30,35 @@ function getUrlFromPath(
 
   const segments = urlPath.split(path.sep).filter(Boolean);
 
+  if (segments.includes("tag-search")) {
+    // We assume the last segment is the one with the search tags, may
+    // the odds be ever in our favor
+    const searchParamsList = segments[segments.length - 1].split("__");
+    const polishedSearchParamsList = [];
+
+    for (const param of searchParamsList) {
+      if (param.includes('[type]')) {
+        // Type should have the first lettter capitalized so we split the search param by "="
+        // and capitalize the following word
+        const [searchParam, value] = param.split("=");
+        const typeCapitalized = value.charAt(0).toUpperCase() + value.slice(1);
+        polishedSearchParamsList.push(`${searchParam}=${typeCapitalized}`);
+        continue;
+      }
+      // For general tags we need to replace spaces with +
+      polishedSearchParamsList.push(param.replaceAll(" ", "+"));
+    }
+    // We add one last param, which is the number of the page, which is
+    // the name of the file 
+    polishedSearchParamsList.push(`page=${filename}`.replace(".html", ""))
+    
+    const tagsSearchUrl = new URL(`/tags/search`, getArchiveUrl(archive));
+    tagsSearchUrl.search = polishedSearchParamsList.join("&")
+    
+    return tagsSearchUrl.toString();
+
+  }
+
   const encodedPath = segments
     .map((segment) =>
       encodeURIComponent(
