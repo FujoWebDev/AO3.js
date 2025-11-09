@@ -132,6 +132,7 @@ describe("Tags/search", () => {
         "Satan (Helluva Boss)",
         "Sera (Hazbin Hotel)",
         "Seviathan Von Eldritch",
+        "Shok.wav | Vox's Shark (Hazbin Hotel)",
         "Sir Pentious (Hazbin Hotel)",
         "Sir Pentious's Hat (Hazbin Hotel)",
         "St. Peter (Hazbin Hotel)",
@@ -153,7 +154,6 @@ describe("Tags/search", () => {
         "Velvette (Hazbin Hotel)",
         "Victor (Daisies - Black Gryph0n & Baasik)",
         "Vinny Shortcake (Hazbin Hotel)",
-        "Vox (Hazbin Hotel)",
       ]
     `);
   });
@@ -182,6 +182,7 @@ describe("Tags/search", () => {
     // because this fandom gets a lot of new works
     expect(result.tags.map((tag) => tag.name)).toMatchInlineSnapshot(`
       [
+        "Vox (Hazbin Hotel)",
         "Vox's Assistant (Hazbin Hotel)",
         "Zeezi (Hazbin Hotel)",
         "Zestial (Hazbin Hotel)",
