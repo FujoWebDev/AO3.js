@@ -69,13 +69,13 @@ describe("Tags/search", () => {
         "God (Hazbin Hotel)",
         "Happy Hotel | Hazbin Hotel Residents",
         "Harold Von Eldrich",
+        "Hatchet (Hazbin Hotel)",
         "Hazbin Hotel Ensemble",
         "Helsa Von Eldritch",
         "Henroin (Hazbin Hotel)",
         "Husk (Hazbin Hotel)",
         "Husk's Father (Hazbin Hotel)",
         "Husk's Mother (Hazbin Hotel)",
-        "Izzi (Hazbin Hotel)",
       ]
     `);
   });
@@ -104,6 +104,8 @@ describe("Tags/search", () => {
     // because this fandom gets a lot of new works
     expect(result.tags.map((tag) => tag.name)).toMatchInlineSnapshot(`
       [
+        "Huskettes (Hazbin Hotel)",
+        "Izzi (Hazbin Hotel)",
         "Katie Killjoy",
         "KeeKee (Hazbin Hotel)",
         "Kitty (Hazbin Hotel)",
@@ -149,11 +151,9 @@ describe("Tags/search", () => {
         "Vaggie's Father (Hazbin Hotel)",
         "Vaggie's Mother (Hazbin Hotel)",
         "Valentino (Hazbin Hotel)",
+        "Valentino's Mother (Hazbin Hotel)",
         "Vark | Vox's Shark (Hazbin Hotel)",
         "Vax (Hazbin Hotel)",
-        "Velvette (Hazbin Hotel)",
-        "Victor (Daisies - Black Gryph0n & Baasik)",
-        "Vinny Shortcake (Hazbin Hotel)",
       ]
     `);
   });
@@ -182,8 +182,13 @@ describe("Tags/search", () => {
     // because this fandom gets a lot of new works
     expect(result.tags.map((tag) => tag.name)).toMatchInlineSnapshot(`
       [
+        "Velvette (Hazbin Hotel)",
+        "Victor (Daisies - Black Gryph0n & Baasik)",
+        "Vinny Shortcake (Hazbin Hotel)",
         "Vox (Hazbin Hotel)",
         "Vox's Assistant (Hazbin Hotel)",
+        "Vox's Father (Hazbin Hotel)",
+        "Vox's Mother (Hazbin Hotel)",
         "Zeezi (Hazbin Hotel)",
         "Zestial (Hazbin Hotel)",
       ]
