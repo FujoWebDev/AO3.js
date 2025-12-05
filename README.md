@@ -63,7 +63,7 @@ Using `setFetcher`, you can override the default `fetch` method used by the libr
 With yarn
 
 ```sh
-yarn install @fujocoded/ao3.js
+yarn add @fujocoded/ao3.js
 ```
 
 or npm
