@@ -47,6 +47,7 @@ describe("Tags/search", () => {
         "Bryrin (Hazbin Hotel)",
         "Cannibal Child Vaggie Spares in Flashback (Hazbin Hotel)",
         "Cannibal Town Ensemble (Hazbin Hotel)",
+        "Captive Alastor's Swivel Chair (Hazbin Hotel)",
         "Carmilla Carmine (Hazbin Hotel)",
         "Carmilla Carmine's Daughters (Hazbin Hotel)",
         "Charlie Magne | Morningstar",
@@ -59,6 +60,7 @@ describe("Tags/search", () => {
         "Egg Boi #23 (Hazbin Hotel)",
         "Emily (Hazbin Hotel)",
         "Essie (Hazbin Hotel)",
+        "Ethan | Vox's Assistant (Hazbin Hotel)",
         "Eve (Hazbin Hotel)",
         "Ewe Demon (Hazbin Hotel)",
         "Exorcist Angels (Hazbin Hotel)",
@@ -66,6 +68,7 @@ describe("Tags/search", () => {
         "Frank (Hazbin Hotel)",
         "Franklin (Hazbin Hotel)",
         "Frederick Von Eldritch",
+        "Gambling Rabbit Demon (Hazbin Hotel)",
         "God (Hazbin Hotel)",
         "Happy Hotel | Hazbin Hotel Residents",
         "Harold Von Eldrich",
@@ -73,9 +76,6 @@ describe("Tags/search", () => {
         "Hazbin Hotel Ensemble",
         "Helsa Von Eldritch",
         "Henroin (Hazbin Hotel)",
-        "Husk (Hazbin Hotel)",
-        "Husk's Father (Hazbin Hotel)",
-        "Husk's Mother (Hazbin Hotel)",
       ]
     `);
   });
@@ -104,6 +104,9 @@ describe("Tags/search", () => {
     // because this fandom gets a lot of new works
     expect(result.tags.map((tag) => tag.name)).toMatchInlineSnapshot(`
       [
+        "Husk (Hazbin Hotel)",
+        "Husk's Father (Hazbin Hotel)",
+        "Husk's Mother (Hazbin Hotel)",
         "Huskettes (Hazbin Hotel)",
         "Izzi (Hazbin Hotel)",
         "Katie Killjoy",
@@ -115,6 +118,7 @@ describe("Tags/search", () => {
         "Lucifer Magne | Morningstar",
         "Lucifer Magne | Morningstar's Siblings",
         "Lute (Hazbin Hotel)",
+        "Maestro (Hazbin Hotel)",
         "Melissa (Hazbin Hotel)",
         "Mimzy (Hazbin Hotel)",
         "Missi Zilla",
@@ -127,8 +131,11 @@ describe("Tags/search", () => {
         "Original Hazbin Hotel Character(s)",
         "Original Magne | Morningstar Character(s)",
         "Overlords (Hazbin Hotel)",
+        "Prick (Hazbin Hotel)",
         "Razzle (Hazbin Hotel)",
+        "Robert "Bob" Sinclaire (Hazbin Hotel)",
         "Roo (Hazbin Hotel)",
+        "Rooster (Hazbin Hotel)",
         "Rosie (Hazbin Hotel)",
         "Rosie's First Husband (Hazbin Hotel)",
         "Satan (Helluva Boss)",
@@ -147,13 +154,6 @@ describe("Tags/search", () => {
         "Tiffany Titfucker (Hazbin Hotel)",
         "Tom Trench",
         "Travis (Hazbin Hotel)",
-        "Vaggie (Hazbin Hotel)",
-        "Vaggie's Father (Hazbin Hotel)",
-        "Vaggie's Mother (Hazbin Hotel)",
-        "Valentino (Hazbin Hotel)",
-        "Valentino's Mother (Hazbin Hotel)",
-        "Vark | Vox's Shark (Hazbin Hotel)",
-        "Vax (Hazbin Hotel)",
       ]
     `);
   });
@@ -182,6 +182,13 @@ describe("Tags/search", () => {
     // because this fandom gets a lot of new works
     expect(result.tags.map((tag) => tag.name)).toMatchInlineSnapshot(`
       [
+        "Vaggie (Hazbin Hotel)",
+        "Vaggie's Father (Hazbin Hotel)",
+        "Vaggie's Mother (Hazbin Hotel)",
+        "Valentino (Hazbin Hotel)",
+        "Valentino's Mother (Hazbin Hotel)",
+        "Vark | Vox's Shark (Hazbin Hotel)",
+        "Vax (Hazbin Hotel)",
         "Velvette (Hazbin Hotel)",
         "Victor (Daisies - Black Gryph0n & Baasik)",
         "Vinny Shortcake (Hazbin Hotel)",
@@ -235,7 +242,7 @@ describe("Tags/search", () => {
       page: 2,
     });
 
-    expect(result.totalResults).toBe(204);
+    expect(result.totalResults).toBe(205);
 
     // Some tags we should find to make sure the parser is working correctly.
     const UNSORTED_TAG = "an unusual ship that actually works very well! :)";

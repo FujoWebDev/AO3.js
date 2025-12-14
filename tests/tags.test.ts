@@ -236,9 +236,11 @@ describe("Tags/parent", () => {
     expect(tag.parentTags).toMatchInlineSnapshot(`
       [
         "221B Baker Towers",
+        "A Sherlock Holmes Adventure Series - Bonnie MacBird",
         "A Study in Emerald - Neil Gaiman",
         "A Study in Terror (1965)",
         "Baskerville: A Sherlock Holmes Mystery - Ludwig",
+        "Dr. Jekyll and Mr. Holmes - Loren D. Estleman",
         "Dr. Watson Thrillers - Robert Ryan",
         "Dust and Shadow - Lyndsay Faye",
         "Elementary (TV)",
@@ -248,6 +250,7 @@ describe("Tags/parent", () => {
         "Hark! A Vagrant",
         "Holmes & Watson (2018)",
         "Holmes Has Dementia | Series 4 Finale - That Mitchell & Webb Look Sketch",
+        "Holmes: Science of Seduction (Visual Novel)",
         "Hound of the Baskervilles - Canny & Nicholson",
         "Irene Adler Series - Carole Nelson Douglas",
         "Mary Russell - Laurie R. King",
@@ -266,6 +269,7 @@ describe("Tags/parent", () => {
         "Sherlock Holmes in the 22nd Century (Cartoon)",
         "Sherlock Holmes: Die geheimen Fälle des Meisterdetektivs (Radio)",
         "Sherlock Holmes: The Awakened (Video Game)",
+        "Sherlock Holmes: The Game is Afoot! - Takarazuka Revue",
         "Sherlock: Find Hidden Objects (Video Game)",
         "The Irregulars (TV)",
         "The Private Life of Sherlock Holmes (1970)",
