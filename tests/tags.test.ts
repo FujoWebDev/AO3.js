@@ -258,7 +258,7 @@ describe("Tags/parent", () => {
         "Mycroft Holmes Series - Kareem Abdul-Jabbar & Anna Waterhouse",
         "Sherlock & Co. (Podcast)",
         "Sherlock & Daughter (TV)",
-        "Sherlock (TV)",
+        "Sherlock (BBC TV 2010)",
         "Sherlock Holmes & Related Fandoms",
         "Sherlock Holmes (Downey Movies)",
         "Sherlock Holmes (Granada TV 1984)",
