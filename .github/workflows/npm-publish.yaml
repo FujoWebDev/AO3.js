@@ -37,6 +37,8 @@ jobs:
           fi
 
           echo "Setting package version to ${VERSION}"
+          # Persist VERSION for later steps so we can use it for the commit message
+          echo "VERSION=${VERSION}" >> $GITHUB_ENV
           npm version $VERSION --no-git-tag-version
 
       - run: npm publish --provenance --access=public
