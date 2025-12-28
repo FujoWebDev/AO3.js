@@ -94,6 +94,8 @@ jobs:
           path: tests/mocks/data/
 
       - name: Update snapshots
+        # TODO: check if we need the next step or we can just run this one instead
+        continue-on-error: true
         run: npm run test:update
 
       - name: Run tests again
