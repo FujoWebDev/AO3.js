@@ -1,8 +1,20 @@
+import { describe, expect, it } from "vitest";
+
+import { InvalidIDError } from "src/utils";
 import { getSeries } from "src/index";
-import { describe, it, expect } from 'vitest';
+
 // TODO: Add more tests
 
 describe("Series/data", () => {
+  it("should throw InvalidIDError for invalid series ID", async () => {
+    const invalidSeries = getSeries({ seriesId: "invalid-id" });
+
+    await expect(invalidSeries).rejects.toThrow(InvalidIDError);
+    await expect(invalidSeries).rejects.toThrow(
+      "invalid-id is not a valid series id"
+    );
+  });
+
   it("should fetch series information and check top level fields", async () => {
     const series = await getSeries({ seriesId: "2270465" });
 
