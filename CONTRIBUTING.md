@@ -51,7 +51,7 @@ us help you through the process.
 
 ## How to Develop for AO3.js
 
-The first step is alway the same: run `npm install` and install all the
+The first step is always the same: run `npm install` and install all the
 dependencies for the package.
 
 ### How to Run Tests

@@ -12,3 +12,12 @@ export const isValidArchiveIdOrNullish = <
   id: T
 ): id is Exclude<T, string> =>
   typeof id === "undefined" || id === null || parseArchiveId(id) == id;
+
+export class InvalidIDError extends Error {
+  message: string;
+
+  constructor(id: string | number, type: "work" | "chapter" | "series") {
+    super();
+    this.message = `${id} is not a valid ${type} id`;
+  }
+}
