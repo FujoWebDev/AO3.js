@@ -1,7 +1,10 @@
+import { describe, expect, it } from "vitest";
 import { getWorkDetailsFromUrl, getWorkUrl } from "src/urls";
-import { getWork } from "src/index";
-import { describe, it, expect } from "vitest";
+
+import { InvalidIDError } from "src/utils";
 import type { WorkSummary } from "types/entities";
+import { getWork } from "src/index";
+
 // TODO: this file is too long and should be split into multiple tests
 
 describe("Works/parse", () => {
@@ -73,6 +76,15 @@ describe("Works/url", () => {
 });
 
 describe("Works/data", () => {
+  it("should throw InvalidIDError for invalid work ID", async () => {
+    const invalidWork = getWork({ workId: "invalid-id" });
+
+    await expect(invalidWork).rejects.toThrow(InvalidIDError);
+    await expect(invalidWork).rejects.toThrow(
+      "invalid-id is not a valid work id"
+    );
+  });
+
   it("should fetch work information in its entirety", async () => {
     const work = await getWork({
       workId: 29046888,

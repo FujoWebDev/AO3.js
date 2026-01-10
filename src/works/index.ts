@@ -1,15 +1,16 @@
 import type {
   Author,
   Chapter,
-  WorkContent,
   LockedWorkSummary,
+  WorkContent,
   WorkSummary,
 } from "types/entities";
 import {
-  getChaptersList,
-  getWorkAuthors as getWorkAuthorsFromChaptersIndex,
-  getWorkTitle as getWorkTitleFromChaptersIndex,
-} from "./chapter-getters";
+  InvalidIDError,
+  isValidArchiveId,
+  isValidArchiveIdOrNullish,
+  parseArchiveId,
+} from "src/utils";
 import {
   getChapterIndex,
   getChapterName,
@@ -41,12 +42,12 @@ import {
   getWorkWarnings,
   getWorkWordCount,
 } from "./work-getters";
-import { loadChaptersIndexPage, loadWorkPage } from "src/page-loaders";
 import {
-  isValidArchiveId,
-  parseArchiveId,
-  isValidArchiveIdOrNullish,
-} from "src/utils";
+  getChaptersList,
+  getWorkAuthors as getWorkAuthorsFromChaptersIndex,
+  getWorkTitle as getWorkTitleFromChaptersIndex,
+} from "./chapter-getters";
+import { loadChaptersIndexPage, loadWorkPage } from "src/page-loaders";
 
 export const getWork = async ({
   workId,
@@ -56,10 +57,10 @@ export const getWork = async ({
   chapterId?: string | number;
 }): Promise<WorkSummary | LockedWorkSummary> => {
   if (!isValidArchiveId(workId)) {
-    throw new Error(`${workId} is not a valid work id`);
+    throw new InvalidIDError(workId, "work");
   }
   if (!isValidArchiveIdOrNullish(chapterId)) {
-    throw new Error(`${workId} is not a valid chapter id`);
+    throw new InvalidIDError(workId, "chapter");
   }
 
   const workPage = await loadWorkPage({ workId, chapterId });
@@ -134,7 +135,7 @@ export const getWorkWithChapters = async ({
   chapters: Chapter[];
 }> => {
   if (!isValidArchiveId(workId)) {
-    throw new Error(`${workId} is not a valid work id`);
+    throw new InvalidIDError(workId, "work");
   }
   const page = await loadChaptersIndexPage({ workId });
 
@@ -154,7 +155,7 @@ export const getWorkContent = async ({
   chapterId?: string | number | null;
 }): Promise<WorkContent> => {
   if (!isValidArchiveId(workId) || !isValidArchiveIdOrNullish(chapterId)) {
-    throw new Error(`${workId} is not a valid work id`);
+    throw new InvalidIDError(workId, "work");
   }
   const workPage = await loadWorkPage({
     workId,

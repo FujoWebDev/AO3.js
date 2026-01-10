@@ -1,5 +1,4 @@
-import { loadSeriesPage } from "src/page-loaders";
-import type { Series } from "types/entities";
+import { InvalidIDError, isValidArchiveId, parseArchiveId } from "src/utils";
 import {
   getSeriesAuthors,
   getSeriesBookmarkCount,
@@ -13,7 +12,9 @@ import {
   getSeriesWorkCount,
   getSeriesWorks,
 } from "./getters";
-import { isValidArchiveId, parseArchiveId } from "src/utils";
+
+import type { Series } from "types/entities";
+import { loadSeriesPage } from "src/page-loaders";
 
 export const getSeries = async ({
   seriesId,
@@ -21,7 +22,7 @@ export const getSeries = async ({
   seriesId: string | number;
 }): Promise<Series> => {
   if (!isValidArchiveId(seriesId)) {
-    throw new Error(`${seriesId} is not a valid series id`);
+    throw new InvalidIDError(seriesId, "series");
   }
 
   const seriesPage = await loadSeriesPage(seriesId);

@@ -1,4 +1,5 @@
 import {
+  InvalidIDError,
   isValidArchiveId,
   isValidArchiveIdOrNullish,
   parseArchiveId,
@@ -38,7 +39,7 @@ export const getWorkUrl = ({
   let workPath = "";
 
   if (!isValidArchiveId(workId)) {
-    throw new Error(`${workId} is not a valid work id`);
+    throw new InvalidIDError(workId, "work");
   }
 
   if (collectionName) {
@@ -50,7 +51,7 @@ export const getWorkUrl = ({
 
   if (chapterId) {
     if (!isValidArchiveId(chapterId)) {
-      throw new Error(`${workId} is not a valid chapter id`);
+      throw new InvalidIDError(workId, "chapter");
     }
 
     workPath += `/chapters/${chapterId}`;
@@ -61,14 +62,14 @@ export const getWorkUrl = ({
 
 export const getWorkIndexUrl = ({ workId }: { workId: string | number }) => {
   if (!isValidArchiveId(workId)) {
-    throw new Error(`${workId} is not a valid work id`);
+    throw new InvalidIDError(workId, "work");
   }
   return new URL(`works/${workId}/navigate`, getArchiveBaseUrl()).href;
 };
 
 export const getSeriesUrl = ({ seriesId }: { seriesId: string | number }) => {
   if (!isValidArchiveId(seriesId)) {
-    throw new Error(`${seriesId} is not a valid series id`);
+    throw new InvalidIDError(seriesId, "series");
   }
 
   return new URL(`series/${seriesId}`, getArchiveBaseUrl()).href;
@@ -182,11 +183,11 @@ export const getWorkDetailsFromUrl = ({
   const matchedWorkId = workUrlMatch[1];
   const matchedChapterId = url.match(/chapters\/(\d+)/)?.[1];
   if (!isValidArchiveId(matchedWorkId)) {
-    throw new Error(`${matchedWorkId} is not a valid work id`);
+    throw new InvalidIDError(matchedWorkId, "work");
   }
 
   if (!isValidArchiveIdOrNullish(matchedChapterId)) {
-    throw new Error(`${matchedChapterId} is not a valid chapter id`);
+    throw new InvalidIDError(matchedChapterId, "chapter");
   }
 
   return {
