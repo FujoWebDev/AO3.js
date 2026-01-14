@@ -206,7 +206,10 @@ const getSearchParamsFromTagFilters = (
   const parameters = {
     name: searchFilters.tagName ?? "",
     fandoms: searchFilters.fandoms?.join(",") ?? "",
-    type: searchFilters.type?.toLowerCase() ?? "",
+    type: searchFilters.type
+      ? searchFilters.type.charAt(0).toUpperCase() +
+        searchFilters.type.slice(1).toLowerCase()
+      : "",
     wrangling_status:
       searchFilters.wranglingStatus
         // We remove the _or_ and _and_ that we added for readability
