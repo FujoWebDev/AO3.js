@@ -1,5 +1,11 @@
-import type { Author, BasicSeries, WorkSummary } from "types/entities";
-import { WorkCategory, WorkRatings, WorkWarnings } from "types/entities";
+import {
+  Author,
+  BasicSeries,
+  WorkCategory,
+  WorkRatings,
+  WorkSummary,
+  WorkWarnings,
+} from "types/entities";
 import { isValidArchiveId, parseArchiveId } from "src/utils";
 
 import { WorkPage } from "src/page-loaders";
@@ -195,21 +201,56 @@ export const getWorkLocked = ($workPage: WorkPage) => {
   return !!$workPage("#signin > .heading").text();
 };
 
+const ADULT_CATEGORIES: WorkRatings[] = [
+  WorkRatings.EXPLICIT,
+  WorkRatings.MATURE,
+  WorkRatings.NOT_RATED,
+];
 export const getWorkAdult = ($workPage: WorkPage): boolean => {
-  const adultCategories: WorkRatings[] = [WorkRatings.EXPLICIT, WorkRatings.MATURE, WorkRatings.NOT_RATED];
-  return adultCategories.includes(getWorkRating($workPage));
-}
+  return ADULT_CATEGORIES.includes(getWorkRating($workPage));
+};
+
+export const getWorkContentHtml = ($workPage: WorkPage): string => {
+  let content = $workPage('.userstuff.module[role="article"]').html();
+  // Works with multiple chapters have a different structure for the content
+  if (!content) {
+    content = $workPage("#chapters .userstuff").html();
+  }
+  if (!content) {
+    throw new Error("No content found on work page");
+  }
+  return content.trim();
+};
+
+export const getWorkStartNotes = ($workPage: WorkPage): string | null => {
+  const startNotes = $workPage(
+    ".chapter.preface #notes.notes.module .userstuff",
+  ).html();
+  return startNotes ? startNotes.trim() : null;
+};
+
+export const getWorkEndNotes = ($workPage: WorkPage): string | null => {
+  const endNotes = $workPage(
+    ".chapter.preface .end.notes.module .userstuff",
+  ).html();
+  return endNotes ? endNotes.trim() : null;
+};
+
+export const getWorkContentSummary = ($workPage: WorkPage): string | null => {
+  const summary = $workPage(".preface .summary.module .userstuff").html();
+  return summary ? summary.trim() : null;
+};
 
 // Chapter-specific (must be multi-chapter fic)
 export const getChapterIndex = (
-  $workPage: WorkPage
+  $workPage: WorkPage,
 ): NonNullable<WorkSummary["chapterInfo"]>["index"] => {
   const index = $workPage("#chapters h3.title a").text();
   return index ? parseInt(index.trim().replace("Chapter ", "")) : -1;
 };
 
 export const getChapterName = (
-  $workPage: WorkPage
+  $workPage: WorkPage,
 ): NonNullable<WorkSummary["chapterInfo"]>["name"] => {
   const title = $workPage("#chapters h3.title").text().trim();
   // 2 characters is the length of query string
