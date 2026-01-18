@@ -1,6 +1,11 @@
 import fs from "fs/promises";
 import path from "path";
 
+const KNOWN_404 = [
+  "https://archiveofourown.org/tags/56312666/feed.atom",
+  "https://archiveofourown.org/works/41237499/",
+]
+
 import {
   delay,
   downloadWithRetry,
@@ -82,7 +87,7 @@ async function redownloadArticles() {
   const rootDataDir = getRootDataDir();
   const files = await recursivelyGetFiles(rootDataDir);
 
-  const pathsWith404: { path: string; url: string }[] = [];
+  const pathsWith404: { path: string; url: string; known: boolean }[] = [];
 
   for (const fullPath of files) {
     const relativePath = path.relative(rootDataDir, fullPath);
@@ -104,6 +109,7 @@ async function redownloadArticles() {
         pathsWith404.push({
           path: fullPath,
           url,
+          known: KNOWN_404.includes(url),
         });
         continue;
       }

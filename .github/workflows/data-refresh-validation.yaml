@@ -1,0 +1,45 @@
+name: Validate data refresh PR
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened]
+
+jobs:
+  validate-data-refresh:
+    runs-on: ubuntu-latest
+    if: startsWith(github.head_ref, 'data-refresh-')
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run tests
+        run: npm test
+
+  data-refresh-check:
+    runs-on: ubuntu-latest
+    needs: [validate-data-refresh]
+    if: always()
+
+    steps:
+      - name: Determine result
+        run: |
+          if [[ "${{ needs.validate-data-refresh.result }}" == "failure" ]]; then
+            echo "❌ Data refresh validation failed!"
+            echo "Tests are failing - please fix before merging."
+            exit 1
+          elif [[ "${{ needs.validate-data-refresh.result }}" == "success" ]]; then
+            echo "✅ Data refresh validation passed!"
+          else
+            echo "⏭️ Data refresh validation skipped (not a data-refresh PR)"
+          fi
