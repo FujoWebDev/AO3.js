@@ -40,9 +40,17 @@ describe("Work Chapter/chapter", () => {
       chapters: { published: 1, total: 1 },
       complete: true,
       series: [],
-      stats: { bookmarks: 2, comments: 1, hits: expect.any(Number), kudos: 46 },
       locked: false,
     });
+
+    expect((work as WorkSummary).stats).toMatchInlineSnapshot(`
+      {
+        "bookmarks": 2,
+        "comments": 1,
+        "hits": 1025,
+        "kudos": 46,
+      }
+    `);
   });
 
   it("should have different work summary and chapter summary", async () => {
