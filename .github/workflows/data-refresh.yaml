@@ -2,8 +2,8 @@ name: Weekly Data Refresh
 
 on:
   schedule:
-    # Run at 00:00 UTC every Sunday
-    - cron: "0 0 * * Sun"
+    # Run at 02:00 UTC every Sunday
+    - cron: "0 2 * * Sun"
   # Allow manual triggering
   workflow_dispatch:
 
