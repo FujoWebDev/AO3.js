@@ -133,7 +133,9 @@ describe("Tags/search", () => {
         "Overlords (Hazbin Hotel)",
         "Prick (Hazbin Hotel)",
         "Razzle (Hazbin Hotel)",
+        "Redhead TV Host (Hazbin Hotel)",
         "Robert "Bob" Sinclaire (Hazbin Hotel)",
+        "Rocky (Hazbin Hotel)",
         "Roo (Hazbin Hotel)",
         "Rooster (Hazbin Hotel)",
         "Rosie (Hazbin Hotel)",
@@ -152,8 +154,6 @@ describe("Tags/search", () => {
         "The Speaker of God (Hazbin Hotel)",
         "The Three V's (Hazbin Hotel)",
         "Tiffany Titfucker (Hazbin Hotel)",
-        "Tom Trench",
-        "Travis (Hazbin Hotel)",
       ]
     `);
   });
@@ -182,9 +182,12 @@ describe("Tags/search", () => {
     // because this fandom gets a lot of new works
     expect(result.tags.map((tag) => tag.name)).toMatchInlineSnapshot(`
       [
-        "Vaggie (Hazbin Hotel)",
-        "Vaggie's Father (Hazbin Hotel)",
-        "Vaggie's Mother (Hazbin Hotel)",
+        "Tom Trench",
+        "Travis (Hazbin Hotel)",
+        "Travis's Wife (Hazbin Hotel)",
+        "Vaggi | Vaggie (Hazbin Hotel)",
+        "Vaggi | Vaggie's Father (Hazbin Hotel)",
+        "Vaggi | Vaggie's Mother (Hazbin Hotel)",
         "Valentino (Hazbin Hotel)",
         "Valentino's Mother (Hazbin Hotel)",
         "Vark | Vox's Shark (Hazbin Hotel)",
