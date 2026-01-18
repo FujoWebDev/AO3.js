@@ -1,3 +1,5 @@
+export type ArchiveId = number;
+
 export type TagCategory =
   | "fandom"
   | "character"
@@ -9,7 +11,7 @@ export interface Tag {
   name: string;
   // Not all tags have user-facing IDs Example: additional tags.
   // TODO: figure out other types (or whether they can be extracted from somewhere else).
-  id: string | null;
+  id: ArchiveId | null;
   category: TagCategory;
   canonical: boolean;
   common: boolean;
@@ -28,11 +30,52 @@ export interface Tag {
   }>;
 }
 
+export type TagSearchType =
+  | "fandom"
+  | "character"
+  | "relationship"
+  | "freeform"
+  | "any";
+
+export type TagWranglingStatus =
+  | "canonical"
+  | "noncanonical"
+  | "synonymous"
+  | "canonical_or_synonymous"
+  | "noncanonical_and_nonsynonymous"
+  | "any";
+
+export interface TagSearchFilters {
+  tagName: string | null;
+  fandoms: string[];
+  type: TagSearchType;
+  wranglingStatus: TagWranglingStatus;
+  sortColumn: "name" | "created_at" | "works_count";
+  sortDirection: "asc" | "desc";
+  page: number;
+}
+
+export interface TagSearchResultSummary {
+  filters: TagSearchFilters;
+  totalResults: number;
+  pages: {
+    total: number;
+    current: number;
+  };
+  tags: Array<{
+    name: string;
+    type: "fandom" | "character" | "relationship" | "freeform" | "unsorted";
+    canonical: boolean;
+    worksCount: number;
+  }>;
+}
+
 export interface User {
-  id: string;
+  id: ArchiveId;
   username: string;
   pseuds: string;
   url: string;
+  shortUrl: string;
   icon: string;
   header: string | null;
   joined: string;
@@ -59,12 +102,13 @@ export interface SeriesWorkSummary
     | "series"
   > {
   url: string;
+  shortUrl: string;
   tags: Omit<WorkSummary["tags"], "warnings">;
   stats: Omit<WorkSummary["stats"], "comments">;
 }
 
 export interface Series {
-  id: string;
+  id: ArchiveId;
   name: string;
   startedAt: string;
   updatedAt: string;
@@ -112,7 +156,7 @@ export enum WorkWarnings {
 }
 
 export interface BasicSeries {
-  id: string;
+  id: ArchiveId;
   index: number;
   name: string;
 }
@@ -124,7 +168,7 @@ export interface Author {
 }
 
 export interface WorkSummary {
-  id: string;
+  id: ArchiveId;
   title: string;
   category: WorkCategory[] | null;
   // Date in ISO format. See: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString
@@ -154,7 +198,7 @@ export interface WorkSummary {
     total: number | null;
   };
   chapterInfo: {
-    id: string;
+    id: ArchiveId;
     index: number;
     name: string | null;
     summary: string | null;
@@ -170,16 +214,24 @@ export interface WorkSummary {
   locked: false;
 }
 
+export interface WorkContent {
+  summary: string | null;
+  startNotes: string | null;
+  content: string;
+  endNotes: string | null;
+}
+
 export interface LockedWorkSummary {
-  id: string;
+  id: ArchiveId;
   locked: true;
 }
 
 export interface Chapter {
-  id: string;
-  workId: string;
+  id: ArchiveId;
+  workId: ArchiveId;
   index: number;
   title: string;
   publishedAt: string;
   url: string;
+  shortUrl: string;
 }

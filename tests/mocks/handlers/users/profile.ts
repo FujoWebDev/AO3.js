@@ -2,19 +2,16 @@ import { fileURLToPath } from "url";
 import filenamify from "filenamify";
 import fs from "fs";
 import path from "path";
-import { http, HttpResponse } from "msw";
-
-const USERS_DATA_DIR = path.resolve(
-  fileURLToPath(import.meta.url),
-  "../../../data/users"
-);
+import { http, HttpHandler, HttpResponse } from "msw";
+import { getArchiveDataDir } from "../../scripts/utils.mjs";
 
 export default http.all(
   "https://archiveofourown.org/users/:name/profile",
   ({ params }) => {
     const html = fs.readFileSync(
       path.resolve(
-        USERS_DATA_DIR,
+        getArchiveDataDir(),
+        "users",
         filenamify(params.name as string),
         "profile",
         "index.html"
@@ -25,4 +22,4 @@ export default http.all(
       headers: { "Content-Type": "text/html" },
     });
   }
-);
+) satisfies HttpHandler;

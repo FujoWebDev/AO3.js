@@ -4,7 +4,7 @@
 
 ![AO3.js logo](./logo-transparent-small.png)
 
-Scrapes data from [ao3.org](https://ao3.org). Now with Types™.
+Scrapes data from [ao3.org](https://ao3.org) and beyond. Now with Types™.
 
 <!-- Add the <a> so IMGs will stay on the same line -->
 <a href="#">
@@ -19,13 +19,18 @@ Scrapes data from [ao3.org](https://ao3.org). Now with Types™.
 <a href="https://fancoders.com/">
     <img src="https://img.shields.io/badge/fandom-coders-ff69b4" alt="Fandom Coders badge"/>
 </a>
+<a href="https://npmjs.com/package/@fujocoded/ao3.js">
+
+![npm version](https://badge.fury.io/js/%40fujocoded%2Fao3.js.svg)
+
+</a>
 </div>
 
-## What it is
+## What is `@fujocoded/ao3.js`?
 
-**AO3.js** is a Node.js (et al.) API for scraping AO3 (Archive of Our Own) data straight to your own JavaScript (or TypeScript) server. It provides an interface to retrieve information on AO3 tags, works, series, and more!
+**AO3.js is a Node.js library for fetching Archive of Our Own data** from your own JavaScript (or TypeScript!) server or command line tool. It provides an easy-to-use interface for retrieving information like tags, works, series, and more, from any AO3-compatible archive.
 
-## What is capable of
+## What can `@fujocoded/ao3.js` do?
 
 | Method                                                | Description                                | Parameters                                                                        | Return Type                                                                                                              |
 | ----------------------------------------------------- | ------------------------------------------ | --------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
@@ -58,27 +63,59 @@ Using `setFetcher`, you can override the default `fetch` method used by the libr
 With yarn
 
 ```sh
-yarn install @bobaboard/ao3.js
+yarn add @fujocoded/ao3.js
 ```
 
 or npm
 
 ```sh
-npm install @bobaboard/ao3.js
+npm install @fujocoded/ao3.js
 ```
 
 Then go to town in your JavaScript (or TypeScript) files:
 
 ```ts
-import { getTag, getWork } from "@bobaboard/ao3.js";
+import { getTag, getWork } from "@fujocoded/ao3.js";
 
 const tag = await getTag({
   tagName: "Ever Given Container Ship (Anthropomorphic)",
 });
-const work = await getWork({ workId: "123456" });
+const work = await getWork({ workId: 123456 });
 ```
 
 Further explanation of AO3.js works and suggestions for how to add to it can be found [in this comment](https://github.com/essential-randomness/AO3.js/issues/2#issuecomment-1032213524). Also consider taking a look at [TypeScript types](./types/entities.ts).
+
+## About "🚨 Data Refresh Tests Failed" issues
+
+Since AO3 has no API, we rely on scraping their HTML to get the data you need. Only one issue: AO3's HTML is changing all the time!
+To make sure our library keeps working, we refetch AO3's data every week and re-run our tests against their latest pages. If
+these tests fail, a "🚨 Data Refresh Tests Failed" is opened.
+
+**IMPORTANT caveat:** The tests failing doesn't mean that the library doesn't work. The tests aren't always reliable, and
+it usually are due to some data we use for testing updating, like for example the number of bookmarks on a fic we're tracking.
+When it's a legitimate error, it usually impacts a small amount of methods.
+
+### Can I help you fix these? How do I do that?
+
+Thought you'd never ask! tl;dr: YES! We'd love your help fixing these, and it's usually fairly simple: if you've been curious
+about coding and testing, this is a great chance to learn more about it!
+
+Here are the steps:
+
+1. Fork this repo and make a new branch for your code changes
+2. [NPM install](https://learn.fujoweb.dev/npm/what-is-npm/#practice-npm-the-development-flow) dependencies
+3. Optional (but reccommended): run tests with `npm run test` and make sure they all pass. If they're not passing
+   there's a deeper problem here!
+4. Run the redownload command with `npm run redownload`. This will download the latest version of all the AO3 pages
+   we already use for testing. It might take a while, but it will eventually be done.
+5. Run tests with `npm run test`. There should be at least one failing! If not, then the "🚨 Data Refresh Tests Failed"
+   already got solved, maybe on its own. Do let us know if an issue like that is still open!
+6. Look at the error and try to identify the root cause. You might have to:
+   - Change the expected output to match the new data from the page, if the issue is that the data
+     on the page changed
+   - Fix the error in our code that got unhearted by this change, for example by updating the CSS selectors
+     we use to retrieve the data
+7. Commmit your changes (updates to the downloaded files included) and open a PR
 
 ## Important Notes
 
@@ -134,7 +171,7 @@ If you wish to override `fetch` with your own implementation, you can use the
 next section for more details.
 
 ```ts
-import { setFetcher } from "@bobaboard/ao3.js";
+import { setFetcher } from "@fujocoded/ao3.js";
 import fetch from "node-fetch";
 
 // You MUST call this before calling other ao3.js methods
@@ -150,7 +187,7 @@ by using the exported `setFetch` function.
 For example, to override `fetch` with the `node-fetch` implementation:
 
 ```ts
-import { setFetcher } from "@bobaboard/ao3.js";
+import { setFetcher } from "@fujocoded/ao3.js";
 import fetch from "node-fetch";
 
 // You MUST call this before calling other ao3.js methods
@@ -171,7 +208,7 @@ If you want to avoid these issues, you can use the following code to add caching
 automatic retrying to the library:
 
 ```ts
-import { setFetcher } from "@bobaboard/ao3.js";
+import { setFetcher } from "@fujocoded/ao3.js";
 
 const CACHE = new Map();
 setFetcher(async (...params: Parameters<typeof fetch>) => {
@@ -221,4 +258,4 @@ The logging will help you understand what's going on, but it's by no mean necess
 
 # How do I help?
 
-See (CONTRIBUTE.md)[CONTRIBUTE.md].
+See [CONTRIBUTING.md](CONTRIBUTING.md).

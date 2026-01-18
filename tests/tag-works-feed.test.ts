@@ -1,42 +1,60 @@
-import { getWorkDetailsFromUrl, getWorkUrl } from "src/urls";
+import { getDownloadUrls, getWorkDetailsFromUrl, getWorkUrl } from "src/urls";
+import { describe, it, expect } from "vitest";
 
-describe("Fetches data from url", () => {
-  test("Fetches work id from url", async () => {
-    const workData = await getWorkDetailsFromUrl({
+describe("Urls/parse", () => {
+  it("should parse work id", () => {
+    const workData = getWorkDetailsFromUrl({
       url: "https://archiveofourown.org/works/36667228",
     });
 
     expect(workData).toMatchObject({
-      workId: "36667228",
+      workId: 36667228,
     });
   });
 
-  test("Fetches chapter id from url", async () => {
-    const workData = await getWorkDetailsFromUrl({
+  it("should parse chapterId", () => {
+    const workData = getWorkDetailsFromUrl({
       url: "https://archiveofourown.org/works/398023/chapters/659774",
     });
 
     expect(workData).toMatchObject({
-      workId: "398023",
-      chapterId: "659774",
+      workId: 398023,
+      chapterId: 659774,
     });
   });
 
-  test("Fetches collection from url", async () => {
-    const workData = await getWorkDetailsFromUrl({
+  it("should parse collection", () => {
+    const workData = getWorkDetailsFromUrl({
       url: "https://archiveofourown.org/collections/YJ_Prompts/works/30216801",
     });
 
     expect(workData).toMatchObject({
-      workId: "30216801",
+      workId: 30216801,
       collectionName: "YJ_Prompts",
+    });
+  });
+
+  it("should generate download links", () => {
+    const downloadLinks = getDownloadUrls({
+      id: 168768,
+      title: "Fill",
+      publishedAt: "2011-02-08",
+      updatedAt: null,
+    });
+
+    expect(downloadLinks).toStrictEqual({
+      azw3: "https://archiveofourown.org/downloads/168768/Fill.azw3?updated_at=1297123200000",
+      epub: "https://archiveofourown.org/downloads/168768/Fill.epub?updated_at=1297123200000",
+      html: "https://archiveofourown.org/downloads/168768/Fill.html?updated_at=1297123200000",
+      mobi: "https://archiveofourown.org/downloads/168768/Fill.mobi?updated_at=1297123200000",
+      pdf: "https://archiveofourown.org/downloads/168768/Fill.pdf?updated_at=1297123200000",
     });
   });
 });
 
-describe("Gets url from data", () => {
-  test("Gets url from workId", async () => {
-    const workUrl = await getWorkUrl(
+describe("Urls/fetch", () => {
+  it("should fetch workId", () => {
+    const workUrl = getWorkUrl(
       getWorkDetailsFromUrl({
         url: "https://archiveofourown.org/works/36667228",
       })
@@ -45,10 +63,10 @@ describe("Gets url from data", () => {
     expect(workUrl).toBe("https://archiveofourown.org/works/36667228");
   });
 
-  test("Fetches chapter id from url", async () => {
-    const workUrl = await getWorkUrl({
-      workId: "398023",
-      chapterId: "659774",
+  it("should fetch chapterId", () => {
+    const workUrl = getWorkUrl({
+      workId: 398023,
+      chapterId: 659774,
     });
 
     expect(workUrl).toBe(
@@ -56,9 +74,9 @@ describe("Gets url from data", () => {
     );
   });
 
-  test("Fetches collection from url", async () => {
-    const workUrl = await getWorkUrl({
-      workId: "30216801",
+  it("should fetch collection", () => {
+    const workUrl = getWorkUrl({
+      workId: 30216801,
       collectionName: "YJ_Prompts",
     });
 

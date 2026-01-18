@@ -1,7 +1,8 @@
-import { Author, Chapter } from "types/entities";
-import { getWorkDetailsFromUrl, getWorkUrl } from "src/urls";
+import type { Author, Chapter } from "types/entities";
+import { getAsShortUrl, getWorkDetailsFromUrl, getWorkUrl } from "src/urls";
 
 import { ChapterIndexPage } from "src/page-loaders";
+import { parseArchiveId } from "src/utils";
 
 const TITLE_SEPARATOR = ". ";
 export const getChaptersList = ($chapterIndexPage: ChapterIndexPage) => {
@@ -18,16 +19,17 @@ export const getChaptersList = ($chapterIndexPage: ChapterIndexPage) => {
     const dateNode = $chapterIndexPage(
       $chapterIndexPage(li).find(".datetime")[0]
     );
-
+    const url = getWorkUrl({ workId, chapterId });
+    const shortUrl = getAsShortUrl({ url });
     chapters.push({
-      id: chapterId!,
-      workId,
+      id: parseArchiveId(chapterId!),
+      workId: parseArchiveId(workId),
       index: index + 1,
       title,
       // Remove parenthesis from the date
       publishedAt: dateNode.text().replace(/[\(\)]/g, ""),
-      // We rebuild the url so it gets the full path
-      url: getWorkUrl({ workId, chapterId }),
+      url,
+      shortUrl,
     });
   });
   return chapters;

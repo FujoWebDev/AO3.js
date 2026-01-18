@@ -1,15 +1,23 @@
-name: Daily Data Refresh
+name: Weekly Data Refresh
 
 on:
   schedule:
-    # Run at 00:00 UTC every day
-    - cron: "0 0 * * Sun"
+    # Run at 02:00 UTC every Sunday
+    - cron: "0 2 * * Sun"
   # Allow manual triggering
   workflow_dispatch:
 
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
 jobs:
-  refresh-data:
+  test-data:
     runs-on: ubuntu-latest
+    outputs:
+      tests-passed: ${{ (steps.test.outcome == 'success' && 'true') || 'false' }}
+      branch-name: ${{ steps.branch.outputs.name }}
 
     steps:
       - name: Checkout repository
@@ -18,41 +26,166 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "18.18"
+          node-version: "22"
           cache: "npm"
 
       - name: Create new branch
+        id: branch
         run: |
           BRANCH_NAME="data-refresh-$(date +%Y-%m-%d)"
           git checkout -b $BRANCH_NAME
-          echo "BRANCH_NAME=$BRANCH_NAME" >> $GITHUB_ENV
+          echo "name=$BRANCH_NAME" >> $GITHUB_OUTPUT
 
       - name: Install dependencies
         run: npm ci
 
       - name: Redownload mock data
         run: npm run redownload
-      - name: Run tests
-        id: tests
-        continue-on-error: true
-        run: npm test
 
-      - name: Create issue if tests fail
-        if: steps.tests.outcome == 'failure'
+      - name: Run tests
+        id: test
+        continue-on-error: true
+        run: npm run test
+
+      - name: Upload mock data
+        if: steps.test.outcome == 'failure'
+        uses: actions/upload-artifact@v4
+        with:
+          name: mock-data
+          path: tests/mocks/data/
+          retention-days: 1
+          if-no-files-found: error
+
+  update-snapshots:
+    runs-on: ubuntu-latest
+    needs: test-data
+    # TODO: this is a workaround to allow the job to continue even if the tests fail so
+    # we can post the outcome of the job in case of failure but it will show the job as successful
+    # even if the tests fail. We should figure out how to do this without continuing on error.
+    continue-on-error: true
+    if: ${{ needs.test-data.outputs.tests-passed == 'false' }}
+    outputs:
+      tests-passed: ${{ (steps.retest.outcome == 'success' && 'true') || 'false' }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+
+      - name: Checkout branch
+        run: git checkout -b ${{ needs.test-data.outputs.branch-name }}
+
+      # Each job runs on a new machine, so we need to reinstall dependencies
+      # even though we're on the same branch
+      - name: Install dependencies
+        run: npm ci
+
+      # Download the mock data from the previous job to ensure we're using
+      # the same data that caused the test failure
+      - name: Download mock data
+        uses: actions/download-artifact@v4
+        with:
+          name: mock-data
+          path: tests/mocks/data/
+
+      - name: Update snapshots
+        # TODO: check if we need the next step or we can just run this one instead
+        continue-on-error: true
+        run: npm run test:update
+
+      - name: Run tests again
+        id: retest
+        continue-on-error: true
+        run: npm run test
+
+      - name: Commit changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add .
+          git commit -m "🤖💖 — Update snapshots after data refresh" || echo "No changes to commit"
+
+      - name: Push branch
+        run: git push -u origin ${{ needs.test-data.outputs.branch-name }}
+
+  create-success-pr:
+    runs-on: ubuntu-latest
+    needs: [test-data, update-snapshots]
+    if: ${{ needs.update-snapshots.outputs.tests-passed == 'true' }}
+
+    steps:
+      - name: Create Pull Request
         uses: actions/github-script@v7
         with:
           script: |
-            github.rest.issues.create({
+            const pr = await github.rest.pulls.create({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              title: '🚨 Data Refresh Tests Failed',
-              body: `The daily data refresh tests failed on ${new Date().toISOString().split('T')[0]}.
-              
-              Please check the [workflow run](${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}) for details.`
-            })
+              title: '🔄✅ Data Refresh: Snapshot Update Complete!',
+              head: '${{ needs.test-data.outputs.branch-name }}',
+              base: 'main',
+              body: `The Automatic data refresh on ${new Date().toISOString().split('T')[0]} detected changes in AO3 responses.
 
-      - name: Delete branch if tests fail
-        if: steps.tests.outcome == 'failure'
-        run: |
-          git checkout main
-          git branch -D $BRANCH_NAME
+            Snapshots have been updated to reflect current status. All tests are now passing! 🎉🎊🌟
+
+            Changes look good? ➡️ Merge this PR to update the snapshots and tests.
+            Changes look _yikes_? ❌ Check out this PR and go get 'em! 💪🔥`
+            });
+
+  create-failure-pr-and-issue:
+    runs-on: ubuntu-latest
+    needs: [test-data, update-snapshots]
+    if: ${{ needs.update-snapshots.outputs.tests-passed == 'false' }}
+
+    steps:
+      - name: Create issue for failed tests
+        id: create-issue
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const issue = await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: '🚨 Data Refresh Tests Failed After Snapshot Update',
+              body: `The daily data refresh tests failed on ${new Date().toISOString().split('T')[0]}. Yes, even with the snapshot updates!
+
+            Please check the [workflow run](${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}) for details.
+
+            ---
+
+            Want to learn more about this issue and help us fix it? Check out the [README](https://github.com/FujoWebDev/AO3.js/blob/main/README.md#about--data-refresh-tests-failed-issues) for more information!`
+            });
+
+            return issue.data.number;
+
+      - name: Create Pull Request
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const issueNumber = ${{ steps.create-issue.outputs.result }};
+
+            const pr = await github.rest.pulls.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: '🚨 HALP! Tests are failing after data refresh!',
+              head: '${{ needs.test-data.outputs.branch-name }}',
+              base: 'main',
+              body: `Automatic data refresh on ${new Date().toISOString().split('T')[0]} detected changes in AO3 responses.
+
+            Despite our best efforts (in the form of a snapshot update), tests are still failing.
+
+            Manual investigation is required 🔍🕵️ To help you get started, we've created this PR with the already-updated data. May the bugs be ever in your favor! 🍀
+
+            Check the [workflow run](${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}) for details.
+
+            Closes #${issueNumber}...eventually 🤞
+
+            ---
+
+            Want to learn more about this issue and help us fix it? Check out the [README](https://github.com/FujoWebDev/AO3.js/blob/main/README.md#about--data-refresh-tests-failed-issues) for more information!`
+            });

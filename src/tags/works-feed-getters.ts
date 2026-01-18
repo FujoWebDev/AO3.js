@@ -1,4 +1,4 @@
-import { TagWorksAtomFeed, TagWorksFeed } from "../page-loaders";
+import type { TagWorksAtomFeed, TagWorksFeed } from "src/page-loaders";
 
 export const getTagNameFromFeed = async ($feedPage: TagWorksAtomFeed) => {
   const feedTitle = $feedPage($feedPage("title")[0].children[0]).text();

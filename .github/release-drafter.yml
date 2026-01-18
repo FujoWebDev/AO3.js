@@ -1,0 +1,68 @@
+name-template: "v$RESOLVED_VERSION"
+tag-template: "v$RESOLVED_VERSION"
+
+exclude-labels:
+  - skip-release
+
+autolabeler:
+  - label: "feature"
+    title: "/(Add|Adds|Create|New|Support|Implement)/i"
+  - label: "fix"
+    title: "/(fix|fixed)/i"
+  - label: "documentation"
+    title: "/(Doc|Docs)/i"
+  - label: "housekeeping"
+    title: "/(Clean|Update|Remove|Refactor|Redownload)/i"
+  - label: "test"
+    title: "/(test|testing)/i"
+
+categories:
+  - title: "🌟 New Features"
+    labels:
+      - feature
+      - enhancement
+  - title: "🔧 Issues Vanquished"
+    labels:
+      - fix
+      - bugfix
+  - title: "📖 Knowledge Passed Down"
+    labels:
+      - documentation
+  - title: "🧹 Tidied Up"
+    labels:
+      - housekeeping
+      - refactor
+  - title: "🎙️ Testing testing—"
+    labels:
+      - test
+
+change-template: "- $TITLE (#$NUMBER) @$AUTHOR"
+change-title-escapes: '\<*_&'
+
+version-resolver:
+  major:
+    labels:
+      - major
+  minor:
+    labels:
+      - minor
+      - feature
+  patch:
+    labels:
+      - patch
+      - fix
+  default: patch
+
+template: |
+  ## In the Latest Episode of `@fujocoded/ao3.js`...
+
+  $CHANGES
+
+  ### Upgrading to the latest version
+
+  You can install or upgrade to the latest version of `@fujocoded/ao3.js` by running
+  the following command in your terminal:
+
+  ```sh
+  npm install @fujocoded/ao3.js@latest
+  ```

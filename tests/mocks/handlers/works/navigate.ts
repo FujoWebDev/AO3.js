@@ -2,19 +2,16 @@ import { fileURLToPath } from "url";
 import filenamify from "filenamify";
 import fs from "fs";
 import path from "path";
-import { http, HttpResponse } from "msw";
-
-const WORKS_DATA_DIR = path.resolve(
-  fileURLToPath(import.meta.url),
-  "../../../data/works"
-);
+import { http, HttpHandler, HttpResponse } from "msw";
+import { getArchiveDataDir } from "../../scripts/utils.mjs";
 
 export default http.all(
   "https://archiveofourown.org/works/:work_id/navigate",
   ({ params }) => {
     const html = fs.readFileSync(
       path.resolve(
-        WORKS_DATA_DIR,
+        getArchiveDataDir(),
+        "works",
         filenamify(params.work_id as string),
         "navigate.html"
       )
@@ -24,4 +21,4 @@ export default http.all(
       headers: { "Content-Type": "text/html" },
     });
   }
-);
+) satisfies HttpHandler;

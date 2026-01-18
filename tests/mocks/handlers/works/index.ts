@@ -2,19 +2,15 @@ import { fileURLToPath } from "url";
 import filenamify from "filenamify";
 import fs from "fs";
 import path from "path";
-import { http, HttpResponse } from "msw";
+import { http, HttpHandler, HttpResponse } from "msw";
+import { getArchiveDataDir } from "../../scripts/utils.mjs";
 
-const WORKS_DATA_DIR = path.resolve(
-  fileURLToPath(import.meta.url),
-  "../../../data/works"
-);
-
-export default http.all(
-  "https://archiveofourown.org/works/:work_id",
-  ({ params }) => {
+export default [
+  http.all("https://archiveofourown.org/works/:work_id", ({ params }) => {
     const html = fs.readFileSync(
       path.resolve(
-        WORKS_DATA_DIR,
+        getArchiveDataDir(),
+        "works",
         filenamify(params.work_id as string),
         "index.html"
       )
@@ -22,5 +18,18 @@ export default http.all(
     return new HttpResponse(html, {
       headers: { "Content-Type": "text/html" },
     });
-  }
-);
+  }),
+  http.all("https://superlove.sayitditto.net/works/:work_id", ({ params }) => {
+    const html = fs.readFileSync(
+      path.resolve(
+        getArchiveDataDir("superlove"),
+        "works",
+        filenamify(params.work_id as string),
+        "index.html"
+      )
+    );
+    return new HttpResponse(html, {
+      headers: { "Content-Type": "text/html" },
+    });
+  }),
+] satisfies HttpHandler[];

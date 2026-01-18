@@ -1,13 +1,25 @@
+import { describe, expect, it } from "vitest";
+
+import { InvalidIDError } from "src/utils";
 import { getSeries } from "src/index";
 
 // TODO: Add more tests
 
-describe("Fetches series information", () => {
-  test("Fetches series object, checks top level fields", async () => {
+describe("Series/data", () => {
+  it("should throw InvalidIDError for invalid series ID", async () => {
+    const invalidSeries = getSeries({ seriesId: "invalid-id" });
+
+    await expect(invalidSeries).rejects.toThrow(InvalidIDError);
+    await expect(invalidSeries).rejects.toThrow(
+      "invalid-id is not a valid series id"
+    );
+  });
+
+  it("should fetch series information and check top level fields", async () => {
     const series = await getSeries({ seriesId: "2270465" });
 
     expect(series).toMatchObject({
-      id: "2270465",
+      id: 2270465,
       name: "OG Titan",
       startedAt: "2021-04-11",
       updatedAt: "2023-02-13",
@@ -16,18 +28,18 @@ describe("Fetches series information", () => {
         "<p>My potentially related stories about the relationship between the OG Titans. Probably focused on Dick Grayson.</p>",
       notes: null,
       words: 30035,
-      bookmarks: 215,
+      bookmarks: expect.any(Number),
       complete: false,
       workCount: 6,
     });
   });
 
-  test("Fetches series object, check works", async () => {
+  it("should fetch series information and check works", async () => {
     const series = await getSeries({ seriesId: "2270465" });
 
     // Work 1
     expect(series.works[0]).toMatchObject({
-      id: "30604247",
+      id: 30604247,
       title: "Away from all of Reality",
       updatedAt: "2021-04-11",
       adult: false,
@@ -80,9 +92,11 @@ describe("Fetches series information", () => {
 
     // // Work 2
     expect(series.works[1]).toMatchObject({
-      id: "30794750",
+      id: 30794750,
       title: "Code B",
-      updatedAt: "2023-02-01",
+      // For some unknown reason, the updatedAt date is sometimes January 31st
+      // and sometimes February 1st. This seems to be on AO3's end.
+      updatedAt: expect.stringMatching(/^2023-01-31|2023-02-01$/),
       adult: false,
       fandoms: [
         "Batman - All Media Types",
@@ -158,7 +172,7 @@ describe("Fetches series information", () => {
 
     // // Work 3
     expect(series.works[2]).toMatchObject({
-      id: "30914645",
+      id: 30914645,
       title: "Donna Troy Loves You",
       updatedAt: "2021-04-26",
       adult: false,
@@ -210,7 +224,7 @@ describe("Fetches series information", () => {
 
     // // Work 4
     expect(series.works[3]).toMatchObject({
-      id: "31221131",
+      id: 31221131,
       title: "Rockin Robin",
       updatedAt: "2021-05-11",
       adult: false,
@@ -256,7 +270,7 @@ describe("Fetches series information", () => {
 
     // // Work 5
     expect(series.works[4]).toMatchObject({
-      id: "35757790",
+      id: 35757790,
       title: "Realistic Exit Strategy",
       updatedAt: "2023-02-13",
       adult: false,
@@ -326,9 +340,9 @@ describe("Fetches series information", () => {
 
     // // Work 6
     expect(series.works[5]).toMatchObject({
-      id: "44149795",
+      id: 44149795,
       title: "You starting down the road leaving me again",
-      updatedAt: "2023-01-08",
+      updatedAt: "2023-01-09",
       adult: false,
       fandoms: [
         "Batman - All Media Types",
@@ -383,36 +397,36 @@ describe("Fetches series information", () => {
     });
   });
 
-  test("Fetches author with username Anonymous", async () => {
+  it("should fetch series information and handle authors with username Anonymous", async () => {
     const series = await getSeries({ seriesId: "2946579" });
     expect(series.authors).toMatchObject([
       { anonymous: true, pseud: "Anonymous", username: "Anonymous" },
     ]);
   });
+});
 
-  describe("Fetches series title", () => {
-    test("Fetch series title with space character", async () => {
-      const series = await getSeries({
-        seriesId: "2270465",
-      });
-
-      expect(series.name).toBe("OG Titan");
+describe("Series/title", () => {
+  it("should fetch series title with space character", async () => {
+    const series = await getSeries({
+      seriesId: "2270465",
     });
 
-    test("Fetch series with slashes", async () => {
-      const series = await getSeries({
-        seriesId: "1728802",
-      });
+    expect(series.name).toBe("OG Titan");
+  });
 
-      expect(series.name).toBe("angsty oneshots/short stories");
+  it("should fetch series title with slashes", async () => {
+    const series = await getSeries({
+      seriesId: "1728802",
     });
 
-    test("Fetch series with non-letter characters", async () => {
-      const series = await getSeries({
-        seriesId: "2817877",
-      });
+    expect(series.name).toBe("angsty oneshots/short stories");
+  });
 
-      expect(series.name).toBe("*Insert Fandom* but Social Media (one-shots)");
+  it("should fetch series title with non-letter characters", async () => {
+    const series = await getSeries({
+      seriesId: "2817877",
     });
+
+    expect(series.name).toBe("*Insert Fandom* but Social Media (one-shots)");
   });
 });

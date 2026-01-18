@@ -1,49 +1,178 @@
+import {
+  InvalidIDError,
+  isValidArchiveId,
+  isValidArchiveIdOrNullish,
+  parseArchiveId,
+} from "./utils";
+import { TagSearchFilters, WorkSummary } from "types/entities";
+
+declare global {
+  var archiveBaseUrl: string;
+}
+
+const DEFAULT_BASE_URL =
+  import.meta.env.ARCHIVE_BASE_URL ?? "https://archiveofourown.org";
+
+globalThis.archiveBaseUrl = DEFAULT_BASE_URL;
+
+export const setArchiveBaseUrl = (url: string) => {
+  globalThis.archiveBaseUrl = url;
+};
+
+export const getArchiveBaseUrl = () => {
+  return globalThis.archiveBaseUrl;
+};
+
+export const resetArchiveBaseUrl = () => {
+  globalThis.archiveBaseUrl = DEFAULT_BASE_URL;
+};
+
 export const getWorkUrl = ({
   workId,
   chapterId,
   collectionName,
 }: {
-  workId: string;
-  chapterId?: string;
+  workId: string | number;
+  chapterId?: string | number;
   collectionName?: string;
 }) => {
-  let workUrl = `https://archiveofourown.org`;
+  let workPath = "";
+
+  if (!isValidArchiveId(workId)) {
+    throw new InvalidIDError(workId, "work");
+  }
 
   if (collectionName) {
-    workUrl += `/collections/${collectionName}`;
+    // TODO: write tests for collections
+    workPath += `/collections/${collectionName}`;
   }
 
-  workUrl += `/works/${workId}`;
+  workPath += `/works/${workId}`;
 
   if (chapterId) {
-    workUrl += `/chapters/${chapterId}`;
+    if (!isValidArchiveId(chapterId)) {
+      throw new InvalidIDError(workId, "chapter");
+    }
+
+    workPath += `/chapters/${chapterId}`;
   }
 
-  return workUrl;
+  return new URL(workPath, getArchiveBaseUrl()).href;
+};
+
+export const getWorkIndexUrl = ({ workId }: { workId: string | number }) => {
+  if (!isValidArchiveId(workId)) {
+    throw new InvalidIDError(workId, "work");
+  }
+  return new URL(`works/${workId}/navigate`, getArchiveBaseUrl()).href;
+};
+
+export const getSeriesUrl = ({ seriesId }: { seriesId: string | number }) => {
+  if (!isValidArchiveId(seriesId)) {
+    throw new InvalidIDError(seriesId, "series");
+  }
+
+  return new URL(`series/${seriesId}`, getArchiveBaseUrl()).href;
+};
+
+export const getAsShortUrl = ({ url }: { url: string | URL }) => {
+  const longUrl = new URL(url);
+  if (longUrl.hostname !== "archiveofourown.org") {
+    throw new Error(
+      `Short URLs are only supported for AO3 (found: ${longUrl.hostname})`
+    );
+  }
+
+  longUrl.host = "ao3.org";
+  return longUrl.href;
+};
+
+/**
+ * Gets the download URLs for a work.
+ *
+ * Warning: while this method will return the download URLs for locked works,
+ * people may not be able to download them.
+ */
+export const getDownloadUrls = ({
+  id,
+  title,
+  updatedAt,
+  publishedAt,
+}: // Make it so you can either pass specifically the needed elements of a work,
+// but also the whole summary if you prefer
+| Pick<WorkSummary, "id" | "title" | "updatedAt" | "publishedAt">
+  | WorkSummary) => {
+  const timestamp = new Date(updatedAt ?? publishedAt).valueOf();
+  const downloadLinkBase = new URL(`downloads/${id}/`, getArchiveBaseUrl())
+    .href;
+  const urlSafeTitle = title.replaceAll(/\s/g, "_");
+
+  return {
+    azw3: `${downloadLinkBase}${urlSafeTitle}.azw3?updated_at=${timestamp}`,
+    epub: `${downloadLinkBase}${urlSafeTitle}.epub?updated_at=${timestamp}`,
+    mobi: `${downloadLinkBase}${urlSafeTitle}.mobi?updated_at=${timestamp}`,
+    html: `${downloadLinkBase}${urlSafeTitle}.html?updated_at=${timestamp}`,
+    pdf: `${downloadLinkBase}${urlSafeTitle}.pdf?updated_at=${timestamp}`,
+  };
 };
 
 export const getUserProfileUrl = ({ username }: { username: string }) =>
-  `https://archiveofourown.org/users/${encodeURI(username)}/profile`;
+  new URL(`/users/${encodeURI(username)}/profile`, getArchiveBaseUrl()).href;
+
+const TOKEN_REPLACEMENTS_MAP = {
+  "/": "*s*",
+  "&": "*a*",
+  ".": "*d*",
+  "#": "*h*",
+  "?": "*q*",
+} as const;
+
+type ReplaceableToken = keyof typeof TOKEN_REPLACEMENTS_MAP;
+
+const REPLACEABLE_TOKENS = Object.keys(
+  TOKEN_REPLACEMENTS_MAP
+) as ReplaceableToken[];
+
+const TOKENS_TO_ESCAPE = ["/", "?", "."];
+
+const shouldEscapeToken = (c: string) => TOKENS_TO_ESCAPE.includes(c);
+const isReplaceableToken = (c: string): c is ReplaceableToken =>
+  REPLACEABLE_TOKENS.includes(c as ReplaceableToken);
+
+/**
+ * A global regex that matches any of the replaceable tokens.
+ * Should result in something like /(\/|\.|&|#|\?)/g.
+ */
+const REPLACE_TOKENS_REGEX = new RegExp(
+  `(${REPLACEABLE_TOKENS.map((token) =>
+    shouldEscapeToken(token) ? `\\${token}` : token
+  ).join("|")})`,
+  "g"
+);
 
 export const getTagUrl = (tagName: string) =>
-  `https://archiveofourown.org/tags/${encodeURI(tagName)
-    .replaceAll("/", "*s*")
-    .replaceAll("&", "*a*")
-    .replaceAll(".", "*d*")}`;
+  new URL(
+    `tags/${encodeURI(tagName).replaceAll(
+      REPLACE_TOKENS_REGEX,
+      (char: string) =>
+        isReplaceableToken(char) ? TOKEN_REPLACEMENTS_MAP[char] : char
+    )}/`,
+    getArchiveBaseUrl()
+  ).href;
 
 export const getTagWorksFeedUrl = (tagName: string) =>
-  `${getTagUrl(tagName)}/works`;
+  new URL(`works`, getTagUrl(tagName)).href;
 
 export const getTagWorksFeedAtomUrl = (tagId: string) =>
-  `https://archiveofourown.org/tags/${tagId}/feed.atom`;
+  new URL(`tags/${tagId}/feed.atom`, getArchiveBaseUrl()).href;
 
 export const getWorkDetailsFromUrl = ({
   url,
 }: {
   url: string;
 }): {
-  workId: string;
-  chapterId?: string;
+  workId: number;
+  chapterId?: number;
   collectionName?: string;
 } => {
   const workUrlMatch = url.match(/works\/(\d+)/);
@@ -51,9 +180,62 @@ export const getWorkDetailsFromUrl = ({
     throw new Error("Invalid work URL");
   }
 
+  const matchedWorkId = workUrlMatch[1];
+  const matchedChapterId = url.match(/chapters\/(\d+)/)?.[1];
+  if (!isValidArchiveId(matchedWorkId)) {
+    throw new InvalidIDError(matchedWorkId, "work");
+  }
+
+  if (!isValidArchiveIdOrNullish(matchedChapterId)) {
+    throw new InvalidIDError(matchedChapterId, "chapter");
+  }
+
   return {
-    workId: workUrlMatch[1],
-    chapterId: url.match(/chapters\/(\d+)/)?.[1],
+    workId: parseArchiveId(matchedWorkId),
+    chapterId: matchedChapterId && parseArchiveId(matchedChapterId),
     collectionName: url.match(/collections\/(\w+)/)?.[1],
   };
+};
+
+const getSearchParamsFromTagFilters = (
+  searchFilters: Partial<TagSearchFilters>
+) => {
+  // Prepare the parameters for the search as a map first. This makes them a bit
+  // more readable, since these parameters will all need to be wrapped with with
+  // "tag_search[]" in the URL.
+  const parameters = {
+    name: searchFilters.tagName ?? "",
+    fandoms: searchFilters.fandoms?.join(",") ?? "",
+    type: searchFilters.type?.toLowerCase() ?? "",
+    wrangling_status:
+      searchFilters.wranglingStatus
+        // We remove the _or_ and _and_ that we added for readability
+        // so that the values match the expected values for the API.
+        ?.replaceAll("_or_", "_")
+        .replaceAll("_and_", "_") ?? "any",
+    sort_column:
+      searchFilters.sortColumn === "works_count"
+        ? "uses"
+        : searchFilters.sortColumn ?? "name",
+    sort_direction: searchFilters.sortDirection ?? "asc",
+  };
+
+  const searchParams = new URLSearchParams();
+  if (searchFilters.page) {
+    searchParams.set("page", String(searchFilters.page));
+  }
+  searchParams.set("commit", "Search Tags");
+
+  // Now add the parameters to the search params, wrapped with "tag_search[]"
+  for (const [key, value] of Object.entries(parameters)) {
+    searchParams.set(`tag_search[${key}]`, value);
+  }
+
+  return searchParams;
+};
+
+export const getSearchUrlFromTagFilters = (searchFilters: TagSearchFilters) => {
+  const url = new URL(`tags/search`, getArchiveBaseUrl());
+  url.search = getSearchParamsFromTagFilters(searchFilters).toString();
+  return url.href;
 };
