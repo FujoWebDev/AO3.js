@@ -201,13 +201,13 @@ export const getWorkLocked = ($workPage: WorkPage) => {
   return !!$workPage("#signin > .heading").text();
 };
 
-const ADULT_CATEGORIES: WorkRatings[] = [
-  WorkRatings.EXPLICIT,
-  WorkRatings.MATURE,
-  WorkRatings.NOT_RATED,
-];
+const ADULT_CATEGORIES = [
+  WorkRatings.EXPLICIT, 
+  WorkRatings.MATURE, 
+  WorkRatings.NOT_RATED
+] as const satisfies ReadonlyArray<WorkRatings>;
 export const getWorkAdult = ($workPage: WorkPage): boolean => {
-  return ADULT_CATEGORIES.includes(getWorkRating($workPage));
+  return (ADULT_CATEGORIES as readonly WorkRatings[]).includes(getWorkRating($workPage));
 };
 
 export const getWorkContentHtml = ($workPage: WorkPage): string => {
