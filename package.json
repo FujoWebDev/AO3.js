@@ -22,12 +22,6 @@
         "types": "./dist/zod-schemas.d.ts",
         "default": "./dist/zod-schemas.js"
       }
-    },
-    "./zod-schemas-v4": {
-      "import": {
-        "types": "./dist/zod-schemas-v4.d.ts",
-        "default": "./dist/zod-schemas-v4.js"
-      }
     }
   },
   "files": [
