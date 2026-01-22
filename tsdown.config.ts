@@ -1,4 +1,4 @@
-import { defineConfig, type UserConfig } from "tsdown";
+import { defineConfig } from "tsdown";
 import { resolve } from "path";
 
 export default defineConfig([
@@ -7,9 +7,11 @@ export default defineConfig([
     entry: {
       index: resolve(import.meta.dirname, "src/index.ts"),
       urls: resolve(import.meta.dirname, "src/urls.ts"),
+      "zod-schemas": resolve(import.meta.dirname, "types/zod/generated/schemas.ts"),
     },
     dts: true,
     clean: true,
     unbundle: true,
+    external: ["zod"],
   },
 ]);

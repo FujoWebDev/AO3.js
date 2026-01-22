@@ -16,6 +16,12 @@
         "types": "./dist/urls.d.ts",
         "default": "./dist/urls.js"
       }
+    },
+    "./zod-schemas": {
+      "import": {
+        "types": "./dist/zod-schemas.d.ts",
+        "default": "./dist/zod-schemas.js"
+      }
     }
   },
   "files": [
@@ -25,10 +31,11 @@
   ],
   "scripts": {
     "type-check": "tsc --noEmit",
-    "build": "tsdown",
+    "generate-schemas": "ts-to-zod types/entities.ts types/zod/generated/schemas.ts --skipValidation && node types/zod/fix-schemas.mjs",
+    "build": "npm run generate-schemas && tsdown",
     "test": "vitest --disable-console-intercept",
     "test:update": "vitest -u",
-    "dev": "tsdown --watch",
+    "dev": "npm run generate-schemas && tsdown --watch",
     "coverage": "vitest run --coverage",
     "encode-mock-files": "ts-node-esm tests/mocks/scripts/encode-mock-files.mts",
     "redownload": "tsx tests/mocks/scripts/redownload-articles.mts",
@@ -49,13 +56,23 @@
     "htmlfy": "^1.0.0",
     "msw": "^2.0.11",
     "ts-node": "^10.4.0",
+    "ts-to-zod": "^5.1.0",
     "tsdown": "^0.15.7",
     "tsx": "^4.19.2",
     "typescript": "^5.1.6",
     "vite": "^7.0.4",
     "vite-plugin-dts": "^4.5.4",
     "vite-tsconfig-paths": "^5.1.4",
-    "vitest": "^3.2.4"
+    "vitest": "^3.2.4",
+    "zod": "^3.23.8"
+  },
+  "peerDependencies": {
+    "zod": "^3.0.0 || ^4.0.0"
+  },
+  "peerDependenciesMeta": {
+    "zod": {
+      "optional": true
+    }
   },
   "dependencies": {
     "cheerio": "^1.1.2"
