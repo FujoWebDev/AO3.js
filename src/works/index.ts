@@ -16,6 +16,7 @@ import {
   getChapterName,
   getChapterSummary,
   getWorkAdditionalTags,
+  getWorkAdult,
   getWorkAuthors,
   getWorkBookmarkCount,
   getWorkCategory,
@@ -85,8 +86,7 @@ export const getWork = async ({
     language: getWorkLanguage(workPage),
     rating: getWorkRating(workPage),
     category: getWorkCategory(workPage),
-    // TODO: figure out how to get this
-    adult: false,
+    adult: getWorkAdult(workPage),
     fandoms: getWorkFandoms(workPage),
     tags: {
       warnings: getWorkWarnings(workPage),
