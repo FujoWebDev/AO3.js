@@ -28,6 +28,7 @@ export interface Tag {
     tagName: string;
     parentSubTag: string | null;
   }>;
+  tagsWithSameMeaning: string[];
 }
 
 export type TagSearchType =

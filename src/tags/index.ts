@@ -7,6 +7,7 @@ import {
   getParentTags,
   getChildTags,
   getSubTags,
+  getTagsWithSameMeaning,
 } from "./page-getters";
 import { getTagId, getTagNameFromFeed } from "./works-feed-getters";
 import {
@@ -79,6 +80,7 @@ export const getTag = async ({
     parentTags: getParentTags(tagPage),
     childTags: getChildTags(tagPage),
     subTags: getSubTags(tagPage),
+    tagsWithSameMeaning: getTagsWithSameMeaning(tagPage),
   };
 };
 

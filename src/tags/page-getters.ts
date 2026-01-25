@@ -81,3 +81,11 @@ export const getSubTags = ($tagPage: TagPage) => {
   });
   return subTags;
 };
+
+export const getTagsWithSameMeaning = ($tagPage: TagPage) => {
+  const tagsWithSameMeaning: string[] = [];
+  $tagPage(".synonym ul.tags li").each((_, element) => {
+    tagsWithSameMeaning.push($tagPage(element).text());
+  });
+  return tagsWithSameMeaning;
+};
