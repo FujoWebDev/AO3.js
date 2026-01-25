@@ -250,7 +250,8 @@ describe("Tags/search", () => {
     // Some tags we should find to make sure the parser is working correctly.
     const UNSORTED_TAG = "it was an unusual premise for this fandom that is";
     const FREEFORM_TAG = 'even an unusual variation on "Just The Tip"';
-    const CHARACTER_TAG = "Goddess Who Decides to Answer an Unusual Prayer (Original Work)";
+    const CHARACTER_TAG =
+      "Goddess Who Decides to Answer an Unusual Prayer (Original Work)";
     const CANONICAL_TAG =
       "Episode: s02e23 Facing an Unusual Past (Saiki Kusuo no Sai-nan)";
 

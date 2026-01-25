@@ -79,7 +79,7 @@ export const getAsShortUrl = ({ url }: { url: string | URL }) => {
   const longUrl = new URL(url);
   if (longUrl.hostname !== "archiveofourown.org") {
     throw new Error(
-      `Short URLs are only supported for AO3 (found: ${longUrl.hostname})`
+      `Short URLs are only supported for AO3 (found: ${longUrl.hostname})`,
     );
   }
 
@@ -99,8 +99,8 @@ export const getDownloadUrls = ({
   updatedAt,
   publishedAt,
 }: // Make it so you can either pass specifically the needed elements of a work,
-// but also the whole summary if you prefer
-| Pick<WorkSummary, "id" | "title" | "updatedAt" | "publishedAt">
+  // but also the whole summary if you prefer
+  | Pick<WorkSummary, "id" | "title" | "updatedAt" | "publishedAt">
   | WorkSummary) => {
   const timestamp = new Date(updatedAt ?? publishedAt).valueOf();
   const downloadLinkBase = new URL(`downloads/${id}/`, getArchiveBaseUrl())
@@ -130,7 +130,7 @@ const TOKEN_REPLACEMENTS_MAP = {
 type ReplaceableToken = keyof typeof TOKEN_REPLACEMENTS_MAP;
 
 const REPLACEABLE_TOKENS = Object.keys(
-  TOKEN_REPLACEMENTS_MAP
+  TOKEN_REPLACEMENTS_MAP,
 ) as ReplaceableToken[];
 
 const TOKENS_TO_ESCAPE = ["/", "?", "."];
@@ -145,9 +145,9 @@ const isReplaceableToken = (c: string): c is ReplaceableToken =>
  */
 const REPLACE_TOKENS_REGEX = new RegExp(
   `(${REPLACEABLE_TOKENS.map((token) =>
-    shouldEscapeToken(token) ? `\\${token}` : token
+    shouldEscapeToken(token) ? `\\${token}` : token,
   ).join("|")})`,
-  "g"
+  "g",
 );
 
 export const getTagUrl = (tagName: string) =>
@@ -155,9 +155,9 @@ export const getTagUrl = (tagName: string) =>
     `tags/${encodeURI(tagName).replaceAll(
       REPLACE_TOKENS_REGEX,
       (char: string) =>
-        isReplaceableToken(char) ? TOKEN_REPLACEMENTS_MAP[char] : char
+        isReplaceableToken(char) ? TOKEN_REPLACEMENTS_MAP[char] : char,
     )}/`,
-    getArchiveBaseUrl()
+    getArchiveBaseUrl(),
   ).href;
 
 export const getTagWorksFeedUrl = (tagName: string) =>
@@ -198,7 +198,7 @@ export const getWorkDetailsFromUrl = ({
 };
 
 const getSearchParamsFromTagFilters = (
-  searchFilters: Partial<TagSearchFilters>
+  searchFilters: Partial<TagSearchFilters>,
 ) => {
   // Prepare the parameters for the search as a map first. This makes them a bit
   // more readable, since these parameters will all need to be wrapped with with
@@ -206,10 +206,13 @@ const getSearchParamsFromTagFilters = (
   const parameters = {
     name: searchFilters.tagName ?? "",
     fandoms: searchFilters.fandoms?.join(",") ?? "",
-    type: searchFilters.type
-      ? searchFilters.type.charAt(0).toUpperCase() +
-        searchFilters.type.slice(1).toLowerCase()
-      : "",
+    // AO3 requires an empty string for "any" type
+    // This is not the same for wrangling_status, somehow
+    type:
+      searchFilters.type && searchFilters.type !== "any"
+        ? searchFilters.type.charAt(0).toUpperCase() +
+          searchFilters.type.slice(1).toLowerCase()
+        : "",
     wrangling_status:
       searchFilters.wranglingStatus
         // We remove the _or_ and _and_ that we added for readability
@@ -219,7 +222,7 @@ const getSearchParamsFromTagFilters = (
     sort_column:
       searchFilters.sortColumn === "works_count"
         ? "uses"
-        : searchFilters.sortColumn ?? "name",
+        : (searchFilters.sortColumn ?? "name"),
     sort_direction: searchFilters.sortDirection ?? "asc",
   };
 

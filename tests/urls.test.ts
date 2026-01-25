@@ -136,7 +136,7 @@ describe("getSearchUrlFromTagFilters", () => {
         commit: "Search Tags",
         "tag_search[name]": "",
         "tag_search[fandoms]": "",
-        "tag_search[type]": "Any",
+        "tag_search[type]": "",
         "tag_search[wrangling_status]": "any",
         "tag_search[sort_column]": "name",
         "tag_search[sort_direction]": "asc",
