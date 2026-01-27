@@ -13,9 +13,8 @@ jobs:
       id-token: write # Allows GitHub to generate OIDC tokens required for provenance
 
     steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
         with:
           node-version-file: ".nvmrc"
           registry-url: "https://registry.npmjs.org"
@@ -41,9 +40,12 @@ jobs:
           echo "VERSION=${VERSION}" >> $GITHUB_ENV
           npm version $VERSION --no-git-tag-version
 
+      - name: Update npm for OIDC
+        run: npm install -g npm@latest
+        
       - run: npm publish --provenance --access=public
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Commit package version
         run: |
