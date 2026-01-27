@@ -11,7 +11,7 @@ declare global {
 }
 
 const DEFAULT_BASE_URL =
-  import.meta.env.ARCHIVE_BASE_URL ?? "https://archiveofourown.org";
+  import.meta.env?.ARCHIVE_BASE_URL ?? "https://archiveofourown.org";
 
 globalThis.archiveBaseUrl = DEFAULT_BASE_URL;
 
