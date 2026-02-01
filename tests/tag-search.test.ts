@@ -149,11 +149,11 @@ describe("Tags/search", () => {
         "St. Peter (Hazbin Hotel)",
         "Summer (Hazbin Hotel)",
         "Susan (Hazbin Hotel)",
+        "The Archangels (Hazbin Hotel)",
         "The Egg Bois (Hazbin Hotel)",
         "The Seven Deadly Sins (Hazbin Hotel & Helluva Boss)",
         "The Speaker of God (Hazbin Hotel)",
         "The Three V's (Hazbin Hotel)",
-        "Tiffany Titfucker (Hazbin Hotel)",
       ]
     `);
   });
@@ -182,6 +182,7 @@ describe("Tags/search", () => {
     // because this fandom gets a lot of new works
     expect(result.tags.map((tag) => tag.name)).toMatchInlineSnapshot(`
       [
+        "Tiffany Titfucker (Hazbin Hotel)",
         "Tom Trench",
         "Travis (Hazbin Hotel)",
         "Travis's Wife (Hazbin Hotel)",
