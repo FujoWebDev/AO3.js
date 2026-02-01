@@ -34,7 +34,7 @@
 <script src="/javascripts/livevalidation_standalone.js"></script>
 
 <meta name="csrf-param" content="authenticity_token" />
-<meta name="csrf-token" content="HG2CvPkq3lxKkE1Sknis5XuFrczEIvlFIVdReutnlW50Qi6QS7t7GzWB2k0H9ARoRtAq9la79QAUuIOZt3PMZg" />
+<meta name="csrf-token" content="AWQGN9Ne-jGzzFpyWf4Nl_H13COblwwoUeNFPAMwt4acRF5NlH9bAeL1SWsCXDMxWqvXq12qhA2AB1zXGkFB4A" />
 
     
   </head>
@@ -57,7 +57,7 @@
         <a id="login-dropdown" href="/users/login?return_to=%2F404%3Fview_adult%3Dtrue">Log In</a>
       </p>
       <div id="small_login" class="simple login">
-	<form class="new_user" id="new_user_session_small" action="/users/login?return_to=%2F404%3Fview_adult%3Dtrue" accept-charset="UTF-8" method="post"><input type="hidden" name="authenticity_token" value="KWKLpDRboMqJvodmKEk6Yqd92cdmRpDwqfSBx7LVwnwlRfwmG8OARVk8iDWCYHkFY2OzPY-TuT9p0bWVmLSyzQ" autocomplete="off" />
+	<form class="new_user" id="new_user_session_small" action="/users/login?return_to=%2F404%3Fview_adult%3Dtrue" accept-charset="UTF-8" method="post"><input type="hidden" name="authenticity_token" value="TkKw8LCeM7Lwku6iEVHoA_mfiX_LarkWts5ojpjEKseUwgG27hT4CAnVQP-mR82JW3Xyw0K3SbR4CjQNd0Debw" autocomplete="off" />
   <dl>
     <dt><label for="user_session_login_small">Username or email:</label></dt>
     <dd><input autocomplete="on" id="user_session_login_small" type="text" name="user[login]" /></dd>
@@ -138,7 +138,7 @@
     <p>
       <label class="landmark" for="site_search">Work Search</label>
       <input class="text" id="site_search" aria-describedby="site_search_tooltip" type="text" name="work_search[query]" />
-      <span class="tip" role="tooltip" id="site_search_tooltip">tip: &quot;sherlock (tv)&quot; m/m NOT &quot;sherlock holmes/john watson&quot;</span>
+      <span class="tip" role="tooltip" id="site_search_tooltip">tip: katekyou &quot;alternate universe&quot; sort:&gt;words</span>
       <span class="submit actions"><input type="submit" value="Search" class="button" /></span>
     </p>
   </fieldset>
@@ -199,7 +199,7 @@
       <h4 class="heading">Development</h4>
       <ul class="menu">
           <li>
-            <a href="https://github.com/otwcode/otwarchive/commits/v0.9.452.1">otwarchive v0.9.452.1</a>
+            <a href="https://github.com/otwcode/otwarchive/commits/v0.9.456.1">otwarchive v0.9.456.1</a>
           </li>
         <li><a href="/known_issues">Known Issues</a></li>
         <li>
