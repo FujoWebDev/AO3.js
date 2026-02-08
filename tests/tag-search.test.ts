@@ -247,7 +247,7 @@ describe("Tags/search", () => {
       page: 3,
     });
 
-    expect(result.totalResults).toBe(209);
+    expect(result.totalResults).toMatchInlineSnapshot(`209`);
 
     // Some tags we should find to make sure the parser is working correctly.
     const UNSORTED_TAG = "it was an unusual premise for this fandom that is";
