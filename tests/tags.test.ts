@@ -621,6 +621,7 @@ describe("Tags/synonyms", () => {
         "Human Charlie Magne (Hazbin Hotel)",
         "human!Charlie - Character",
         "kid Charlie (Hazbin Hotel)",
+        "Male Charlie - Character",
         "Mention of Charlie Morningstar (Hazbin Hotel)",
         "mentioned Charlie",
         "Mentioned Charlie (Hazbin Hotel)",
