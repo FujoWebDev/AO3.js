@@ -34,7 +34,7 @@
 <script src="/javascripts/livevalidation_standalone.js"></script>
 
 <meta name="csrf-param" content="authenticity_token" />
-<meta name="csrf-token" content="HCXflOEUcSPTwdQ0m_MGrl18vUefsivW-LJEDQ2D6DMYN-RV3qKu1vKsyivOpOcVPors_4UxVayzzYlbyJ2Ccg" />
+<meta name="csrf-token" content="MAslpA5kW1qygJUDAl7hxIsd0H6tqs-39OZ8OZe5-h_zzQqFcxmv9w6P2GXrh7XqCvobMt41j4NgZzezFcapDw" />
 
     
   </head>
@@ -57,7 +57,7 @@
         <a id="login-dropdown" href="/users/login?return_to=%2F404%3Fview_adult%3Dtrue">Log In</a>
       </p>
       <div id="small_login" class="simple login">
-	<form class="new_user" id="new_user_session_small" action="/users/login?return_to=%2F404%3Fview_adult%3Dtrue" accept-charset="UTF-8" method="post"><input type="hidden" name="authenticity_token" value="KdVEkqmI5I9oNlu0usZkEBhmAhB3LI2jTWizVpjXQFi_uzM23W4ZUYLUyqsBvNzuVCdJkTpBwKaukDC1480lfg" autocomplete="off" />
+	<form class="new_user" id="new_user_session_small" action="/users/login?return_to=%2F404%3Fview_adult%3Dtrue" accept-charset="UTF-8" method="post"><input type="hidden" name="authenticity_token" value="BTcuG-L9lEudkSk9FfVTt9k7vpIkL0C5YpfaMziENob9nAp6U02i-PkjikbP_p_H990YANJUCfcjdRdRSa0HeA" autocomplete="off" />
   <dl>
     <dt><label for="user_session_login_small">Username or email:</label></dt>
     <dd><input autocomplete="on" id="user_session_login_small" type="text" name="user[login]" /></dd>
@@ -138,7 +138,7 @@
     <p>
       <label class="landmark" for="site_search">Work Search</label>
       <input class="text" id="site_search" aria-describedby="site_search_tooltip" type="text" name="work_search[query]" />
-      <span class="tip" role="tooltip" id="site_search_tooltip">tip: austen words:10000-50000 sort:title</span>
+      <span class="tip" role="tooltip" id="site_search_tooltip">tip: arthur merlin words&gt;1000 sort:hits</span>
       <span class="submit actions"><input type="submit" value="Search" class="button" /></span>
     </p>
   </fieldset>
@@ -199,7 +199,7 @@
       <h4 class="heading">Development</h4>
       <ul class="menu">
           <li>
-            <a href="https://github.com/otwcode/otwarchive/commits/v0.9.457.2">otwarchive v0.9.457.2</a>
+            <a href="https://github.com/otwcode/otwarchive/commits/v0.9.461.3">otwarchive v0.9.461.3</a>
           </li>
         <li><a href="/known_issues">Known Issues</a></li>
         <li>
