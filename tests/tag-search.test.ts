@@ -130,6 +130,7 @@ describe("Tags/search", () => {
         "Original Children of Alastor and Lucifer Magne | Morningstar",
         "Original Hazbin Hotel Character(s)",
         "Original Magne | Morningstar Character(s)",
+        "Overexposed Demon | Demon the Vees Exploit in Hazbin Guarantee (Trust Us)",
         "Overlords (Hazbin Hotel)",
         "Prick (Hazbin Hotel)",
         "Queef | Valentino's Pet (Hazbin Hotel)",
@@ -153,7 +154,6 @@ describe("Tags/search", () => {
         "The Archangels (Hazbin Hotel)",
         "The Egg Bois (Hazbin Hotel)",
         "The Seven Deadly Sins (Hazbin Hotel & Helluva Boss)",
-        "The Speaker of God (Hazbin Hotel)",
       ]
     `);
   });
@@ -182,6 +182,7 @@ describe("Tags/search", () => {
     // because this fandom gets a lot of new works
     expect(result.tags.map((tag) => tag.name)).toMatchInlineSnapshot(`
       [
+        "The Speaker of God (Hazbin Hotel)",
         "The Three V's (Hazbin Hotel)",
         "Tiffany Titfucker (Hazbin Hotel)",
         "Tom Trench",
@@ -201,6 +202,8 @@ describe("Tags/search", () => {
         "Vox's Assistant (Hazbin Hotel)",
         "Vox's Father (Hazbin Hotel)",
         "Vox's Mother (Hazbin Hotel)",
+        "Vox's Producers (Hazbin Hotel)",
+        "White-Haired Exorcist from Vaggi | Vaggie's Flashback (Hazbin Hotel)",
         "Zeezi (Hazbin Hotel)",
         "Zestial (Hazbin Hotel)",
       ]
@@ -247,7 +250,7 @@ describe("Tags/search", () => {
       page: 3,
     });
 
-    expect(result.totalResults).toMatchInlineSnapshot(`209`);
+    expect(result.totalResults).toMatchInlineSnapshot(`212`);
 
     // Some tags we should find to make sure the parser is working correctly.
     const UNSORTED_TAG = "it was an unusual premise for this fandom that is";
