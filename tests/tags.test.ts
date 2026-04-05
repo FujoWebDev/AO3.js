@@ -307,6 +307,7 @@ describe("Tags/parent", () => {
         "The Beekeeper's Picnic (Video Game)",
         "The Boy Sherlock Holmes - Shane Peacock",
         "The Case of Death and Honey - Neil Gaiman",
+        "The Horror of the Many Faces - Tim Lebbon",
         "The Hound of the Baskervilles (1983)",
         "The Hound of the Baskervilles (2002)",
         "The Irregulars (TV)",
