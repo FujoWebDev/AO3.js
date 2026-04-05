@@ -59,7 +59,6 @@ describe("Tags/search", () => {
         "Egg Boi #11 (Hazbin Hotel)",
         "Egg Boi #23 (Hazbin Hotel)",
         "Emily (Hazbin Hotel)",
-        "Essie (Hazbin Hotel)",
         "Ethan | Vox's Assistant (Hazbin Hotel)",
         "Eve (Hazbin Hotel)",
         "Ewe Demon (Hazbin Hotel)",
@@ -71,11 +70,12 @@ describe("Tags/search", () => {
         "Gambling Rabbit Demon (Hazbin Hotel)",
         "God (Hazbin Hotel)",
         "Happy Hotel | Hazbin Hotel Residents",
-        "Harold Von Eldrich",
+        "Harold Von Eldritch",
         "Hatchet (Hazbin Hotel)",
         "Hazbin Hotel Ensemble",
         "Helsa Von Eldritch",
         "Henroin (Hazbin Hotel)",
+        "Husk (Hazbin Hotel)",
       ]
     `);
   });
@@ -104,7 +104,6 @@ describe("Tags/search", () => {
     // because this fandom gets a lot of new works
     expect(result.tags.map((tag) => tag.name)).toMatchInlineSnapshot(`
       [
-        "Husk (Hazbin Hotel)",
         "Husk's Father (Hazbin Hotel)",
         "Husk's Mother (Hazbin Hotel)",
         "Huskettes (Hazbin Hotel)",
@@ -121,9 +120,7 @@ describe("Tags/search", () => {
         "Maestro (Hazbin Hotel)",
         "Melissa (Hazbin Hotel)",
         "Mimzy (Hazbin Hotel)",
-        "Missi Zilla",
         "Molly (Hazbin Hotel)",
-        "Monty Python (Hazbin Hotel)",
         "Niffty (Hazbin Hotel)",
         "Odette (Hazbin Hotel)",
         "Original Children of Alastor and Angel Dust (Hazbin Hotel)",
@@ -154,6 +151,9 @@ describe("Tags/search", () => {
         "The Archangels (Hazbin Hotel)",
         "The Egg Bois (Hazbin Hotel)",
         "The Seven Deadly Sins (Hazbin Hotel & Helluva Boss)",
+        "The Speaker of God (Hazbin Hotel)",
+        "The Three V's (Hazbin Hotel)",
+        "Tiffany Titfucker (Hazbin Hotel)",
       ]
     `);
   });
@@ -182,9 +182,6 @@ describe("Tags/search", () => {
     // because this fandom gets a lot of new works
     expect(result.tags.map((tag) => tag.name)).toMatchInlineSnapshot(`
       [
-        "The Speaker of God (Hazbin Hotel)",
-        "The Three V's (Hazbin Hotel)",
-        "Tiffany Titfucker (Hazbin Hotel)",
         "Tom Trench",
         "Travis (Hazbin Hotel)",
         "Travis's Wife (Hazbin Hotel)",
@@ -197,7 +194,6 @@ describe("Tags/search", () => {
         "Vax (Hazbin Hotel)",
         "Velvette (Hazbin Hotel)",
         "Victor (Daisies - Black Gryph0n & Baasik)",
-        "Vinny Shortcake (Hazbin Hotel)",
         "Vox (Hazbin Hotel)",
         "Vox's Assistant (Hazbin Hotel)",
         "Vox's Father (Hazbin Hotel)",
@@ -250,7 +246,7 @@ describe("Tags/search", () => {
       page: 3,
     });
 
-    expect(result.totalResults).toMatchInlineSnapshot(`212`);
+    expect(result.totalResults).toMatchInlineSnapshot(`214`);
 
     // Some tags we should find to make sure the parser is working correctly.
     const UNSORTED_TAG = "it was an unusual premise for this fandom that is";
