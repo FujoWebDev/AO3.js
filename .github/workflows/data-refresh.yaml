@@ -29,10 +29,10 @@ jobs:
           node-version: "22"
           cache: "npm"
 
-      - name: Create new branch
+      - name: Create or reset branch
         id: branch
         run: |
-          BRANCH_NAME="data-refresh-$(date +%Y-%m-%d)"
+          BRANCH_NAME="data-refresh"
           git checkout -b $BRANCH_NAME
           echo "name=$BRANCH_NAME" >> $GITHUB_OUTPUT
 
@@ -111,7 +111,7 @@ jobs:
           git commit -m "🤖💖 — Update snapshots after data refresh" || echo "No changes to commit"
 
       - name: Push branch
-        run: git push -u origin ${{ needs.test-data.outputs.branch-name }}
+        run: git push --force -u origin ${{ needs.test-data.outputs.branch-name }}
 
   create-success-pr:
     runs-on: ubuntu-latest
@@ -119,30 +119,75 @@ jobs:
     if: ${{ needs.update-snapshots.outputs.tests-passed == 'true' }}
 
     steps:
-      - name: Create Pull Request
+      - name: Create or update Pull Request
         uses: actions/github-script@v7
         with:
           script: |
-            const pr = await github.rest.pulls.create({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              title: '🔄✅ Data Refresh: Snapshot Update Complete!',
-              head: '${{ needs.test-data.outputs.branch-name }}',
-              base: 'main',
-              body: `The Automatic data refresh on ${new Date().toISOString().split('T')[0]} detected changes in AO3 responses.
+            const head = '${{ needs.test-data.outputs.branch-name }}';
+            const today = new Date().toISOString().split('T')[0];
+            const runUrl = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
+
+            const [{ data: existingIssues }, { data: existingPRs }] = await Promise.all([
+              github.rest.issues.listForRepo({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                labels: 'data-refresh',
+                state: 'open',
+                per_page: 100,
+              }),
+              github.rest.pulls.list({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                head: `${context.repo.owner}:${head}`,
+                base: 'main',
+                state: 'open',
+              }),
+            ]);
+            const openIssues = existingIssues.filter(i => !i.pull_request);
+            const fixesLine = openIssues.length > 0
+              ? `\n\nFixes ${openIssues.map(i => `#${i.number}`).join(', ')}`
+              : '';
+
+            const body = `The Automatic data refresh on ${today} detected changes in AO3 responses.
 
             Snapshots have been updated to reflect current status. All tests are now passing! 🎉🎊🌟
 
             Changes look good? ➡️ Merge this PR to update the snapshots and tests.
-            Changes look _yikes_? ❌ Check out this PR and go get 'em! 💪🔥`
-            });
+            Changes look _yikes_? ❌ Check out this PR and go get 'em! 💪🔥${fixesLine}`;
 
-            await github.rest.issues.addLabels({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: pr.data.number,
-              labels: ['data-refresh']
-            });
+            if (existingPRs.length > 0) {
+              const prNumber = existingPRs[0].number;
+              await github.rest.pulls.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                pull_number: prNumber,
+                title: '🔄✅ Data Refresh: Snapshot Update Complete!',
+                body,
+              });
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: prNumber,
+                body: `🔄✨ Fresh data just dropped (${today})! Tests are passing and this PR is ready for another look~ [Workflow run](${runUrl}) 👀`,
+              });
+              core.info(`Updated existing PR #${prNumber}`);
+            } else {
+              const pr = await github.rest.pulls.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title: '🔄✅ Data Refresh: Snapshot Update Complete!',
+                head,
+                base: 'main',
+                body,
+              });
+              await github.rest.issues.addLabels({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: pr.data.number,
+                labels: ['data-refresh'],
+              });
+              core.info(`Created new PR #${pr.data.number}`);
+            }
 
   create-failure-pr-and-issue:
     runs-on: ubuntu-latest
@@ -150,57 +195,112 @@ jobs:
     if: ${{ needs.update-snapshots.outputs.tests-passed == 'false' }}
 
     steps:
-      - name: Create issue for failed tests
-        id: create-issue
+      - name: Create or update issue and PR for failed tests
         uses: actions/github-script@v7
         with:
           script: |
-            const issue = await github.rest.issues.create({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              title: '🚨 Data Refresh Tests Failed After Snapshot Update',
-              body: `The daily data refresh tests failed on ${new Date().toISOString().split('T')[0]}. Yes, even with the snapshot updates!
+            const head = '${{ needs.test-data.outputs.branch-name }}';
+            const today = new Date().toISOString().split('T')[0];
+            const runUrl = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
 
-            Please check the [workflow run](${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}) for details.
+            const [{ data: existingIssues }, { data: existingPRs }] = await Promise.all([
+              github.rest.issues.listForRepo({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                labels: 'data-refresh',
+                state: 'open',
+                per_page: 100,
+              }),
+              github.rest.pulls.list({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                head: `${context.repo.owner}:${head}`,
+                base: 'main',
+                state: 'open',
+              }),
+            ]);
+            const openIssues = existingIssues.filter(i => !i.pull_request);
+
+            let issueNumber;
+            const issueBody = `The daily data refresh tests failed on ${today}. Yes, even with the snapshot updates!
+
+            Please check the [workflow run](${runUrl}) for details.
 
             ---
 
-            Want to learn more about this issue and help us fix it? Check out the [README](https://github.com/FujoWebDev/AO3.js/blob/main/README.md#about--data-refresh-tests-failed-issues) for more information!`
-            });
+            Want to learn more about this issue and help us fix it? Check out the [README](https://github.com/FujoWebDev/AO3.js/blob/main/README.md#about--data-refresh-tests-failed-issues) for more information!`;
 
-            return issue.data.number;
+            if (openIssues.length > 0) {
+              issueNumber = openIssues[0].number;
+              await github.rest.issues.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issueNumber,
+                body: issueBody,
+              });
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issueNumber,
+                body: `🚨 Oop, tests are STILL failing as of ${today}. The bugs persist! 🐛💪 [Workflow run](${runUrl})`,
+              });
+              core.info(`Updated existing issue #${issueNumber}`);
+            } else {
+              const issue = await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title: '🚨 Data Refresh Tests Failed After Snapshot Update',
+                body: issueBody,
+                labels: ['data-refresh'],
+              });
+              issueNumber = issue.data.number;
+              core.info(`Created new issue #${issueNumber}`);
+            }
 
-      - name: Create Pull Request
-        uses: actions/github-script@v7
-        with:
-          script: |
-            const issueNumber = ${{ steps.create-issue.outputs.result }};
-
-            const pr = await github.rest.pulls.create({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              title: '🚨 HALP! Tests are failing after data refresh!',
-              head: '${{ needs.test-data.outputs.branch-name }}',
-              base: 'main',
-              body: `Automatic data refresh on ${new Date().toISOString().split('T')[0]} detected changes in AO3 responses.
+            const prBody = `Automatic data refresh on ${today} detected changes in AO3 responses.
 
             Despite our best efforts (in the form of a snapshot update), tests are still failing.
 
             Manual investigation is required 🔍🕵️ To help you get started, we've created this PR with the already-updated data. May the bugs be ever in your favor! 🍀
 
-            Check the [workflow run](${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}) for details.
+            Check the [workflow run](${runUrl}) for details.
 
             Closes #${issueNumber}...eventually 🤞
 
             ---
 
-            Want to learn more about this issue and help us fix it? Check out the [README](https://github.com/FujoWebDev/AO3.js/blob/main/README.md#about--data-refresh-tests-failed-issues) for more information!`
-            });
+            Want to learn more about this issue and help us fix it? Check out the [README](https://github.com/FujoWebDev/AO3.js/blob/main/README.md#about--data-refresh-tests-failed-issues) for more information!`;
 
-            // Add label to the PR for easy identification
-            await github.rest.issues.addLabels({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: pr.data.number,
-              labels: ['data-refresh']
-            });
+            if (existingPRs.length > 0) {
+              const prNumber = existingPRs[0].number;
+              await github.rest.pulls.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                pull_number: prNumber,
+                title: '🚨 HALP! Tests are failing after data refresh!',
+                body: prBody,
+              });
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: prNumber,
+                body: `🚨 Another week, another data refresh (${today}), and the tests are still throwing a tantrum 😤 [Workflow run](${runUrl}). Someone come get their bugs! 🍀`,
+              });
+              core.info(`Updated existing PR #${prNumber}`);
+            } else {
+              const pr = await github.rest.pulls.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title: '🚨 HALP! Tests are failing after data refresh!',
+                head,
+                base: 'main',
+                body: prBody,
+              });
+              await github.rest.issues.addLabels({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: pr.data.number,
+                labels: ['data-refresh'],
+              });
+              core.info(`Created new PR #${pr.data.number}`);
+            }
