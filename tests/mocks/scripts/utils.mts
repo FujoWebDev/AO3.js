@@ -3,6 +3,22 @@ import fs from "fs/promises";
 import path from "path";
 import { fileURLToPath } from "url";
 
+// filenamify replaces | with ! which can cause bugs since ! appears naturally in tag names.
+// We encode | as !p! (matching existing !d!, !a!, !s! patterns) before filenamify
+// so the encoding is always reversible.
+export function safeFilenamify(name: string): string {
+  return filenamify(name.replace(/\|/g, "!p!"));
+}
+
+export function decodeFilename(encodedName: string): string {
+  return encodedName
+    .replace(/!p!/g, "|") // Pipe
+    .replace(/!d!/g, ".") // Period
+    .replace(/!a!/g, "&") // Ampersand
+    .replace(/!s!/g, "/") // Forward slash
+    .replace(/\*a\*/g, "&"); // Alternative ampersand encoding
+}
+
 const BASE_DELAY = 1000; // 1 second
 
 const ARCHIVE_URLS = {
@@ -24,7 +40,7 @@ export async function delay(ms: number): Promise<void> {
 export async function downloadWithRetry(
   url: string,
   maxAttempts = 3,
-  currentAttempt = 1
+  currentAttempt = 1,
 ) {
   try {
     const response = await fetch(url, {
@@ -36,7 +52,7 @@ export async function downloadWithRetry(
     if (response.status === 429) {
       const retryAfter = parseInt(
         response.headers.get("retry-after") || "0",
-        10
+        10,
       );
 
       console.log(`Rate limited. Waiting ${retryAfter / 1000} seconds...`);
@@ -66,11 +82,11 @@ export async function downloadWithRetry(
 
     const backoffDelay = Math.min(
       BASE_DELAY * Math.pow(2, currentAttempt - 1) + Math.random() * 1000,
-      30000 // Max 30 seconds
+      30000, // Max 30 seconds
     );
 
     console.log(
-      `Attempt ${currentAttempt} failed, retrying after ${backoffDelay}ms...`
+      `Attempt ${currentAttempt} failed, retrying after ${backoffDelay}ms...`,
     );
     console.log(`Error message was ${errorMessage}`);
     await delay(backoffDelay);
@@ -102,7 +118,9 @@ const getNormalizedTagSearchFolder = (searchParams: URLSearchParams) => {
     const sortedValues = values.length > 1 ? [...values].sort() : values;
     for (const value of sortedValues) {
       const segment = `${key}=${value == "any" ? "" : value}`;
-      entries.push(filenamify(segment.toLowerCase(), { replacement: "_", maxLength: 100 }));
+      entries.push(
+        filenamify(segment.toLowerCase(), { replacement: "_", maxLength: 100 }),
+      );
     }
   }
 
@@ -136,7 +154,7 @@ export function getFilePathFromUrl(url: string | URL) {
   if (segments[0] === "tags" && lastSegment === "search") {
     return path.join(
       getArchiveDataDir(archive),
-      getFilePathForSearchUrl(parsedUrl)
+      getFilePathForSearchUrl(parsedUrl),
     );
   }
 
@@ -146,7 +164,9 @@ export function getFilePathFromUrl(url: string | URL) {
     hasExtension || lastSegment == "works" ? segments.slice(0, -1) : segments;
   const dirPath = path.join(
     getArchiveDataDir(archive),
-    ...dirSegments.map((segment) => filenamify(decodeURIComponent(segment)))
+    ...dirSegments.map((segment) =>
+      safeFilenamify(decodeURIComponent(segment)),
+    ),
   );
 
   // If last segment has an extension, use it as filename, otherwise use index.html
@@ -156,8 +176,8 @@ export function getFilePathFromUrl(url: string | URL) {
     hasExtension
       ? lastSegment
       : lastSegment == "works"
-      ? "works.html"
-      : "index.html"
+        ? "works.html"
+        : "index.html",
   );
 }
 
@@ -194,8 +214,8 @@ export function getArchiveFromUrl(input: string | URL): "ao3" | "superlove" {
   const archive = hostname.includes(ARCHIVE_URLS.ao3)
     ? "ao3"
     : hostname.includes(ARCHIVE_URLS.superlove)
-    ? "superlove"
-    : null;
+      ? "superlove"
+      : null;
   if (!archive) {
     throw new Error(`Cannot determine archive from URL: ${input}`);
   }

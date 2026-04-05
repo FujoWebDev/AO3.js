@@ -1,9 +1,7 @@
-import { fileURLToPath } from "url";
-import filenamify from "filenamify";
 import fs from "fs";
 import path from "path";
 import { http, HttpHandler, HttpResponse } from "msw";
-import { getArchiveDataDir } from "../../scripts/utils.mjs";
+import { getArchiveDataDir, safeFilenamify } from "../../scripts/utils.mjs";
 
 export default [
   http.all("https://archiveofourown.org/works/:work_id", ({ params }) => {
@@ -11,7 +9,7 @@ export default [
       path.resolve(
         getArchiveDataDir(),
         "works",
-        filenamify(params.work_id as string),
+        safeFilenamify(params.work_id as string),
         "index.html"
       )
     );
@@ -24,7 +22,7 @@ export default [
       path.resolve(
         getArchiveDataDir("superlove"),
         "works",
-        filenamify(params.work_id as string),
+        safeFilenamify(params.work_id as string),
         "index.html"
       )
     );

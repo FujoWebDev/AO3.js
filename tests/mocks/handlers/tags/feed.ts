@@ -1,9 +1,7 @@
-import { fileURLToPath } from "url";
-import filenamify from "filenamify";
 import fs from "fs";
 import path from "path";
 import { http, HttpHandler, HttpResponse } from "msw";
-import { getArchiveDataDir } from "../../scripts/utils.mjs";
+import { getArchiveDataDir, safeFilenamify } from "../../scripts/utils.mjs";
 
 export default http.all(
   "https://archiveofourown.org/tags/:name/feed.atom",
@@ -12,7 +10,7 @@ export default http.all(
       path.resolve(
         getArchiveDataDir(),
         "tags",
-        filenamify(params.name as string),
+        safeFilenamify(params.name as string),
         "feed.atom"
       )
     );

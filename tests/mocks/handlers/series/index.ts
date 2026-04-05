@@ -1,8 +1,7 @@
-import filenamify from "filenamify";
 import fs from "fs";
 import path from "path";
 import { http, HttpHandler, HttpResponse } from "msw";
-import { getArchiveDataDir } from "../../scripts/utils.mjs";
+import { getArchiveDataDir, safeFilenamify } from "../../scripts/utils.mjs";
 
 export default http.all(
   "https://archiveofourown.org/series/:series_id",
@@ -11,7 +10,7 @@ export default http.all(
       path.resolve(
         getArchiveDataDir(),
         "series",
-        filenamify(params.series_id as string),
+        safeFilenamify(params.series_id as string),
         "index.html"
       )
     );

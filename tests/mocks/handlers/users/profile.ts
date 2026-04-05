@@ -1,9 +1,7 @@
-import { fileURLToPath } from "url";
-import filenamify from "filenamify";
 import fs from "fs";
 import path from "path";
 import { http, HttpHandler, HttpResponse } from "msw";
-import { getArchiveDataDir } from "../../scripts/utils.mjs";
+import { getArchiveDataDir, safeFilenamify } from "../../scripts/utils.mjs";
 
 export default http.all(
   "https://archiveofourown.org/users/:name/profile",
@@ -12,7 +10,7 @@ export default http.all(
       path.resolve(
         getArchiveDataDir(),
         "users",
-        filenamify(params.name as string),
+        safeFilenamify(params.name as string),
         "profile",
         "index.html"
       )

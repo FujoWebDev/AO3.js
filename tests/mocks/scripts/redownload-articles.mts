@@ -7,6 +7,7 @@ const KNOWN_404 = [
 ]
 
 import {
+  decodeFilename,
   delay,
   downloadWithRetry,
   recursivelyGetFiles,
@@ -15,16 +16,6 @@ import {
   getArchiveUrl,
   Http404Error,
 } from "./utils.mts";
-
-// Function to decode an encoded filename
-// TODO: write a better description
-function decodeFilename(encodedName: string): string {
-  return encodedName
-    .replace(/!d!/g, ".") // Period
-    .replace(/!a!/g, "&") // Ampersand
-    .replace(/!s!/g, "/") // Forward slash
-    .replace(/\*a\*/g, "&"); // Alternative ampersand encoding
-}
 
 function getUrlFromPath(
   relativePath: string,

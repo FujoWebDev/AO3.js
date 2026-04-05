@@ -1,9 +1,7 @@
-import { fileURLToPath } from "url";
-import filenamify from "filenamify";
 import fs from "fs";
 import path from "path";
 import { http, HttpHandler, HttpResponse } from "msw";
-import { getArchiveDataDir } from "../../scripts/utils.mjs";
+import { getArchiveDataDir, safeFilenamify } from "../../scripts/utils.mjs";
 
 export default http.all(
   "https://archiveofourown.org/works/:work_id/navigate",
@@ -12,7 +10,7 @@ export default http.all(
       path.resolve(
         getArchiveDataDir(),
         "works",
-        filenamify(params.work_id as string),
+        safeFilenamify(params.work_id as string),
         "navigate.html"
       )
     );

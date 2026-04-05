@@ -2,10 +2,10 @@ import dirTree from "directory-tree";
 import path, { dirname } from "path";
 import { fileURLToPath } from "url";
 import { renameSync } from "fs";
-import filenamify from "filenamify";
+import { safeFilenamify } from "./utils.mjs";
 
 const hasInvalidFileCharacters = (filename: string) => {
-  return filenamify(filename) != filename;
+  return safeFilenamify(filename) != filename;
 };
 
 const recursivelyRenameDirectories = (folder: ReturnType<typeof dirTree>) => {
@@ -26,12 +26,12 @@ const recursivelyRenameDirectories = (folder: ReturnType<typeof dirTree>) => {
     console.log(
       `${path.join(containingDir, folder.name)} => ${path.join(
         containingDir,
-        filenamify(folder.name)
+        safeFilenamify(folder.name)
       )}`
     );
     renameSync(
       path.join(containingDir, folder.name),
-      path.join(containingDir, filenamify(folder.name))
+      path.join(containingDir, safeFilenamify(folder.name))
     );
   }
 };
