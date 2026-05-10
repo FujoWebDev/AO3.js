@@ -240,6 +240,7 @@ describe("Tags/parent", () => {
         "A Study in Emerald - Neil Gaiman",
         "A Study in Terror (1965)",
         "Adventures of Sherlock Holmes and Dr. Watson (TV Russia)",
+        "Art in the Blood - Brian Stableford",
         "Baskerville: A Sherlock Holmes Mystery - Ludwig",
         "Dr. Jekyll and Mr. Holmes - Loren D. Estleman",
         "Dr. Watson Thrillers - Robert Ryan",
@@ -307,7 +308,9 @@ describe("Tags/parent", () => {
         "The Beekeeper's Picnic (Video Game)",
         "The Boy Sherlock Holmes - Shane Peacock",
         "The Case of Death and Honey - Neil Gaiman",
+        "The Curious Case of Miss Violet Stone - Poppy Z. Brite & David Ferguson",
         "The Horror of the Many Faces - Tim Lebbon",
+        "The Hound of the Baskervilles (1959)",
         "The Hound of the Baskervilles (1983)",
         "The Hound of the Baskervilles (2002)",
         "The Irregulars (TV)",
@@ -319,6 +322,7 @@ describe("Tags/parent", () => {
         "There Is No Game: Wrong Dimension (Video Game)",
         "Victorian Undead: Sherlock Holmes vs Zombies! (Comics)",
         "Watson (TV 2025)",
+        "Watson and Holmes (Comics)",
         "Watson's Sketchbook - Molly Knox Ostertag (Webcomic)",
         "Young Sherlock (TV 2026)",
         "Young Sherlock Holmes (1985)",
@@ -340,11 +344,23 @@ describe("Tags/sub", () => {
       [
         {
           "parentSubTag": null,
+          "tagName": "Hannibal Lecter's Mind Palace",
+        },
+        {
+          "parentSubTag": "Hannibal Lecter's Mind Palace",
+          "tagName": "Will Graham in Hannibal Lecter's Mind Palace",
+        },
+        {
+          "parentSubTag": null,
           "tagName": "Sherlock Holmes's Mind Palace",
         },
         {
           "parentSubTag": "Sherlock Holmes's Mind Palace",
           "tagName": "John Watson in Sherlock Holmes' Mind Palace",
+        },
+        {
+          "parentSubTag": null,
+          "tagName": "Will Graham's Stream Mind Palace",
         },
       ]
     `);
@@ -614,6 +630,9 @@ describe("Tags/synonyms", () => {
         "Charlie(Hazbin Hotel)",
         "Charlotte "Charlie" Magne | Morningstar",
         "Charlotte "Charlie" Morningstar",
+        "Charlotte Absolute Evil (Hazbin Hotel AU)",
+        "Charlotte Absolute Evil (Hazbin Hotel)",
+        "Charlotte Absolute Evil(Hazbin Hotel)",
         "Charlotte Magne",
         "Charlotte Magne (Hazbin Hotel)",
         "Charlotte Morningstar",
@@ -635,6 +654,7 @@ describe("Tags/synonyms", () => {
         "he and charlie text so wanted to tag him",
         "Human Charlie - Character",
         "Human Charlie Magne (Hazbin Hotel)",
+        "human toddler Charlie",
         "human!Charlie - Character",
         "kid Charlie (Hazbin Hotel)",
         "Male Charlie - Character",
@@ -658,6 +678,7 @@ describe("Tags/synonyms", () => {
         "Referenced Charlie",
         "Single Mom Charlie Morningstar - Character",
         "swap charlie",
+        "Swapped Charlie Morningstar",
         "The Savant | Charlie Morningstar",
       ]
     `);
