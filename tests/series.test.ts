@@ -11,7 +11,7 @@ describe("Series/data", () => {
 
     await expect(invalidSeries).rejects.toThrow(InvalidIDError);
     await expect(invalidSeries).rejects.toThrow(
-      "invalid-id is not a valid series id"
+      "invalid-id is not a valid series id",
     );
   });
 
@@ -22,13 +22,13 @@ describe("Series/data", () => {
       id: 2270465,
       name: "OG Titan",
       startedAt: "2021-04-11",
-      updatedAt: "2023-02-13",
+      updatedAt: "2026-04-18",
       authors: [{ username: "MyHero", pseud: "MyHero" }],
       description:
         "<p>My potentially related stories about the relationship between the OG Titans. Probably focused on Dick Grayson.</p>",
       notes: null,
-      words: 30035,
-      bookmarks: expect.any(Number),
+      words: 32451,
+      bookmarks: expect.driftingCount({ atLeast: 260, atMost: 285 }),
       complete: false,
       workCount: 6,
     });
@@ -84,9 +84,9 @@ describe("Series/data", () => {
       chapters: { published: 1, total: 1 },
       complete: true,
       stats: {
-        bookmarks: expect.any(Number),
-        kudos: expect.any(Number),
-        hits: expect.any(Number),
+        bookmarks: expect.driftingCount({ atLeast: 247, atMost: 272 }),
+        kudos: expect.driftingCount({ atLeast: 1581, atMost: 1621 }),
+        hits: expect.driftingCount({ atLeast: 13598, atMost: 13998 }),
       },
     });
 
@@ -164,9 +164,9 @@ describe("Series/data", () => {
       chapters: { published: 12, total: null },
       complete: false,
       stats: {
-        bookmarks: expect.any(Number),
-        kudos: expect.any(Number),
-        hits: expect.any(Number),
+        bookmarks: expect.driftingCount({ atLeast: 749, atMost: 774 }),
+        kudos: expect.driftingCount({ atLeast: 3469, atMost: 3509 }),
+        hits: expect.driftingCount({ atLeast: 69354, atMost: 69754 }),
       },
     });
 
@@ -216,9 +216,9 @@ describe("Series/data", () => {
       chapters: { published: 1, total: 1 },
       complete: true,
       stats: {
-        bookmarks: expect.any(Number),
-        kudos: expect.any(Number),
-        hits: expect.any(Number),
+        bookmarks: expect.driftingCount({ atLeast: 306, atMost: 331 }),
+        kudos: expect.driftingCount({ atLeast: 1935, atMost: 1975 }),
+        hits: expect.driftingCount({ atLeast: 16192, atMost: 16592 }),
       },
     });
 
@@ -262,9 +262,9 @@ describe("Series/data", () => {
       chapters: { published: 1, total: 1 },
       complete: true,
       stats: {
-        bookmarks: expect.any(Number),
-        kudos: expect.any(Number),
-        hits: expect.any(Number),
+        bookmarks: expect.driftingCount({ atLeast: 95, atMost: 120 }),
+        kudos: expect.driftingCount({ atLeast: 873, atMost: 913 }),
+        hits: expect.driftingCount({ atLeast: 7846, atMost: 8246 }),
       },
     });
 
@@ -272,7 +272,7 @@ describe("Series/data", () => {
     expect(series.works[4]).toMatchObject({
       id: 35757790,
       title: "Realistic Exit Strategy",
-      updatedAt: "2023-02-13",
+      updatedAt: "2026-04-18",
       adult: false,
       fandoms: [
         "Teen Titans (Comics)",
@@ -328,13 +328,13 @@ describe("Series/data", () => {
       },
       authors: [{ username: "MyHero", pseud: "MyHero" }],
       language: "English",
-      words: 5718,
-      chapters: { published: 2, total: 3 },
+      words: 8134,
+      chapters: { published: 3, total: 4 },
       complete: false,
       stats: {
-        bookmarks: expect.any(Number),
-        kudos: expect.any(Number),
-        hits: expect.any(Number),
+        bookmarks: expect.driftingCount({ atLeast: 235, atMost: 260 }),
+        kudos: expect.driftingCount({ atLeast: 1492, atMost: 1532 }),
+        hits: expect.driftingCount({ atLeast: 14832, atMost: 15232 }),
       },
     });
 
@@ -390,9 +390,9 @@ describe("Series/data", () => {
       chapters: { published: 1, total: 1 },
       complete: true,
       stats: {
-        bookmarks: expect.any(Number),
-        kudos: expect.any(Number),
-        hits: expect.any(Number),
+        bookmarks: expect.driftingCount({ atLeast: 52, atMost: 77 }),
+        kudos: expect.driftingCount({ atLeast: 459, atMost: 499 }),
+        hits: expect.driftingCount({ atLeast: 2680, atMost: 3080 }),
       },
     });
   });

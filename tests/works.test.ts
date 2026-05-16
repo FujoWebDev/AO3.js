@@ -153,10 +153,10 @@ describe("Works/data", () => {
       summary:
         "<p>&#x201c;<i>Bakugou will know what to do</i>. Top of the class, always quick on his feet and possessing the strongest nerves in all of 1-A &#x2013; all of U.A., possibly. They&#x2019;re at their most invincible with Bakugou there to hone their focus, to push them forward with that unique kind of teeth-bared tenacity Kaminari has come to rely on in the past year. When Kaminari looks, he sees&#x2013;</p><p>Iida, helmet off, severe face twisted with agitation as he argues with the medics on the scene. Blood, so much blood, staining the gleaming chrome of his armor up to his neck in wet, intersecting streaks of crimson.</p><p>And in his arms, mask torn and body limp, is Bakugou Katsuki.&#x201d;</p><p>In which disaster strikes, the Bakusquad comes together as a family once more, and Kaminari Denki is the MVP all the way through.</p>",
       stats: {
-        bookmarks: expect.any(Number),
-        comments: expect.any(Number),
-        hits: expect.any(Number),
-        kudos: expect.any(Number),
+        bookmarks: expect.driftingCount({ atLeast: 268, atMost: 293 }),
+        comments: expect.driftingCount({ atLeast: 139, atMost: 154 }),
+        hits: expect.driftingCount({ atLeast: 20031, atMost: 20431 }),
+        kudos: expect.driftingCount({ atLeast: 1101, atMost: 1141 }),
       },
     });
   });
@@ -543,10 +543,10 @@ describe("Work/other", () => {
     expect(!work.locked).toBeTruthy();
 
     expect(work.stats).toMatchObject({
-      bookmarks: expect.any(Number),
-      comments: expect.any(Number),
-      hits: expect.any(Number),
-      kudos: expect.any(Number),
+      bookmarks: expect.driftingCount({ atLeast: 109, atMost: 134 }),
+      comments: expect.driftingCount({ atLeast: 22, atMost: 37 }),
+      hits: expect.driftingCount({ atLeast: 9007, atMost: 9407 }),
+      kudos: expect.driftingCount({ atLeast: 884, atMost: 924 }),
     });
   });
 
@@ -558,10 +558,10 @@ describe("Work/other", () => {
     expect(!work.locked).toBeTruthy();
 
     expect(work.stats).toMatchObject({
-      bookmarks: expect.any(Number),
       comments: 0,
-      hits: expect.any(Number),
-      kudos: expect.any(Number),
+      bookmarks: expect.driftingCount({ atLeast: 2, atMost: 27 }),
+      hits: expect.driftingCount({ atLeast: 1482, atMost: 1882 }),
+      kudos: expect.driftingCount({ atLeast: 30, atMost: 70 }),
     });
   });
 });

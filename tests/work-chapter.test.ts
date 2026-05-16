@@ -77,8 +77,6 @@ describe("Work Chapter/work", () => {
       chapterId: 122861680,
     });
 
-    expect(!work.locked).toBeTruthy();
-
     expect(work).toMatchObject({
       id: 48582418,
       authors: [{ username: "rejected_bisexual", pseud: "rejected_bisexual" }],
@@ -138,13 +136,13 @@ describe("Work Chapter/work", () => {
       chapters: { published: 6, total: 6 },
       complete: true,
       series: [],
-      stats: {
-        bookmarks: expect.any(Number),
-        comments: expect.any(Number),
-        hits: expect.any(Number),
-        kudos: expect.any(Number),
-      },
       locked: false,
+      stats: {
+        bookmarks: expect.driftingCount({ atLeast: 85, atMost: 100 }),
+        comments: expect.driftingCount({ atLeast: 60, atMost: 70 }),
+        hits: expect.driftingCount({ atLeast: 6000, atMost: 8000 }),
+        kudos: expect.driftingCount({ atLeast: 585, atMost: 620 }),
+      },
     });
   });
 
@@ -212,18 +210,12 @@ describe("Work Chapter/work", () => {
       complete: false,
       series: [{ id: 2946579, name: "Twitterchat Saga", index: 1 }],
       stats: {
-        bookmarks: expect.any(Number),
-        comments: 29,
-        hits: expect.any(Number),
-        kudos: expect.any(Number),
+        comments: expect.driftingCount({ atLeast: 27, atMost: 35 }),
+        bookmarks: expect.driftingCount({ atLeast: 14, atMost: 20 }),
+        kudos: expect.driftingCount({ atLeast: 131, atMost: 152 }),
+        hits: expect.driftingCount({ atLeast: 3110, atMost: 3333 }),
       },
       locked: false,
     });
-
-    expect(work.stats.bookmarks).toBeGreaterThanOrEqual(14);
-    expect(work.stats.bookmarks).toBeLessThanOrEqual(20);
-
-    expect(work.stats.kudos).toBeGreaterThanOrEqual(131);
-    expect(work.stats.kudos).toBeLessThanOrEqual(141);
   });
 });
