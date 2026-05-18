@@ -367,23 +367,37 @@ describe("Tags/sub", () => {
   });
 
   it("should fetch subtags and sub-subtags", async () => {
-    const tag = await getTag({ tagName: "Dysphoria" });
+    const tag = await getTag({ tagName: "Wings" });
 
-    expect(tag).toMatchObject({
-      name: "Dysphoria",
-      subTags: [
-        { tagName: "Body Dysphoria", parentSubTag: null },
+    expect(tag.name).toBe("Wings");
+    expect(tag.subTags).toMatchInlineSnapshot(`
+      [
         {
-          tagName: "Nott | Veth Brenatto Has Body Dysphoria",
-          parentSubTag: "Body Dysphoria",
+          "parentSubTag": null,
+          "tagName": "Wing Kink",
         },
-        { tagName: "Gender Dysphoria", parentSubTag: null },
         {
-          "parentSubTag": "Gender Dysphoria",
-          "tagName": "TommyInnit Has Gender Dysphoria (Video Blogging RPF)",
-        }
-      ],
-    });
+          "parentSubTag": "Wing Kink",
+          "tagName": "Castiel/Dean Winchester Wing Kink",
+        },
+        {
+          "parentSubTag": "Wing Kink",
+          "tagName": "Dean Winchester Has a Wing Kink",
+        },
+        {
+          "parentSubTag": null,
+          "tagName": "Sunday Has Wings (Honkai: Star Rail)",
+        },
+        {
+          "parentSubTag": "Sunday Has Wings (Honkai: Star Rail)",
+          "tagName": "Sunday Has Additional Wings (Honkai: Star Rail)",
+        },
+        {
+          "parentSubTag": "Sunday Has Additional Wings (Honkai: Star Rail)",
+          "tagName": "Sunday's Vagina Has Wings (Honkai: Star Rail)",
+        },
+      ]
+    `);
   });
 
   it("should fetch nested sub-subtags", async () => {
