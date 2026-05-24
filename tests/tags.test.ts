@@ -402,6 +402,10 @@ describe("Tags/sub", () => {
         },
         {
           "parentSubTag": null,
+          "tagName": "Eridian Lore & Worldbuilding (Project Hail Mary)",
+        },
+        {
+          "parentSubTag": null,
           "tagName": "Geofiction",
         },
         {

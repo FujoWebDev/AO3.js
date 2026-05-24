@@ -43,6 +43,7 @@ describe("Tags/search", () => {
         "Angel Dust's Mother (Hazbin Hotel)",
         "Angel Dust's Shadow (Hazbin Hotel)",
         "Angels (Hazbin Hotel)",
+        "Animal Show Host from Brighter (Hazbin Hotel)",
         "Arackniss (Hazbin Hotel)",
         "Baxter (Hazbin Hotel)",
         "Belphegor (Helluva Boss)",
@@ -75,7 +76,6 @@ describe("Tags/search", () => {
         "Franklin (Hazbin Hotel)",
         "Frederick Von Eldritch",
         "Gambling Rabbit Demon (Hazbin Hotel)",
-        "God (Hazbin Hotel)",
       ]
     `);
   });
@@ -104,6 +104,8 @@ describe("Tags/search", () => {
     // because this fandom gets a lot of new works
     expect(result.tags.map((tag) => tag.name)).toMatchInlineSnapshot(`
       [
+        "Game Show Host from Brighter (Hazbin Hotel)",
+        "God (Hazbin Hotel)",
         "Happy Hotel | Hazbin Hotel Residents",
         "Hatchet (Hazbin Hotel)",
         "Hazbin Hotel Ensemble",
@@ -152,8 +154,6 @@ describe("Tags/search", () => {
         "Redhead TV Host (Hazbin Hotel)",
         "Robert "Bob" Sinclaire (Hazbin Hotel)",
         "Rocky (Hazbin Hotel)",
-        "Roo (Hazbin Hotel)",
-        "Rooster (Hazbin Hotel)",
       ]
     `);
   });
@@ -182,6 +182,8 @@ describe("Tags/search", () => {
     // because this fandom gets a lot of new works
     expect(result.tags.map((tag) => tag.name)).toMatchInlineSnapshot(`
       [
+        "Roo (Hazbin Hotel)",
+        "Rooster (Hazbin Hotel)",
         "Rosie (Hazbin Hotel)",
         "Rosie's First Husband (Hazbin Hotel)",
         "Salina (Hazbin Hotel)",
@@ -265,7 +267,7 @@ describe("Tags/search", () => {
       page: 3,
     });
 
-    expect(result.totalResults).toMatchInlineSnapshot(`217`);
+    expect(result.totalResults).toMatchInlineSnapshot(`218`);
 
     // Some tags we should find to make sure the parser is working correctly.
     const UNSORTED_TAG = "it was an unusual premise for this fandom that is";
