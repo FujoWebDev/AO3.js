@@ -2,7 +2,7 @@ import fs from "fs/promises";
 import path from "path";
 
 const KNOWN_404 = [
-  "https://archiveofourown.org/tags/56312666/feed.atom",
+  "https://archiveofourown.org/tags/56312666/feed.atom/",
   "https://archiveofourown.org/works/41237499/",
 ]
 

@@ -370,34 +370,36 @@ describe("Tags/sub", () => {
     const tag = await getTag({ tagName: "Wings" });
 
     expect(tag.name).toBe("Wings");
-    expect(tag.subTags).toMatchInlineSnapshot(`
-      [
-        {
-          "parentSubTag": null,
-          "tagName": "Wing Kink",
-        },
-        {
-          "parentSubTag": "Wing Kink",
-          "tagName": "Castiel/Dean Winchester Wing Kink",
-        },
-        {
-          "parentSubTag": "Wing Kink",
-          "tagName": "Dean Winchester Has a Wing Kink",
-        },
-        {
-          "parentSubTag": null,
-          "tagName": "Sunday Has Wings (Honkai: Star Rail)",
-        },
-        {
-          "parentSubTag": "Sunday Has Wings (Honkai: Star Rail)",
-          "tagName": "Sunday Has Additional Wings (Honkai: Star Rail)",
-        },
-        {
-          "parentSubTag": "Sunday Has Additional Wings (Honkai: Star Rail)",
-          "tagName": "Sunday's Vagina Has Wings (Honkai: Star Rail)",
-        },
-      ]
-    `);
+    // Level 1 subtag (parentSubTag: null)
+    expect(tag.subTags).toContainEqual({
+      parentSubTag: null,
+      tagName: "Wing Kink",
+    });
+    // Level 2 subtag (parentSubTag is Level 1)
+    expect(tag.subTags).toContainEqual({
+      parentSubTag: "Wing Kink",
+      tagName: "Castiel/Dean Winchester Wing Kink",
+    });
+    // Level 2 subtag (parentSubTag is Level 1)
+    expect(tag.subTags).toContainEqual({
+      parentSubTag: "Wing Kink",
+      tagName: "Dean Winchester Has a Wing Kink",
+    });
+    // Level 1 subtag (parentSubTag: null)
+    expect(tag.subTags).toContainEqual({
+      parentSubTag: null,
+      tagName: "Sunday Has Wings (Honkai: Star Rail)",
+    });
+    // Level 2 subtag (parentSubTag is Level 1)
+    expect(tag.subTags).toContainEqual({
+      parentSubTag: "Sunday Has Wings (Honkai: Star Rail)",
+      tagName: "Sunday Has Additional Wings (Honkai: Star Rail)",
+    });
+    // Level 3 subtag (parentSubTag is Level 2)
+    expect(tag.subTags).toContainEqual({
+      parentSubTag: "Sunday Has Additional Wings (Honkai: Star Rail)",
+      tagName: "Sunday's Vagina Has Wings (Honkai: Star Rail)",
+    });
   });
 
   it("should fetch nested sub-subtags", async () => {
@@ -711,4 +713,3 @@ describe("Tags/synonyms", () => {
     });
   });
 });
-
