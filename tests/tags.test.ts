@@ -421,6 +421,46 @@ describe("Tags/sub", () => {
           "tagName": "Eridian Lore & Worldbuilding (Project Hail Mary)",
         },
         {
+          "parentSubTag": "Eridian Lore & Worldbuilding (Project Hail Mary)",
+          "tagName": "Eridian Culture & Customs (Project Hail Mary)",
+        },
+        {
+          "parentSubTag": "Eridian Lore & Worldbuilding (Project Hail Mary)",
+          "tagName": "Eridian Government & Politics (Project Hail Mary)",
+        },
+        {
+          "parentSubTag": "Eridian Lore & Worldbuilding (Project Hail Mary)",
+          "tagName": "Eridian Language & Grammar (Project Hail Mary)",
+        },
+        {
+          "parentSubTag": "Eridian Lore & Worldbuilding (Project Hail Mary)",
+          "tagName": "Eridian Science (Project Hail Mary)",
+        },
+        {
+          "parentSubTag": "Eridian Lore & Worldbuilding (Project Hail Mary)",
+          "tagName": "Eridian Thrums (Project Hail Mary)",
+        },
+        {
+          "parentSubTag": "Eridian Culture & Customs (Project Hail Mary)",
+          "tagName": "Eridian Music (Project Hail Mary)",
+        },
+        {
+          "parentSubTag": "Eridian Culture & Customs (Project Hail Mary)",
+          "tagName": "Eridian Religions (Project Hail Mary)",
+        },
+        {
+          "parentSubTag": "Eridian Language & Grammar (Project Hail Mary)",
+          "tagName": "Ryland Grace Speaks Eridian",
+        },
+        {
+          "parentSubTag": "Eridian Science (Project Hail Mary)",
+          "tagName": "Eridian Base-6 Math (Project Hail Mary)",
+        },
+        {
+          "parentSubTag": "Eridian Science (Project Hail Mary)",
+          "tagName": "Eridian Biology (Project Hail Mary)",
+        },
+        {
           "parentSubTag": null,
           "tagName": "Geofiction",
         },
@@ -590,6 +630,7 @@ describe("Tags/synonyms", () => {
         "Brief Charlie Magne | Morningstar cameo",
         "Brief Charlie Morningstar - Character",
         "cahrlie",
+        "Charles Morningstar",
         "Charlie (briefly mentioned)",
         "Charlie (Hazbin Hotel)",
         "Charlie (Hazbin Hotel) (mentioned)",
@@ -642,6 +683,7 @@ describe("Tags/synonyms", () => {
         "Charlie Morningstar (mentioned)",
         "Charlie Morningstar - Mentioned",
         "Charlie Morningstar implied",
+        "Charlie Morningstar | Ghost-Spider",
         "Charlie Morningstar(Hazbin Hotel)",
         "Charlie Morningstar/Magne",
         "charlie's mentioned near the end",
@@ -693,6 +735,7 @@ describe("Tags/synonyms", () => {
         "Mentions of Charlie Magne | Morningstar",
         "Mentions of Charlie Morningstar - Character",
         "Minor Charlie Magne | Morningstar - Character",
+        "Minor Charlie Morningstar",
         "Princess Charlie (Hazbin Hotel)",
         "Princess Charlotte Morningstar - Character",
         "Referenced Charlie",
