@@ -461,6 +461,18 @@ describe("Tags/sub", () => {
           "tagName": "Eridian Biology (Project Hail Mary)",
         },
         {
+          "parentSubTag": "Eridian Science (Project Hail Mary)",
+          "tagName": "Eridian Technology (Project Hail Mary)",
+        },
+        {
+          "parentSubTag": "Eridian Biology (Project Hail Mary)",
+          "tagName": "Eridians Can Purr (Project Hail Mary)",
+        },
+        {
+          "parentSubTag": "Eridian Biology (Project Hail Mary)",
+          "tagName": "Eridians Have Ovipositors (Project Hail Mary)",
+        },
+        {
           "parentSubTag": null,
           "tagName": "Geofiction",
         },
@@ -670,6 +682,7 @@ describe("Tags/synonyms", () => {
         "Charlie Magne-Morningstar",
         "Charlie Magnet",
         "Charlie Magne| Morningstar (Hazbin Hotel)",
+        "Charlie Magne|Morningstar",
         "Charlie Mange",
         "Charlie Mange | Morningstar",
         "Charlie Mange | Morningstar (Hazbin Hotel)",
@@ -681,6 +694,7 @@ describe("Tags/synonyms", () => {
         "Charlie Morningstar (Hazbin Hotel)",
         "Charlie Morningstar (Hazbin Hotel) (mentioned)",
         "Charlie Morningstar (mentioned)",
+        "Charlie Morningstar (mentioned).",
         "Charlie Morningstar - Mentioned",
         "Charlie Morningstar implied",
         "Charlie Morningstar | Ghost-Spider",

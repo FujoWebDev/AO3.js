@@ -47,7 +47,7 @@ describe("Work Chapter/chapter", () => {
       {
         "bookmarks": 2,
         "comments": 1,
-        "hits": 1037,
+        "hits": 1040,
         "kudos": 49,
       }
     `);
