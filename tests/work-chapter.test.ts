@@ -43,14 +43,12 @@ describe("Work Chapter/chapter", () => {
       locked: false,
     });
 
-    expect((work as WorkSummary).stats).toMatchInlineSnapshot(`
-      {
-        "bookmarks": 2,
-        "comments": 1,
-        "hits": 1037,
-        "kudos": 49,
-      }
-    `);
+    expect((work as WorkSummary).stats).toMatchObject({
+      bookmarks: 2,
+      comments: 1,
+      hits: expect.driftingCount({ atLeast: 841, atMost: 1241 }),
+      kudos: 49,
+    });
   });
 
   it("should have different work summary and chapter summary", async () => {
@@ -117,7 +115,7 @@ describe("Work Chapter/work", () => {
           "Twitter",
           "Favorite child",
           "first fic be kind",
-          "I'm Bad At Tagging",
+          "I'm Bad at Tagging",
           "no beta we die like jason todd",
           "Bruce Wayne is a Good Parent",
           "Crack Treated Seriously",

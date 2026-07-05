@@ -96,7 +96,7 @@ describe("Series/data", () => {
       title: "Code B",
       // For some unknown reason, the updatedAt date is sometimes January 31st
       // and sometimes February 1st. This seems to be on AO3's end.
-      updatedAt: expect.stringMatching(/^2023-01-31|2023-02-01$/),
+      updatedAt: expect.stringMatching(/^(2023-01-31|2023-02-01)$/),
       adult: false,
       fandoms: [
         "Batman - All Media Types",
@@ -165,8 +165,8 @@ describe("Series/data", () => {
       complete: false,
       stats: {
         bookmarks: expect.driftingCount({ atLeast: 749, atMost: 774 }),
-        kudos: expect.driftingCount({ atLeast: 3469, atMost: 3509 }),
-        hits: expect.driftingCount({ atLeast: 69354, atMost: 69754 }),
+        kudos: expect.driftingCount({ atLeast: 3496, atMost: 3536 }),
+        hits: expect.driftingCount({ atLeast: 69968, atMost: 70368 }),
       },
     });
 
@@ -217,8 +217,8 @@ describe("Series/data", () => {
       complete: true,
       stats: {
         bookmarks: expect.driftingCount({ atLeast: 306, atMost: 331 }),
-        kudos: expect.driftingCount({ atLeast: 1935, atMost: 1975 }),
-        hits: expect.driftingCount({ atLeast: 16192, atMost: 16592 }),
+        kudos: expect.driftingCount({ atLeast: 1959, atMost: 1999 }),
+        hits: expect.driftingCount({ atLeast: 16419, atMost: 16819 }),
       },
     });
 
@@ -332,9 +332,9 @@ describe("Series/data", () => {
       chapters: { published: 3, total: 4 },
       complete: false,
       stats: {
-        bookmarks: expect.driftingCount({ atLeast: 235, atMost: 260 }),
-        kudos: expect.driftingCount({ atLeast: 1492, atMost: 1532 }),
-        hits: expect.driftingCount({ atLeast: 14832, atMost: 15232 }),
+        bookmarks: expect.driftingCount({ atLeast: 249, atMost: 275 }),
+        kudos: expect.driftingCount({ atLeast: 1524, atMost: 1564 }),
+        hits: expect.driftingCount({ atLeast: 15304, atMost: 15704 }),
       },
     });
 
@@ -342,7 +342,7 @@ describe("Series/data", () => {
     expect(series.works[5]).toMatchObject({
       id: 44149795,
       title: "You starting down the road leaving me again",
-      updatedAt: "2023-01-09",
+      updatedAt: expect.stringMatching(/^(2023-01-08|2023-01-09)$/),
       adult: false,
       fandoms: [
         "Batman - All Media Types",

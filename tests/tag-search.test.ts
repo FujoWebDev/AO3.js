@@ -121,7 +121,7 @@ describe("Tags/search", () => {
         "KeeKee (Hazbin Hotel)",
         "Kitty (Hazbin Hotel)",
         "Leviathan (Helluva Boss)",
-        "Lilith Magne | Morningstar",
+        "Lilith (Hazbin Hotel)",
         "Loan Shark Demons (Hazbin Hotel)",
         "Lucifer Magne | Morningstar",
         "Lucifer Magne | Morningstar's Siblings",
@@ -200,7 +200,7 @@ describe("Tags/search", () => {
         "The Egg Boiz (Hazbin Hotel)",
         "The Seven Deadly Sins (Hazbin Hotel & Helluva Boss)",
         "The Speaker of God (Hazbin Hotel)",
-        "The Three V's (Hazbin Hotel)",
+        "The Vees (Hazbin Hotel)",
         "Tiffany Titfucker (Hazbin Hotel)",
         "Tom Trench",
         "Travis (Hazbin Hotel)",
@@ -267,7 +267,7 @@ describe("Tags/search", () => {
       page: 3,
     });
 
-    expect(result.totalResults).toMatchInlineSnapshot(`218`);
+    expect(result.totalResults).toMatchInlineSnapshot(`220`);
 
     // Some tags we should find to make sure the parser is working correctly.
     const UNSORTED_TAG = "it was an unusual premise for this fandom that is";

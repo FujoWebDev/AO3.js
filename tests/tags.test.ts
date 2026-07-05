@@ -242,6 +242,7 @@ describe("Tags/parent", () => {
         "Adventures of Sherlock Holmes and Dr. Watson (TV Russia)",
         "Art in the Blood - Brian Stableford",
         "Baskerville: A Sherlock Holmes Mystery - Ludwig",
+        "Crushed In Time (Video Game)",
         "Dr. Jekyll and Mr. Holmes - Loren D. Estleman",
         "Dr. Watson Thrillers - Robert Ryan",
         "Dust and Shadow - Lyndsay Faye",
@@ -281,6 +282,7 @@ describe("Tags/parent", () => {
         "Sherlock Holmes (TV 1964)",
         "Sherlock Holmes (TV 1965)",
         "Sherlock Holmes - Arthur Conan Doyle",
+        "Sherlock Holmes - Joel Horwood (Play)",
         "Sherlock Holmes - John Taylor",
         "Sherlock Holmes and Doctor Watson (TV 1980)",
         "Sherlock Holmes and the Adventure of the Furtive Festivity (2018)",
@@ -459,6 +461,26 @@ describe("Tags/sub", () => {
         {
           "parentSubTag": "Eridian Science (Project Hail Mary)",
           "tagName": "Eridian Biology (Project Hail Mary)",
+        },
+        {
+          "parentSubTag": "Eridian Science (Project Hail Mary)",
+          "tagName": "Eridian Technology (Project Hail Mary)",
+        },
+        {
+          "parentSubTag": "Eridian Biology (Project Hail Mary)",
+          "tagName": "Eridians Can Purr (Project Hail Mary)",
+        },
+        {
+          "parentSubTag": "Eridian Biology (Project Hail Mary)",
+          "tagName": "Eridians Do Not Have Genders (Project Hail Mary)",
+        },
+        {
+          "parentSubTag": "Eridian Biology (Project Hail Mary)",
+          "tagName": "Eridians Have Ovipositors (Project Hail Mary)",
+        },
+        {
+          "parentSubTag": "Eridians Can Purr (Project Hail Mary)",
+          "tagName": "Purring Rocky (Project Hail Mary)",
         },
         {
           "parentSubTag": null,
@@ -670,6 +692,7 @@ describe("Tags/synonyms", () => {
         "Charlie Magne-Morningstar",
         "Charlie Magnet",
         "Charlie Magne| Morningstar (Hazbin Hotel)",
+        "Charlie Magne|Morningstar",
         "Charlie Mange",
         "Charlie Mange | Morningstar",
         "Charlie Mange | Morningstar (Hazbin Hotel)",
@@ -681,6 +704,7 @@ describe("Tags/synonyms", () => {
         "Charlie Morningstar (Hazbin Hotel)",
         "Charlie Morningstar (Hazbin Hotel) (mentioned)",
         "Charlie Morningstar (mentioned)",
+        "Charlie Morningstar (mentioned).",
         "Charlie Morningstar - Mentioned",
         "Charlie Morningstar implied",
         "Charlie Morningstar | Ghost-Spider",

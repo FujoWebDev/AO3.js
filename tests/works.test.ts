@@ -546,7 +546,7 @@ describe("Work/other", () => {
       bookmarks: expect.driftingCount({ atLeast: 109, atMost: 134 }),
       comments: expect.driftingCount({ atLeast: 22, atMost: 37 }),
       hits: expect.driftingCount({ atLeast: 9007, atMost: 9407 }),
-      kudos: expect.driftingCount({ atLeast: 884, atMost: 924 }),
+      kudos: expect.driftingCount({ atLeast: 918, atMost: 958 }),
     });
   });
 
