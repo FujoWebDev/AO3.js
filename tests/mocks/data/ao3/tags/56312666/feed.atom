@@ -25,7 +25,7 @@
     <!--[if IE 7]><link rel="stylesheet" type="text/css" media="screen" href="/stylesheets/skins/skin_1_default/11_site_screen_IE7.css"><![endif]-->
     <link href="/stylesheets/sandbox.css" media="screen" rel="stylesheet" type="text/css" />
   </head>
-  <body><a href="https://archiveofourown.org/cdn-cgi/content?id=CohuTIrjv1OBS90o60PpB2gLe1UOefpdiAdbcq8OvSs-1782627248.6070604-1.2.1.1-qEqgFuUa_hLkqW.2NrX.nQCpyoomjseNZLKitBd_9zc" aria-hidden="true" rel="nofollow noopener" style="display: none !important; visibility: hidden !important"></a>
+  <body><a href="https://archiveofourown.org/cdn-cgi/content?id=7vjolnAKiI54euiyglxa1pPZfoOCA4RaD0ZrUj7s22Y-1783200114.940097-1.2.1.1-.iV05XeUwGj9YIonATGzTuooabxNVDSkiU5pUdxDbPc" aria-hidden="true" rel="nofollow noopener" style="display: none !important; visibility: hidden !important"></a>
     <div id="outer" class="wrapper">
       <ul id="skiplinks"><li><a href="#main">Main Content</a></li></ul>
       <!-- BEGIN header -->
@@ -151,5 +151,5 @@
     <script type="text/javascript">$j = jQuery.noConflict();</script>
     <script src="/javascripts/application.js" type="text/javascript"></script>
     <script src="/javascripts/bootstrap/bootstrap-dropdown.js" type="text/javascript"></script>
-  <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a12a8cafce3ae643',t:'MTc4MjYyNzI0OA=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+  <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a1612eae5f55eb2d',t:'MTc4MzIwMDExNA=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
