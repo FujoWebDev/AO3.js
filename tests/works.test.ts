@@ -155,7 +155,7 @@ describe("Works/data", () => {
       stats: {
         bookmarks: expect.driftingCount({ atLeast: 268, atMost: 293 }),
         comments: expect.driftingCount({ atLeast: 139, atMost: 154 }),
-        hits: expect.driftingCount({ atLeast: 20031, atMost: 20431 }),
+        hits: expect.driftingCount({ atLeast: 20450, atMost: 20700 }),
         kudos: expect.driftingCount({ atLeast: 1101, atMost: 1141 }),
       },
     });
@@ -545,7 +545,7 @@ describe("Work/other", () => {
     expect(work.stats).toMatchObject({
       bookmarks: expect.driftingCount({ atLeast: 109, atMost: 134 }),
       comments: expect.driftingCount({ atLeast: 22, atMost: 37 }),
-      hits: expect.driftingCount({ atLeast: 9007, atMost: 9407 }),
+      hits: expect.driftingCount({ atLeast: 9450, atMost: 9600 }),
       kudos: expect.driftingCount({ atLeast: 918, atMost: 958 }),
     });
   });
