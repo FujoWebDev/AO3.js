@@ -261,18 +261,21 @@ describe("Tags/parent", () => {
         "Mary Russell - Laurie R. King",
         "Miss Holmes - Walsh",
         "Moriarty (Treefort Media Podcast)",
+        "Moriarty: Zwischen Genie und Verbrechen (Maritim Audio Drama)",
         "Mr. Holmes (2015)",
         "Ms. Holmes & Ms. Watson – Apt. 2B - Hamill",
         "Murder by Decree (1979)",
         "Mycroft Holmes Series - Janina Woods",
         "Mycroft Holmes Series - Kareem Abdul-Jabbar & Anna Waterhouse",
         "Mycroft Holmes Series - Quinn Fawcett",
+        "O Xangô de Baker Street | A Samba for Sherlock - Jô Soares",
         "Professor Moriarty Series - Michael Kurland",
         "Puppet Holmes (Web Series)",
         "Sherlock & Co. (Podcast)",
         "Sherlock & Daughter (TV)",
         "Sherlock (BBC TV 2010)",
         "Sherlock Holmes & Related Fandoms",
+        "Sherlock Holmes & the Servants of Hell - Paul Kane",
         "Sherlock Holmes (Asylum 2010)",
         "Sherlock Holmes (Big Finish Audio)",
         "Sherlock Holmes (Downey Movies)",
@@ -321,6 +324,7 @@ describe("Tags/parent", () => {
         "The Private Life of Sherlock Holmes (1970)",
         "The Sexual Adventures of Sherlock Holmes - Larry Townsend",
         "The Testament of Sherlock Holmes (Video Game)",
+        "The Whole Art of Detection: Lost Mysteries of Sherlock Holmes - Lyndsay Faye",
         "There Is No Game: Wrong Dimension (Video Game)",
         "Victorian Undead: Sherlock Holmes vs Zombies! (Comics)",
         "Watson (TV 2025)",
@@ -444,6 +448,10 @@ describe("Tags/sub", () => {
         },
         {
           "parentSubTag": "Eridian Culture & Customs (Project Hail Mary)",
+          "tagName": "Eridian Courtship Rituals (Project Hail Mary)",
+        },
+        {
+          "parentSubTag": "Eridian Culture & Customs (Project Hail Mary)",
           "tagName": "Eridian Music (Project Hail Mary)",
         },
         {
@@ -453,6 +461,10 @@ describe("Tags/sub", () => {
         {
           "parentSubTag": "Eridian Language & Grammar (Project Hail Mary)",
           "tagName": "Ryland Grace Speaks Eridian",
+        },
+        {
+          "parentSubTag": "Eridian Language & Grammar (Project Hail Mary)",
+          "tagName": "The Convict | Simon (Iron Lung) Speaks Eridian (Project Hail Mary)",
         },
         {
           "parentSubTag": "Eridian Science (Project Hail Mary)",
@@ -481,6 +493,10 @@ describe("Tags/sub", () => {
         {
           "parentSubTag": "Eridians Can Purr (Project Hail Mary)",
           "tagName": "Purring Rocky (Project Hail Mary)",
+        },
+        {
+          "parentSubTag": "Eridians Have Ovipositors (Project Hail Mary)",
+          "tagName": "Rocky Has an Ovipositor (Project Hail Mary)",
         },
         {
           "parentSubTag": null,
@@ -565,6 +581,14 @@ describe("Tags/sub", () => {
         {
           "parentSubTag": "Hyuuga Clan Lore (Naruto)",
           "tagName": "Hyuuga Clan Politics (Naruto)",
+        },
+        {
+          "parentSubTag": "Uchiha Clan Lore (Naruto)",
+          "tagName": "Red Eyes are Blessed by Amaterasu (Naruto)",
+        },
+        {
+          "parentSubTag": "Uchiha Clan Lore (Naruto)",
+          "tagName": "Sharingan Exchange as Marriage (Naruto)",
         },
         {
           "parentSubTag": "Uchiha Clan Lore (Naruto)",
@@ -729,6 +753,7 @@ describe("Tags/synonyms", () => {
         "College Student Charlie - Character",
         "Cursed Cat Charlie",
         "Danny Do-Bad (Hazbin Hotel)",
+        "Danny-Do-Bad - Character",
         "Dark Charlie Magne | Morningstar - Character",
         "Dark!Queen Charlie",
         "Demeter Charlie",
@@ -764,8 +789,10 @@ describe("Tags/synonyms", () => {
         "Princess Charlotte Morningstar - Character",
         "Referenced Charlie",
         "Single Mom Charlie Morningstar - Character",
+        "Sugar Mommy!Charlie",
         "swap charlie",
         "Swapped Charlie Morningstar",
+        "The Diabolical Danny-Do-Bad",
         "The Savant | Charlie Morningstar",
       ]
     `);
