@@ -1,8 +1,10 @@
 import { describe, it, expect } from "vitest";
 import {
+  getAuthorFromUrl,
   getSearchUrlFromTagFilters,
   getTagUrl,
   getTagWorksFeedUrl,
+  getUserDetailsFromUrl,
 } from "src/urls";
 
 /**
@@ -387,5 +389,68 @@ describe("getTagWorksFeedUrl", () => {
     const url = new URL(getTagWorksFeedUrl("Tom & Jerry"));
 
     expect(url.pathname).toBe("/tags/Tom%20*a*%20Jerry/works");
+  });
+});
+
+describe("getAuthorFromUrl", () => {
+  it("should read the username and pseud from a pseud URL", () => {
+    expect(getAuthorFromUrl("/users/astolat/pseuds/astolat")).toEqual({
+      username: "astolat",
+      pseud: "astolat",
+      anonymous: false,
+    });
+  });
+
+  it("should decode pseuds with special characters", () => {
+    expect(
+      getAuthorFromUrl("/users/franzeska/pseuds/Franzeska%20Ewart"),
+    ).toEqual({
+      username: "franzeska",
+      pseud: "Franzeska Ewart",
+      anonymous: false,
+    });
+  });
+
+  it("should throw for author URLs without a pseud", () => {
+    expect(() => getAuthorFromUrl("/users/astolat")).toThrow(
+      "Unexpected author URL: /users/astolat",
+    );
+  });
+
+  it("should throw for URLs that don't point to a user", () => {
+    expect(() => getAuthorFromUrl("/works/12345")).toThrow(
+      "Invalid user URL: /works/12345",
+    );
+  });
+});
+
+describe("getUserDetailsFromUrl", () => {
+  it.each([
+    "/users/astolat",
+    "/users/astolat/",
+    "/users/astolat/profile",
+    "/users/astolat/works",
+    "/users/astolat/works?page=2",
+    "https://archiveofourown.org/users/astolat",
+    "https://archiveofourown.org/users/astolat/works?work_search%5Bsort_column%5D=hits",
+  ])("should read only the username from %s", (url) => {
+    expect(getUserDetailsFromUrl({ url })).toEqual({ username: "astolat" });
+  });
+
+  it.each([
+    "/users/astolat/pseuds/astolat",
+    "/users/astolat/pseuds/astolat/works",
+    "https://archiveofourown.org/users/astolat/pseuds/astolat/works?page=2",
+  ])("should read the username and pseud from %s", (url) => {
+    expect(getUserDetailsFromUrl({ url })).toEqual({
+      username: "astolat",
+      pseud: "astolat",
+    });
+  });
+
+  it("should throw for URLs that don't point to a user", () => {
+    expect(() => getUserDetailsFromUrl({ url: "/works/12345" })).toThrow(
+      "Invalid user URL: /works/12345",
+    );
   });
 });

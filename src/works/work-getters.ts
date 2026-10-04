@@ -7,6 +7,7 @@ import {
   WorkWarnings,
 } from "types/entities";
 import { isValidArchiveId, parseArchiveId } from "src/utils";
+import { getAuthorFromUrl } from "src/urls";
 
 import { WorkPage } from "src/page-loaders";
 
@@ -20,14 +21,7 @@ export const getWorkAuthors = ($workPage: WorkPage): Author[] => {
 
   if (authorLinks.length !== 0) {
     authorLinks.each((i, element) => {
-      const url = element.attribs.href;
-      const [, username, pseud] = url.match(/users\/(.+)\/pseuds\/(.+)/)!;
-
-      authors.push({
-        username: username,
-        pseud: decodeURI(pseud),
-        anonymous: false,
-      });
+      authors.push(getAuthorFromUrl(element.attribs.href));
     });
   }
 

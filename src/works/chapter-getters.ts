@@ -1,5 +1,10 @@
 import type { Author, Chapter } from "types/entities";
-import { getAsShortUrl, getWorkDetailsFromUrl, getWorkUrl } from "src/urls";
+import {
+  getAsShortUrl,
+  getAuthorFromUrl,
+  getWorkDetailsFromUrl,
+  getWorkUrl,
+} from "src/urls";
 
 import { ChapterIndexPage } from "src/page-loaders";
 import { parseArchiveId } from "src/utils";
@@ -50,14 +55,7 @@ export const getWorkAuthors = (
 
   if (authorNode.length !== 0) {
     authorNode.each((i, element) => {
-      const url = element.attribs.href;
-      const [, username, pseud] = url.match(/users\/(.+)\/pseuds\/(.+)/)!;
-
-      authors.push({
-        username: username,
-        pseud: decodeURI(pseud),
-        anonymous: false,
-      });
+      authors.push(getAuthorFromUrl(element.attribs.href));
     });
   }
   return authors;

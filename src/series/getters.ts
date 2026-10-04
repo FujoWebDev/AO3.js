@@ -10,7 +10,12 @@ import {
   getWorkTotalChapters,
   getWorkWordCount,
 } from "src/works/work-getters";
-import { getAsShortUrl, getWorkDetailsFromUrl, getWorkUrl } from "src/urls";
+import {
+  getAsShortUrl,
+  getAuthorFromUrl,
+  getWorkDetailsFromUrl,
+  getWorkUrl,
+} from "src/urls";
 import { parseArchiveId } from "src/utils";
 
 const monthMap: { [month: string]: string } = {
@@ -46,14 +51,7 @@ export const getSeriesAuthors = (
 
   if (authorLinks.length !== 0) {
     authorLinks.each((i, element) => {
-      const url = element.attribs.href;
-      const [, username, pseud] = url.match(/users\/(.+)\/pseuds\/(.+)/)!;
-
-      authors.push({
-        username: username,
-        pseud: decodeURI(pseud),
-        anonymous: false,
-      });
+      authors.push(getAuthorFromUrl(element.attribs.href));
     });
   }
 
@@ -238,14 +236,7 @@ const getSeriesWorkAuthors = (
 
   if (authorLinks.length !== 0) {
     authorLinks.each((i, element) => {
-      const url = element.attribs.href;
-      const [, username, pseud] = url.match(/users\/(.+)\/pseuds\/(.+)/)!;
-
-      authors.push({
-        username: username,
-        pseud: decodeURI(pseud),
-        anonymous: false,
-      });
+      authors.push(getAuthorFromUrl(element.attribs.href));
     });
   }
 

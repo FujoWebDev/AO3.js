@@ -1,5 +1,6 @@
 import type { UserProfile } from "src/page-loaders";
 import { parseArchiveId } from "src/utils";
+import { getAuthorFromUrl } from "src/urls";
 // import { getUserProfileUrl } from "../urls";
 
 //Dates are ten characters long in the following format:
@@ -23,10 +24,7 @@ export const getUserProfilePseuds = ($userProfile: UserProfile) => {
 
   if (pseuds.length !== 0) {
     pseuds.each((i, element) => {
-      const url = element.attribs.href;
-      const [, username, pseud] = url.match(/users\/(.+)\/pseuds\/(.+)/)!;
-
-      pseudsArray.push(decodeURI(pseud));
+      pseudsArray.push(getAuthorFromUrl(element.attribs.href).pseud);
     });
   }
   return pseudsArray.join(PSEUD_SUFFIX);

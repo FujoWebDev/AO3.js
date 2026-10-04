@@ -4,7 +4,7 @@ import {
   isValidArchiveIdOrNullish,
   parseArchiveId,
 } from "./utils";
-import { TagSearchFilters, WorkSummary } from "types/entities";
+import { Author, TagSearchFilters, WorkSummary } from "types/entities";
 
 declare global {
   var archiveBaseUrl: string;
@@ -165,6 +165,36 @@ export const getTagWorksFeedUrl = (tagName: string) =>
 
 export const getTagWorksFeedAtomUrl = (tagId: string) =>
   new URL(`tags/${tagId}/feed.atom`, getArchiveBaseUrl()).href;
+
+export const getUserDetailsFromUrl = ({
+  url,
+}: {
+  url: string;
+}): {
+  username: string;
+  pseud?: string;
+} => {
+  const match = url.match(/\/users\/([^/?#]+)(?:\/pseuds\/([^/?#]+))?/);
+  if (!match) {
+    throw new Error(`Invalid user URL: ${url}`);
+  }
+
+  // Without a pseud the URL points to the whole account, not to the
+  // user's default pseud (which can have a different name).
+  const [, username, pseud] = match;
+  return pseud === undefined
+    ? { username }
+    : { username, pseud: decodeURI(pseud) };
+};
+
+export const getAuthorFromUrl = (url: string): Author => {
+  const { username, pseud } = getUserDetailsFromUrl({ url });
+  if (pseud === undefined) {
+    throw new Error(`Unexpected author URL: ${url}`);
+  }
+
+  return { username, pseud, anonymous: false };
+};
 
 export const getWorkDetailsFromUrl = ({
   url,
