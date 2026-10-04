@@ -108,7 +108,7 @@ export function getArchiveDataDir(archive: "ao3" | "superlove" = "ao3") {
   return path.join(getRootDataDir(), archive);
 }
 
-const getNormalizedTagSearchFolder = (searchParams: URLSearchParams) => {
+const getNormalizedQueryFolder = (searchParams: URLSearchParams) => {
   const entries: string[] = [];
   // Sort the parameters to make the folder name deterministic
   const keys = Array.from(new Set([...searchParams.keys()])).sort();
@@ -136,14 +136,34 @@ const getNormalizedTagSearchFolder = (searchParams: URLSearchParams) => {
   return entries.join("__");
 };
 
+const getPageFileName = (searchParams: URLSearchParams) => {
+  const page = Number.parseInt(searchParams.get("page") ?? "1", 10);
+  return `${String(page).padStart(2, "0")}.html`;
+};
+
 export const getFilePathForSearchUrl = (parsedUrl: URL) => {
-  const folderName = getNormalizedTagSearchFolder(parsedUrl.searchParams);
-  const rawPage = parsedUrl.searchParams.get("page");
-  const page = Number.parseInt(rawPage ?? "1", 10);
-  const fileName = `${String(page).padStart(2, "0")}.html`;
+  const folderName = getNormalizedQueryFolder(parsedUrl.searchParams);
+  const fileName = getPageFileName(parsedUrl.searchParams);
 
   // TODO: make this support other search types with time
   return path.join("tag-search", folderName, fileName);
+};
+
+// Sorted or paginated user works listings get one folder per query, so they
+// don't overwrite the default works.html. Returns null for the default listing,
+// which is stored as works.html like any other works page.
+const getUserWorksQueryPath = (parsedUrl: URL) => {
+  const searchParams = new URLSearchParams(parsedUrl.searchParams);
+  // Sorting by revised_at is what AO3 does when no sort is given.
+  if (searchParams.get("work_search[sort_column]") === "revised_at") {
+    searchParams.delete("work_search[sort_column]");
+  }
+  const folderName = getNormalizedQueryFolder(searchParams);
+  const fileName = getPageFileName(searchParams);
+  if (folderName === "default" && fileName === "01.html") {
+    return null;
+  }
+  return path.join(folderName, fileName);
 };
 
 export function getFilePathFromUrl(url: string | URL) {
@@ -161,6 +181,19 @@ export function getFilePathFromUrl(url: string | URL) {
       getArchiveDataDir(archive),
       getFilePathForSearchUrl(parsedUrl),
     );
+  }
+
+  if (segments[0] === "users" && lastSegment === "works") {
+    const queryPath = getUserWorksQueryPath(parsedUrl);
+    if (queryPath) {
+      return path.join(
+        getArchiveDataDir(archive),
+        ...segments.map((segment) =>
+          safeFilenamify(decodeURIComponent(segment)),
+        ),
+        queryPath,
+      );
+    }
   }
 
   // If the last segment is a file, use segments up to the last one for the directory
