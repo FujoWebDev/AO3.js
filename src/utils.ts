@@ -21,3 +21,16 @@ export class InvalidIDError extends Error {
     this.message = `${id} is not a valid ${type} id`;
   }
 }
+
+export class ArchivePageRequestError extends Error {
+  message: string;
+  status: number;
+  url: string;
+
+  constructor({ url, status }: { url: string; status: number }) {
+    super();
+    this.message = `Archive request failed with status ${status}: ${url}`;
+    this.status = status;
+    this.url = url;
+  }
+}

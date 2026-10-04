@@ -12,6 +12,7 @@ import {
 import { CheerioAPI } from "cheerio";
 import { load } from "cheerio/slim";
 import { getFetcher } from "./fetcher";
+import { ArchivePageRequestError } from "src/utils";
 import { ArchiveId, TagSearchFilters } from "types/entities";
 
 // This is a wrapper around the fetch function that loads the page into a CheerioAPI
@@ -25,15 +26,17 @@ const fetchPage = async <ReturnType>({
   url: string;
   skipAdultBanner?: boolean;
 }) => {
-  return (await load(
-    await (
-      await getFetcher()(url, {
-        headers: {
-          Cookie: skipAdultBanner ? "view_adult=true;" : "",
-        },
-      })
-    ).text()
-  )) as ReturnType;
+  const response = await getFetcher()(url, {
+    headers: {
+      Cookie: skipAdultBanner ? "view_adult=true;" : "",
+    },
+  });
+
+  if (!response.ok) {
+    throw new ArchivePageRequestError({ url, status: response.status });
+  }
+
+  return (await load(await response.text())) as ReturnType;
 };
 
 // We create separate interfaces for each page type to make sure that the

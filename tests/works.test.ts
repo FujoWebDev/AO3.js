@@ -1,7 +1,9 @@
 import { describe, expect, it } from "vitest";
+import { http, HttpResponse } from "msw";
+import server from "./mocks/server";
 import { getWorkDetailsFromUrl, getWorkUrl } from "src/urls";
 
-import { InvalidIDError } from "src/utils";
+import { ArchivePageRequestError, InvalidIDError } from "src/utils";
 import type { WorkSummary } from "types/entities";
 import { getWork } from "src/index";
 
@@ -82,6 +84,21 @@ describe("Works/data", () => {
     await expect(invalidWork).rejects.toThrow(InvalidIDError);
     await expect(invalidWork).rejects.toThrow(
       "invalid-id is not a valid work id",
+    );
+  });
+
+  it("should throw ArchivePageRequestError when the archive returns an error", async () => {
+    server.use(
+      http.get(
+        "https://archiveofourown.org/*",
+        () => new HttpResponse(null, { status: 404 }),
+      ),
+    );
+    const failedWork = getWork({ workId: 1 });
+
+    await expect(failedWork).rejects.toThrow(ArchivePageRequestError);
+    await expect(failedWork).rejects.toThrow(
+      "Archive request failed with status 404: https://archiveofourown.org/works/1",
     );
   });
 

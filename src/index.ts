@@ -4,3 +4,4 @@ export * from "./works";
 export * from "./series";
 export { getAsShortUrl } from './urls';
 export { setFetcher } from "./fetcher";
+export { ArchivePageRequestError, InvalidIDError } from "./utils";
