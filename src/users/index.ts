@@ -30,7 +30,6 @@ export const getUser = async ({
   return {
     // We use this because capitalization might be different
     username: getUserProfileName(profilePage),
-    // TODO: this should really be an array
     pseuds: getUserProfilePseuds(profilePage),
     id: getUserProfileId(profilePage),
     joined: getUserProfileJoined(profilePage),
