@@ -3,6 +3,7 @@ import feedHandlers from "./handlers/tags/feed";
 import nameHandlers from "./handlers/tags/name";
 import searchHandlers from "./handlers/tags/search";
 import profileHandlers from "./handlers/users/profile";
+import userWorksHandlers from "./handlers/users/works";
 import seriesHandlers from "./handlers/series";
 import tagWorksHandlers from "./handlers/tags/works";
 import workPageHandlers from "./handlers/works";
@@ -14,6 +15,7 @@ import { HttpHandler } from "msw";
 
 export default [
   profileHandlers,
+  userWorksHandlers,
   feedHandlers,
   tagWorksHandlers,
   searchHandlers,
