@@ -21,7 +21,8 @@ export const tagSchema = z.object({
     subTags: z.array(z.object({
         tagName: z.string(),
         parentSubTag: z.string().nullable()
-    }))
+    })),
+    tagsWithSameMeaning: z.array(z.string())
 });
 
 export const tagSearchTypeSchema = z.union([z.literal("fandom"), z.literal("character"), z.literal("relationship"), z.literal("freeform"), z.literal("any")]);
