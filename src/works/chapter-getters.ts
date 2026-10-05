@@ -55,7 +55,7 @@ export const getWorkAuthors = (
 
   if (authorNode.length !== 0) {
     authorNode.each((i, element) => {
-      authors.push(getAuthorFromUrl(element.attribs.href));
+      authors.push(getAuthorFromUrl({ url: element.attribs.href }));
     });
   }
   return authors;

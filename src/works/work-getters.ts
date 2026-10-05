@@ -22,7 +22,7 @@ export const getWorkAuthors = ($workPage: WorkPage): Author[] => {
 
   if (authorLinks.length !== 0) {
     authorLinks.each((i, element) => {
-      authors.push(getAuthorFromUrl(element.attribs.href));
+      authors.push(getAuthorFromUrl({ url: element.attribs.href }));
     });
   }
 

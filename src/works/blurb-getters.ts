@@ -95,7 +95,7 @@ const getWorkBlurbAuthors = ($work: WorkBlurb) => {
 
   const authors: Author[] = [];
   authorLinks.each((_index, element) => {
-    authors.push(getAuthorFromUrl(element.attribs.href));
+    authors.push(getAuthorFromUrl({ url: element.attribs.href }));
   });
 
   if (authors.length === 0) {

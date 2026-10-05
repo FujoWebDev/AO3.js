@@ -5,6 +5,7 @@ import {
   getTagUrl,
   getTagWorksFeedUrl,
   getUserDetailsFromUrl,
+  getUserWorksUrl,
 } from "src/urls";
 
 /**
@@ -392,9 +393,75 @@ describe("getTagWorksFeedUrl", () => {
   });
 });
 
+describe("getUserWorksUrl", () => {
+  it("should build the works URL for a user", () => {
+    const url = new URL(getUserWorksUrl({ username: "astolat" }));
+
+    expect(url.pathname).toBe("/users/astolat/works");
+    expect(url.search).toBe("");
+  });
+
+  it("should build the works URL for a pseud of a user", () => {
+    const url = new URL(
+      getUserWorksUrl({ username: "astolat", pseud: "the lady of shalott" })
+    );
+
+    expect(url.pathname).toBe(
+      "/users/astolat/pseuds/the%20lady%20of%20shalott/works"
+    );
+  });
+
+  it("should include the page number", () => {
+    const url = new URL(getUserWorksUrl({ username: "astolat", page: 2 }));
+
+    expect(url.searchParams.get("page")).toBe("2");
+  });
+
+  it("should wrap sort parameters in work_search[]", () => {
+    const url = new URL(
+      getUserWorksUrl({
+        username: "astolat",
+        sortColumn: "kudos_count",
+        sortDirection: "asc",
+      })
+    );
+
+    expect(url.searchParams.get("work_search[sort_column]")).toBe(
+      "kudos_count"
+    );
+    expect(url.searchParams.get("work_search[sort_direction]")).toBe("asc");
+  });
+
+  it.each([
+    ["authors", "authors_to_sort_on"],
+    ["title", "title_to_sort_on"],
+    ["updated_at", "revised_at"],
+    ["created_at", "created_at"],
+  ] as const)("should send sort column %s as %s", (sortColumn, ao3Column) => {
+    const url = new URL(getUserWorksUrl({ username: "astolat", sortColumn }));
+
+    expect(url.searchParams.get("work_search[sort_column]")).toBe(ao3Column);
+  });
+
+  it("should omit sort parameters that are not provided", () => {
+    const url = new URL(
+      getUserWorksUrl({ username: "astolat", sortDirection: "desc" })
+    );
+
+    expect(url.searchParams.get("work_search[sort_direction]")).toBe("desc");
+    expect(url.searchParams.has("work_search[sort_column]")).toBe(false);
+  });
+
+  it("should encode special characters in the username", () => {
+    const url = new URL(getUserWorksUrl({ username: "a user" }));
+
+    expect(url.pathname).toBe("/users/a%20user/works");
+  });
+});
+
 describe("getAuthorFromUrl", () => {
   it("should read the username and pseud from a pseud URL", () => {
-    expect(getAuthorFromUrl("/users/astolat/pseuds/astolat")).toEqual({
+    expect(getAuthorFromUrl({ url: "/users/astolat/pseuds/astolat" })).toEqual({
       username: "astolat",
       pseud: "astolat",
       anonymous: false,
@@ -403,7 +470,7 @@ describe("getAuthorFromUrl", () => {
 
   it("should decode pseuds with special characters", () => {
     expect(
-      getAuthorFromUrl("/users/franzeska/pseuds/Franzeska%20Ewart"),
+      getAuthorFromUrl({ url: "/users/franzeska/pseuds/Franzeska%20Ewart" }),
     ).toEqual({
       username: "franzeska",
       pseud: "Franzeska Ewart",
@@ -412,13 +479,13 @@ describe("getAuthorFromUrl", () => {
   });
 
   it("should throw for author URLs without a pseud", () => {
-    expect(() => getAuthorFromUrl("/users/astolat")).toThrow(
+    expect(() => getAuthorFromUrl({ url: "/users/astolat" })).toThrow(
       "Unexpected author URL: /users/astolat",
     );
   });
 
   it("should throw for URLs that don't point to a user", () => {
-    expect(() => getAuthorFromUrl("/works/12345")).toThrow(
+    expect(() => getAuthorFromUrl({ url: "/works/12345" })).toThrow(
       "Invalid user URL: /works/12345",
     );
   });
@@ -446,6 +513,14 @@ describe("getUserDetailsFromUrl", () => {
       username: "astolat",
       pseud: "astolat",
     });
+  });
+
+  it("should round-trip the URLs we build for user works", () => {
+    expect(
+      getUserDetailsFromUrl({
+        url: getUserWorksUrl({ username: "franzeska", pseud: "Franzeska Ewart" }),
+      }),
+    ).toEqual({ username: "franzeska", pseud: "Franzeska Ewart" });
   });
 
   it("should throw for URLs that don't point to a user", () => {

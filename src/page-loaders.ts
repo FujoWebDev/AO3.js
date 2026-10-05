@@ -5,6 +5,7 @@ import {
   getTagWorksFeedAtomUrl,
   getTagWorksFeedUrl,
   getUserProfileUrl,
+  getUserWorksUrl,
   getWorkIndexUrl,
   getWorkUrl,
 } from "./urls";
@@ -13,7 +14,11 @@ import { CheerioAPI } from "cheerio";
 import { load } from "cheerio/slim";
 import { getFetcher } from "./fetcher";
 import { ArchivePageRequestError } from "src/utils";
-import { ArchiveId, TagSearchFilters } from "types/entities";
+import {
+  ArchiveId,
+  TagSearchFilters,
+  UserWorksFilters,
+} from "types/entities";
 
 // This is a wrapper around the fetch function that loads the page into a CheerioAPI
 // instance and returns the type of the page.
@@ -118,6 +123,20 @@ export const loadUserProfilePage = async ({
 }) => {
   return await fetchPage<UserProfile>({
     url: getUserProfileUrl({ username }),
+  });
+};
+
+// A page listing a user's works, optionally only the ones under one pseud.
+// Sample: https://archiveofourown.org/users/astolat/works
+// Sample: https://archiveofourown.org/users/astolat/pseuds/astolat/works
+export interface UserWorksPage extends CheerioAPI {
+  kind: "UserWorksPage";
+}
+export const loadUserWorksPage = async (
+  options: Partial<UserWorksFilters> & { username: string; pseud?: string },
+) => {
+  return await fetchPage<UserWorksPage>({
+    url: getUserWorksUrl(options),
   });
 };
 

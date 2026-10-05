@@ -4,7 +4,12 @@ import {
   isValidArchiveIdOrNullish,
   parseArchiveId,
 } from "./utils";
-import { Author, TagSearchFilters, WorkSummary } from "types/entities";
+import {
+  Author,
+  TagSearchFilters,
+  UserWorksFilters,
+  WorkSummary,
+} from "types/entities";
 
 declare global {
   var archiveBaseUrl: string;
@@ -119,6 +124,51 @@ export const getDownloadUrls = ({
 export const getUserProfileUrl = ({ username }: { username: string }) =>
   new URL(`/users/${encodeURI(username)}/profile`, getArchiveBaseUrl()).href;
 
+const USER_WORKS_SORT_COLUMNS: Record<UserWorksFilters["sortColumn"], string> = {
+  authors: "authors_to_sort_on",
+  title: "title_to_sort_on",
+  created_at: "created_at",
+  updated_at: "revised_at",
+  word_count: "word_count",
+  hits: "hits",
+  kudos_count: "kudos_count",
+  comments_count: "comments_count",
+  bookmarks_count: "bookmarks_count",
+};
+
+export const getUserWorksUrl = ({
+  username,
+  pseud,
+  page,
+  sortColumn,
+  sortDirection,
+}: Partial<UserWorksFilters> & { username: string; pseud?: string }) => {
+  // Pseud names are only unique within an account, so AO3 nests them under
+  // each user.
+  const userPath = `/users/${encodeURI(username)}`;
+  const url = new URL(
+    pseud === undefined
+      ? `${userPath}/works`
+      : `${userPath}/pseuds/${encodeURI(pseud)}/works`,
+    getArchiveBaseUrl(),
+  );
+
+  if (page !== undefined) {
+    url.searchParams.set("page", String(page));
+  }
+  if (sortColumn !== undefined) {
+    url.searchParams.set(
+      "work_search[sort_column]",
+      USER_WORKS_SORT_COLUMNS[sortColumn],
+    );
+  }
+  if (sortDirection) {
+    url.searchParams.set("work_search[sort_direction]", sortDirection);
+  }
+
+  return url.href;
+};
+
 const TOKEN_REPLACEMENTS_MAP = {
   "/": "*s*",
   "&": "*a*",
@@ -166,6 +216,15 @@ export const getTagWorksFeedUrl = (tagName: string) =>
 export const getTagWorksFeedAtomUrl = (tagId: string) =>
   new URL(`tags/${tagId}/feed.atom`, getArchiveBaseUrl()).href;
 
+/**
+ * Reads the username (and pseud, if any) from a user URL.
+ *
+ * The username is returned exactly as it appears in the URL. AO3 matches
+ * usernames in any letter case (e.g. /users/franzeska loads the account
+ * "Franzeska"), so usernames from user-given links may not match the ones
+ * in AO3's own author links. Make sure to use .toLowerCase() when comparing
+ * them.
+ */
 export const getUserDetailsFromUrl = ({
   url,
 }: {
@@ -187,7 +246,7 @@ export const getUserDetailsFromUrl = ({
     : { username, pseud: decodeURI(pseud) };
 };
 
-export const getAuthorFromUrl = (url: string): Author => {
+export const getAuthorFromUrl = ({ url }: { url: string }): Author => {
   const { username, pseud } = getUserDetailsFromUrl({ url });
   if (pseud === undefined) {
     throw new Error(`Unexpected author URL: ${url}`);
@@ -241,7 +300,7 @@ const getSearchParamsFromTagFilters = (
     type:
       searchFilters.type && searchFilters.type !== "any"
         ? searchFilters.type.charAt(0).toUpperCase() +
-          searchFilters.type.slice(1).toLowerCase()
+        searchFilters.type.slice(1).toLowerCase()
         : "",
     wrangling_status:
       searchFilters.wranglingStatus
