@@ -155,12 +155,14 @@ export const chapterSchema = z.object({
     shortUrl: z.string()
 });
 
-export const seriesWorkSummarySchema = workSummarySchema.omit({ "category": true, "publishedAt": true, "rating": true, "tags": true, "stats": true, "locked": true, "chapterInfo": true, "series": true }).extend({
+export const workBlurbSummarySchema = workSummarySchema.omit({ "category": true, "publishedAt": true, "rating": true, "tags": true, "stats": true, "locked": true, "chapterInfo": true, "series": true }).extend({
     url: z.string(),
     shortUrl: z.string(),
     tags: workSummarySchema.shape.tags.omit({ "warnings": true }),
     stats: workSummarySchema.shape.stats.omit({ "comments": true })
 });
+
+export const seriesWorkSummarySchema = workBlurbSummarySchema;
 
 export const seriesSchema = z.object({
     id: archiveIdSchema,
@@ -174,5 +176,5 @@ export const seriesSchema = z.object({
     bookmarks: z.number(),
     complete: z.boolean(),
     workCount: z.number(),
-    works: z.array(seriesWorkSummarySchema)
+    works: z.array(workBlurbSummarySchema)
 });
