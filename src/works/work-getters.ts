@@ -10,6 +10,7 @@ import { isValidArchiveId, parseArchiveId } from "src/utils";
 import { getAuthorFromUrl } from "src/urls";
 
 import { WorkPage } from "src/page-loaders";
+import type { WorkBlurb } from "src/works/blurb-getters";
 
 export const getWorkAuthors = ($workPage: WorkPage): Author[] => {
   const authorLinks = $workPage("h3.byline a[rel='author']");
@@ -32,11 +33,11 @@ export const getWorkTitle = ($workPage: WorkPage): string => {
   return $workPage("h2.title").text().trim();
 };
 
-export const getWorkWordCount = ($workPage: WorkPage): number => {
+export const getWorkWordCount = ($workPage: WorkPage | WorkBlurb): number => {
   return parseInt($workPage("dd.words").text().replaceAll(",", "").trim());
 };
 
-export const getWorkLanguage = ($workPage: WorkPage): string => {
+export const getWorkLanguage = ($workPage: WorkPage | WorkBlurb): string => {
   return $workPage("dd.language").text().trim();
 };
 
@@ -126,11 +127,15 @@ export const getWorkPublishDate = ($workPage: WorkPage): string => {
   return $workPage("dd.published").text().trim();
 };
 
-export const getWorkPublishedChapters = ($workPage: WorkPage): number => {
+export const getWorkPublishedChapters = (
+  $workPage: WorkPage | WorkBlurb
+): number => {
   return parseInt($workPage("dd.chapters").text().trim().split("/")[0]);
 };
 
-export const getWorkTotalChapters = ($workPage: WorkPage): number | null => {
+export const getWorkTotalChapters = (
+  $workPage: WorkPage | WorkBlurb
+): number | null => {
   const totalChapters = $workPage("dd.chapters").text().trim().split("/")[1];
 
   return totalChapters === "?" ? null : parseInt(totalChapters);
@@ -172,13 +177,13 @@ export const getWorkCommentCount = ($workPage: WorkPage): number => {
   return comments ? parseInt(comments) : 0;
 };
 
-export const getWorkKudosCount = ($workPage: WorkPage) => {
+export const getWorkKudosCount = ($workPage: WorkPage | WorkBlurb) => {
   const kudos = $workPage("dd.kudos").text().replaceAll(",", "").trim();
 
   return kudos ? parseInt(kudos) : 0;
 };
 
-export const getWorkBookmarkCount = ($workPage: WorkPage) => {
+export const getWorkBookmarkCount = ($workPage: WorkPage | WorkBlurb) => {
   const bookmarks = $workPage("dd.bookmarks a")
     .text()
     .replaceAll(",", "")
@@ -187,7 +192,7 @@ export const getWorkBookmarkCount = ($workPage: WorkPage) => {
   return bookmarks ? parseInt(bookmarks) : 0;
 };
 
-export const getWorkHits = ($workPage: WorkPage) => {
+export const getWorkHits = ($workPage: WorkPage | WorkBlurb) => {
   return parseInt($workPage("dd.hits").text().replaceAll(",", "").trim());
 };
 

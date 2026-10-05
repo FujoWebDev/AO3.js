@@ -1,37 +1,7 @@
-import type { Author, Series, SeriesWorkSummary } from "types/entities";
-import { type CheerioAPI, load } from "cheerio/slim";
-import type { SeriesPage, WorkPage } from "src/page-loaders";
-import {
-  getWorkBookmarkCount,
-  getWorkHits,
-  getWorkKudosCount,
-  getWorkLanguage,
-  getWorkPublishedChapters,
-  getWorkTotalChapters,
-  getWorkWordCount,
-} from "src/works/work-getters";
-import {
-  getAsShortUrl,
-  getAuthorFromUrl,
-  getWorkDetailsFromUrl,
-  getWorkUrl,
-} from "src/urls";
-import { parseArchiveId } from "src/utils";
-
-const monthMap: { [month: string]: string } = {
-  Jan: "01",
-  Feb: "02",
-  Mar: "03",
-  Apr: "04",
-  May: "05",
-  Jun: "06",
-  Jul: "07",
-  Aug: "08",
-  Sep: "09",
-  Oct: "10",
-  Nov: "11",
-  Dec: "12",
-};
+import type { Author, Series, WorkBlurbSummary } from "types/entities";
+import type { SeriesPage } from "src/page-loaders";
+import { getAuthorFromUrl } from "src/urls";
+import { getWorkBlurb } from "src/works/blurb-getters";
 
 export const getSeriesTitle = ($seriesPage: SeriesPage): string => {
   return $seriesPage("h2.heading").text().trim();
@@ -115,130 +85,12 @@ export const getSeriesBookmarkCount = ($seriesPage: SeriesPage): number => {
 
 export const getSeriesWorks = (
   $seriesPage: SeriesPage
-): SeriesWorkSummary[] => {
-  const works: SeriesWorkSummary[] = [];
+): WorkBlurbSummary[] => {
+  const works: WorkBlurbSummary[] = [];
 
   $seriesPage("ul.index > li.work").each((index, element) => {
-    works[index] = getSeriesWork($seriesPage(element).html() as string);
+    works[index] = getWorkBlurb($seriesPage(element).html() as string);
   });
 
   return works;
-};
-
-// Helpers for series' works
-interface SeriesWork extends CheerioAPI {
-  kind: "SeriesWork";
-}
-
-const getSeriesWork = (workHtml: string): SeriesWorkSummary => {
-  const work = load(workHtml);
-  const $work = work as SeriesWork,
-    $$work = work as WorkPage;
-
-  const totalChapters = getWorkTotalChapters($$work);
-  const publishedChapters = getWorkPublishedChapters($$work);
-
-  const url = $work("a[href*='/works/']").attr("href") as string;
-  const id = getWorkDetailsFromUrl({ url }).workId;
-  const workUrl = getWorkUrl({ workId: id });
-  const shortUrl = getAsShortUrl({ url: workUrl });
-
-  return {
-    id: parseArchiveId(id),
-    url: workUrl,
-    shortUrl,
-    title: getSeriesWorkTitle($work),
-    updatedAt: getSeriesWorkUpdateDate($work),
-
-    summary: getSeriesWorkSummary($work),
-    adult: false,
-    fandoms: getSeriesWorkFandoms($work),
-    tags: {
-      characters: getSeriesWorkCharacters($work),
-      relationships: getSeriesWorkRelationships($work),
-      additional: getSeriesWorkAdditionalTags($work),
-    },
-    authors: getSeriesWorkAuthors($work),
-    language: getWorkLanguage($$work),
-    words: getWorkWordCount($$work),
-    chapters: {
-      published: publishedChapters,
-      total: totalChapters,
-    },
-    complete: totalChapters !== null && totalChapters === publishedChapters,
-    stats: {
-      bookmarks: getWorkBookmarkCount($$work),
-      kudos: getWorkKudosCount($$work),
-      hits: getWorkHits($$work),
-    },
-  };
-};
-
-const getSeriesWorkTitle = ($work: SeriesWork) => {
-  return $work("h4.heading a[href*='/works/']").text().trim();
-};
-
-const getSeriesWorkUpdateDate = ($work: SeriesWork) => {
-  const [day, month, year] = $work("p.datetime").text().trim().split(" ");
-  return `${year}-${monthMap[month]}-${day}`;
-};
-
-const getSeriesWorkSummary = ($work: SeriesWork) => {
-  const summary = $work("blockquote.summary").html();
-  return summary ? summary.trim() : null;
-};
-
-const getSeriesWorkFandoms = ($work: SeriesWork): string[] => {
-  const fandoms: string[] = [];
-
-  $work("h5.fandoms a.tag").each(function (i, element) {
-    fandoms[i] = $work(element).text().trim();
-  });
-  return fandoms;
-};
-
-const getSeriesWorkCharacters = ($work: SeriesWork): string[] => {
-  const characters: string[] = [];
-
-  $work("li.characters a.tag").each(function (i, character) {
-    characters[i] = $work(character).text().trim();
-  });
-  return characters;
-};
-
-const getSeriesWorkRelationships = ($work: SeriesWork): string[] => {
-  const ships: string[] = [];
-
-  $work("li.relationships a.tag").each(function (i, ship) {
-    ships[i] = $work(ship).text().trim();
-  });
-  return ships;
-};
-
-const getSeriesWorkAdditionalTags = ($work: SeriesWork): string[] => {
-  const tags: string[] = [];
-
-  $work("li.freeforms a.tag").each(function (i) {
-    tags[i] = $work(this).text().trim();
-  });
-  return tags;
-};
-
-const getSeriesWorkAuthors = (
-  $work: SeriesWork
-): SeriesWorkSummary["authors"] => {
-  const authorLinks = $work("h4.heading a[rel='author']");
-  const authors: Author[] = [];
-
-  if ($work("h4.heading").text().split("by")[1].trim() === "Anonymous") {
-    return [{ username: "Anonymous", pseud: "Anonymous", anonymous: true }];
-  }
-
-  if (authorLinks.length !== 0) {
-    authorLinks.each((i, element) => {
-      authors.push(getAuthorFromUrl(element.attribs.href));
-    });
-  }
-
-  return authors;
 };

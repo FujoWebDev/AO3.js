@@ -34,3 +34,28 @@ export class ArchivePageRequestError extends Error {
     this.url = url;
   }
 }
+
+const MONTHS: Record<string, string> = {
+  Jan: "01",
+  Feb: "02",
+  Mar: "03",
+  Apr: "04",
+  May: "05",
+  Jun: "06",
+  Jul: "07",
+  Aug: "08",
+  Sep: "09",
+  Oct: "10",
+  Nov: "11",
+  Dec: "12",
+};
+
+// AO3 blurbs (works, series, bookmarks) show dates like "01 Jan 2026";
+// returns "2026-01-01".
+export const parseBlurbDate = (text: string) => {
+  const [day, month, year] = text.trim().split(/\s+/);
+  if (!day || !MONTHS[month] || !year) {
+    throw new Error(`Unexpected work blurb date: ${text}`);
+  }
+  return `${year}-${MONTHS[month]}-${day.padStart(2, "0")}`;
+};

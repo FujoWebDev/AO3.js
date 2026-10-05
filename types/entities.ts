@@ -90,7 +90,8 @@ export interface User {
   bioHtml: string | null;
 }
 
-export interface SeriesWorkSummary
+// A work as AO3 shows it in listings like series and user works pages.
+export interface WorkBlurbSummary
   extends Omit<
     WorkSummary,
     | "category"
@@ -108,6 +109,9 @@ export interface SeriesWorkSummary
   stats: Omit<WorkSummary["stats"], "comments">;
 }
 
+/** @deprecated Use `WorkBlurbSummary` instead. */
+export type SeriesWorkSummary = WorkBlurbSummary;
+
 export interface Series {
   id: ArchiveId;
   name: string;
@@ -120,7 +124,7 @@ export interface Series {
   bookmarks: number;
   complete: boolean;
   workCount: number;
-  works: SeriesWorkSummary[];
+  works: WorkBlurbSummary[];
 }
 
 export enum WorkRatings {
