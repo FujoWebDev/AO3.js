@@ -24,7 +24,7 @@ export const getUserProfilePseuds = ($userProfile: UserProfile) => {
 
   if (pseuds.length !== 0) {
     pseuds.each((i, element) => {
-      pseudsArray.push(getAuthorFromUrl(element.attribs.href).pseud);
+      pseudsArray.push(getAuthorFromUrl({ url: element.attribs.href }).pseud);
     });
   }
   return pseudsArray.join(PSEUD_SUFFIX);

@@ -90,6 +90,31 @@ export interface User {
   bioHtml: string | null;
 }
 
+export interface UserWorksFilters {
+  sortColumn:
+    | "authors"
+    | "title"
+    | "created_at"
+    | "updated_at"
+    | "word_count"
+    | "hits"
+    | "kudos_count"
+    | "comments_count"
+    | "bookmarks_count";
+  sortDirection: "asc" | "desc";
+  page: number;
+}
+
+export interface UserWorks {
+  filters: UserWorksFilters;
+  totalResults: number;
+  pages: {
+    total: number;
+    current: number;
+  };
+  works: WorkBlurbSummary[];
+}
+
 // A work as AO3 shows it in listings like series and user works pages.
 export interface WorkBlurbSummary
   extends Omit<

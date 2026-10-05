@@ -73,6 +73,12 @@ export const userSchema = z.object({
     bioHtml: z.string().nullable()
 });
 
+export const userWorksFiltersSchema = z.object({
+    sortColumn: z.union([z.literal("authors"), z.literal("title"), z.literal("created_at"), z.literal("updated_at"), z.literal("word_count"), z.literal("hits"), z.literal("kudos_count"), z.literal("comments_count"), z.literal("bookmarks_count")]),
+    sortDirection: z.union([z.literal("asc"), z.literal("desc")]),
+    page: z.number()
+});
+
 export const workRatingsSchema = z.nativeEnum(WorkRatings);
 
 export const workCategorySchema = z.nativeEnum(WorkCategory);
@@ -176,5 +182,15 @@ export const seriesSchema = z.object({
     bookmarks: z.number(),
     complete: z.boolean(),
     workCount: z.number(),
+    works: z.array(workBlurbSummarySchema)
+});
+
+export const userWorksSchema = z.object({
+    filters: userWorksFiltersSchema,
+    totalResults: z.number(),
+    pages: z.object({
+        total: z.number(),
+        current: z.number()
+    }),
     works: z.array(workBlurbSummarySchema)
 });

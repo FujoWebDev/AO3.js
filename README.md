@@ -40,6 +40,7 @@ Scrapes data from [ao3.org](https://ao3.org) and beyond. Now with Types™.
 | [**`getWorkWithChapters`**](./src/works/index.ts#L53) | Fetches a work and its chapter list.       | `{ workId: string }` - The ID of the work.                                        | [`Promise<{ title: string; authors: Author[] \| Anonymous; workId: string; chapters: Chapter[] }>`](./types/entities.ts) |
 | [**`getSeries`**](./src/series/index.ts#L17)          | Retrieves details for a specific series.   | `{ seriesId: string }` - The ID of the series.                                    | [`Promise<Series>`](./types/entities.ts)                                                                                 |
 | [**`getUser`**](./src/users/index.ts#L15)             | Fetches profile information for a user.    | `{ username: string }` - Username of the user to fetch.                           | [`Promise<User>`](./types/entities.ts)                                                                                   |
+| [**`getUserWorks`**](./src/users/index.ts#L63)        | Lists one page of a user's public works.   | `{ username: string, pseud?: string, page?: number, sortColumn?, sortDirection? }` | [`Promise<UserWorks>`](./types/entities.ts)                                                                              |
 | [**`setFetcher`**](./src/fetcher.ts#L5)               | Sets a custom fetch function for requests. | `{ fetcher: typeof fetch }` - Custom fetch function.                              | `void`                                                                                                                   |
 
 #### Why Override Fetch?
@@ -56,6 +57,7 @@ Using `setFetcher`, you can override the default `fetch` method used by the libr
 - **[`WorkSummary`](./types/entities.ts#L20)** / **[`LockedWorkSummary`](./types/entities.ts#L45)**: Summarizes a work, including title, authors, tags, and statistics.
 - **[`Series`](./types/entities.ts)**: Information on a series, such as title, authors, works, and publication details.
 - **[`User`](./types/entities.ts)**: Profile information for an AO3 user, including pseudonyms, works, bookmarks, and more.
+- **[`UserWorks`](./types/entities.ts)**: One page of a user's public works, with pagination.
 - **[`Chapter`](./types/entities.ts)**: Details about individual chapters within a work.
 
 ## Sample usage
