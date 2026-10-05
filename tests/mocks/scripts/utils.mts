@@ -33,6 +33,20 @@ export class Http404Error extends Error {
   content: string = "";
 }
 
+export class HttpStatusError extends Error {
+  status: number;
+  constructor(message: string, status: number) {
+    super(message);
+    this.status = status;
+  }
+}
+
+// Cloudflare errors (like 525) take longer than a few seconds to
+// clear, so 5xx responses get more attempts and a much longer backoff.
+const SERVER_ERROR_MIN_ATTEMPTS = 5;
+const SERVER_ERROR_BASE_DELAY = 10000; // 10 seconds
+const SERVER_ERROR_MAX_DELAY = 60000; // 60 seconds
+
 export async function delay(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
@@ -65,7 +79,10 @@ export async function downloadWithRetry(
 
     if (!response.ok) {
       if (response.status !== 404) {
-        throw new Error(`Failed to download ${url}: ${response.status}`);
+        throw new HttpStatusError(
+          `Failed to download ${url}: ${response.status}`,
+          response.status,
+        );
       }
       // We let 404 errors be handled by the consumers as they wish
       const newError = new Http404Error("404 error returned");
@@ -81,21 +98,31 @@ export async function downloadWithRetry(
     }
 
     const errorMessage = error instanceof Error ? error.message : String(error);
-    if (currentAttempt >= maxAttempts) {
+    const isServerError = error instanceof HttpStatusError && error.status >= 500;
+    const attemptsAllowed = isServerError
+      ? Math.max(maxAttempts, SERVER_ERROR_MIN_ATTEMPTS)
+      : maxAttempts;
+    if (currentAttempt >= attemptsAllowed) {
       throw error;
     }
 
-    const backoffDelay = Math.min(
-      BASE_DELAY * Math.pow(2, currentAttempt - 1) + Math.random() * 1000,
-      30000, // Max 30 seconds
-    );
+    const backoffDelay = isServerError
+      ? Math.min(
+        SERVER_ERROR_BASE_DELAY * Math.pow(2, currentAttempt - 1) +
+        Math.random() * 1000,
+        SERVER_ERROR_MAX_DELAY,
+      )
+      : Math.min(
+        BASE_DELAY * Math.pow(2, currentAttempt - 1) + Math.random() * 1000,
+        30000, // Max 30 seconds
+      );
 
     console.log(
       `Attempt ${currentAttempt} failed, retrying after ${backoffDelay}ms...`,
     );
     console.log(`Error message was ${errorMessage}`);
     await delay(backoffDelay);
-    return downloadWithRetry(url, maxAttempts, currentAttempt + 1);
+    return downloadWithRetry(url, attemptsAllowed, currentAttempt + 1);
   }
 }
 
