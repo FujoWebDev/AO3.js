@@ -41,7 +41,7 @@ jobs:
           npm version $VERSION --no-git-tag-version
 
       - name: Update npm for OIDC
-        run: npm install -g npm@latest
+        run: npm install -g npm@11.15.0
         
       - run: npm publish --provenance --access=public
         env:
