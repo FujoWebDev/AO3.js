@@ -156,8 +156,14 @@ export const loadChaptersIndexPage = async ({
 export interface SeriesPage extends CheerioAPI {
   kind: "SeriesPage";
 }
-export const loadSeriesPage = async (seriesId: ArchiveId) => {
+export const loadSeriesPage = async ({
+  seriesId,
+  page,
+}: {
+  seriesId: ArchiveId;
+  page?: number;
+}) => {
   return await fetchPage<SeriesPage>({
-    url: getSeriesUrl({ seriesId }),
+    url: getSeriesUrl({ seriesId, page }),
   });
 };

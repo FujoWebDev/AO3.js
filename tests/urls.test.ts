@@ -2,6 +2,7 @@ import { describe, it, expect } from "vitest";
 import {
   getAuthorFromUrl,
   getSearchUrlFromTagFilters,
+  getSeriesUrl,
   getTagUrl,
   getTagWorksFeedUrl,
   getUserDetailsFromUrl,
@@ -537,6 +538,21 @@ describe("getUserDetailsFromUrl", () => {
   it("should throw for URLs that don't point to a user", () => {
     expect(() => getUserDetailsFromUrl({ url: "/works/12345" })).toThrow(
       "Invalid user URL: /works/12345",
+    );
+  });
+});
+
+
+describe("getSeriesUrl", () => {
+  it("should preserve the URL without a page", () => {
+    expect(getSeriesUrl({ seriesId: 2270465 })).toBe(
+      "https://archiveofourown.org/series/2270465",
+    );
+  });
+
+  it("should add an optional page", () => {
+    expect(getSeriesUrl({ seriesId: "2270465", page: 2 })).toBe(
+      "https://archiveofourown.org/series/2270465?page=2",
     );
   });
 });

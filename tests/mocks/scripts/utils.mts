@@ -279,6 +279,12 @@ export function getUrlFromPath(
 
   const segments = urlPath.split(path.sep).filter(Boolean);
 
+  if (segments[0] === "series" && /^\d+\.html$/.test(filename)) {
+    const url = new URL(`/${segments.join("/")}`, getArchiveUrl(archive));
+    url.searchParams.set("page", String(parseInt(filename, 10)));
+    return url.href;
+  }
+
   if (
     segments[0] === "users" &&
     segments[segments.length - 2] === "works" &&
@@ -333,6 +339,15 @@ export function getFilePathFromUrl(url: string | URL) {
 
   const lastSegment = segments[segments.length - 1];
   const hasExtension = lastSegment?.includes(".");
+
+  if (segments[0] === "series" && parsedUrl.searchParams.has("page")) {
+    const pageFileName = getPageFileName(parsedUrl.searchParams);
+    return path.join(
+      getArchiveDataDir(archive),
+      ...segments.map((segment) => safeFilenamify(decodeURIComponent(segment))),
+      pageFileName === "01.html" ? "index.html" : pageFileName,
+    );
+  }
 
   if (segments[0] === "tags" && lastSegment === "search") {
     return path.join(

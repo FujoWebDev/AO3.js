@@ -15,17 +15,20 @@ import {
 
 import type { Series } from "types/entities";
 import { loadSeriesPage } from "src/page-loaders";
+import { getPagesCount } from "src/tags/search-getters";
 
 export const getSeries = async ({
   seriesId,
+  page,
 }: {
   seriesId: string | number;
+  page?: number;
 }): Promise<Series> => {
   if (!isValidArchiveId(seriesId)) {
     throw new InvalidIDError(seriesId, "series");
   }
 
-  const seriesPage = await loadSeriesPage(seriesId);
+  const seriesPage = await loadSeriesPage({ seriesId, page });
 
   const seriesWorks = getSeriesWorks(seriesPage);
 
@@ -41,6 +44,10 @@ export const getSeries = async ({
     bookmarks: getSeriesBookmarkCount(seriesPage),
     complete: getSeriesCompletionStatus(seriesPage),
     workCount: getSeriesWorkCount(seriesPage),
+    pages: {
+      total: seriesWorks.length > 0 ? Math.max(1, getPagesCount(seriesPage)) : 0,
+      current: page ?? 1,
+    },
     works: seriesWorks,
   };
 };

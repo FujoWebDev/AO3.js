@@ -72,12 +72,22 @@ export const getWorkIndexUrl = ({ workId }: { workId: string | number }) => {
   return new URL(`works/${workId}/navigate`, getArchiveBaseUrl()).href;
 };
 
-export const getSeriesUrl = ({ seriesId }: { seriesId: string | number }) => {
+export const getSeriesUrl = ({
+  seriesId,
+  page,
+}: {
+  seriesId: string | number;
+  page?: number;
+}) => {
   if (!isValidArchiveId(seriesId)) {
     throw new InvalidIDError(seriesId, "series");
   }
 
-  return new URL(`series/${seriesId}`, getArchiveBaseUrl()).href;
+  const url = new URL(`series/${seriesId}`, getArchiveBaseUrl());
+  if (page !== undefined) {
+    url.searchParams.set("page", String(page));
+  }
+  return url.href;
 };
 
 export const getAsShortUrl = ({ url }: { url: string | URL }) => {

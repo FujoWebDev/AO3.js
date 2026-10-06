@@ -149,6 +149,10 @@ export interface Series {
   bookmarks: number;
   complete: boolean;
   workCount: number;
+  pages: {
+    total: number;
+    current: number;
+  };
   works: WorkBlurbSummary[];
 }
 
