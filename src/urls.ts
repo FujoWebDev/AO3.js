@@ -122,7 +122,7 @@ export const getDownloadUrls = ({
 };
 
 export const getUserProfileUrl = ({ username }: { username: string }) =>
-  new URL(`/users/${encodeURI(username)}/profile`, getArchiveBaseUrl()).href;
+  new URL(`/users/${encodeURIComponent(username)}/profile`, getArchiveBaseUrl()).href;
 
 const USER_WORKS_SORT_COLUMNS: Record<UserWorksFilters["sortColumn"], string> = {
   authors: "authors_to_sort_on",
@@ -145,11 +145,11 @@ export const getUserWorksUrl = ({
 }: Partial<UserWorksFilters> & { username: string; pseud?: string }) => {
   // Pseud names are only unique within an account, so AO3 nests them under
   // each user.
-  const userPath = `/users/${encodeURI(username)}`;
+  const userPath = `/users/${encodeURIComponent(username)}`;
   const url = new URL(
     pseud === undefined
       ? `${userPath}/works`
-      : `${userPath}/pseuds/${encodeURI(pseud)}/works`,
+      : `${userPath}/pseuds/${encodeURIComponent(pseud)}/works`,
     getArchiveBaseUrl(),
   );
 
@@ -202,11 +202,11 @@ const REPLACE_TOKENS_REGEX = new RegExp(
 
 export const getTagUrl = (tagName: string) =>
   new URL(
-    `tags/${encodeURI(tagName).replaceAll(
+    `tags/${encodeURIComponent(tagName.replaceAll(
       REPLACE_TOKENS_REGEX,
       (char: string) =>
         isReplaceableToken(char) ? TOKEN_REPLACEMENTS_MAP[char] : char,
-    )}/`,
+    ))}/`,
     getArchiveBaseUrl(),
   ).href;
 

@@ -447,6 +447,14 @@ describe("Tags/sub", () => {
           "tagName": "Eridian Thrums (Project Hail Mary)",
         },
         {
+          "parentSubTag": "Eridian Lore & Worldbuilding (Project Hail Mary)",
+          "tagName": "Eridians are a Hive Mind (Project Hail Mary)",
+        },
+        {
+          "parentSubTag": "Eridian Culture & Customs (Project Hail Mary)",
+          "tagName": "Eridian Celebration Clothing & Jewelry (Project Hail Mary)",
+        },
+        {
           "parentSubTag": "Eridian Culture & Customs (Project Hail Mary)",
           "tagName": "Eridian Courtship Rituals (Project Hail Mary)",
         },
@@ -457,6 +465,10 @@ describe("Tags/sub", () => {
         {
           "parentSubTag": "Eridian Culture & Customs (Project Hail Mary)",
           "tagName": "Eridian Religions (Project Hail Mary)",
+        },
+        {
+          "parentSubTag": "Eridian Courtship Rituals (Project Hail Mary)",
+          "tagName": "Eridian Mate Marks (Project Hail Mary)",
         },
         {
           "parentSubTag": "Eridian Language & Grammar (Project Hail Mary)",
@@ -497,6 +509,10 @@ describe("Tags/sub", () => {
         {
           "parentSubTag": "Eridians Have Ovipositors (Project Hail Mary)",
           "tagName": "Rocky Has an Ovipositor (Project Hail Mary)",
+        },
+        {
+          "parentSubTag": "Eridian Technology (Project Hail Mary)",
+          "tagName": "Eridian Space Elevator (Project Hail Mary)",
         },
         {
           "parentSubTag": null,
@@ -615,6 +631,10 @@ describe("Tags/sub", () => {
           "tagName": "Hyuuga Clan Politics (Naruto)",
         },
         {
+          "parentSubTag": "Clan Politics (Naruto)",
+          "tagName": "Uchiha Clan Politics (Naruto)",
+        },
+        {
           "parentSubTag": "Konohagakure | Hidden Leaf Village Politics",
           "tagName": "Uchiha Clan Politics (Naruto)",
         },
@@ -671,6 +691,7 @@ describe("Tags/synonyms", () => {
         "2p Charlie (Mentioned briefly)",
         "2P Charlie - Character",
         "2P Charlie Magne",
+        ": Charlie Morningstar",
         "Anti-Charlie",
         "baby Charlie Magne - Character",
         "Baby Charlie Morningstar - Character",
@@ -680,6 +701,7 @@ describe("Tags/synonyms", () => {
         "Brief Charlie Magne | Morningstar cameo",
         "Brief Charlie Morningstar - Character",
         "cahrlie",
+        "Charlemagne "Charlie" Morningstar (Hazbin Hotel)",
         "Charles Morningstar",
         "Charlie (briefly mentioned)",
         "Charlie (Hazbin Hotel)",
@@ -689,6 +711,7 @@ describe("Tags/synonyms", () => {
         "Charlie (Hazbing Hotel)",
         "Charlie (Mentioned small cameo)",
         "Charlie - Mentioned",
+        "Charlie Hazbin - Character",
         "Charlie Hazbin hotel",
         "Charlie Hellspawn",
         "charlie is here but not enough to tag really",
@@ -721,6 +744,7 @@ describe("Tags/synonyms", () => {
         "Charlie Magnet",
         "Charlie Magne| Morningstar (Hazbin Hotel)",
         "Charlie Magne|Morningstar",
+        "Charlie Magne|Morningstar (Mentioned)",
         "Charlie Mange",
         "Charlie Mange | Morningstar",
         "Charlie Mange | Morningstar (Hazbin Hotel)",
@@ -769,6 +793,7 @@ describe("Tags/synonyms", () => {
         "he and charlie text so wanted to tag him",
         "Human Charlie - Character",
         "Human Charlie Magne (Hazbin Hotel)",
+        "human Charlie Morningstar",
         "human toddler Charlie",
         "human!Charlie - Character",
         "kid Charlie (Hazbin Hotel)",

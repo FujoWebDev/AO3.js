@@ -1,10 +1,38 @@
 import { expect } from "vitest";
+import { prettify } from "htmlfy";
+
+export function expectHtml(html: string | null) {
+  return expect(html === null ? null : prettify(html));
+}
 
 interface DriftingCountMatchers<R = unknown> {
   driftingCount(bounds: { atLeast: number; atMost: number }): R;
 }
 
+interface HtmlMatchers<R = unknown> {
+  toEqualHtml(expected: string | null): R;
+}
+
 expect.extend({
+  toEqualHtml(received: unknown, expected: string | null) {
+    if (
+      (received !== null && typeof received !== "string") ||
+      (expected !== null && typeof expected !== "string")
+    ) {
+      throw new TypeError("toEqualHtml requires HTML strings or null");
+    }
+
+    const actualHtml = received === null ? null : prettify(received);
+    const expectedHtml = expected === null ? null : prettify(expected);
+
+    return {
+      pass: actualHtml === expectedHtml,
+      message: () =>
+        `expected HTML ${this.isNot ? "not " : ""}to match after formatting`,
+      actual: actualHtml,
+      expected: expectedHtml,
+    };
+  },
   driftingCount(
     received: unknown,
     bounds: Parameters<DriftingCountMatchers["driftingCount"]>[0],
@@ -28,6 +56,8 @@ expect.extend({
 });
 
 declare module "vitest" {
-  interface Assertion<T = any> extends DriftingCountMatchers<T> {}
-  interface AsymmetricMatchersContaining extends DriftingCountMatchers {}
+  interface Assertion<T = any>
+    extends DriftingCountMatchers<T>, HtmlMatchers<T> {}
+  interface AsymmetricMatchersContaining
+    extends DriftingCountMatchers, HtmlMatchers {}
 }

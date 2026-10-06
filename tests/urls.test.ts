@@ -394,6 +394,17 @@ describe("getTagWorksFeedUrl", () => {
 });
 
 describe("getUserWorksUrl", () => {
+  it("keeps reserved username and pseud characters within their path segments", () => {
+    const url = new URL(getUserWorksUrl({
+      username: "a/b?#&",
+      pseud: "c/d?#&",
+    }));
+
+    expect(url.pathname).toBe("/users/a%2Fb%3F%23%26/pseuds/c%2Fd%3F%23%26/works");
+    expect(url.search).toBe("");
+    expect(url.hash).toBe("");
+  });
+
   it("should build the works URL for a user", () => {
     const url = new URL(getUserWorksUrl({ username: "astolat" }));
 

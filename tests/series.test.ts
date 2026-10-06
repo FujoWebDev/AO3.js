@@ -28,7 +28,7 @@ describe("Series/data", () => {
         "<p>My potentially related stories about the relationship between the OG Titans. Probably focused on Dick Grayson.</p>",
       notes: null,
       words: 32451,
-      bookmarks: expect.driftingCount({ atLeast: 260, atMost: 285 }),
+      bookmarks: expect.driftingCount({ atLeast: 260, atMost: 300 }),
       complete: false,
       workCount: 6,
     });
@@ -84,9 +84,9 @@ describe("Series/data", () => {
       chapters: { published: 1, total: 1 },
       complete: true,
       stats: {
-        bookmarks: expect.driftingCount({ atLeast: 247, atMost: 272 }),
-        kudos: expect.driftingCount({ atLeast: 1581, atMost: 1621 }),
-        hits: expect.driftingCount({ atLeast: 13598, atMost: 13998 }),
+        bookmarks: expect.driftingCount({ atLeast: 247, atMost: 290 }),
+        kudos: expect.driftingCount({ atLeast: 1581, atMost: 1808 }),
+        hits: expect.driftingCount({ atLeast: 13598, atMost: 15741 }),
       },
     });
 
@@ -164,9 +164,9 @@ describe("Series/data", () => {
       chapters: { published: 12, total: null },
       complete: false,
       stats: {
-        bookmarks: expect.driftingCount({ atLeast: 749, atMost: 774 }),
-        kudos: expect.driftingCount({ atLeast: 3496, atMost: 3536 }),
-        hits: expect.driftingCount({ atLeast: 69968, atMost: 70368 }),
+        bookmarks: expect.driftingCount({ atLeast: 749, atMost: 862 }),
+        kudos: expect.driftingCount({ atLeast: 3496, atMost: 3940 }),
+        hits: expect.driftingCount({ atLeast: 69968, atMost: 78653 }),
       },
     });
 
@@ -216,9 +216,9 @@ describe("Series/data", () => {
       chapters: { published: 1, total: 1 },
       complete: true,
       stats: {
-        bookmarks: expect.driftingCount({ atLeast: 306, atMost: 331 }),
-        kudos: expect.driftingCount({ atLeast: 1959, atMost: 1999 }),
-        hits: expect.driftingCount({ atLeast: 16419, atMost: 16819 }),
+        bookmarks: expect.driftingCount({ atLeast: 306, atMost: 361 }),
+        kudos: expect.driftingCount({ atLeast: 1959, atMost: 2232 }),
+        hits: expect.driftingCount({ atLeast: 16419, atMost: 18864 }),
       },
     });
 
@@ -262,9 +262,9 @@ describe("Series/data", () => {
       chapters: { published: 1, total: 1 },
       complete: true,
       stats: {
-        bookmarks: expect.driftingCount({ atLeast: 95, atMost: 120 }),
-        kudos: expect.driftingCount({ atLeast: 873, atMost: 913 }),
-        hits: expect.driftingCount({ atLeast: 7846, atMost: 8246 }),
+        bookmarks: expect.driftingCount({ atLeast: 95, atMost: 134 }),
+        kudos: expect.driftingCount({ atLeast: 873, atMost: 1017 }),
+        hits: expect.driftingCount({ atLeast: 7846, atMost: 9279 }),
       },
     });
 
@@ -332,9 +332,9 @@ describe("Series/data", () => {
       chapters: { published: 3, total: 4 },
       complete: false,
       stats: {
-        bookmarks: expect.driftingCount({ atLeast: 249, atMost: 275 }),
-        kudos: expect.driftingCount({ atLeast: 1524, atMost: 1564 }),
-        hits: expect.driftingCount({ atLeast: 15304, atMost: 15704 }),
+        bookmarks: expect.driftingCount({ atLeast: 249, atMost: 307 }),
+        kudos: expect.driftingCount({ atLeast: 1524, atMost: 1744 }),
+        hits: expect.driftingCount({ atLeast: 15304, atMost: 17915 }),
       },
     });
 
@@ -390,9 +390,9 @@ describe("Series/data", () => {
       chapters: { published: 1, total: 1 },
       complete: true,
       stats: {
-        bookmarks: expect.driftingCount({ atLeast: 52, atMost: 77 }),
-        kudos: expect.driftingCount({ atLeast: 459, atMost: 499 }),
-        hits: expect.driftingCount({ atLeast: 2680, atMost: 3080 }),
+        bookmarks: expect.driftingCount({ atLeast: 52, atMost: 87 }),
+        kudos: expect.driftingCount({ atLeast: 459, atMost: 546 }),
+        hits: expect.driftingCount({ atLeast: 2680, atMost: 3468 }),
       },
     });
   });
