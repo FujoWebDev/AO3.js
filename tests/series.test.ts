@@ -430,3 +430,39 @@ describe("Series/title", () => {
     expect(series.name).toBe("*Insert Fandom* but Social Media (one-shots)");
   });
 });
+
+describe("Series/pagination", () => {
+  it("should fetch the first page with no page parameter", async () => {
+    const series = await getSeries({ seriesId: 60910 });
+
+    expect(series.name).toBe("Fandom Stats");
+    expect(series.pages).toEqual({ total: 7, current: 1 });
+    expect(series.works.map((work) => work.id)).toEqual([
+      16890957, 1026780, 1026854, 16876149, 16891416,
+      16926933, 16932096, 16933218, 17009412, 17009619,
+      17009676, 17011452, 17011545, 17011641, 17011701,
+      17011803, 17012055, 17012217, 1608254, 1704926,
+    ]);
+  });
+
+  it("should fetch the requested page", async () => {
+    const series = await getSeries({ seriesId: 60910, page: 2 });
+
+    expect(series.name).toBe("Fandom Stats");
+    expect(series.pages).toEqual({ total: 7, current: 2 });
+    expect(series.works.map((work) => work.id)).toEqual([
+      1706072, 1708259, 2076084, 16844275, 16861600,
+      16890750, 16890834, 16910946, 16913802, 16913982,
+      16925628, 17014116, 17013705, 17009067, 17009250,
+      17012409, 17012583, 16965927, 17002176, 16933407,
+    ]);
+  });
+
+  it("should return one page for a series without pagination", async () => {
+    const series = await getSeries({ seriesId: 2270465 });
+
+    expect(series.pages).toEqual({ total: 1, current: 1 });
+    expect(series.works).toHaveLength(6);
+  });
+
+});

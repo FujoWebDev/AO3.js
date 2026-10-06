@@ -1,4 +1,4 @@
-import { TagSearchPage, UserWorksPage } from "src/page-loaders";
+import { SeriesPage, TagSearchPage, UserWorksPage } from "src/page-loaders";
 import { TagSearchResultSummary } from "types/entities";
 
 const parseIntOrThrow = (text: string) => {
@@ -17,7 +17,7 @@ export const getTotalResults = (page: TagSearchPage) => {
   return totalResultsMatch ? parseIntOrThrow(totalResultsMatch[1]) : 0;
 };
 
-export const getPagesCount = (page: TagSearchPage | UserWorksPage) => {
+export const getPagesCount = (page: TagSearchPage | UserWorksPage | SeriesPage) => {
   const lastPageMatch = page(".pagination.actions li:not(.next, .previous)")
     .last()
     .text();

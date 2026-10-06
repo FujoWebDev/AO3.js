@@ -182,6 +182,10 @@ export const seriesSchema = z.object({
     bookmarks: z.number(),
     complete: z.boolean(),
     workCount: z.number(),
+    pages: z.object({
+        total: z.number(),
+        current: z.number()
+    }),
     works: z.array(workBlurbSummarySchema)
 });
 
