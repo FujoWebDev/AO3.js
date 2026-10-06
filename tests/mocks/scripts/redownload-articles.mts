@@ -1,5 +1,6 @@
 import fs from "fs/promises";
 import path from "path";
+import { fileURLToPath } from "url";
 
 const KNOWN_404 = [
   "https://archiveofourown.org/tags/56312666/feed.atom/",
@@ -7,76 +8,18 @@ const KNOWN_404 = [
 ]
 
 import {
-  decodeFilename,
   delay,
   downloadWithRetry,
   recursivelyGetFiles,
   getRootDataDir,
   getArchiveFromPath,
-  getArchiveUrl,
+  getUrlFromPath,
   Http404Error,
-} from "./utils.mts";
+} from "./utils.mjs";
 
 const SECOND_PASS_WAIT_MS = 2 * 60 * 1000;
 
-function getUrlFromPath(
-  relativePath: string,
-  archive: "ao3" | "superlove"
-): string {
-  const urlPath = path.dirname(relativePath);
-  const filename = path.basename(relativePath);
-
-  const segments = urlPath.split(path.sep).filter(Boolean);
-
-  if (segments.includes("tag-search")) {
-    // We assume the last segment is the one with the search tags, may
-    // the odds be ever in our favor
-    const searchParamsList = segments[segments.length - 1].split("__");
-    const polishedSearchParamsList = [];
-
-    for (const param of searchParamsList) {
-      if (param.includes('[type]')) {
-        // Type should have the first lettter capitalized so we split the search param by "="
-        // and capitalize the following word
-        const [searchParam, value] = param.split("=");
-        const typeCapitalized = value.charAt(0).toUpperCase() + value.slice(1);
-        polishedSearchParamsList.push(`${searchParam}=${typeCapitalized}`);
-        continue;
-      }
-      // For general tags we need to replace spaces with +
-      polishedSearchParamsList.push(param.replaceAll(" ", "+"));
-    }
-    // We add one last param, which is the number of the page, which is
-    // the name of the file 
-    polishedSearchParamsList.push(`page=${filename}`.replace(".html", ""))
-
-    const tagsSearchUrl = new URL(`/tags/search`, getArchiveUrl(archive));
-    tagsSearchUrl.search = polishedSearchParamsList.join("&")
-
-    return tagsSearchUrl.toString();
-
-  }
-
-  const encodedPath = segments
-    .map((segment) =>
-      encodeURIComponent(
-        decodeFilename(segment)
-          .replaceAll("/", "*s*")
-          .replaceAll(".", "*d*")
-          .replaceAll("&", "*a*")
-      )
-    )
-    .join("/");
-
-  // Only include the filename if it's not index.html
-  if (filename !== "index.html") {
-    return new URL(`/${encodedPath}/${filename}/`, getArchiveUrl(archive)).href;
-  }
-
-  return new URL(`/${encodedPath}/`, getArchiveUrl(archive)).href;
-}
-
-type DownloadOutcome =
+type DownloadStatus =
   | { status: "ok" }
   | { status: "404"; record: { path: string; url: string; known: boolean } }
   | { status: "failed"; record: { path: string; url: string } };
@@ -87,7 +30,7 @@ async function downloadFile({
 }: {
   fullPath: string;
   rootDataDir: string;
-}): Promise<DownloadOutcome> {
+}): Promise<DownloadStatus> {
   const relativePath = path.relative(rootDataDir, fullPath);
   const archive = getArchiveFromPath(relativePath);
   const url = getUrlFromPath(path.relative(archive, relativePath), archive);
@@ -103,11 +46,15 @@ async function downloadFile({
     if (error instanceof Http404Error) {
       console.log("******");
       console.log(`Received 404 for ${url}. Make sure this is intentional.`);
+      const known = KNOWN_404.includes(url);
       await fs.writeFile(fullPath, error.content);
+      if (!known) {
+        console.error(`Unexpected 404; updated ${relativePath} with the 404 response`);
+      }
       console.log("******");
       return {
         status: "404",
-        record: { path: fullPath, url, known: KNOWN_404.includes(url) },
+        record: { path: fullPath, url, known },
       };
     }
     console.error(`Failed to update ${relativePath}:`, error);
@@ -139,7 +86,7 @@ async function downloadFiles({
   return { failed, pathsWith404 };
 }
 
-async function redownloadArticles() {
+export async function redownloadArticles() {
   const rootDataDir = getRootDataDir();
   const files = await recursivelyGetFiles(rootDataDir);
 
@@ -163,16 +110,25 @@ async function redownloadArticles() {
   console.log("Make sure all 404 are intentional:");
   console.dir(pathsWith404, { depth: null });
 
-  if (failures.length === 0) {
+  const unexpected404s = pathsWith404.filter((record) => !record.known);
+  if (failures.length === 0 && unexpected404s.length === 0) {
     console.log("All files downloaded with success.");
-    return;
+    return true;
   }
 
   console.error(
-    `${failures.length} of ${files.length} files could not be updated:`,
+    `${failures.length + unexpected404s.length} of ${files.length} files failed to download or returned an unexpected 404:`,
   );
-  console.dir(failures, { depth: null });
-  process.exit(1);
+  console.dir([...failures, ...unexpected404s], { depth: null });
+  return false;
 }
 
-redownloadArticles();
+if (
+  process.argv[1] &&
+  path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)
+) {
+  if (!await redownloadArticles()) {
+    // Let it finish even though some files failed to download
+    process.exitCode = 1;
+  }
+}

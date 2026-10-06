@@ -267,10 +267,10 @@ describe("Tags/search", () => {
       page: 3,
     });
 
-    expect(result.totalResults).toMatchInlineSnapshot(`223`);
+    expect(result.totalResults).driftingCount({ atLeast: 223, atMost: 250 });
 
     // Some tags we should find to make sure the parser is working correctly.
-    const UNSORTED_TAG = "it was an unusual premise for this fandom that is";
+    const UNSORTED_TAG = "Everyone Gets An Unusual Career Except Harry";
     const FREEFORM_TAG = 'even an unusual variation on "Just The Tip"';
     const CHARACTER_TAG =
       "Goddess Who Decides to Answer an Unusual Prayer (Original Work)";

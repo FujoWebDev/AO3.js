@@ -163,6 +163,24 @@ const getNormalizedQueryFolder = (searchParams: URLSearchParams) => {
   return entries.join("__");
 };
 
+export function getSearchParamsFromQueryPath(
+  queryFolder: string,
+  filename: string,
+): URLSearchParams {
+  const searchParams = new URLSearchParams();
+  if (queryFolder !== "default") {
+    for (const query of queryFolder.split("__")) {
+      const separator = query.indexOf("=");
+      if (separator < 0) {
+        throw new Error(`Invalid query folder: ${queryFolder}`);
+      }
+      searchParams.append(query.slice(0, separator), query.slice(separator + 1));
+    }
+  }
+  searchParams.set("page", filename.replace(/\.html$/, ""));
+  return searchParams;
+}
+
 const getPageFileName = (searchParams: URLSearchParams) => {
   const page = Number.parseInt(searchParams.get("page") ?? "1", 10);
   return `${String(page).padStart(2, "0")}.html`;
@@ -192,6 +210,119 @@ const getUserWorksQueryPath = (parsedUrl: URL) => {
   }
   return path.join(folderName, fileName);
 };
+
+const getSearchUrlFromPath = ({
+  queryDirectoryName,
+  filename,
+  archive
+}: {
+  queryDirectoryName: string;
+  filename: string;
+  archive: "ao3" | "superlove";
+}) => {
+  const searchParams = getSearchParamsFromQueryPath(
+    queryDirectoryName,
+    filename,
+  );
+  const type = searchParams.get("tag_search[type]");
+  if (type !== null) {
+    searchParams.set(
+      "tag_search[type]",
+      type.charAt(0).toUpperCase() + type.slice(1),
+    );
+  }
+  const tagsSearchUrl = new URL("/tags/search", getArchiveUrl(archive));
+  tagsSearchUrl.search = searchParams.toString();
+  return tagsSearchUrl.href;
+};
+
+
+const getUserWorksUrlFromPath = ({
+  queryDirectoryName,
+  encodedUsername,
+  encodedPseud,
+  filename,
+  archive
+}: {
+  queryDirectoryName: string;
+  encodedUsername: string;
+  encodedPseud?: string;
+  filename: string;
+  archive: "ao3" | "superlove";
+}) => {
+  const username = encodeURIComponent(decodeFilename(encodedUsername));
+  const pseud = encodedPseud === undefined
+    ? undefined
+    : encodeURIComponent(decodeFilename(encodedPseud));
+  const userPath = `/users/${username}`;
+  const url = new URL(
+    pseud === undefined
+      ? `${userPath}/works`
+      : `${userPath}/pseuds/${pseud}/works`,
+    getArchiveUrl(archive),
+  );
+  const searchParams = getSearchParamsFromQueryPath(
+    queryDirectoryName,
+    filename,
+  );
+  url.search = searchParams.toString();
+  return url.href;
+};
+
+
+export function getUrlFromPath(
+  relativePath: string,
+  archive: "ao3" | "superlove"
+): string {
+  const urlPath = path.dirname(relativePath);
+  const filename = path.basename(relativePath);
+
+  const segments = urlPath.split(path.sep).filter(Boolean);
+
+  if (
+    segments[0] === "users" &&
+    segments[segments.length - 2] === "works" &&
+    // a .html file with just numbers before it (e.g., 01.html, 02.html)
+    /^\d+\.html$/.test(filename)
+  ) {
+    return getUserWorksUrlFromPath({
+      encodedUsername: segments[1],
+      encodedPseud: segments[2] === "pseuds" ? segments[3] : undefined,
+      queryDirectoryName: segments[segments.length - 1],
+      filename,
+      archive,
+    });
+  }
+
+  if (segments.includes("tag-search")) {
+    return getSearchUrlFromPath({
+      queryDirectoryName: segments[segments.length - 1],
+      filename,
+      archive,
+    });
+  }
+
+  const encodedPath = segments
+    .map((segment) =>
+      encodeURIComponent(
+        decodeFilename(segment)
+          .replaceAll("/", "*s*")
+          .replaceAll(".", "*d*")
+          .replaceAll("&", "*a*")
+      )
+    )
+    .join("/");
+
+  // Only include the filename if it's not index.html
+  if (filename !== "index.html") {
+    return new URL(
+      `/${encodedPath}/${filename.replace(/\.html$/, "")}/`,
+      getArchiveUrl(archive),
+    ).href;
+  }
+
+  return new URL(`/${encodedPath}/`, getArchiveUrl(archive)).href;
+}
 
 export function getFilePathFromUrl(url: string | URL) {
   const archive = getArchiveFromUrl(url);

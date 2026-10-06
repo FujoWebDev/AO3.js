@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { expectHtml } from "./helpers/invariants";
 import { http, HttpResponse } from "msw";
 import server from "./mocks/server";
 import { getWorkDetailsFromUrl, getWorkUrl } from "src/urls";
@@ -170,10 +171,10 @@ describe("Works/data", () => {
       summary:
         "<p>&#x201c;<i>Bakugou will know what to do</i>. Top of the class, always quick on his feet and possessing the strongest nerves in all of 1-A &#x2013; all of U.A., possibly. They&#x2019;re at their most invincible with Bakugou there to hone their focus, to push them forward with that unique kind of teeth-bared tenacity Kaminari has come to rely on in the past year. When Kaminari looks, he sees&#x2013;</p><p>Iida, helmet off, severe face twisted with agitation as he argues with the medics on the scene. Blood, so much blood, staining the gleaming chrome of his armor up to his neck in wet, intersecting streaks of crimson.</p><p>And in his arms, mask torn and body limp, is Bakugou Katsuki.&#x201d;</p><p>In which disaster strikes, the Bakusquad comes together as a family once more, and Kaminari Denki is the MVP all the way through.</p>",
       stats: {
-        bookmarks: expect.driftingCount({ atLeast: 268, atMost: 293 }),
-        comments: expect.driftingCount({ atLeast: 139, atMost: 154 }),
-        hits: expect.driftingCount({ atLeast: 20450, atMost: 20700 }),
-        kudos: expect.driftingCount({ atLeast: 1101, atMost: 1141 }),
+        bookmarks: expect.driftingCount({ atLeast: 268, atMost: 310 }),
+        comments: expect.driftingCount({ atLeast: 139, atMost: 160 }),
+        hits: expect.driftingCount({ atLeast: 20450, atMost: 22898 }),
+        kudos: expect.driftingCount({ atLeast: 1101, atMost: 1245 }),
       },
     });
   });
@@ -437,17 +438,6 @@ describe("Work/other", () => {
     ]);
   });
 
-  // TODO: 404
-  it.skip("should fetch null category", async () => {
-    const work = (await getWork({
-      workId: 41237499,
-    })) as WorkSummary;
-
-    expect(!work.locked).toBeTruthy();
-
-    expect(work.category).toBe(null);
-  });
-
   it("should fetch updated date of completed work", async () => {
     const work = (await getWork({
       workId: 23824891,
@@ -456,17 +446,6 @@ describe("Work/other", () => {
     expect(!work.locked).toBeTruthy();
 
     expect(work.updatedAt).toBe("2020-11-30");
-  });
-
-  // TODO: 404
-  it.skip("should fetch update date of work in progress", async () => {
-    const work = (await getWork({
-      workId: 41237499,
-    })) as WorkSummary;
-
-    expect(!work.locked).toBeTruthy();
-
-    expect(work.updatedAt).toBe("2022-08-25");
   });
 
   it("should fetch null updated date", async () => {
@@ -510,17 +489,6 @@ describe("Work/other", () => {
   });
 
   // TODO: 404
-  it.skip("should fetch unknown amount of total chapters", async () => {
-    const work = (await getWork({
-      workId: 41237499,
-    })) as WorkSummary;
-
-    expect(!work.locked).toBeTruthy();
-
-    expect(work.chapters.total).toBe(null);
-  });
-
-  // TODO: 404
   it.skip("should fetch null work summary", async () => {
     const work = (await getWork({
       workId: 41237499,
@@ -546,8 +514,14 @@ describe("Work/other", () => {
 
     expect(!work.locked).toBeTruthy();
 
-    expect(work.summary).toMatchInlineSnapshot(
-      `"<p><b>A Modern Thedas AU</b>, in which Fen&apos;Harel and the Second Inquisitor tore down the Veil a thousand years ago, reshaping Thedas into something entirely new. Thedas now has modern technology powered by magic, and a society still plagued with problems that are all too familiar - issues of race, classism, and power.</p><p>Fenina Lavellan, a student at the College of Enchanters: New Haven, often escapes her reality by playing the MMORPG Dragon Age (set in the ancient past during the time of the Second Inquisition) and is part of the most powerful guild aptly named &quot;TheInquisition&quot; - a guild which has been running since the game was released. But when the guild discovers that they all live in the same city and decide to meet up, they unknowingly stumble into a plot to destroy their world as they know it. Can they navigate the difficulties of actually being social in the real world? Will their in-game skills translate into abilities that will actually help them in stopping a madman? Or is this the end of the world as they know it?</p>"`,
+    expectHtml(work.summary).toMatchInlineSnapshot(
+      `
+      "<p>
+        <b>A Modern Thedas AU</b>,
+        in which Fen&apos;Harel and the Second Inquisitor tore down the Veil a thousand years ago, reshaping Thedas into something entirely new. Thedas now has modern technology powered by magic, and a society still plagued with problems that are all too familiar - issues of race, classism, and power.
+      </p>
+      <p>Fenina Lavellan, a student at the College of Enchanters: New Haven, often escapes her reality by playing the MMORPG Dragon Age (set in the ancient past during the time of the Second Inquisition) and is part of the most powerful guild aptly named &quot;TheInquisition&quot; - a guild which has been running since the game was released. But when the guild discovers that they all live in the same city and decide to meet up, they unknowingly stumble into a plot to destroy their world as they know it. Can they navigate the difficulties of actually being social in the real world? Will their in-game skills translate into abilities that will actually help them in stopping a madman? Or is this the end of the world as they know it?</p>"
+    `,
     );
     expect(work.chapterInfo).toBeNull();
   });
@@ -560,10 +534,10 @@ describe("Work/other", () => {
     expect(!work.locked).toBeTruthy();
 
     expect(work.stats).toMatchObject({
-      bookmarks: expect.driftingCount({ atLeast: 109, atMost: 134 }),
-      comments: expect.driftingCount({ atLeast: 22, atMost: 37 }),
-      hits: expect.driftingCount({ atLeast: 9450, atMost: 9600 }),
-      kudos: expect.driftingCount({ atLeast: 918, atMost: 958 }),
+      bookmarks: expect.driftingCount({ atLeast: 109, atMost: 160 }),
+      comments: expect.driftingCount({ atLeast: 22, atMost: 43 }),
+      hits: expect.driftingCount({ atLeast: 9450, atMost: 11665 }),
+      kudos: expect.driftingCount({ atLeast: 918, atMost: 1206 }),
     });
   });
 
@@ -576,9 +550,9 @@ describe("Work/other", () => {
 
     expect(work.stats).toMatchObject({
       comments: 0,
-      bookmarks: expect.driftingCount({ atLeast: 2, atMost: 27 }),
-      hits: expect.driftingCount({ atLeast: 1482, atMost: 1882 }),
-      kudos: expect.driftingCount({ atLeast: 30, atMost: 70 }),
+      bookmarks: expect.driftingCount({ atLeast: 2, atMost: 33 }),
+      hits: expect.driftingCount({ atLeast: 1482, atMost: 2149 }),
+      kudos: expect.driftingCount({ atLeast: 30, atMost: 80 }),
     });
   });
 });

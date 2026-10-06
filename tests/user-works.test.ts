@@ -48,7 +48,14 @@ describe("User/works", () => {
     // Pick an older, finished work by id so new uploads don't shift the snapshot
     const work = result.works.find((work) => work.id === 43703871);
 
-    expect(work).toMatchInlineSnapshot(`
+    expect(work!.stats).toEqual({
+      bookmarks: expect.driftingCount({ atLeast: 1255, atMost: 1381 }),
+      hits: expect.driftingCount({ atLeast: 111695, atMost: 122991 }),
+      kudos: expect.driftingCount({ atLeast: 5685, atMost: 6256 }),
+    });
+    const { stats, ...workWithoutStats } = work!;
+
+    expect(workWithoutStats).toMatchInlineSnapshot(`
       {
         "adult": false,
         "authors": [
@@ -69,11 +76,6 @@ describe("User/works", () => {
         "id": 43703871,
         "language": "English",
         "shortUrl": "https://ao3.org/works/43703871",
-        "stats": {
-          "bookmarks": 1255,
-          "hits": 111695,
-          "kudos": 5685,
-        },
         "summary": "<p>The deep satisfaction of having made the right choice; of having found a clear-flowing wellspring of true honor to protect.</p>",
         "tags": {
           "additional": [

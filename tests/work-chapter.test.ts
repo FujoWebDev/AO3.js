@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { expectHtml } from "./helpers/invariants";
 
 import type { WorkSummary } from "types/entities";
 import { getWork } from "src/index";
@@ -46,7 +47,7 @@ describe("Work Chapter/chapter", () => {
     expect((work as WorkSummary).stats).toMatchObject({
       bookmarks: 2,
       comments: 1,
-      hits: expect.driftingCount({ atLeast: 841, atMost: 1241 }),
+      hits: expect.driftingCount({ atLeast: 841, atMost: 1551 }),
       kudos: 49,
     });
   });
@@ -59,8 +60,14 @@ describe("Work Chapter/chapter", () => {
 
     expect(!work.locked).toBeTruthy();
 
-    expect(work.summary).toMatchInlineSnapshot(
-      `"<p><b>A Modern Thedas AU</b>, in which Fen&apos;Harel and the Second Inquisitor tore down the Veil a thousand years ago, reshaping Thedas into something entirely new. Thedas now has modern technology powered by magic, and a society still plagued with problems that are all too familiar - issues of race, classism, and power.</p><p>Fenina Lavellan, a student at the College of Enchanters: New Haven, often escapes her reality by playing the MMORPG Dragon Age (set in the ancient past during the time of the Second Inquisition) and is part of the most powerful guild aptly named &quot;TheInquisition&quot; - a guild which has been running since the game was released. But when the guild discovers that they all live in the same city and decide to meet up, they unknowingly stumble into a plot to destroy their world as they know it. Can they navigate the difficulties of actually being social in the real world? Will their in-game skills translate into abilities that will actually help them in stopping a madman? Or is this the end of the world as they know it?</p>"`,
+    expectHtml(work.summary).toMatchInlineSnapshot(
+      `
+      "<p>
+        <b>A Modern Thedas AU</b>,
+        in which Fen&apos;Harel and the Second Inquisitor tore down the Veil a thousand years ago, reshaping Thedas into something entirely new. Thedas now has modern technology powered by magic, and a society still plagued with problems that are all too familiar - issues of race, classism, and power.
+      </p>
+      <p>Fenina Lavellan, a student at the College of Enchanters: New Haven, often escapes her reality by playing the MMORPG Dragon Age (set in the ancient past during the time of the Second Inquisition) and is part of the most powerful guild aptly named &quot;TheInquisition&quot; - a guild which has been running since the game was released. But when the guild discovers that they all live in the same city and decide to meet up, they unknowingly stumble into a plot to destroy their world as they know it. Can they navigate the difficulties of actually being social in the real world? Will their in-game skills translate into abilities that will actually help them in stopping a madman? Or is this the end of the world as they know it?</p>"
+    `,
     );
     expect(work.chapterInfo?.summary).toMatchInlineSnapshot(
       `"<p>Fenina Lavellan&apos;s MMO guild discovers they all live closer than they thought and decides to meet up.</p>"`,
@@ -136,10 +143,10 @@ describe("Work Chapter/work", () => {
       series: [],
       locked: false,
       stats: {
-        bookmarks: expect.driftingCount({ atLeast: 85, atMost: 100 }),
-        comments: expect.driftingCount({ atLeast: 60, atMost: 70 }),
-        hits: expect.driftingCount({ atLeast: 6000, atMost: 8000 }),
-        kudos: expect.driftingCount({ atLeast: 585, atMost: 620 }),
+        bookmarks: expect.driftingCount({ atLeast: 85, atMost: 115 }),
+        comments: expect.driftingCount({ atLeast: 60, atMost: 77 }),
+        hits: expect.driftingCount({ atLeast: 6000, atMost: 6815 }),
+        kudos: expect.driftingCount({ atLeast: 585, atMost: 665 }),
       },
     });
   });
@@ -208,10 +215,10 @@ describe("Work Chapter/work", () => {
       complete: false,
       series: [{ id: 2946579, name: "Twitterchat Saga", index: 1 }],
       stats: {
-        comments: expect.driftingCount({ atLeast: 27, atMost: 35 }),
-        bookmarks: expect.driftingCount({ atLeast: 14, atMost: 20 }),
-        kudos: expect.driftingCount({ atLeast: 131, atMost: 152 }),
-        hits: expect.driftingCount({ atLeast: 3110, atMost: 3333 }),
+        comments: expect.driftingCount({ atLeast: 27, atMost: 44 }),
+        bookmarks: expect.driftingCount({ atLeast: 14, atMost: 40 }),
+        kudos: expect.driftingCount({ atLeast: 131, atMost: 184 }),
+        hits: expect.driftingCount({ atLeast: 3110, atMost: 3675 }),
       },
       locked: false,
     });
