@@ -13,7 +13,7 @@ describe("User/data", () => {
       username: "astolat",
       id: 8,
       url: "https://archiveofourown.org/users/astolat/profile",
-      pseuds: "astolat, shalott, the lady of shalott",
+      pseuds: ["astolat", "shalott", "the lady of shalott"],
       joined: "2008-09-13",
     } satisfies Partial<User>);
   });
