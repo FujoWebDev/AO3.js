@@ -57,7 +57,7 @@ export const tagSearchResultSummarySchema = z.object({
 export const userSchema = z.object({
     id: archiveIdSchema,
     username: z.string(),
-    pseuds: z.string(),
+    pseuds: z.array(z.string()),
     url: z.string(),
     shortUrl: z.string(),
     icon: z.string(),
