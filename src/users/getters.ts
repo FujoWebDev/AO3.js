@@ -17,7 +17,6 @@ export const getUserProfileName = ($userProfile: UserProfile) => {
   return $userProfile(".user.profile .header h2").text().trim();
 };
 
-const PSEUD_SUFFIX = ", ";
 export const getUserProfilePseuds = ($userProfile: UserProfile) => {
   const pseuds = $userProfile("dd.pseuds a");
   const pseudsArray: string[] = [];
@@ -27,7 +26,7 @@ export const getUserProfilePseuds = ($userProfile: UserProfile) => {
       pseudsArray.push(getAuthorFromUrl({ url: element.attribs.href }).pseud);
     });
   }
-  return pseudsArray.join(PSEUD_SUFFIX);
+  return pseudsArray;
 };
 
 //Trim the results to only the date:

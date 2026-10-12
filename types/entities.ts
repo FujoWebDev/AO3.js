@@ -74,7 +74,7 @@ export interface TagSearchResultSummary {
 export interface User {
   id: ArchiveId;
   username: string;
-  pseuds: string;
+  pseuds: string[];
   url: string;
   shortUrl: string;
   icon: string;
