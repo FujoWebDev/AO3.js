@@ -34,7 +34,7 @@
 <script src="/javascripts/livevalidation_standalone.js"></script>
 
 <meta name="csrf-param" content="authenticity_token" />
-<meta name="csrf-token" content="8Rb9kaVAHaudO8lEj8xvxuy8fut0bsN6REb0_75ji87EgGBV_GgETD7Vm87NMU6wVexBhF4wArRMikXilcmOJw" />
+<meta name="csrf-token" content="GFLWTddA-XFZTPDZKuTcRjj7p0l5jzkHtvKDFhRY9XgI6qOi9kR4sLBg_kbFGiqrrJK6V-Mgf-tO5u1CMJjxfg" />
 
     
   </head>
@@ -57,7 +57,7 @@
         <a id="login-dropdown" href="/users/login?return_to=%2Fworks%2F168768%3Fview_adult%3Dtrue">Log In</a>
       </p>
       <div id="small_login" class="simple login">
-	<form class="new_user" id="new_user_session_small" action="/users/login?return_to=%2Fworks%2F168768%3Fview_adult%3Dtrue" accept-charset="UTF-8" method="post"><input type="hidden" name="authenticity_token" value="MPwEQhtJf7j-sPMqtLf3MsbGs0kVAbZu1wKmtV-X07owzxLZmXpSza8uND750B6qgoucO5Au2muAo3pOTrsZmg" autocomplete="off" />
+	<form class="new_user" id="new_user_session_small" action="/users/login?return_to=%2Fworks%2F168768%3Fview_adult%3Dtrue" accept-charset="UTF-8" method="post"><input type="hidden" name="authenticity_token" value="PpnLZMVcfNX7K3o7FeydWBsmChDfjPWSJCQ8we34cTLsH__tB8X158K01xjQ8Ea9NJTVn77QNUxuGBA4aFy2pA" autocomplete="off" />
   <dl>
     <dt><label for="user_session_login_small">Username or email:</label></dt>
     <dd><input autocomplete="on" id="user_session_login_small" type="text" name="user[login]" /></dd>
@@ -138,7 +138,7 @@
     <p>
       <label class="landmark" for="site_search">Work Search</label>
       <input class="text" id="site_search" aria-describedby="site_search_tooltip" type="text" name="work_search[query]" />
-      <span class="tip" role="tooltip" id="site_search_tooltip">tip: &quot;uchiha sasuke/uzumaki naruto&quot; angst kudos&gt;10</span>
+      <span class="tip" role="tooltip" id="site_search_tooltip">tip: katekyou &quot;alternate universe&quot; sort:&gt;words</span>
       <span class="submit actions"><input type="submit" value="Search" class="button" /></span>
     </p>
   </fieldset>
@@ -355,7 +355,7 @@
 
 
       <li>
-        <form id="new_kudo" action="/kudos" accept-charset="UTF-8" method="post"><input type="hidden" name="authenticity_token" value="-zk0JwNMmBakjAiGNKaPxDoVakhifck1qOWrXai7eLZz3y34md1HR518HDhlVNjqzzNK3dHaEFkervikQWqjQw" autocomplete="off" />
+        <form id="new_kudo" action="/kudos" accept-charset="UTF-8" method="post"><input type="hidden" name="authenticity_token" value="Ew-kxURa-hfDgbLMyKtBGGTQSwL7aD3PQSW8ssMd80esoI0Ybs43y-OfdNANZIG972yQCtf1iBl4gU06ybOPHw" autocomplete="off" />
           <input autocomplete="off" value="168768" type="hidden" name="kudo[commentable_id]" id="kudo_commentable_id" />
           <input autocomplete="off" value="Work" type="hidden" name="kudo[commentable_type]" id="kudo_commentable_type" />
           <input type="submit" name="commit" value="Kudos ♥" id="kudo_submit" />
@@ -390,7 +390,7 @@
       <div id="add_comment">
         <!-- expects the local variables comment, commentable, and button_name -->
 <div class="post comment" id="comment_form_for_168768">
-  <form class="new_comment" id="comment_for_168768" action="/works/168768/comments" accept-charset="UTF-8" method="post"><input type="hidden" name="authenticity_token" value="gawCXpNUK7GLh7C6FhmtcFnANB598PAEWCaCFZPdHd0wYcnSe-LmCo-78N-NxVDve0wmNOoCROYMSs-Wu-OS2Q" autocomplete="off" />
+  <form class="new_comment" id="comment_for_168768" action="/works/168768/comments" accept-charset="UTF-8" method="post"><input type="hidden" name="authenticity_token" value="qF8nNzAHj1Shj2svbYIOhFcsufwplFEqqIDjwimpmlK0YCNP4Ujm437Yts0c8kinuNIUcnsnWEt-ost5yorldw" autocomplete="off" />
     <fieldset>
       <legend>Post Comment</legend>
 
@@ -402,9 +402,9 @@
 
         <dl>
           <dt class="landmark">Note:</dt>
-          <dd class="instructions comment_form">All fields are required. Your email address will not be published.</dd>
-          <dt><label for="comment_name_for_168768">Guest name</label></dt>
-          <dd>
+          <dd class="instructions comment_form">All fields are required. Your name and comment text will both be publicly displayed. Your email address will not be made public, but it will be used to send you notifications of any replies to your comment.</dd>
+          <dt class="required"><label for="comment_name_for_168768">Guest name (required)</label></dt>
+          <dd class="required">
             <input id="comment_name_for_168768" type="text" name="comment[name]" />
             <script>
 //<![CDATA[
@@ -413,8 +413,8 @@ validation_for_comment_name_for_168768.add(Validate.Presence, {"failureMessage":
 //]]>
 </script>
           </dd>
-          <dt><label for="comment_email_for_168768">Guest email</label></dt>
-          <dd>
+          <dt class="required"><label for="comment_email_for_168768">Guest email (required)</label></dt>
+          <dd class="required">
             <input id="comment_email_for_168768" type="text" name="comment[email]" />
             <script>
 //<![CDATA[
@@ -440,6 +440,7 @@ validation_for_comment_content_for_168768.add(Validate.Presence, {"failureMessag
 validation_for_comment_content_for_168768.add(Validate.Length, {"maximum":"10000","tooLongMessage":"must be less than 10000 characters long."});
 //]]>
 </script>
+        <p class="footnote">You will not be able to edit or delete your comment after it is posted.</p>
       <p class="submit actions">
           <input type="submit" name="commit" value="Comment" id="comment_submit_for_168768" data-disable-with="Please wait..." />
         </p>
@@ -496,7 +497,7 @@ validation_for_comment_content_for_168768.add(Validate.Length, {"maximum":"10000
       <h4 class="heading">Development</h4>
       <ul class="menu">
           <li>
-            <a href="https://github.com/otwcode/otwarchive/commits/v1.8.0.3">otwarchive v1.8.0.3</a>
+            <a href="https://github.com/otwcode/otwarchive/commits/v1.11.0.2">otwarchive v1.11.0.2</a>
           </li>
         <li><a href="/known_issues">Known Issues</a></li>
         <li>
@@ -601,5 +602,5 @@ validation_for_comment_content_for_168768.add(Validate.Length, {"maximum":"10000
     </script>
 
 
-  <script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a463513d19abad81',t:'MTc5MTI3NTU2NQ=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+  <script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a4ffd1a6eb16b1ee',t:'MTc5MjkxNjYwMw=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
