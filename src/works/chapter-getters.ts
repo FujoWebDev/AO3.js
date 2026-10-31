@@ -10,6 +10,15 @@ import { ChapterIndexPage } from "src/page-loaders";
 import { parseArchiveId } from "src/utils";
 
 const TITLE_SEPARATOR = ". ";
+
+/**
+ * AO3 shows chapters the author didn't name as "Chapter N". A chapter
+ * actually titled "Chapter N" at that same position can't be told apart, and
+ * is treated as untitled too.
+ */
+export const isDefaultChapterTitle = (title: string, index: number) =>
+  title === `Chapter ${index}`;
+
 export const getChaptersList = ($chapterIndexPage: ChapterIndexPage) => {
   const chapters: Chapter[] = [];
   $chapterIndexPage("ol.index > li").each((index, li) => {
@@ -30,7 +39,7 @@ export const getChaptersList = ($chapterIndexPage: ChapterIndexPage) => {
       id: parseArchiveId(chapterId!),
       workId: parseArchiveId(workId),
       index: index + 1,
-      title,
+      title: isDefaultChapterTitle(title, index + 1) ? null : title,
       // Remove parenthesis from the date
       publishedAt: dateNode.text().replace(/[\(\)]/g, ""),
       url,
