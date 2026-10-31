@@ -4,7 +4,7 @@
 
 ![AO3.js logo](./logo-transparent-small.png)
 
-Scrapes data from [ao3.org](https://ao3.org) and beyond. Now with Types™.
+Pulls data from [ao3.org](https://ao3.org) and beyond. Now with Types™.
 
 <!-- Add the <a> so IMGs will stay on the same line -->
 <a href="#">
@@ -21,7 +21,7 @@ Scrapes data from [ao3.org](https://ao3.org) and beyond. Now with Types™.
 </a>
 <a href="https://npmjs.com/package/@fujocoded/ao3.js">
 
-![npm version](https://badge.fury.io/js/%40fujocoded%2Fao3.js.svg)
+![npm version](https://img.shields.io/npm/v/@fujocoded/ao3.js)
 
 </a>
 </div>
