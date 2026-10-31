@@ -12,12 +12,39 @@ import { getAuthorFromUrl } from "src/urls";
 import { WorkPage } from "src/page-loaders";
 import type { WorkBlurb } from "src/works/blurb-getters";
 
+export const ANONYMOUS_AUTHOR: Author = {
+  username: "Anonymous",
+  pseud: "Anonymous",
+  anonymous: true,
+};
+
+const ADULT_RATINGS: readonly WorkRatings[] = [
+  WorkRatings.EXPLICIT,
+  WorkRatings.MATURE,
+  WorkRatings.NOT_RATED,
+];
+
+export const isWorkRating = (value: string): value is WorkRatings => {
+  return Object.values<string>(WorkRatings).includes(value);
+}
+
+export const isWorkCategory = (value: string): value is WorkCategory => {
+  return Object.values<string>(WorkCategory).includes(value);
+}
+
+export const isWorkWarning = (value: string): value is WorkWarnings => {
+  return Object.values<string>(WorkWarnings).includes(value);
+}
+
+export const isAdultRating = (rating: WorkRatings) =>
+  ADULT_RATINGS.includes(rating);
+
 export const getWorkAuthors = ($workPage: WorkPage): Author[] => {
   const authorLinks = $workPage("h3.byline a[rel='author']");
   const authors: Author[] = [];
 
   if ($workPage("h3.byline").text().trim() === "Anonymous") {
-    return [{ username: "Anonymous", pseud: "Anonymous", anonymous: true }];
+    return [ANONYMOUS_AUTHOR];
   }
 
   if (authorLinks.length !== 0) {
@@ -43,10 +70,10 @@ export const getWorkLanguage = ($workPage: WorkPage | WorkBlurb): string => {
 
 export const getWorkRating = ($workPage: WorkPage): WorkRatings => {
   const rating = $workPage("dd.rating a.tag").text().trim();
-  if (!Object.values(WorkRatings).includes(rating as WorkRatings)) {
+  if (!isWorkRating(rating)) {
     throw new Error(`An unknown rating was found on the page: ${rating}`);
   }
-  return rating as WorkRatings;
+  return rating;
 };
 
 export const getWorkCategory = ($workPage: WorkPage): WorkCategory[] | null => {
@@ -57,11 +84,11 @@ export const getWorkCategory = ($workPage: WorkPage): WorkCategory[] | null => {
 
     $workPage("dd.category a.tag").each(function (i, element) {
       const category = $workPage(element).text().trim();
-      if (!Object.values(WorkCategory).includes(category as WorkCategory)) {
+      if (!isWorkCategory(category)) {
         throw new Error("An unknown category was found on the page");
       }
 
-      categories[i] = category as WorkCategory;
+      categories[i] = category;
     });
     return categories;
   }
@@ -82,11 +109,11 @@ export const getWorkWarnings = ($workPage: WorkPage): WorkWarnings[] => {
   $workPage("dd.warning a.tag").each(function (i, element) {
     const warning = $workPage(element).text().trim();
 
-    if (!Object.values(WorkWarnings).includes(warning as WorkWarnings)) {
+    if (!isWorkWarning(warning)) {
       throw new Error("An unknown warning was found on the page");
     }
 
-    warnings[i] = warning as WorkWarnings;
+    warnings[i] = warning;
   });
   return warnings;
 };
@@ -200,13 +227,8 @@ export const getWorkLocked = ($workPage: WorkPage) => {
   return !!$workPage("#signin > .heading").text();
 };
 
-const ADULT_CATEGORIES = [
-  WorkRatings.EXPLICIT, 
-  WorkRatings.MATURE, 
-  WorkRatings.NOT_RATED
-] as const satisfies ReadonlyArray<WorkRatings>;
 export const getWorkAdult = ($workPage: WorkPage): boolean => {
-  return (ADULT_CATEGORIES as readonly WorkRatings[]).includes(getWorkRating($workPage));
+  return isAdultRating(getWorkRating($workPage));
 };
 
 export const getWorkContentHtml = ($workPage: WorkPage): string => {

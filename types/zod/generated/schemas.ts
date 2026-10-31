@@ -146,6 +146,27 @@ export const workContentSchema = z.object({
     endNotes: z.string().nullable()
 });
 
+export const downloadedChapterSchema = z.object({
+    index: z.number(),
+    title: z.string().nullable(),
+    summary: z.string().nullable(),
+    notes: z.string().nullable(),
+    html: z.string(),
+    text: z.string(),
+    endNotes: z.string().nullable()
+});
+
+export const downloadedWorkSchema = workSummarySchema.pick({ "id": true, "title": true, "authors": true, "rating": true, "category": true, "fandoms": true, "tags": true, "language": true, "summary": true, "publishedAt": true, "updatedAt": true, "words": true, "chapters": true, "complete": true, "adult": true }).extend({
+    url: z.string(),
+    shortUrl: z.string(),
+    source: z.union([z.literal("epub"), z.literal("pdf")]),
+    content: z.object({
+        startNotes: z.string().nullable(),
+        chapters: z.array(downloadedChapterSchema),
+        endNotes: z.string().nullable()
+    })
+});
+
 export const lockedWorkSummarySchema = z.object({
     id: archiveIdSchema,
     locked: z.literal(true)
@@ -155,7 +176,7 @@ export const chapterSchema = z.object({
     id: archiveIdSchema,
     workId: archiveIdSchema,
     index: z.number(),
-    title: z.string(),
+    title: z.string().nullable(),
     publishedAt: z.string(),
     url: z.string(),
     shortUrl: z.string()

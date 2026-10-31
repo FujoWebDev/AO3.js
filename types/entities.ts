@@ -92,15 +92,15 @@ export interface User {
 
 export interface UserWorksFilters {
   sortColumn:
-    | "authors"
-    | "title"
-    | "created_at"
-    | "updated_at"
-    | "word_count"
-    | "hits"
-    | "kudos_count"
-    | "comments_count"
-    | "bookmarks_count";
+  | "authors"
+  | "title"
+  | "created_at"
+  | "updated_at"
+  | "word_count"
+  | "hits"
+  | "kudos_count"
+  | "comments_count"
+  | "bookmarks_count";
   sortDirection: "asc" | "desc";
   page: number;
 }
@@ -255,6 +255,47 @@ export interface WorkContent {
   endNotes: string | null;
 }
 
+export interface DownloadedChapter {
+  index: number;
+  title: string | null;
+  summary: string | null;
+  notes: string | null;
+  html: string;
+  text: string;
+  endNotes: string | null;
+}
+
+// Works read from a file downloaded from AO3 don't include the
+// work's series, stats (kudos, hits, bookmarks), or chapter ids.
+export interface DownloadedWork
+  extends Pick<
+    WorkSummary,
+    | "id"
+    | "title"
+    | "authors"
+    | "rating"
+    | "category"
+    | "fandoms"
+    | "tags"
+    | "language"
+    | "summary"
+    | "publishedAt"
+    | "updatedAt"
+    | "words"
+    | "chapters"
+    | "complete"
+    | "adult"
+  > {
+  url: string;
+  shortUrl: string;
+  source: "epub" | "pdf";
+  content: {
+    startNotes: string | null;
+    chapters: DownloadedChapter[];
+    endNotes: string | null;
+  };
+}
+
 export interface LockedWorkSummary {
   id: ArchiveId;
   locked: true;
@@ -264,7 +305,7 @@ export interface Chapter {
   id: ArchiveId;
   workId: ArchiveId;
   index: number;
-  title: string;
+  title: string | null;
   publishedAt: string;
   url: string;
   shortUrl: string;
