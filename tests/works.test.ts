@@ -99,8 +99,26 @@ describe("Works/data", () => {
 
     await expect(failedWork).rejects.toThrow(ArchivePageRequestError);
     await expect(failedWork).rejects.toThrow(
-      "Archive request failed with status 404: https://archiveofourown.org/works/1",
+      "Archive request failed with status 404: https://archiveofourown.org/works/1?view_adult=true",
     );
+  });
+
+  it("should confirm the reader is over 18 when loading a work", async () => {
+    const requestedUrls: URL[] = [];
+    const recordUrl = ({ request }: { request: Request }) => {
+      requestedUrls.push(new URL(request.url));
+    };
+    server.events.on("request:start", recordUrl);
+    try {
+      await getWork({ workId: 29046888 });
+    } finally {
+      server.events.removeListener("request:start", recordUrl);
+    }
+
+    const workRequest = requestedUrls.find(
+      (url) => url.pathname === "/works/29046888",
+    );
+    expect(workRequest?.searchParams.get("view_adult")).toBe("true");
   });
 
   it("should fetch work information in its entirety", async () => {

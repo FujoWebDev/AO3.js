@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { expectHtml } from "./helpers/invariants";
+import server from "./mocks/server";
 
 import type { WorkSummary } from "types/entities";
 import { getWork } from "src/index";
@@ -76,6 +77,24 @@ describe("Work Chapter/chapter", () => {
 });
 
 describe("Work Chapter/work", () => {
+  it("should confirm the reader is over 18 when loading a chapter", async () => {
+    const requestedUrls: URL[] = [];
+    const recordUrl = ({ request }: { request: Request }) => {
+      requestedUrls.push(new URL(request.url));
+    };
+    server.events.on("request:start", recordUrl);
+    try {
+      await getWork({ workId: 48582418, chapterId: 122861680 });
+    } finally {
+      server.events.removeListener("request:start", recordUrl);
+    }
+
+    const chapterRequest = requestedUrls.find(
+      (url) => url.pathname === "/works/48582418/chapters/122861680",
+    );
+    expect(chapterRequest?.searchParams.get("view_adult")).toBe("true");
+  });
+
   it("should fetch work + chapter object with all fields", async () => {
     const work = await getWork({
       workId: 48582418,

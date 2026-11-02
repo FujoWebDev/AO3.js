@@ -106,8 +106,13 @@ export const loadWorkPage = async ({
   workId: ArchiveId;
   chapterId?: ArchiveId;
 }) => {
+  // Work and chapter pages are the only ones AO3 hides behind its adult
+  // warning. Browsers drop the view_adult cookie fetchPage sends, so we also
+  // pass the query param, which AO3 accepts as the same confirmation.
+  const url = new URL(getWorkUrl({ workId, chapterId }));
+  url.searchParams.set("view_adult", "true");
   return await fetchPage<WorkPage>({
-    url: getWorkUrl({ workId, chapterId }),
+    url: url.href,
   });
 };
 
