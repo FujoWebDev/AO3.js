@@ -2,6 +2,7 @@ import filenamify from "filenamify";
 import fs from "fs/promises";
 import path from "path";
 import { fileURLToPath } from "url";
+import { withRetry } from "../../../src/fetcher";
 
 // filenamify replaces | with ! which can cause bugs since ! appears naturally in tag names.
 // We encode | as !p! (matching existing !d!, !a!, !s! patterns) before filenamify
@@ -18,8 +19,6 @@ export function decodeFilename(encodedName: string): string {
     .replace(/!s!/g, "/") // Forward slash
     .replace(/\*a\*/g, "&"); // Alternative ampersand encoding
 }
-
-const BASE_DELAY = 1000; // 1 second
 
 const ARCHIVE_URLS = {
   ao3: "archiveofourown.org",
@@ -41,89 +40,47 @@ export class HttpStatusError extends Error {
   }
 }
 
-// Cloudflare errors (like 525) take longer than a few seconds to
-// clear, so 5xx responses get more attempts and a much longer backoff.
-const SERVER_ERROR_MIN_ATTEMPTS = 5;
-const SERVER_ERROR_BASE_DELAY = 10000; // 10 seconds
-const SERVER_ERROR_MAX_DELAY = 60000; // 60 seconds
-
 export async function delay(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-export async function downloadWithRetry(
-  url: string,
-  maxAttempts = 3,
-  currentAttempt = 1,
-) {
-  try {
-    const response = await fetch(url, {
-      headers: {
-        Cookie: "view_adult=true;",
-      },
-    });
-
-    if (response.status === 429) {
-      const retryAfter = parseInt(
-        response.headers.get("retry-after") || "0",
-        10,
-      );
-
-      console.log(`Rate limited. Waiting ${retryAfter / 1000} seconds...`);
-      await delay(retryAfter);
-
-      // Skip the rest and try to redownload from scratch
-      // We don't increase currentAttempt when we're just being rate limited
-      return downloadWithRetry(url, maxAttempts, currentAttempt);
-    }
-
-    if (!response.ok) {
-      if (response.status !== 404) {
-        throw new HttpStatusError(
-          `Failed to download ${url}: ${response.status}`,
-          response.status,
-        );
-      }
-      // We let 404 errors be handled by the consumers as they wish
-      const newError = new Http404Error("404 error returned");
-      newError.content = await response.text();
-      throw newError;
-    }
-
-    return await response.text();
-  } catch (error) {
-    // 404 may be expected (and isn't really recoverable)
-    if (error instanceof Http404Error) {
-      throw error;
-    }
-
-    const errorMessage = error instanceof Error ? error.message : String(error);
-    const isServerError = error instanceof HttpStatusError && error.status >= 500;
-    const attemptsAllowed = isServerError
-      ? Math.max(maxAttempts, SERVER_ERROR_MIN_ATTEMPTS)
-      : maxAttempts;
-    if (currentAttempt >= attemptsAllowed) {
-      throw error;
-    }
-
-    const backoffDelay = isServerError
-      ? Math.min(
-        SERVER_ERROR_BASE_DELAY * Math.pow(2, currentAttempt - 1) +
-        Math.random() * 1000,
-        SERVER_ERROR_MAX_DELAY,
-      )
-      : Math.min(
-        BASE_DELAY * Math.pow(2, currentAttempt - 1) + Math.random() * 1000,
-        30000, // Max 30 seconds
-      );
-
+// Cloudflare errors (like 525) take longer than a few seconds to clear,
+// so errors get 5 attempts and start backing off at 10 seconds.
+const retryingFetch = withRetry(fetch, {
+  maxRetries: 4,
+  baseDelayMs: 10_000,
+  onRetry: ({ attempt, delayMs, response, error }) => {
+    const reason = response
+      ? `status ${response.status}`
+      : error instanceof Error
+        ? error.message
+        : String(error);
     console.log(
-      `Attempt ${currentAttempt} failed, retrying after ${backoffDelay}ms...`,
+      `Retry ${attempt} after ${reason}, waiting ${Math.round(delayMs / 1000)}s...`,
     );
-    console.log(`Error message was ${errorMessage}`);
-    await delay(backoffDelay);
-    return downloadWithRetry(url, attemptsAllowed, currentAttempt + 1);
+  },
+});
+
+export async function downloadWithRetry(url: string) {
+  const response = await retryingFetch(url, {
+    headers: {
+      Cookie: "view_adult=true;",
+    },
+  });
+
+  if (response.ok) {
+    return await response.text();
   }
+  if (response.status === 404) {
+    // We let 404 errors be handled by the consumers as they wish
+    const newError = new Http404Error("404 error returned");
+    newError.content = await response.text();
+    throw newError;
+  }
+  throw new HttpStatusError(
+    `Failed to download ${url}: ${response.status}`,
+    response.status,
+  );
 }
 
 export function getRootDataDir() {
