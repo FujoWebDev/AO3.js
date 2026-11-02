@@ -73,9 +73,11 @@ describe("User/works", () => {
         "fandoms": [
           "Game of Thrones (TV)",
         ],
+        "host": "archiveofourown.org",
         "id": 43703871,
         "language": "English",
         "shortUrl": "https://ao3.org/works/43703871",
+        "source": "website",
         "summary": "<p>The deep satisfaction of having made the right choice; of having found a clear-flowing wellspring of true honor to protect.</p>",
         "tags": {
           "additional": [

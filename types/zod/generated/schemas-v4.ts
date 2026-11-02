@@ -59,7 +59,7 @@ export const userSchema = z.object({
     username: z.string(),
     pseuds: z.string(),
     url: z.string(),
-    shortUrl: z.string(),
+    shortUrl: z.string().nullable(),
     icon: z.string(),
     header: z.string().nullable(),
     joined: z.string(),
@@ -101,6 +101,8 @@ export const authorSchema = z.object({
 
 export const workSummarySchema = z.object({
     id: archiveIdSchema,
+    source: z.literal("website"),
+    host: z.string(),
     title: z.string(),
     category: z.array(workCategorySchema).nullable(),
     publishedAt: z.string(),
@@ -158,8 +160,12 @@ export const downloadedChapterSchema = z.object({
 
 export const downloadedWorkSchema = workSummarySchema.pick({ "id": true, "title": true, "authors": true, "rating": true, "category": true, "fandoms": true, "tags": true, "language": true, "summary": true, "publishedAt": true, "updatedAt": true, "words": true, "chapters": true, "complete": true, "adult": true }).extend({
     url: z.string(),
-    shortUrl: z.string(),
-    source: z.union([z.literal("epub"), z.literal("pdf")]),
+    shortUrl: z.string().nullable(),
+    source: z.literal("file"),
+    file: z.object({
+        format: z.union([z.literal("epub"), z.literal("pdf")]),
+        filePath: z.string().nullable()
+    }),
     content: z.object({
         startNotes: z.string().nullable(),
         chapters: z.array(downloadedChapterSchema),
@@ -167,8 +173,7 @@ export const downloadedWorkSchema = workSummarySchema.pick({ "id": true, "title"
     })
 });
 
-export const lockedWorkSummarySchema = z.object({
-    id: archiveIdSchema,
+export const lockedWorkSummarySchema = workSummarySchema.pick({ "id": true, "source": true, "host": true }).extend({
     locked: z.literal(true)
 });
 
@@ -179,12 +184,12 @@ export const chapterSchema = z.object({
     title: z.string().nullable(),
     publishedAt: z.string(),
     url: z.string(),
-    shortUrl: z.string()
+    shortUrl: z.string().nullable()
 });
 
 export const workBlurbSummarySchema = workSummarySchema.omit({ "category": true, "publishedAt": true, "rating": true, "tags": true, "stats": true, "locked": true, "chapterInfo": true, "series": true }).extend({
     url: z.string(),
-    shortUrl: z.string(),
+    shortUrl: z.string().nullable(),
     tags: workSummarySchema.shape.tags.omit({ "warnings": true }),
     stats: workSummarySchema.shape.stats.omit({ "comments": true })
 });

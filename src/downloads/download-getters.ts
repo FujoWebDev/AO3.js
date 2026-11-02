@@ -6,7 +6,12 @@ import {
   type DownloadedChapter,
   type DownloadedWork,
 } from "types/entities";
-import { getAsShortUrl, getAuthorFromUrl, getWorkDetailsFromUrl } from "src/urls";
+import {
+  getAsShortUrl,
+  getAuthorFromUrl,
+  getWorkDetailsFromUrl,
+  getWorkUrl,
+} from "src/urls";
 import {
   ANONYMOUS_AUTHOR,
   isAdultRating,
@@ -21,7 +26,7 @@ import { AO3_LANGUAGES } from "src/languages";
  * The unvalidated data in a download. Do not trust it...yet.
  */
 export interface DownloadData {
-  format: DownloadedWork["source"];
+  format: DownloadedWork["file"]["format"];
   // The links in the "Posted originally on the Archive of Our Own" line
   workUrls: string[];
   title: string;
@@ -148,10 +153,10 @@ const getAuthors = (
   }
 };
 
-const getWorkId = (data: DownloadData, source: string) => {
+const getWorkId = (data: DownloadData, fileLabel: string) => {
   const workUrl = data.workUrls.find((url) => url.includes("/works/"));
   if (!workUrl) {
-    throw new Error(`${source} doesn't look like a work downloaded from AO3`);
+    throw new Error(`${fileLabel} doesn't look like a work downloaded from AO3`);
   }
   return getWorkDetailsFromUrl({ url: workUrl }).workId;
 };
@@ -244,9 +249,12 @@ const toChapters = (
  * Checks everything read from a download, and turns it into a work. Throws
  * with every problem found at once.
  */
-export const toDownloadedWork = (data: DownloadData): DownloadedWork => {
-  const source = data.format === "epub" ? "The EPUB" : "The PDF";
-  const workId = getWorkId(data, source);
+export const toDownloadedWork = (
+  data: DownloadData,
+  filePath: string | null,
+): DownloadedWork => {
+  const fileLabel = data.format === "epub" ? "The EPUB" : "The PDF";
+  const workId = getWorkId(data, fileLabel);
 
   const problems: string[] = [];
   const stats = getStats(data, problems);
@@ -264,16 +272,16 @@ export const toDownloadedWork = (data: DownloadData): DownloadedWork => {
     language === undefined ||
     problems.length > 0
   ) {
-    throw new Error(`${source} isn't a valid AO3 download:\n- ${problems.join("\n- ")}`);
+    throw new Error(`${fileLabel} isn't a valid AO3 download:\n- ${problems.join("\n- ")}`);
   }
 
   const chapterCount = data.chapters.length;
-  // Downloads always link to AO3 itself, whatever archive base URL is set
-  const url = `https://archiveofourown.org/works/${workId}`;
+  const url = getWorkUrl({ workId });
   const chapters = stats.chapters ?? { published: chapterCount, total: chapterCount };
   return {
     id: workId,
-    source: data.format,
+    source: "file",
+    file: { format: data.format, filePath },
     title: data.title,
     url,
     shortUrl: getAsShortUrl({ url }),

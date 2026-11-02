@@ -90,12 +90,12 @@ export const getSeriesUrl = ({
   return url.href;
 };
 
+// Only AO3 itself has a known short domain (ao3.org), so URLs on any other host
+// (e.g. a mirror set through setArchiveBaseUrl) get null.
 export const getAsShortUrl = ({ url }: { url: string | URL }) => {
   const longUrl = new URL(url);
   if (longUrl.hostname !== "archiveofourown.org") {
-    throw new Error(
-      `Short URLs are only supported for AO3 (found: ${longUrl.hostname})`,
-    );
+    return null;
   }
 
   longUrl.host = "ao3.org";

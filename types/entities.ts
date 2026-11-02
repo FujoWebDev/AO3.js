@@ -76,7 +76,7 @@ export interface User {
   username: string;
   pseuds: string;
   url: string;
-  shortUrl: string;
+  shortUrl: string | null;
   icon: string;
   header: string | null;
   joined: string;
@@ -129,7 +129,7 @@ export interface WorkBlurbSummary
     | "series"
   > {
   url: string;
-  shortUrl: string;
+  shortUrl: string | null;
   tags: Omit<WorkSummary["tags"], "warnings">;
   stats: Omit<WorkSummary["stats"], "comments">;
 }
@@ -203,6 +203,9 @@ export interface Author {
 
 export interface WorkSummary {
   id: ArchiveId;
+  source: "website";
+  // e.g. "archiveofourown.org", or a mirror set through setArchiveBaseUrl
+  host: string;
   title: string;
   category: WorkCategory[] | null;
   // Date in ISO format. See: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString
@@ -287,8 +290,14 @@ export interface DownloadedWork
     | "adult"
   > {
   url: string;
-  shortUrl: string;
-  source: "epub" | "pdf";
+  shortUrl: string | null;
+  source: "file";
+  file: {
+    format: "epub" | "pdf";
+    // The path the caller passed in, since the parsers only see the file's bytes.
+    // null when none was given.
+    filePath: string | null;
+  };
   content: {
     startNotes: string | null;
     chapters: DownloadedChapter[];
@@ -296,8 +305,7 @@ export interface DownloadedWork
   };
 }
 
-export interface LockedWorkSummary {
-  id: ArchiveId;
+export interface LockedWorkSummary extends Pick<WorkSummary, "id" | "source" | "host"> {
   locked: true;
 }
 
@@ -308,5 +316,5 @@ export interface Chapter {
   title: string | null;
   publishedAt: string;
   url: string;
-  shortUrl: string;
+  shortUrl: string | null;
 }

@@ -49,6 +49,7 @@ import {
   getWorkTitle as getWorkTitleFromChaptersIndex,
 } from "./chapter-getters";
 import { loadChaptersIndexPage, loadWorkPage } from "src/page-loaders";
+import { getArchiveBaseUrl } from "src/urls";
 
 export const getWork = async ({
   workId,
@@ -67,11 +68,11 @@ export const getWork = async ({
   const workPage = await loadWorkPage({ workId, chapterId });
   const id = parseArchiveId(workId);
 
+  const source = "website";
+  const host = new URL(getArchiveBaseUrl()).hostname;
+
   if (getWorkLocked(workPage)) {
-    return {
-      id,
-      locked: true,
-    };
+    return { id, source, host, locked: true };
   }
 
   const totalChapters = getWorkTotalChapters(workPage);
@@ -80,6 +81,8 @@ export const getWork = async ({
 
   return {
     id,
+    source,
+    host,
     authors: getWorkAuthors(workPage),
     title: getWorkTitle(workPage),
     words: getWorkWordCount(workPage),

@@ -110,6 +110,8 @@ describe("Works/data", () => {
 
     expect(work).toMatchObject({
       id: 29046888,
+      source: "website",
+      host: "archiveofourown.org",
       authors: [{ username: "KBstories", pseud: "KBstories" }],
       title: "waiting//wishing",
       words: 36352,
@@ -563,6 +565,8 @@ describe("Work/restricted", () => {
 
     expect(work).toMatchObject({
       id: 15461226,
+      source: "website",
+      host: "archiveofourown.org",
       locked: true,
     });
   });
