@@ -4,14 +4,13 @@
  */
 import { load, type CheerioAPI } from "cheerio";
 import type { AnyNode } from "domhandler";
+import { cleanText, toText } from "src/utils";
 import {
   PREFACE_LABELS,
   SAFE_LINK_SCHEME,
   type DownloadData,
   type PrefaceField,
 } from "../download-getters";
-
-const cleanText = (text: string) => text.replace(/\s+/g, " ").trim();
 
 const copyOf = ($: CheerioAPI, elements: AnyNode[]) => {
   const $copy = load("<div></div>");
@@ -54,23 +53,6 @@ const toHtml = ($: CheerioAPI, elements: AnyNode[]) => {
     }
   });
   return (copy.html() ?? "").trim();
-};
-
-/**
- * The work's text as plain text: each paragraph (or heading, or list item)
- * on its own, separated by blank lines, and line breaks kept.
- */
-const toText = ($: CheerioAPI, elements: AnyNode[]) => {
-  const { $copy, copy } = copyOf($, elements);
-  copy.find("br").replaceWith("\n");
-  const BLOCKS = "p, h1, h2, h3, h4, h5, h6, li, pre";
-  return copy
-    .find(BLOCKS)
-    .filter((_, block) => $copy(block).find(BLOCKS).length === 0)
-    .toArray()
-    .map((block) => $copy(block).text().split("\n").map(cleanText).join("\n").trim())
-    .filter((text) => text !== "")
-    .join("\n\n");
 };
 
 const getNotesAfter = ($: CheerioAPI, scope: AnyNode[], label: string) => {
@@ -133,7 +115,7 @@ const getChapters = ($: CheerioAPI): DownloadData["chapters"] => {
     summary: getNotesAfter($, chapter.meta, "Chapter Summary"),
     notes: getNotesAfter($, chapter.meta, "Chapter Notes"),
     html: toHtml($, chapter.text),
-    text: toText($, chapter.text),
+    text: toText(copyOf($, chapter.text).copy.html() ?? ""),
     endNotes: getNotesAfter($, chapter.endNotes, "Chapter End Notes"),
   }));
 };
