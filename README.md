@@ -44,6 +44,8 @@ Pulls data from [ao3.org](https://ao3.org) and beyond. Now with Types™.
 | [**`parseEpubWork`**](./src/downloads/epub/index.ts#L14)   | Reads a work from an AO3 EPUB download. Import it from `@fujocoded/ao3.js/downloads`. | `{ epub: Uint8Array }` - The EPUB's contents.                            | [`DownloadedWork`](./types/entities.ts)                                                                                  |
 | [**`parsePdfWork`**](./src/downloads/pdf/index.ts#L34)    | Reads a work from an AO3 PDF download. Import it from `@fujocoded/ao3.js/downloads`, and install `unpdf`. PDFs accuracy is "best effort" compared to EPUB. | `{ pdf: Uint8Array }` - The PDF's contents. | [`Promise<DownloadedWork>`](./types/entities.ts) |
 | [**`setFetcher`**](./src/fetcher.ts#L5)               | Sets a custom fetch function for requests. | `{ fetcher: typeof fetch }` - Custom fetch function.                              | `void`                                                                                                                   |
+| [**`withRetry`**](./src/fetcher.ts)                 | Wraps a fetch function to retry rate limits, server errors and network errors. | `(fetch, options?: RetryOptions)` | `typeof fetch` |
+| [**`withCache`**](./src/fetcher.ts)                 | Wraps a fetch function to keep pages in memory and reuse them. | `(fetch, options?: CacheOptions)` | `typeof fetch` |
 
 #### Why Override Fetch?
 
@@ -91,35 +93,7 @@ Further explanation of AO3.js works and suggestions for how to add to it can be 
 
 ## About "🚨 Data Refresh Tests Failed" issues
 
-Since AO3 has no API, we rely on scraping their HTML to get the data you need. Only one issue: AO3's HTML is changing all the time!
-To make sure our library keeps working, we refetch AO3's data every week and re-run our tests against their latest pages. If
-these tests fail, a "🚨 Data Refresh Tests Failed" is opened.
-
-**IMPORTANT caveat:** The tests failing doesn't mean that the library doesn't work. The tests aren't always reliable, and
-it usually are due to some data we use for testing updating, like for example the number of bookmarks on a fic we're tracking.
-When it's a legitimate error, it usually impacts a small amount of methods.
-
-### Can I help you fix these? How do I do that?
-
-Thought you'd never ask! tl;dr: YES! We'd love your help fixing these, and it's usually fairly simple: if you've been curious
-about coding and testing, this is a great chance to learn more about it!
-
-Here are the steps:
-
-1. Fork this repo and make a new branch for your code changes
-2. [NPM install](https://learn.fujoweb.dev/npm/what-is-npm/#practice-npm-the-development-flow) dependencies
-3. Optional (but reccommended): run tests with `npm run test` and make sure they all pass. If they're not passing
-   there's a deeper problem here!
-4. Run the redownload command with `npm run redownload`. This will download the latest version of all the AO3 pages
-   we already use for testing. It might take a while, but it will eventually be done.
-5. Run tests with `npm run test`. There should be at least one failing! If not, then the "🚨 Data Refresh Tests Failed"
-   already got solved, maybe on its own. Do let us know if an issue like that is still open!
-6. Look at the error and try to identify the root cause. You might have to:
-   - Change the expected output to match the new data from the page, if the issue is that the data
-     on the page changed
-   - Fix the error in our code that got unhearted by this change, for example by updating the CSS selectors
-     we use to retrieve the data
-7. Commmit your changes (updates to the downloaded files included) and open a PR
+See [CONTRIBUTING.md](CONTRIBUTING.md#about--data-refresh-tests-failed-issues) for what these issues mean and how to help fix them.
 
 ## Important Notes
 
@@ -154,39 +128,11 @@ For the rest of the owl, you can reach us through our [Issues
 tab](https://github.com/essential-randomness/ao3.js/issues), or at [Fandom
 Coders](https://fancoders.com/).
 
-## `ReferenceError`: `fetch` is not defined
-
-This error means your runtime (e.g. NodeJS) does not include a `fetch`
-implementation. The easiest way to fix this issue, is to switch to a runtime
-that does support it. For NodeJS, this is any version above (and including)
-`18`.
-
-If you need to use a older version of NodeJS, you can polyfill it by using the
-[`node-fetch` library](https://github.com/node-fetch/node-fetch).
-
-In your terminal run:
-
-```sh
-npm install node-fetch@2
-```
-
-If you wish to override `fetch` with your own implementation, you can use the
-`setFetcher` method to use the fetch returned by the `node-fetch` library. See
-next section for more details.
-
-```ts
-import { setFetcher } from "@fujocoded/ao3.js";
-import fetch from "node-fetch";
-
-// You MUST call this before calling other ao3.js methods
-setFetcher(fetch);
-```
-
 ## Overriding fetch
 
 If you wish to provide more complex logic for `fetch` (for example to handle
 rate limiting), you can override the fetch method with your own implementation
-by using the exported `setFetch` function.
+by using the exported `setFetcher` function.
 
 For example, to override `fetch` with the `node-fetch` implementation:
 
@@ -198,67 +144,69 @@ import fetch from "node-fetch";
 setFetcher(fetch);
 ```
 
-### Handling caching + rate limiting
+### Handling rate limiting
 
-This library doesn't handle caching requests by default. This means that if you
-call the same method twice, the underlying requests to AO3 will also be made
-twice.
-
-Similarly, this library doesn't handle managing rate limit for you (not yet, at
-least). This means that if you make too many requests to AO3 too quickly, you'll
-get errors once AO3 starts asking you to pause requests.
-
-If you want to avoid these issues, you can use the following code to add caching and
-automatic retrying to the library:
+If you make too many requests to AO3 too quickly, AO3 will ask you to wait! Wrap
+your fetch in `withRetry` and the library will wait as long as AO3 asks before, well,
+retrying:
 
 ```ts
-import { setFetcher } from "@fujocoded/ao3.js";
+import { setFetcher, withRetry } from "@fujocoded/ao3.js";
 
-const CACHE = new Map();
-setFetcher(async (...params: Parameters<typeof fetch>) => {
-  try {
-    if (CACHE.has(params[0])) {
-      console.log(`Using cached response for request to ${params[0]}`);
-      return CACHE.get(params[0]).clone();
-    }
-    console.log(`Making a new request to ${params[0]}`);
-    let response = await fetch(...params);
-    console.log(`Request status: ${response.status}`);
-    while (response.status === 429) {
-      const waitSeconds = response.headers.get("retry-after");
-      console.log(
-        `Asked to wait ${waitSeconds} seconds request to ${params[0]}`
-      );
-      if (!waitSeconds) {
-        throw new Error(
-          "A wait request was made without indication of length."
-        );
-      }
-      console.log(`Waiting ${waitSeconds} seconds`);
-      await new Promise((res) => {
-        setTimeout(() => res(null), parseInt(waitSeconds) * 1000);
-      });
-      console.log(`Continuing with request to ${params[0]}`);
-      response = await fetch(...params);
-    }
-    if (response.status === 200) {
-      // Remove request from the cache after 5 minutes
-      setTimeout(() => {
-        console.log(`Clearing cache entry for request ${params[0]}`);
-        CACHE.set(params[0], null);
-      }, 1000 * 60 * 5);
-      console.log(`Setting cache entry for request ${params[0]}`);
-      CACHE.set(params[0], response.clone());
-    }
-    return response;
-  } catch (e) {
-    console.error(e);
-    throw e;
-  }
-});
+setFetcher(withRetry(fetch));
 ```
 
-The logging will help you understand what's going on, but it's by no mean necessary.
+`withRetry` also retries AO3 server errors and network failures, waiting a bit
+longer each time. Other errors, like a missing work, are returned right away.
+You can change how it behaves:
+
+```ts
+setFetcher(
+  withRetry(fetch, {
+    // How many times to wait out a rate limit (default: 10)
+    maxRateLimitRetries: 20,
+    // How many times to retry server and network errors (default: 3)
+    maxRetries: 5,
+    // Give up instead of waiting if AO3 asks for a longer wait (default: no limit)
+    maxRetryAfterMs: 5 * 60 * 1000,
+    // Log each wait, since by default withRetry stays quiet
+    onRetry: ({ attempt, delayMs }) =>
+      console.log(`Retry ${attempt} in ${Math.round(delayMs / 1000)}s`),
+  }),
+);
+```
+
+When retries run out, the library throws an `ArchivePageRequestError` with the
+last status AO3 sent, or rethrows the last network error.
+
+### Caching
+
+By default, this library doesn't cache requests: if you call the same method
+twice, it asks AO3 twice. Wrap your fetch in `withCache` to keep pages in memory
+for a while instead:
+
+```ts
+import { setFetcher, withCache, withRetry } from "@fujocoded/ao3.js";
+
+// withCache goes on the outside, so cached pages skip retrying
+setFetcher(withCache(withRetry(fetch)));
+```
+
+`withCache` keeps up to 500 successful pages for 5 minutes. You can
+change the limits:
+
+```ts
+setFetcher(
+  withCache(withRetry(fetch), {
+    // How long a page stays saved, in milliseconds (default: 5 minutes)
+    ttlMs: 60 * 60 * 1000,
+    // How many pages to keep (default: 500)
+    maxEntries: 2000,
+  }),
+);
+```
+
+The cache lives in memory, so it only keeps its data while your program is running.
 
 # How do I help?
 

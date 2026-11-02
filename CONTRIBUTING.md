@@ -67,17 +67,20 @@ Jest in `watch` mode by using `npm run test -- --watch` (mind the double `--`).
 
 This library works by fetching AO3 pages and scraping the resulting HTML.
 
-To spare the poor AO3 servers (and to prevent our testing to be slowed down by rate limiting), we
-use [MSW](https://mswjs.io/) to intercept HTTP requests to AO3 and serve local files instead.
-You can find these files under the `tests/mocks/data` directory.
+To spare the poor AO3 servers (and to prevent our testing to be slowed down by
+rate limiting), we use [MSW](https://mswjs.io/) to intercept HTTP requests to
+AO3 and serve local files instead. You can find these files under the
+`tests/mocks/data` directory.
 
-The structure of the folders mimics the structure of AO3 URLs. If you need to support a new type
-of URL path, look under `tests/mocks/handlers` for an example of how to add new URL patterns.
+The structure of the folders mimics the structure of AO3 URLs. If you need to
+support a new type of URL path, look under `tests/mocks/handlers` for an example
+of how to add new URL patterns.
 
 #### Downloading New Pages for Tests
 
-If you need a new page to be added for your tests, you can use the "`npm run download [page url]`" script
-to fetch the page, encode the URL path correctly, and put it in the right folder.
+If you need a new page to be added for your tests, you can use the "`npm run
+download [page url]`" script to fetch the page, encode the URL path correctly,
+and put it in the right folder.
 
 Examples:
 
@@ -89,17 +92,60 @@ npm run download https://archiveofourown.org/tags/\!%20no%20idea%20how%20to%20ta
 
 ### Redownloading Old Pages for Tests
 
-Sometimes the HTML structure on AO3 pages will change! If you need to update all our mocks
-to use the latest AO3 HTML, you can run `npm run redownload`.
+Sometimes the HTML structure on AO3 pages will change! If you need to update all
+our mocks to use the latest AO3 HTML, you can run `npm run redownload`.
 
 > [!NOTE]
-> Because of small differences in the downloaded HTML, most pages will be shown as
-> having updates whenever you run `npm run redownload`, even if there haven't been
-> changes to their structure. This is fine and expected. Just make sure all tests still pass!
+> Because of small differences in the downloaded HTML, most pages will be shown
+> as having updates whenever you run `npm run redownload`, even if there haven't
+> been changes to their structure. This is fine and expected. Just make sure all
+> tests still pass!
 
-We have a recurring data refresh job that automatically runs `npm run redownload` periodically
-and warns us if our tests start failing. When that happens, we might need to release a new version
-of the library that uses updated logic.
+We have a recurring data refresh job that automatically runs `npm run
+redownload` periodically and warns us if our tests start failing. When that
+happens, we might need to release a new version of the library that uses updated
+logic.
+
+## About "🚨 Data Refresh Tests Failed" issues
+
+Since AO3 has no API, we rely on scraping their HTML to get the data you need.
+Only one issue: AO3's HTML is changing all the time! To make sure our library
+keeps working, we refetch AO3's data every week and re-run our tests against
+their latest pages. If these tests fail, a "🚨 Data Refresh Tests Failed" is
+opened.
+
+**IMPORTANT caveat:** The tests failing doesn't mean that the library doesn't
+work. The tests aren't always reliable, and failures are usually due to some
+data we use for testing updating, like for example the number of bookmarks on a
+fic we're tracking. When it's a legitimate error, it usually impacts a small
+amount of methods.
+
+### Can I help you fix these? How do I do that?
+
+Thought you'd never ask! tl;dr: YES! We'd love your help fixing these, and it's
+usually fairly simple: if you've been curious about coding and testing, this is
+a great chance to learn more about it!
+
+Here are the steps:
+
+1. Fork this repo and make a new branch for your code changes
+2. [NPM
+   install](https://learn.fujoweb.dev/npm/what-is-npm/#practice-npm-the-development-flow)
+   dependencies
+3. Optional (but recommended): run tests with `npm run test` and make sure they
+   all pass. If they're not passing there's a deeper problem here!
+4. Run the redownload command with `npm run redownload`. This will download the
+   latest version of all the AO3 pages we already use for testing. It might take
+   a while, but it will eventually be done.
+5. Run tests with `npm run test`. There should be at least one failing! If not,
+   then the "🚨 Data Refresh Tests Failed" already got solved, maybe on its own.
+   Do let us know if an issue like that is still open!
+6. Look at the error and try to identify the root cause. You might have to:
+   - Change the expected output to match the new data from the page, if the
+     issue is that the data on the page changed
+   - Fix the error in our code that got unearthed by this change, for example by
+     updating the CSS selectors we use to retrieve the data
+7. Commit your changes (updates to the downloaded files included) and open a PR
 
 ## Other contributions we're seeking
 
