@@ -44,6 +44,8 @@ export const getWorkBlurb = (blurbHtml: string): WorkBlurbSummary => {
     id: parseArchiveId(id),
     url,
     shortUrl: getAsShortUrl({ url }),
+    source: "website",
+    host: new URL(url).hostname,
     title,
     updatedAt: parseBlurbDate($work("p.datetime").text()),
 

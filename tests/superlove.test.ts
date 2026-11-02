@@ -50,12 +50,14 @@ describe("Works/data", () => {
           "Batgirl",
           "Teen Titans",
         ],
+        "host": "superlove.sayitditto.net",
         "id": 1269,
         "language": "English",
         "locked": false,
         "publishedAt": "2025-08-23",
         "rating": "Teen And Up Audiences",
         "series": [],
+        "source": "website",
         "summary": "<p>Life after the wolves.</p>",
         "tags": {
           "additional": [
