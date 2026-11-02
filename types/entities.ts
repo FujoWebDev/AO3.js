@@ -9,8 +9,12 @@ export type TagCategory =
 
 export interface Tag {
   name: string;
-  // Not all tags have user-facing IDs Example: additional tags.
-  // TODO: figure out other types (or whether they can be extracted from somewhere else).
+  // Every tag has an ID on AO3, but it's only exposed (via the tag's RSS link) for Fandom, Character
+  // and Relationship tags.
+  // Synned tags return their canonical's ID, because AO3 redirects their works page to the
+  // canonical's. Unwrangled tags are always null.
+  // TODO: when logged in, the "Favorite Tag" form exposes the ID of any canonical tag. Unsure what to
+  // do with that yet.
   id: ArchiveId | null;
   category: TagCategory;
   canonical: boolean;

@@ -13,7 +13,7 @@ describe("Tags/data", () => {
     });
   });
 
-  it("should fetch id data for non-canonical tags", async () => {
+  it("should use the canonical's id for synned tags", async () => {
     const tag = await getTag({
       tagName: "Ever Given Container Ship - Anthropomorphic",
     });
@@ -165,7 +165,7 @@ describe("Tags/id", () => {
     });
   });
 
-  it("should fetch id data for character (non-canonical)", async () => {
+  it("should use the canonical's id for synned characters", async () => {
     const tag = await getTag({
       tagName: "Ever Given Container Ship - Anthropomorphic",
     });
