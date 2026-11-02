@@ -43,6 +43,8 @@ Pulls data from [ao3.org](https://ao3.org) and beyond. Now with Types™.
 | [**`getUserWorks`**](./src/users/index.ts#L63)        | Lists one page of a user's public works.   | `{ username: string, pseud?: string, page?: number, sortColumn?, sortDirection? }` | [`Promise<UserWorks>`](./types/entities.ts)                                                                              |
 | [**`parseEpubWork`**](./src/downloads/epub/index.ts#L14)   | Reads a work from an AO3 EPUB download. Import it from `@fujocoded/ao3.js/downloads`. | `{ epub: Uint8Array }` - The EPUB's contents.                            | [`DownloadedWork`](./types/entities.ts)                                                                                  |
 | [**`parsePdfWork`**](./src/downloads/pdf/index.ts#L34)    | Reads a work from an AO3 PDF download. Import it from `@fujocoded/ao3.js/downloads`, and install `unpdf`. PDFs accuracy is "best effort" compared to EPUB. | `{ pdf: Uint8Array }` - The PDF's contents. | [`Promise<DownloadedWork>`](./types/entities.ts) |
+| [**`getAllPages`**](./src/pagination.ts)           | Goes through every page of `getSeries`, `getUserWorks`, or `searchTags`, one page at a time. | `(getter, options)` - The getter and its options, without `page`. | `AsyncGenerator` of the getter's result |
+| [**`collectAllPages`**](./src/pagination.ts)       | Like `getAllPages`, but fetches every page and returns them as an array. | `(getter, options)` - The getter and its options, without `page`. | `Promise` of an array of the getter's result |
 | [**`setFetcher`**](./src/fetcher.ts#L5)               | Sets a custom fetch function for requests. | `{ fetcher: typeof fetch }` - Custom fetch function.                              | `void`                                                                                                                   |
 | [**`withRetry`**](./src/fetcher.ts)                 | Wraps a fetch function to retry rate limits, server errors and network errors. | `(fetch, options?: RetryOptions)` | `typeof fetch` |
 | [**`withCache`**](./src/fetcher.ts)                 | Wraps a fetch function to keep pages in memory and reuse them. | `(fetch, options?: CacheOptions)` | `typeof fetch` |
@@ -90,6 +92,40 @@ const work = await getWork({ workId: 123456 });
 ```
 
 Further explanation of AO3.js works and suggestions for how to add to it can be found [in this comment](https://github.com/essential-randomness/AO3.js/issues/2#issuecomment-1032213524). Also consider taking a look at [TypeScript types](./types/entities.ts).
+
+## Fetching every page
+
+`getSeries`, `getUserWorks`, and `searchTags` return one page at a time. To go
+through them all, pass the function and its options (without `page`) to
+`getAllPages`:
+
+```ts
+import { getAllPages, getUserWorks } from "@fujocoded/ao3.js";
+
+for await (const result of getAllPages(getUserWorks, { username: "astolat" })) {
+  for (const work of result.works) {
+    console.log(work.title);
+  }
+}
+```
+
+Each page is a separate request to AO3, and pages are only fetched as you loop.
+If you find what you need early, `break` out of the loop and the remaining
+pages won't be requested.
+
+If you do want everything at once, `collectAllPages` returns every page as an
+array:
+
+```ts
+import { collectAllPages, getSeries } from "@fujocoded/ao3.js";
+
+const pages = await collectAllPages(getSeries, { seriesId: 12345 });
+const works = pages.flatMap((page) => page.works);
+```
+
+> [!NOTE]
+> Results can shift while you go through them. If a work gets updated midway,
+> it can show up twice or get skipped.
 
 ## About "🚨 Data Refresh Tests Failed" issues
 
