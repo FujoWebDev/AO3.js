@@ -58,6 +58,7 @@ describe("Works/data", () => {
         "publishedAt": "2025-08-23",
         "rating": "Teen And Up Audiences",
         "series": [],
+        "shortUrl": null,
         "source": "website",
         "summary": "<p>Life after the wolves.</p>",
         "tags": {
@@ -81,6 +82,7 @@ describe("Works/data", () => {
         },
         "title": "and she burned the sky",
         "updatedAt": null,
+        "url": "https://superlove.sayitditto.net/works/1269",
         "words": 500,
       }
     `);

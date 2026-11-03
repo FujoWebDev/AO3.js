@@ -49,7 +49,7 @@ export interface DownloadData {
   summary: string | null;
   startNotes: string | null;
   // Each chapter's heading as printed, which becomes its title unless it's AO3's default
-  chapters: (Omit<DownloadedChapter, "id" | "index" | "title"> & { heading: string })[];
+  chapters: (Pick<DownloadedChapter, "summary" | "notes" | "html"> & { heading: string })[];
   endNotes: string | null;
 }
 

@@ -232,7 +232,15 @@ describe("Work Chapter/work", () => {
       chapterInfo: { id: 92848687, index: 1, name: null, summary: null },
       chapters: { published: 20, total: null },
       complete: false,
-      series: [{ id: 2946579, name: "Twitterchat Saga", index: 1 }],
+      series: [
+        {
+          id: 2946579,
+          url: "https://archiveofourown.org/series/2946579",
+          shortUrl: "https://ao3.org/series/2946579",
+          name: "Twitterchat Saga",
+          index: 1,
+        },
+      ],
       stats: {
         comments: expect.driftingCount({ atLeast: 27, atMost: 44 }),
         bookmarks: expect.driftingCount({ atLeast: 14, atMost: 40 }),
