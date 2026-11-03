@@ -9,11 +9,15 @@ jobs:
   publish-npm:
     runs-on: ubuntu-latest
     permissions:
-      contents: write
+      # The version bump is pushed with a token so GITHUB_TOKEN stays read-only.
+      contents: read
       id-token: write # Allows GitHub to generate OIDC tokens required for provenance
 
     steps:
+      # persist-credentials: false keeps tokens out of .git/config while npm ci/tests run third-party code.
       - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
       - uses: actions/setup-node@v6
         with:
           node-version-file: ".nvmrc"
@@ -47,10 +51,29 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - uses: actions/create-github-app-token@v3
+        id: app-token
+        with:
+          client-id: ${{ vars.APP_CLIENT_ID }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+          permission-contents: write
+
       - name: Commit package version
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+          APP_SLUG: ${{ steps.app-token.outputs.app-slug }}
         run: |
-          git config --global user.name "boba-tan[bot]"
-          git config --global user.email "boba-tan[bot]@users.noreply.github.com"
+          APP_USER_ID=$(gh api "/users/${APP_SLUG}[bot]" --jq .id)
+          git config --global user.name "${APP_SLUG}[bot]"
+          git config --global user.email "${APP_USER_ID}+${APP_SLUG}[bot]@users.noreply.github.com"
+          gh auth setup-git
+
+          # Release events build from the tag (detached HEAD), so move to main's tip
+          # and reapply the bump there.
+          git checkout -- package.json package-lock.json
+          git fetch --depth=1 origin main
+          git checkout -B main FETCH_HEAD
+          npm version "$VERSION" --no-git-tag-version
 
           git add package.json package-lock.json
 
@@ -58,7 +81,7 @@ jobs:
           if ! git diff --staged --quiet; then
             # The [skip ci] in the commit message prevents this commit from re-triggering workflows.
             git commit -m "${VERSION} has shipped ⛵🌟💖 [skip ci]"
-            git push
+            git push origin main
           else
             echo "No changes to commit."
           fi
