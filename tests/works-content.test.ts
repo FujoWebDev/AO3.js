@@ -1,6 +1,8 @@
 import { getWork, getWorkContent, toPlainText } from "src/index";
 import { expectUnlocked } from "./helpers/invariants";
 import { describe, it, expect } from "vitest";
+import { http, HttpResponse } from "msw";
+import server from "./mocks/server";
 import { prettify } from "htmlfy";
 
 const prettifyOrNullish = (content: string | null) => {
@@ -18,17 +20,17 @@ describe("Works/content", () => {
       "./snapshots/ao3/works/29046888/chapter-1-summary.html"
     );
 
-    expect(workContent.content.chapter.notes.start).not.toBeNull();
-    await expect(prettifyOrNullish(workContent.content.chapter.notes.start)).toMatchFileSnapshot(
+    expect(workContent.content.chapters[0].notes.start).not.toBeNull();
+    await expect(prettifyOrNullish(workContent.content.chapters[0].notes.start)).toMatchFileSnapshot(
       "./snapshots/ao3/works/29046888/chapter-1-start-notes.html"
     );
 
-    expect(workContent.content.chapter.notes.end).not.toBeNull();
-    await expect(prettifyOrNullish(workContent.content.chapter.notes.end)).toMatchFileSnapshot(
+    expect(workContent.content.chapters[0].notes.end).not.toBeNull();
+    await expect(prettifyOrNullish(workContent.content.chapters[0].notes.end)).toMatchFileSnapshot(
       "./snapshots/ao3/works/29046888/chapter-1-end-notes.html"
     );
 
-    await expect(prettifyOrNullish(workContent.content.chapter.html)).toMatchFileSnapshot(
+    await expect(prettifyOrNullish(workContent.content.chapters[0].html)).toMatchFileSnapshot(
       "./snapshots/ao3/works/29046888/chapter-1-content.html"
     );
   });
@@ -49,10 +51,10 @@ describe("Works/content", () => {
       "./snapshots/ao3/works/323217/work-start-notes.html"
     );
     expect(workContent.content.notes.end).toBeNull();
-    expect(workContent.content.chapter.summary).toBeNull();
-    expect(workContent.content.chapter.notes).toEqual({ start: null, end: null });
+    expect(workContent.content.chapters[0].summary).toBeNull();
+    expect(workContent.content.chapters[0].notes).toEqual({ start: null, end: null });
 
-    await expect(prettifyOrNullish(workContent.content.chapter.html)).toMatchFileSnapshot(
+    await expect(prettifyOrNullish(workContent.content.chapters[0].html)).toMatchFileSnapshot(
       "./snapshots/ao3/works/323217/chapter-1-content.html"
     );
   });
@@ -67,8 +69,8 @@ describe("Works/content", () => {
       "./snapshots/ao3/works/17793689/chapter-1-summary.html"
     );
 
-    expect(workContent.content.chapter.notes.start).not.toBeNull();
-    await expect(prettifyOrNullish(workContent.content.chapter.notes.start)).toMatchFileSnapshot(
+    expect(workContent.content.chapters[0].notes.start).not.toBeNull();
+    await expect(prettifyOrNullish(workContent.content.chapters[0].notes.start)).toMatchFileSnapshot(
       "./snapshots/ao3/works/17793689/chapter-1-start-notes.html"
     );
 
@@ -78,15 +80,15 @@ describe("Works/content", () => {
       "./snapshots/ao3/works/17793689/work-start-notes.html"
     );
 
-    await expect(prettifyOrNullish(workContent.content.chapter.html)).toMatchFileSnapshot(
+    await expect(prettifyOrNullish(workContent.content.chapters[0].html)).toMatchFileSnapshot(
       "./snapshots/ao3/works/17793689/chapter-1-content.html"
     );
-    await expect(toPlainText({ html: workContent.content.chapter.html })).toMatchFileSnapshot(
+    await expect(toPlainText({ html: workContent.content.chapters[0].html })).toMatchFileSnapshot(
       "./snapshots/ao3/works/17793689/chapter-1-content.txt"
     );
 
-    expect(workContent.content.chapter.notes.end).not.toBeNull();
-    await expect(prettifyOrNullish(workContent.content.chapter.notes.end)).toMatchFileSnapshot(
+    expect(workContent.content.chapters[0].notes.end).not.toBeNull();
+    await expect(prettifyOrNullish(workContent.content.chapters[0].notes.end)).toMatchFileSnapshot(
       "./snapshots/ao3/works/17793689/chapter-1-end-notes.html"
     );
   });
@@ -101,17 +103,88 @@ describe("Works/content", () => {
     expect(workContent.summary).toBeNull();
     expect(workContent.content.notes.start).toBeNull();
 
-    expect(workContent.content.chapter.summary).not.toBeNull();
-    expect(workContent.content.chapter.notes.start).not.toBeNull();
-    await expect(prettifyOrNullish(workContent.content.chapter.notes.start)).toMatchFileSnapshot(
+    expect(workContent.content.chapters[0].summary).not.toBeNull();
+    expect(workContent.content.chapters[0].notes.start).not.toBeNull();
+    await expect(prettifyOrNullish(workContent.content.chapters[0].notes.start)).toMatchFileSnapshot(
       "./snapshots/ao3/works/17793689/chapter-2-start-notes.html"
     );
 
-    await expect(prettifyOrNullish(workContent.content.chapter.html)).toMatchFileSnapshot(
+    await expect(prettifyOrNullish(workContent.content.chapters[0].html)).toMatchFileSnapshot(
       "./snapshots/ao3/works/17793689/chapter-2-content.html"
     );
 
-    expect(workContent.content.chapter.notes.end).toBeNull();
+    expect(workContent.content.chapters[0].notes.end).toBeNull();
+  });
+});
+
+describe("Works/content chapter URL", () => {
+  it("should link a oneshot's chapter to the work", async () => {
+    const { content } = expectUnlocked(await getWorkContent({ workId: 323217 }));
+    expect(content.chapters[0].url).toBe("https://archiveofourown.org/works/323217");
+    expect(content.chapters[0].shortUrl).toBe("https://ao3.org/works/323217");
+  });
+
+  it("should link to the first chapter when no chapter is given", async () => {
+    const { content } = expectUnlocked(await getWorkContent({ workId: 17793689 }));
+    expect(content.chapters[0].url).toBe(
+      "https://archiveofourown.org/works/17793689/chapters/41980418",
+    );
+  });
+
+  it("should link to the given chapter", async () => {
+    const { content } = expectUnlocked(await getWorkContent({ workId: 17793689, chapterId: 42035519 }));
+    expect(content.chapters[0].url).toBe(
+      "https://archiveofourown.org/works/17793689/chapters/42035519",
+    );
+    expect(content.chapters[0].shortUrl).toBe(
+      "https://ao3.org/works/17793689/chapters/42035519",
+    );
+  });
+});
+
+describe("Works/content chapter details", () => {
+  it("should read the chapter AO3 shows when no chapter is given", async () => {
+    const work = expectUnlocked(await getWorkContent({ workId: 17793689 }));
+    expect(work.chapterInfo).toMatchObject({ id: 41980418, index: 1 });
+    expect(work.content.chapters).toHaveLength(1);
+    expect(work.content.chapters[0]).toMatchObject({ id: 41980418, index: 1 });
+  });
+
+  it("should read the given chapter's id, index, and title", async () => {
+    const work = expectUnlocked(await getWorkContent({ workId: 17793689, chapterId: 42035519 }));
+    expect(work.content.chapters[0]).toMatchObject({
+      id: 42035519,
+      index: work.chapterInfo?.index,
+      title: work.chapterInfo?.name,
+    });
+    expect(work.content.chapters[0].index).toBe(2);
+  });
+
+  it("should throw when AO3 shows a different chapter than the one asked for", async () => {
+    // AO3 redirects a chapter that isn't part of the work to the work's
+    // first chapter instead of failing
+    server.use(
+      http.get(
+        "https://archiveofourown.org/works/17793689/chapters/1",
+        () => HttpResponse.redirect(
+          "https://archiveofourown.org/works/17793689/chapters/41980418",
+          302,
+        ),
+      ),
+    );
+    await expect(
+      getWorkContent({ workId: 17793689, chapterId: 1 }),
+    ).rejects.toThrow("Chapter 1 was not found: AO3 showed chapter 41980418 instead");
+    await expect(
+      getWork({ workId: 17793689, chapterId: 1 }),
+    ).rejects.toThrow("Chapter 1 was not found");
+  });
+
+  it("should accept fullWork as a plain boolean", async () => {
+    // A boolean variable didn't type-check when getWorkContent had overloads
+    const options: { fullWork: boolean } = { fullWork: true };
+    const work = expectUnlocked(await getWorkContent({ workId: 17793689, ...options }));
+    expect(work.content.chapters.length).toBeGreaterThan(1);
   });
 });
 
@@ -133,7 +206,11 @@ describe("Works/content details", () => {
 
   it("should include the work's details for the full work", async () => {
     const { content, ...work } = expectUnlocked(await getWorkContent({ workId: 17793689, fullWork: true }));
-    expect(work).toEqual(await getWork({ workId: 17793689 }));
+    // A full work shows every chapter, so it has no single chapter's details
+    expect(work).toEqual({
+      ...(await getWork({ workId: 17793689 })),
+      chapterInfo: null,
+    });
   });
 });
 
@@ -162,14 +239,14 @@ describe("Works/content with fullWork", () => {
     expect(first).toMatchObject({
       title: "The Guild",
       summary: expect.any(String),
-      notes: chapter1.content.chapter.notes,
-      html: chapter1.content.chapter.html,
+      notes: chapter1.content.chapters[0].notes,
+      html: chapter1.content.chapters[0].html,
     });
     expect(second).toMatchObject({
       title: expect.any(String),
       summary: expect.any(String),
-      notes: { start: chapter2.content.chapter.notes.start, end: null },
-      html: chapter2.content.chapter.html,
+      notes: { start: chapter2.content.chapters[0].notes.start, end: null },
+      html: chapter2.content.chapters[0].html,
     });
   });
 
@@ -180,14 +257,15 @@ describe("Works/content with fullWork", () => {
     expect(fullWork.summary).toBe(regular.summary);
     expect(fullWork.content.notes).toEqual(regular.content.notes);
     expect(fullWork.content.notes.start).not.toBeNull();
-    expect(fullWork.content.chapters).toEqual([
+    expect(fullWork.content.chapters).toEqual(regular.content.chapters);
+    expect(fullWork.content.chapters).toMatchObject([
       {
         id: null,
         index: 1,
         title: null,
         summary: null,
         notes: { start: null, end: null },
-        html: regular.content.chapter.html,
+        url: "https://archiveofourown.org/works/323217",
       },
     ]);
   });

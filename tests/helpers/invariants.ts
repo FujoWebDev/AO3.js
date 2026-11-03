@@ -1,18 +1,10 @@
 import { expect } from "vitest";
 import { prettify } from "htmlfy";
-import type {
-  WorkContentFull,
-  LockedWorkSummary,
-  WorkContentChapter,
-} from "types/entities";
+import type { LockedWorkSummary, WorkWithText } from "types/entities";
 
-export function expectUnlocked(content: WorkContentChapter | LockedWorkSummary): WorkContentChapter;
 export function expectUnlocked(
-  content: WorkContentFull | LockedWorkSummary,
-): WorkContentFull;
-export function expectUnlocked(
-  content: WorkContentChapter | WorkContentFull | LockedWorkSummary,
-) {
+  content: WorkWithText | LockedWorkSummary,
+): WorkWithText {
   if (!content.locked) {
     return content;
   }

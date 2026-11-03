@@ -21,6 +21,7 @@ import {
 } from "src/works/work-getters";
 import { isDefaultChapterTitle } from "src/works/chapter-getters";
 import { AO3_LANGUAGES } from "src/languages";
+import { isNonEmpty } from "src/utils";
 
 /**
  * The unvalidated data in a download. Do not trust it...yet.
@@ -231,12 +232,22 @@ const checkRequired = (
   }
 };
 
+// All works have at least one chapter, so we use type our code to
+// reflect that. This will make it easier to work with the chapters
+// array, since people won't have to check for an empty array.
+type DownloadChapter = DownloadData["chapters"][number];
+
 const toChapters = (
-  chapters: DownloadData["chapters"],
+  [firstChapter, ...otherChapters]: [DownloadChapter, ...DownloadChapter[]],
   isMultiChapter: boolean,
-): DownloadedChapter[] =>
-  chapters.map(({ heading, ...chapter }, position) => ({
+): DownloadedWork["content"]["chapters"] => {
+  const toChapter = (
+    { heading, ...chapter }: DownloadChapter,
+    position: number,
+  ): DownloadedChapter => ({
     id: null,
+    url: null,
+    shortUrl: null,
     index: position + 1,
     // A work with a single chapter uses its own title as the heading
     title:
@@ -244,7 +255,14 @@ const toChapters = (
         ? null
         : heading,
     ...chapter,
-  }));
+  });
+
+  return [
+    // First chapter is mapped apart from the rest so TypeScript knows there's at least one
+    toChapter(firstChapter, 0),
+    ...otherChapters.map((chapter, position) => toChapter(chapter, position + 1)),
+  ];
+};
 
 /**
  * Checks everything read from a download, and turns it into a work. Throws
@@ -271,6 +289,7 @@ export const toDownloadedWork = (
     rating === undefined ||
     !authors ||
     language === undefined ||
+    !isNonEmpty(data.chapters) ||
     problems.length > 0
   ) {
     throw new Error(`${fileLabel} isn't a valid AO3 download:\n- ${problems.join("\n- ")}`);

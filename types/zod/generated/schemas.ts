@@ -162,6 +162,8 @@ export const chapterSchema = z.object({
 
 export const chapterTextSchema = z.object({
     id: archiveIdSchema.nullable(),
+    url: z.string().nullable(),
+    shortUrl: z.string().nullable(),
     index: z.number(),
     title: z.string().nullable(),
     summary: z.string().nullable(),
@@ -171,23 +173,16 @@ export const chapterTextSchema = z.object({
 
 export const workTextSchema = z.object({
     notes: contentNotesSchema,
-    chapters: z.array(chapterTextSchema)
-});
-
-export const chapterPageContentSchema = z.object({
-    notes: contentNotesSchema,
-    chapter: chapterTextSchema.pick({ "summary": true, "notes": true, "html": true })
+    chapters: z.tuple([chapterTextSchema]).rest(chapterTextSchema)
 });
 
 export const downloadedChapterSchema = chapterTextSchema.extend({
-    id: z.null()
+    id: z.null(),
+    url: z.null(),
+    shortUrl: z.null()
 });
 
-export const workContentChapterSchema = workSummarySchema.extend({
-    content: chapterPageContentSchema
-});
-
-export const workContentFullSchema = workSummarySchema.extend({
+export const workWithTextSchema = workSummarySchema.extend({
     content: workTextSchema
 });
 
@@ -200,7 +195,7 @@ export const downloadedWorkSchema = workSummarySchema.pick({ "id": true, "url": 
     stats: z.null(),
     content: z.object({
         notes: contentNotesSchema,
-        chapters: z.array(downloadedChapterSchema)
+        chapters: z.tuple([downloadedChapterSchema]).rest(downloadedChapterSchema)
     })
 });
 
