@@ -99,17 +99,29 @@ export const loadTagFeedAtomPage = async ({ tagId }: { tagId: string }) => {
 export interface WorkPage extends CheerioAPI {
   kind: "WorkPage";
 }
+
+// Loads one chapter from a full-work page as its own document. On the full
+// page, the chapter getters would only find chapter 1, since they read the
+// first match. The #chapters wrapper is there for getters whose selectors
+// start with it. Only use chapter getters on the result: it has none of the
+// work's own parts, like its summary or notes.
+export const loadFullWorkChapter = (chapterHtml: string) => {
+  return load(`<div id="chapters">${chapterHtml}</div>`) as WorkPage;
+};
+
 export const loadWorkPage = async ({
   workId,
   chapterId,
+  fullWork,
 }: {
   workId: ArchiveId;
   chapterId?: ArchiveId;
+  fullWork?: boolean;
 }) => {
   // Work and chapter pages are the only ones AO3 hides behind its adult
   // warning. Browsers drop the view_adult cookie fetchPage sends, so we also
   // pass the query param, which AO3 accepts as the same confirmation.
-  const url = new URL(getWorkUrl({ workId, chapterId }));
+  const url = new URL(getWorkUrl({ workId, chapterId, fullWork }));
   url.searchParams.set("view_adult", "true");
   return await fetchPage<WorkPage>({
     url: url.href,

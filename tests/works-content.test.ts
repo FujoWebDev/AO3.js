@@ -130,6 +130,67 @@ describe("Works/content details", () => {
       await getWork({ workId: 17793689, chapterId: 42035519 }),
     );
   });
+
+  it("should include the work's details for the full work", async () => {
+    const { content, ...work } = expectUnlocked(await getWorkContent({ workId: 17793689, fullWork: true }));
+    expect(work).toEqual(await getWork({ workId: 17793689 }));
+  });
+});
+
+describe("Works/content with fullWork", () => {
+  it("should return every chapter of a multi-chapter work", async () => {
+    const fullWork = expectUnlocked(await getWorkContent({ workId: 17793689, fullWork: true }));
+    const chapter1 = expectUnlocked(await getWorkContent({
+      workId: 17793689,
+      chapterId: 41980418,
+    }));
+    const chapter2 = expectUnlocked(await getWorkContent({
+      workId: 17793689,
+      chapterId: 42035519,
+    }));
+
+    expect(fullWork.summary).not.toBeNull();
+    expect(fullWork.content.notes.start).not.toBeNull();
+    expect(fullWork.content.notes.end).toEqualHtml("<p>Placeholder work end notes.</p>");
+    expect(fullWork.content.chapters.map(({ id, index }) => ({ id, index }))).toEqual([
+      { id: 41980418, index: 1 },
+      { id: 42035519, index: 2 },
+    ]);
+    const [first, second] = fullWork.content.chapters;
+    // Same text and notes as each chapter's own page, whose snapshots leave
+    // out AO3's hidden "Chapter Text" heading
+    expect(first).toMatchObject({
+      title: "The Guild",
+      summary: expect.any(String),
+      notes: chapter1.content.chapter.notes,
+      html: chapter1.content.chapter.html,
+    });
+    expect(second).toMatchObject({
+      title: expect.any(String),
+      summary: expect.any(String),
+      notes: { start: chapter2.content.chapter.notes.start, end: null },
+      html: chapter2.content.chapter.html,
+    });
+  });
+
+  it("should return a single chapter for a oneshot", async () => {
+    const fullWork = expectUnlocked(await getWorkContent({ workId: 323217, fullWork: true }));
+    const regular = expectUnlocked(await getWorkContent({ workId: 323217 }));
+
+    expect(fullWork.summary).toBe(regular.summary);
+    expect(fullWork.content.notes).toEqual(regular.content.notes);
+    expect(fullWork.content.notes.start).not.toBeNull();
+    expect(fullWork.content.chapters).toEqual([
+      {
+        id: null,
+        index: 1,
+        title: null,
+        summary: null,
+        notes: { start: null, end: null },
+        html: regular.content.chapter.html,
+      },
+    ]);
+  });
 });
 
 describe("Works/content of a locked work", () => {

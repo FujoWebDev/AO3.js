@@ -1,4 +1,5 @@
 import {
+  ArchiveId,
   Author,
   BasicSeries,
   ContentNotes,
@@ -9,7 +10,7 @@ import {
 } from "types/entities";
 import { load } from "cheerio/slim";
 import { isValidArchiveId, parseArchiveId } from "src/utils";
-import { getAuthorFromUrl } from "src/urls";
+import { getAuthorFromUrl, getWorkDetailsFromUrl } from "src/urls";
 
 import { WorkPage } from "src/page-loaders";
 import type { WorkBlurb } from "src/works/blurb-getters";
@@ -278,6 +279,14 @@ export const getWorkLevelNotes = ($workPage: WorkPage): ContentNotes => {
 };
 
 // Chapter-specific (must be multi-chapter fic)
+export const getMultiChapterId = ($workPage: WorkPage): ArchiveId | null => {
+  const chapterUrl = $workPage("#chapters h3.title a").attr("href");
+  const chapterId = chapterUrl
+    ? getWorkDetailsFromUrl({ url: chapterUrl }).chapterId
+    : undefined;
+  return chapterId ? parseArchiveId(chapterId) : null;
+};
+
 export const getChapterIndex = (
   $workPage: WorkPage,
 ): NonNullable<WorkSummary["chapterInfo"]>["index"] => {

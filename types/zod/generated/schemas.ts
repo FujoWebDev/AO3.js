@@ -165,6 +165,11 @@ export const chapterTextSchema = z.object({
     html: z.string()
 });
 
+export const workTextSchema = z.object({
+    notes: contentNotesSchema,
+    chapters: z.array(chapterTextSchema)
+});
+
 export const chapterPageContentSchema = z.object({
     notes: contentNotesSchema,
     chapter: chapterTextSchema.pick({ "summary": true, "notes": true, "html": true })
@@ -176,6 +181,10 @@ export const downloadedChapterSchema = chapterTextSchema.extend({
 
 export const workContentChapterSchema = workSummarySchema.extend({
     content: chapterPageContentSchema
+});
+
+export const workContentFullSchema = workSummarySchema.extend({
+    content: workTextSchema
 });
 
 export const downloadedWorkSchema = workSummarySchema.pick({ "id": true, "title": true, "authors": true, "rating": true, "category": true, "fandoms": true, "tags": true, "language": true, "summary": true, "publishedAt": true, "updatedAt": true, "words": true, "chapters": true, "complete": true, "adult": true }).extend({

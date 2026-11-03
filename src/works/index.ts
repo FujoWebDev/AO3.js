@@ -1,6 +1,8 @@
 import type {
   Author,
   Chapter,
+  ChapterText,
+  WorkContentFull,
   LockedWorkSummary,
   WorkContentChapter,
   WorkSummary,
@@ -12,6 +14,7 @@ import {
   parseArchiveId,
 } from "src/utils";
 import {
+  getMultiChapterId,
   getChapterIndex,
   getChapterName,
   getChapterSummary,
@@ -50,6 +53,7 @@ import {
 } from "./chapter-getters";
 import {
   loadChaptersIndexPage,
+  loadFullWorkChapter,
   loadWorkPage,
   type WorkPage,
 } from "src/page-loaders";
@@ -166,15 +170,42 @@ export const getWorkWithChapters = async ({
   };
 };
 
+export function getWorkContent(options: {
+  workId: string | number;
+  fullWork: true;
+}): Promise<WorkContentFull | LockedWorkSummary>;
+export function getWorkContent(options: {
+  workId: string | number;
+  chapterId?: string | number | null;
+  fullWork?: false;
+}): Promise<WorkContentChapter | LockedWorkSummary>;
 export async function getWorkContent({
   workId,
   chapterId = null,
+  fullWork = false,
 }: {
   workId: string | number;
   chapterId?: string | number | null;
-}): Promise<WorkContentChapter | LockedWorkSummary> {
+  fullWork?: boolean;
+}): Promise<WorkContentChapter | WorkContentFull | LockedWorkSummary> {
   if (!isValidArchiveId(workId) || !isValidArchiveIdOrNullish(chapterId)) {
     throw new InvalidIDError(workId, "work");
+  }
+
+  if (fullWork) {
+    const workPage = await loadWorkPage({ workId, fullWork: true });
+    const work = getWorkDetails(workPage, { workId });
+    // A locked work's page has no text or notes to read
+    if (work.locked) {
+      return work;
+    }
+    return {
+      ...work,
+      content: {
+        notes: getWorkLevelNotes(workPage),
+        chapters: getFullWorkChapters(workPage),
+      },
+    };
   }
 
   const workPage = await loadWorkPage({
@@ -201,3 +232,39 @@ export async function getWorkContent({
     },
   };
 }
+
+const getFullWorkChapters = (workPage: WorkPage): ChapterText[] => {
+  const chapterElements = workPage("#chapters > .chapter").toArray();
+
+  // Single-chapter works render their text straight inside #chapters,
+  // with no per-chapter preface.
+  if (chapterElements.length === 0) {
+    return [
+      {
+        id: null,
+        index: 1,
+        title: null,
+        summary: null,
+        notes: { start: null, end: null },
+        html: getWorkContentBody(workPage),
+      },
+    ];
+  }
+
+  return chapterElements.map((chapterElement, position) => {
+    const chapterPage = loadFullWorkChapter(
+      workPage(chapterElement).prop("outerHTML") ?? "",
+    );
+    return {
+      id: getMultiChapterId(chapterPage),
+      index: position + 1,
+      title: getChapterName(chapterPage),
+      summary: getChapterSummary(chapterPage),
+      notes: {
+        start: getChapterStartNotes(chapterPage),
+        end: getChapterEndNotes(chapterPage),
+      },
+      html: getWorkContentBody(chapterPage),
+    };
+  });
+};
