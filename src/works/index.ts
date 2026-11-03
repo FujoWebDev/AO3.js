@@ -144,7 +144,8 @@ export const getWorkWithChapters = async ({
   workId: string | number;
 }): Promise<{
   title: string;
-  authors: "Anonymous" | Author[];
+  // Anonymous works have a single author with `anonymous: true`, like everywhere else
+  authors: Author[];
   workId: number;
   chapters: Chapter[];
 }> => {
@@ -181,8 +182,11 @@ export const getWorkContent = async ({
   chapterId = null,
   fullWork = false,
 }: GetWorkContentOptions): Promise<WorkWithText | LockedWorkSummary> => {
-  if (!isValidArchiveId(workId) || !isValidArchiveIdOrNullish(chapterId)) {
+  if (!isValidArchiveId(workId)) {
     throw new InvalidIDError(workId, "work");
+  }
+  if (!isValidArchiveIdOrNullish(chapterId)) {
+    throw new InvalidIDError(chapterId, "chapter");
   }
 
   const workPage = await loadWorkPage({

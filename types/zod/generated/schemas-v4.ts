@@ -180,7 +180,7 @@ export const workWithTextSchema = workSummarySchema.extend({
     content: workTextSchema
 });
 
-export const downloadedWorkSchema = workSummarySchema.pick({ "id": true, "url": true, "shortUrl": true, "title": true, "authors": true, "rating": true, "category": true, "fandoms": true, "tags": true, "language": true, "summary": true, "publishedAt": true, "updatedAt": true, "words": true, "chapters": true, "complete": true, "adult": true }).extend({
+export const downloadedWorkSchema = workSummarySchema.pick({ "id": true, "host": true, "url": true, "shortUrl": true, "title": true, "authors": true, "rating": true, "category": true, "fandoms": true, "tags": true, "language": true, "summary": true, "publishedAt": true, "updatedAt": true, "words": true, "chapters": true, "complete": true, "adult": true }).extend({
     source: z.literal("file"),
     file: z.object({
         format: z.union([z.literal("epub"), z.literal("pdf")]),
@@ -198,11 +198,9 @@ export const workBlurbSummarySchema = workSummarySchema.omit({ "category": true,
     stats: workSummarySchema.shape.stats.omit({ "comments": true })
 });
 
-export const listedWorkSchema = workBlurbSummarySchema.extend({
+export const onlineWorkSchema = workBlurbSummarySchema.extend({
     content: workTextSchema.optional()
 });
-
-export const collectedWorkSchema = z.discriminatedUnion("source", [listedWorkSchema, downloadedWorkSchema]);
 
 export const lockedWorkSummarySchema = workSummarySchema.pick({ "id": true, "source": true, "host": true, "url": true, "shortUrl": true }).extend({
     locked: z.literal(true)
@@ -241,4 +239,4 @@ export const seriesSchema = z.object({
     works: z.array(workBlurbSummarySchema)
 });
 
-export const anyWorkSchema = collectedWorkSchema;
+export const anyWorkSchema = z.discriminatedUnion("source", [onlineWorkSchema, downloadedWorkSchema]);

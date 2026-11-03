@@ -304,6 +304,7 @@ export const toDownloadedWork = (
     file: { format: data.format, filePath },
     stats: null,
     title: data.title,
+    host: new URL(url).hostname,
     url,
     shortUrl: getAsShortUrl({ url }),
     authors,
