@@ -36,10 +36,12 @@ export const getWorkUrl = ({
   workId,
   chapterId,
   collectionName,
+  fullWork,
 }: {
   workId: string | number;
   chapterId?: string | number;
   collectionName?: string;
+  fullWork?: boolean;
 }) => {
   let workPath = "";
 
@@ -62,7 +64,11 @@ export const getWorkUrl = ({
     workPath += `/chapters/${chapterId}`;
   }
 
-  return new URL(workPath, getArchiveBaseUrl()).href;
+  const url = new URL(workPath, getArchiveBaseUrl());
+  if (fullWork) {
+    url.searchParams.set("view_full_work", "true");
+  }
+  return url.href;
 };
 
 export const getWorkIndexUrl = ({ workId }: { workId: string | number }) => {

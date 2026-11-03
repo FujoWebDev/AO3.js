@@ -326,6 +326,19 @@ export function getFilePathFromUrl(url: string | URL) {
     }
   }
 
+  if (
+    segments[0] === "works" &&
+    segments.length === 2 &&
+    parsedUrl.searchParams.get("view_full_work") === "true"
+  ) {
+    return path.join(
+      getArchiveDataDir(archive),
+      "works",
+      safeFilenamify(segments[1]!),
+      "full.html",
+    );
+  }
+
   // If the last segment is a file, use segments up to the last one for the directory
   // Otherwise use all segments, unless the last path is "works".
   const dirSegments =

@@ -284,6 +284,11 @@ export interface ChapterText {
   html: string;
 }
 
+export interface WorkText {
+  notes: ContentNotes;
+  chapters: ChapterText[];
+}
+
 export interface ChapterPageContent {
   // The work's notes, when this page shows them: AO3 shows the start notes
   // on the first chapter and the end notes on the last. Works with a single
@@ -318,6 +323,10 @@ export interface DownloadedChapter extends ChapterText {
 
 export interface WorkContentChapter extends WorkSummary {
   content: ChapterPageContent;
+}
+
+export interface WorkContentFull extends WorkSummary {
+  content: WorkText;
 }
 
 // Works read from a file downloaded from AO3 don't include the
