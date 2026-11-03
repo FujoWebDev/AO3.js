@@ -89,6 +89,8 @@ export const workWarningsSchema = z.nativeEnum(WorkWarnings);
 
 export const basicSeriesSchema = z.object({
     id: archiveIdSchema,
+    url: z.string(),
+    shortUrl: z.string().nullable(),
     index: z.number(),
     name: z.string()
 });
@@ -103,6 +105,8 @@ export const workSummarySchema = z.object({
     id: archiveIdSchema,
     source: z.literal("website"),
     host: z.string(),
+    url: z.string(),
+    shortUrl: z.string().nullable(),
     title: z.string(),
     category: z.array(workCategorySchema).nullable(),
     publishedAt: z.string(),
@@ -187,9 +191,7 @@ export const workContentFullSchema = workSummarySchema.extend({
     content: workTextSchema
 });
 
-export const downloadedWorkSchema = workSummarySchema.pick({ "id": true, "title": true, "authors": true, "rating": true, "category": true, "fandoms": true, "tags": true, "language": true, "summary": true, "publishedAt": true, "updatedAt": true, "words": true, "chapters": true, "complete": true, "adult": true }).extend({
-    url: z.string(),
-    shortUrl: z.string().nullable(),
+export const downloadedWorkSchema = workSummarySchema.pick({ "id": true, "url": true, "shortUrl": true, "title": true, "authors": true, "rating": true, "category": true, "fandoms": true, "tags": true, "language": true, "summary": true, "publishedAt": true, "updatedAt": true, "words": true, "chapters": true, "complete": true, "adult": true }).extend({
     source: z.literal("file"),
     file: z.object({
         format: z.union([z.literal("epub"), z.literal("pdf")]),
@@ -203,13 +205,11 @@ export const downloadedWorkSchema = workSummarySchema.pick({ "id": true, "title"
 });
 
 export const workBlurbSummarySchema = workSummarySchema.omit({ "category": true, "publishedAt": true, "rating": true, "tags": true, "stats": true, "locked": true, "chapterInfo": true, "series": true }).extend({
-    url: z.string(),
-    shortUrl: z.string().nullable(),
     tags: workSummarySchema.shape.tags.omit({ "warnings": true }),
     stats: workSummarySchema.shape.stats.omit({ "comments": true })
 });
 
-export const lockedWorkSummarySchema = workSummarySchema.pick({ "id": true, "source": true, "host": true }).extend({
+export const lockedWorkSummarySchema = workSummarySchema.pick({ "id": true, "source": true, "host": true, "url": true, "shortUrl": true }).extend({
     locked: z.literal(true)
 });
 
@@ -227,6 +227,8 @@ export const seriesWorkSummarySchema = workBlurbSummarySchema;
 
 export const seriesSchema = z.object({
     id: archiveIdSchema,
+    url: z.string(),
+    shortUrl: z.string().nullable(),
     name: z.string(),
     startedAt: z.string(),
     updatedAt: z.string(),

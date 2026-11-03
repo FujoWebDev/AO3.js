@@ -585,6 +585,8 @@ describe("Work/restricted", () => {
       id: 15461226,
       source: "website",
       host: "archiveofourown.org",
+      url: "https://archiveofourown.org/works/15461226",
+      shortUrl: "https://ao3.org/works/15461226",
       locked: true,
     });
   });

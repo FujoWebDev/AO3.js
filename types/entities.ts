@@ -132,8 +132,6 @@ export interface WorkBlurbSummary
     | "chapterInfo"
     | "series"
   > {
-  url: string;
-  shortUrl: string | null;
   tags: Omit<WorkSummary["tags"], "warnings">;
   stats: Omit<WorkSummary["stats"], "comments">;
 }
@@ -143,6 +141,8 @@ export type SeriesWorkSummary = WorkBlurbSummary;
 
 export interface Series {
   id: ArchiveId;
+  url: string;
+  shortUrl: string | null;
   name: string;
   startedAt: string;
   updatedAt: string;
@@ -195,6 +195,8 @@ export enum WorkWarnings {
 
 export interface BasicSeries {
   id: ArchiveId;
+  url: string;
+  shortUrl: string | null;
   index: number;
   name: string;
 }
@@ -210,6 +212,8 @@ export interface WorkSummary {
   source: "website";
   // e.g. "archiveofourown.org", or a mirror set through setArchiveBaseUrl
   host: string;
+  url: string;
+  shortUrl: string | null;
   title: string;
   category: WorkCategory[] | null;
   // Date in ISO format. See: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString
@@ -315,7 +319,7 @@ export interface DownloadedChapter extends ChapterText {
 //   - getWorkContent({ fullWork: true }) ⇒ WorkContentFull ⇒ { ...WorkSummary, content: { notes, chapters } } 
 //   - parseEpubWork() / parsePdfWork() ⇒ DownloadedWork  ⇒ { ...file details, content: { notes, chapters } }
 // 
-//   If a work is locked, it will be a LockedWorkSummary ⇒ { id, source, host, locked: true }
+//   If a work is locked, it will be a LockedWorkSummary ⇒ { id, source, host, url, shortUrl, locked: true }
 //
 // To tell them apart check `locked` first, then `source` ("website" or "file").
 // A single chapter's page has `content.chapter`, a whole work has
@@ -335,6 +339,8 @@ export interface DownloadedWork
   extends Pick<
     WorkSummary,
     | "id"
+    | "url"
+    | "shortUrl"
     | "title"
     | "authors"
     | "rating"
@@ -350,8 +356,6 @@ export interface DownloadedWork
     | "complete"
     | "adult"
   > {
-  url: string;
-  shortUrl: string | null;
   source: "file";
   file: {
     format: "epub" | "pdf";
@@ -371,7 +375,8 @@ export interface DownloadedWork
 
 export type AnyWork = WorkBlurbSummary | DownloadedWork;
 
-export interface LockedWorkSummary extends Pick<WorkSummary, "id" | "source" | "host"> {
+export interface LockedWorkSummary
+  extends Pick<WorkSummary, "id" | "source" | "host" | "url" | "shortUrl"> {
   locked: true;
 }
 

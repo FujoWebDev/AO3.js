@@ -10,7 +10,12 @@ import {
 } from "types/entities";
 import { load } from "cheerio/slim";
 import { isValidArchiveId, parseArchiveId } from "src/utils";
-import { getAuthorFromUrl, getWorkDetailsFromUrl } from "src/urls";
+import {
+  getAsShortUrl,
+  getAuthorFromUrl,
+  getSeriesUrl,
+  getWorkDetailsFromUrl,
+} from "src/urls";
 
 import { WorkPage } from "src/page-loaders";
 import type { WorkBlurb } from "src/works/blurb-getters";
@@ -191,8 +196,11 @@ export const getWorkSeries = ($workPage: WorkPage): BasicSeries[] => {
       throw new Error(`Found non-numberical id in work ${id}}`);
     }
 
+    const url = getSeriesUrl({ seriesId: id });
     series[index] = {
       id: parseArchiveId(id),
+      url,
+      shortUrl: getAsShortUrl({ url }),
       name: link.text().trim(),
       index: matches!.length > 0 ? parseInt(matches![0]) : -1,
     };

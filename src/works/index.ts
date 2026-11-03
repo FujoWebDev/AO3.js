@@ -57,7 +57,7 @@ import {
   loadWorkPage,
   type WorkPage,
 } from "src/page-loaders";
-import { getArchiveBaseUrl } from "src/urls";
+import { getArchiveBaseUrl, getAsShortUrl, getWorkUrl } from "src/urls";
 
 export const getWork = async ({
   workId,
@@ -91,8 +91,11 @@ const getWorkDetails = (
   const source = "website";
   const host = new URL(getArchiveBaseUrl()).hostname;
 
+  const url = getWorkUrl({ workId: id });
+  const shortUrl = getAsShortUrl({ url });
+
   if (getWorkLocked(workPage)) {
-    return { id, source, host, locked: true };
+    return { id, source, host, url, shortUrl, locked: true };
   }
 
   const totalChapters = getWorkTotalChapters(workPage);
@@ -103,6 +106,8 @@ const getWorkDetails = (
     id,
     source,
     host,
+    url,
+    shortUrl,
     authors: getWorkAuthors(workPage),
     title: getWorkTitle(workPage),
     words: getWorkWordCount(workPage),

@@ -20,6 +20,8 @@ describe("Series/data", () => {
 
     expect(series).toMatchObject({
       id: 2270465,
+      url: "https://archiveofourown.org/series/2270465",
+      shortUrl: "https://ao3.org/series/2270465",
       name: "OG Titan",
       startedAt: "2021-04-11",
       updatedAt: "2026-04-18",

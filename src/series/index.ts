@@ -16,6 +16,7 @@ import {
 import type { Series } from "types/entities";
 import { loadSeriesPage } from "src/page-loaders";
 import { getPagesCount } from "src/tags/search-getters";
+import { getAsShortUrl, getSeriesUrl } from "src/urls";
 
 export const getSeries = async ({
   seriesId,
@@ -31,9 +32,12 @@ export const getSeries = async ({
   const seriesPage = await loadSeriesPage({ seriesId, page });
 
   const seriesWorks = getSeriesWorks(seriesPage);
+  const url = getSeriesUrl({ seriesId });
 
   return {
     id: parseArchiveId(seriesId),
+    url,
+    shortUrl: getAsShortUrl({ url }),
     name: getSeriesTitle(seriesPage),
     startedAt: getSeriesPublishDate(seriesPage),
     updatedAt: getSeriesUpdateDate(seriesPage),
