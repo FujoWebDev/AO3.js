@@ -145,7 +145,6 @@ describe("Works/content chapter URL", () => {
 describe("Works/content chapter details", () => {
   it("should read the chapter AO3 shows when no chapter is given", async () => {
     const work = expectUnlocked(await getWorkContent({ workId: 17793689 }));
-    expect(work.chapterInfo).toMatchObject({ id: 41980418, index: 1 });
     expect(work.content.chapters).toHaveLength(1);
     expect(work.content.chapters[0]).toMatchObject({ id: 41980418, index: 1 });
   });
@@ -154,10 +153,9 @@ describe("Works/content chapter details", () => {
     const work = expectUnlocked(await getWorkContent({ workId: 17793689, chapterId: 42035519 }));
     expect(work.content.chapters[0]).toMatchObject({
       id: 42035519,
-      index: work.chapterInfo?.index,
-      title: work.chapterInfo?.name,
+      index: 2,
+      title: "The College of Enchanters: New Haven",
     });
-    expect(work.content.chapters[0].index).toBe(2);
   });
 
   it("should throw when AO3 shows a different chapter than the one asked for", async () => {
@@ -175,9 +173,6 @@ describe("Works/content chapter details", () => {
     await expect(
       getWorkContent({ workId: 17793689, chapterId: 1 }),
     ).rejects.toThrow("Chapter 1 was not found: AO3 showed chapter 41980418 instead");
-    await expect(
-      getWork({ workId: 17793689, chapterId: 1 }),
-    ).rejects.toThrow("Chapter 1 was not found");
   });
 
   it("should accept fullWork as a plain boolean", async () => {
@@ -194,23 +189,18 @@ describe("Works/content details", () => {
     expect(work).toEqual(await getWork({ workId: 29046888 }));
   });
 
-  it("should include the chapter's details when given a chapter", async () => {
-    const { content, ...work } = expectUnlocked(await getWorkContent({
-      workId: 17793689,
-      chapterId: 42035519,
-    }));
-    expect(work).toEqual(
-      await getWork({ workId: 17793689, chapterId: 42035519 }),
-    );
+  it("should include the same work details as getWork when given a later chapter", async () => {
+    const { content, ...work } = expectUnlocked(await getWorkContent({ workId: 17793689, chapterId: 42035519 }));
+    // AO3 only shows the work's summary on its first page
+    expect(work).toEqual({
+      ...(await getWork({ workId: 17793689 })),
+      summary: null,
+    });
   });
 
   it("should include the work's details for the full work", async () => {
     const { content, ...work } = expectUnlocked(await getWorkContent({ workId: 17793689, fullWork: true }));
-    // A full work shows every chapter, so it has no single chapter's details
-    expect(work).toEqual({
-      ...(await getWork({ workId: 17793689 })),
-      chapterInfo: null,
-    });
+    expect(work).toEqual(await getWork({ workId: 17793689 }));
   });
 });
 

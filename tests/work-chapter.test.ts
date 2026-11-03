@@ -1,9 +1,9 @@
 import { describe, expect, it } from "vitest";
-import { expectHtml } from "./helpers/invariants";
+import { expectHtml, expectUnlocked } from "./helpers/invariants";
 import server from "./mocks/server";
 
 import type { WorkSummary } from "types/entities";
-import { getWork } from "src/index";
+import { getWork, getWorkContent } from "src/index";
 
 describe("Work Chapter/chapter", () => {
   it("should use null for single-chapter work", async () => {
@@ -38,7 +38,6 @@ describe("Work Chapter/chapter", () => {
       },
       publishedAt: "2011-02-08",
       updatedAt: null,
-      chapterInfo: null,
       chapters: { published: 1, total: 1 },
       complete: true,
       series: [],
@@ -54,12 +53,7 @@ describe("Work Chapter/chapter", () => {
   });
 
   it("should have different work summary and chapter summary", async () => {
-    const work = (await getWork({
-      workId: 17793689,
-      chapterId: 41980418,
-    })) as WorkSummary;
-
-    expect(!work.locked).toBeTruthy();
+    const work = expectUnlocked(await getWorkContent({ workId: 17793689, chapterId: 41980418 }));
 
     expectHtml(work.summary).toMatchInlineSnapshot(
       `
@@ -70,7 +64,7 @@ describe("Work Chapter/chapter", () => {
       <p>Fenina Lavellan, a student at the College of Enchanters: New Haven, often escapes her reality by playing the MMORPG Dragon Age (set in the ancient past during the time of the Second Inquisition) and is part of the most powerful guild aptly named &quot;TheInquisition&quot; - a guild which has been running since the game was released. But when the guild discovers that they all live in the same city and decide to meet up, they unknowingly stumble into a plot to destroy their world as they know it. Can they navigate the difficulties of actually being social in the real world? Will their in-game skills translate into abilities that will actually help them in stopping a madman? Or is this the end of the world as they know it?</p>"
     `,
     );
-    expect(work.chapterInfo?.summary).toMatchInlineSnapshot(
+    expect(work.content.chapters[0].summary).toMatchInlineSnapshot(
       `"<p>Fenina Lavellan&apos;s MMO guild discovers they all live closer than they thought and decides to meet up.</p>"`,
     );
   });
@@ -84,7 +78,7 @@ describe("Work Chapter/work", () => {
     };
     server.events.on("request:start", recordUrl);
     try {
-      await getWork({ workId: 48582418, chapterId: 122861680 });
+      await getWorkContent({ workId: 48582418, chapterId: 122861680 });
     } finally {
       server.events.removeListener("request:start", recordUrl);
     }
@@ -96,10 +90,7 @@ describe("Work Chapter/work", () => {
   });
 
   it("should fetch work + chapter object with all fields", async () => {
-    const work = await getWork({
-      workId: 48582418,
-      chapterId: 122861680,
-    });
+    const { content, ...work } = expectUnlocked(await getWorkContent({ workId: 48582418, chapterId: 122861680 }));
 
     expect(work).toMatchObject({
       id: 48582418,
@@ -150,13 +141,6 @@ describe("Work Chapter/work", () => {
       },
       publishedAt: "2023-07-14",
       updatedAt: "2023-10-30",
-      chapterInfo: {
-        id: 122861680,
-        index: 2,
-        name: "2. Tim",
-        summary:
-          "<p>Bruce is in a Silly Goofy Mood.<br>Gotham is frustrated.<br>Tim needs love.</p>",
-      },
       chapters: { published: 6, total: 6 },
       complete: true,
       series: [],
@@ -168,15 +152,19 @@ describe("Work Chapter/work", () => {
         kudos: expect.driftingCount({ atLeast: 585, atMost: 665 }),
       },
     });
+    expect(content.chapters[0]).toMatchObject({
+      id: 122861680,
+      url: "https://archiveofourown.org/works/48582418/chapters/122861680",
+      shortUrl: "https://ao3.org/works/48582418/chapters/122861680",
+      index: 2,
+      title: "2. Tim",
+      summary:
+        "<p>Bruce is in a Silly Goofy Mood.<br>Gotham is frustrated.<br>Tim needs love.</p>",
+    });
   });
 
   it("should fetch chapter object without title or summary", async () => {
-    const work = (await getWork({
-      workId: 37214506,
-      chapterId: 92848687,
-    })) as WorkSummary;
-
-    expect(!work.locked).toBeTruthy();
+    const { content, ...work } = expectUnlocked(await getWorkContent({ workId: 37214506, chapterId: 92848687 }));
 
     expect(work).toMatchObject({
       id: 37214506,
@@ -229,7 +217,6 @@ describe("Work Chapter/work", () => {
       },
       publishedAt: "2022-02-18",
       updatedAt: "2022-06-26",
-      chapterInfo: { id: 92848687, index: 1, name: null, summary: null },
       chapters: { published: 20, total: null },
       complete: false,
       series: [
@@ -248,6 +235,14 @@ describe("Work Chapter/work", () => {
         hits: expect.driftingCount({ atLeast: 3110, atMost: 3675 }),
       },
       locked: false,
+    });
+    expect(content.chapters[0]).toMatchObject({
+      id: 92848687,
+      url: "https://archiveofourown.org/works/37214506/chapters/92848687",
+      shortUrl: "https://ao3.org/works/37214506/chapters/92848687",
+      index: 1,
+      title: null,
+      summary: null,
     });
   });
 });

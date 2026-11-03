@@ -63,35 +63,22 @@ import { getArchiveBaseUrl, getAsShortUrl, getWorkUrl } from "src/urls";
 
 export const getWork = async ({
   workId,
-  chapterId,
 }: {
   workId: string | number;
-  chapterId?: string | number;
 }): Promise<WorkSummary | LockedWorkSummary> => {
   if (!isValidArchiveId(workId)) {
     throw new InvalidIDError(workId, "work");
   }
-  if (!isValidArchiveIdOrNullish(chapterId)) {
-    throw new InvalidIDError(workId, "chapter");
-  }
 
-  const workPage = await loadWorkPage({ workId, chapterId });
-  return getWorkDetails(workPage, { workId, chapterId });
+  const workPage = await loadWorkPage({ workId });
+  return getWorkDetails(workPage, workId);
 };
 
 // Gets the details of a work from a work page. This is used by getWork 
 // and getWorkContent, which both load a work page and share this same data.
 const getWorkDetails = (
   workPage: WorkPage,
-  {
-    workId,
-    chapterId,
-    fullWork = false,
-  }: {
-    workId: string | number;
-    chapterId?: string | number | null;
-    fullWork?: boolean;
-  },
+  workId: string | number,
 ): WorkSummary | LockedWorkSummary => {
   const id = parseArchiveId(workId);
 
@@ -105,7 +92,6 @@ const getWorkDetails = (
     return { id, source, host, url, shortUrl, locked: true };
   }
 
-  const pageChapterId = fullWork ? null : getPageChapterId(workPage, chapterId);
   const totalChapters = getWorkTotalChapters(workPage);
   const publishedChapters = getWorkPublishedChapters(workPage);
   const chapterIndex = getChapterIndex(workPage);
@@ -136,14 +122,6 @@ const getWorkDetails = (
       published: publishedChapters,
       total: totalChapters,
     },
-    chapterInfo: pageChapterId
-      ? {
-        id: pageChapterId,
-        index: chapterIndex,
-        name: getChapterName(workPage),
-        summary: getChapterSummary(workPage),
-      }
-      : null,
     complete: totalChapters !== null && totalChapters === publishedChapters,
     series: getWorkSeries(workPage),
     summary:
@@ -212,7 +190,7 @@ export const getWorkContent = async ({
     chapterId: chapterId ?? undefined,
     fullWork,
   });
-  const work = getWorkDetails(workPage, { workId, chapterId, fullWork });
+  const work = getWorkDetails(workPage, workId);
   // A locked work's page has no text or notes to read
   if (work.locked) {
     return work;
@@ -224,38 +202,32 @@ export const getWorkContent = async ({
       notes: getWorkLevelNotes(workPage),
       chapters: fullWork
         ? getFullWorkChapters(workPage, work.id)
-        : [
-          getChapterText(workPage, {
-            workId: work.id,
-            index: work.chapterInfo?.index ?? 1,
-          }),
-        ],
+        : [getPageChapter(workPage, { workId: work.id, chapterId })],
     },
   };
 };
 
-// The id of the chapter a work page shows, read from the chapter's heading.
-// AO3 only shows that heading for works with more than one chapter (or an
-// unknown number), so it's null for works with a single chapter.
+// The one chapter a work or chapter page shows.
 //
 // When the requested chapter isn't part of the work, AO3 redirects to the
 // work's first chapter instead of failing, so this throws rather than
 // returning the wrong chapter.
-const getPageChapterId = (
+const getPageChapter = (
   workPage: WorkPage,
-  requestedChapterId: string | number | null | undefined,
-): ArchiveId | null => {
+  { workId, chapterId }: { workId: ArchiveId; chapterId: string | number | null },
+): ChapterText => {
+  // AO3 only shows the chapter's id for works with more than one chapter (or
+  // an unknown number), so it's null for works with a single chapter.
   const pageChapterId = getMultiChapterId(workPage);
-  if (
-    requestedChapterId !== null &&
-    requestedChapterId !== undefined &&
-    pageChapterId !== parseArchiveId(requestedChapterId)
-  ) {
+  if (chapterId !== null && pageChapterId !== parseArchiveId(chapterId)) {
     throw new Error(
-      `Chapter ${requestedChapterId} was not found: AO3 showed ${pageChapterId === null ? "the work" : `chapter ${pageChapterId}`} instead`,
+      `Chapter ${chapterId} was not found: AO3 showed ${pageChapterId === null ? "the work" : `chapter ${pageChapterId}`} instead`,
     );
   }
-  return pageChapterId;
+  return getChapterText(workPage, {
+    workId,
+    index: pageChapterId === null ? 1 : getChapterIndex(workPage),
+  });
 };
 
 // Reads one chapter's text from a page that shows only that chapter: a

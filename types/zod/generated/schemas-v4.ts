@@ -101,50 +101,6 @@ export const authorSchema = z.object({
     anonymous: z.boolean()
 });
 
-export const workSummarySchema = z.object({
-    id: archiveIdSchema,
-    source: z.literal("website"),
-    host: z.string(),
-    url: z.string(),
-    shortUrl: z.string().nullable(),
-    title: z.string(),
-    category: z.array(workCategorySchema).nullable(),
-    publishedAt: z.string(),
-    updatedAt: z.string().nullable(),
-    summary: z.string().nullable(),
-    rating: workRatingsSchema,
-    adult: z.boolean(),
-    fandoms: z.array(z.string()),
-    tags: z.object({
-        warnings: z.array(workWarningsSchema),
-        characters: z.array(z.string()),
-        relationships: z.array(z.string()),
-        additional: z.array(z.string())
-    }),
-    authors: z.array(authorSchema),
-    language: z.string(),
-    words: z.number(),
-    chapters: z.object({
-        published: z.number(),
-        total: z.number().nullable()
-    }),
-    chapterInfo: z.object({
-        id: archiveIdSchema,
-        index: z.number(),
-        name: z.string().nullable(),
-        summary: z.string().nullable()
-    }).nullable(),
-    series: z.array(basicSeriesSchema),
-    complete: z.boolean(),
-    stats: z.object({
-        bookmarks: z.number(),
-        comments: z.number(),
-        kudos: z.number(),
-        hits: z.number()
-    }),
-    locked: z.literal(false)
-});
-
 export const contentNotesSchema = z.object({
     start: z.string().nullable(),
     end: z.string().nullable()
@@ -182,6 +138,44 @@ export const downloadedChapterSchema = chapterTextSchema.extend({
     shortUrl: z.null()
 });
 
+export const workSummarySchema = z.object({
+    id: archiveIdSchema,
+    source: z.literal("website"),
+    host: z.string(),
+    url: z.string(),
+    shortUrl: z.string().nullable(),
+    title: z.string(),
+    category: z.array(workCategorySchema).nullable(),
+    publishedAt: z.string(),
+    updatedAt: z.string().nullable(),
+    summary: z.string().nullable(),
+    rating: workRatingsSchema,
+    adult: z.boolean(),
+    fandoms: z.array(z.string()),
+    tags: z.object({
+        warnings: z.array(workWarningsSchema),
+        characters: z.array(z.string()),
+        relationships: z.array(z.string()),
+        additional: z.array(z.string())
+    }),
+    authors: z.array(authorSchema),
+    language: z.string(),
+    words: z.number(),
+    chapters: z.object({
+        published: z.number(),
+        total: z.number().nullable()
+    }),
+    series: z.array(basicSeriesSchema),
+    complete: z.boolean(),
+    stats: z.object({
+        bookmarks: z.number(),
+        comments: z.number(),
+        kudos: z.number(),
+        hits: z.number()
+    }),
+    locked: z.literal(false)
+});
+
 export const workWithTextSchema = workSummarySchema.extend({
     content: workTextSchema
 });
@@ -199,10 +193,16 @@ export const downloadedWorkSchema = workSummarySchema.pick({ "id": true, "url": 
     })
 });
 
-export const workBlurbSummarySchema = workSummarySchema.omit({ "category": true, "publishedAt": true, "rating": true, "tags": true, "stats": true, "locked": true, "chapterInfo": true, "series": true }).extend({
+export const workBlurbSummarySchema = workSummarySchema.omit({ "category": true, "publishedAt": true, "rating": true, "tags": true, "stats": true, "locked": true, "series": true }).extend({
     tags: workSummarySchema.shape.tags.omit({ "warnings": true }),
     stats: workSummarySchema.shape.stats.omit({ "comments": true })
 });
+
+export const listedWorkSchema = workBlurbSummarySchema.extend({
+    content: workTextSchema.optional()
+});
+
+export const collectedWorkSchema = z.discriminatedUnion("source", [listedWorkSchema, downloadedWorkSchema]);
 
 export const lockedWorkSummarySchema = workSummarySchema.pick({ "id": true, "source": true, "host": true, "url": true, "shortUrl": true }).extend({
     locked: z.literal(true)
@@ -241,4 +241,4 @@ export const seriesSchema = z.object({
     works: z.array(workBlurbSummarySchema)
 });
 
-export const anyWorkSchema = z.union([workBlurbSummarySchema, downloadedWorkSchema]);
+export const anyWorkSchema = collectedWorkSchema;
