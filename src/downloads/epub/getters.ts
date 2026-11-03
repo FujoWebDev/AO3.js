@@ -4,7 +4,7 @@
  */
 import { load, type CheerioAPI } from "cheerio";
 import type { AnyNode } from "domhandler";
-import { cleanText, toText } from "src/utils";
+import { cleanText } from "src/utils";
 import {
   PREFACE_LABELS,
   SAFE_LINK_SCHEME,
@@ -113,10 +113,11 @@ const getChapters = ($: CheerioAPI): DownloadData["chapters"] => {
   return chapters.map((chapter) => ({
     heading: chapter.heading,
     summary: getNotesAfter($, chapter.meta, "Chapter Summary"),
-    notes: getNotesAfter($, chapter.meta, "Chapter Notes"),
+    notes: {
+      start: getNotesAfter($, chapter.meta, "Chapter Notes"),
+      end: getNotesAfter($, chapter.endNotes, "Chapter End Notes"),
+    },
     html: toHtml($, chapter.text),
-    text: toText(copyOf($, chapter.text).copy.html() ?? ""),
-    endNotes: getNotesAfter($, chapter.endNotes, "Chapter End Notes"),
   }));
 };
 

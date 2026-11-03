@@ -1,5 +1,13 @@
 import { expect } from "vitest";
 import { prettify } from "htmlfy";
+import type { LockedWorkSummary, WorkContentChapter } from "types/entities";
+
+export function expectUnlocked(content: WorkContentChapter | LockedWorkSummary): WorkContentChapter {
+  if (!content.locked) {
+    return content;
+  }
+  throw new Error(`Work ${content.id} is somehow locked`);
+}
 
 export function expectHtml(html: string | null) {
   return expect(html === null ? null : prettify(html));
@@ -57,7 +65,7 @@ expect.extend({
 
 declare module "vitest" {
   interface Assertion<T = any>
-    extends DriftingCountMatchers<T>, HtmlMatchers<T> {}
+    extends DriftingCountMatchers<T>, HtmlMatchers<T> { }
   interface AsymmetricMatchersContaining
-    extends DriftingCountMatchers, HtmlMatchers {}
+    extends DriftingCountMatchers, HtmlMatchers { }
 }

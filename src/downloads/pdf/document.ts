@@ -13,7 +13,6 @@
 import { getDocumentProxy } from "unpdf";
 import { OPS } from "unpdf/pdfjs";
 import { SAFE_LINK_SCHEME } from "../download-getters";
-import { SCENE_BREAK } from "src/utils";
 
 type PdfDocument = Awaited<ReturnType<typeof getDocumentProxy>>;
 type PdfPage = Awaited<ReturnType<PdfDocument["getPage"]>>;
@@ -350,11 +349,6 @@ export const toHtml = (paragraphs: Paragraph[]) =>
       paragraph.kind === "rule" ? "<hr>" : `<p>${textRunsToHtml(paragraph.textRuns)}</p>`,
     )
     .join("\n");
-
-export const toText = (paragraphs: Paragraph[]) =>
-  paragraphs
-    .map((paragraph) => (paragraph.kind === "rule" ? SCENE_BREAK : paragraphText(paragraph)))
-    .join("\n\n");
 
 // The text of a page's lines, without the horizontal rules
 export const lineTexts = (page: PdfLine[]) =>

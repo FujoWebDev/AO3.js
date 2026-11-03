@@ -49,7 +49,7 @@ export interface DownloadData {
   summary: string | null;
   startNotes: string | null;
   // Each chapter's heading as printed, which becomes its title unless it's AO3's default
-  chapters: (Omit<DownloadedChapter, "index" | "title"> & { heading: string })[];
+  chapters: (Omit<DownloadedChapter, "id" | "index" | "title"> & { heading: string })[];
   endNotes: string | null;
 }
 
@@ -236,6 +236,7 @@ const toChapters = (
   isMultiChapter: boolean,
 ): DownloadedChapter[] =>
   chapters.map(({ heading, ...chapter }, position) => ({
+    id: null,
     index: position + 1,
     // A work with a single chapter uses its own title as the heading
     title:
@@ -282,6 +283,7 @@ export const toDownloadedWork = (
     id: workId,
     source: "file",
     file: { format: data.format, filePath },
+    stats: null,
     title: data.title,
     url,
     shortUrl: getAsShortUrl({ url }),
@@ -304,9 +306,8 @@ export const toDownloadedWork = (
     chapters,
     complete: chapters.published === chapters.total,
     content: {
-      startNotes: data.startNotes,
+      notes: { start: data.startNotes, end: data.endNotes },
       chapters: toChapters(data.chapters, stats.chapters !== null),
-      endNotes: data.endNotes,
     },
   };
 };

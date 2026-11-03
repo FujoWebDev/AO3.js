@@ -2,7 +2,7 @@ import type {
   Author,
   Chapter,
   LockedWorkSummary,
-  WorkContent,
+  WorkContentChapter,
   WorkSummary,
 } from "types/entities";
 import {
@@ -22,9 +22,9 @@ import {
   getWorkCategory,
   getWorkCharacters,
   getWorkCommentCount,
-  getWorkContentHtml,
-  getWorkContentSummary,
-  getWorkEndNotes,
+  getWorkContentBody,
+  getWorkLevelNotes,
+  getChapterEndNotes,
   getWorkFandoms,
   getWorkHits,
   getWorkKudosCount,
@@ -35,7 +35,7 @@ import {
   getWorkRating,
   getWorkRelationships,
   getWorkSeries,
-  getWorkStartNotes,
+  getChapterStartNotes,
   getWorkSummary,
   getWorkTitle,
   getWorkTotalChapters,
@@ -48,7 +48,11 @@ import {
   getWorkAuthors as getWorkAuthorsFromChaptersIndex,
   getWorkTitle as getWorkTitleFromChaptersIndex,
 } from "./chapter-getters";
-import { loadChaptersIndexPage, loadWorkPage } from "src/page-loaders";
+import {
+  loadChaptersIndexPage,
+  loadWorkPage,
+  type WorkPage,
+} from "src/page-loaders";
 import { getArchiveBaseUrl } from "src/urls";
 
 export const getWork = async ({
@@ -66,6 +70,18 @@ export const getWork = async ({
   }
 
   const workPage = await loadWorkPage({ workId, chapterId });
+  return getWorkDetails(workPage, { workId, chapterId });
+};
+
+// Gets the details of a work from a work page. This is used by getWork 
+// and getWorkContent, which both load a work page and share this same data.
+const getWorkDetails = (
+  workPage: WorkPage,
+  {
+    workId,
+    chapterId,
+  }: { workId: string | number; chapterId?: string | number | null },
+): WorkSummary | LockedWorkSummary => {
   const id = parseArchiveId(workId);
 
   const source = "website";
@@ -105,11 +121,11 @@ export const getWork = async ({
     },
     chapterInfo: chapterId
       ? {
-          id: parseArchiveId(chapterId),
-          index: chapterIndex,
-          name: getChapterName(workPage),
-          summary: getChapterSummary(workPage),
-        }
+        id: parseArchiveId(chapterId),
+        index: chapterIndex,
+        name: getChapterName(workPage),
+        summary: getChapterSummary(workPage),
+      }
       : null,
     complete: totalChapters !== null && totalChapters === publishedChapters,
     series: getWorkSeries(workPage),
@@ -150,25 +166,38 @@ export const getWorkWithChapters = async ({
   };
 };
 
-export const getWorkContent = async ({
+export async function getWorkContent({
   workId,
   chapterId = null,
 }: {
   workId: string | number;
   chapterId?: string | number | null;
-}): Promise<WorkContent> => {
+}): Promise<WorkContentChapter | LockedWorkSummary> {
   if (!isValidArchiveId(workId) || !isValidArchiveIdOrNullish(chapterId)) {
     throw new InvalidIDError(workId, "work");
   }
+
   const workPage = await loadWorkPage({
     workId,
     chapterId: chapterId ?? undefined,
   });
 
+  const work = getWorkDetails(workPage, { workId, chapterId });
+  if (work.locked) {
+    return work;
+  }
   return {
-    content: getWorkContentHtml(workPage),
-    startNotes: getWorkStartNotes(workPage),
-    endNotes: getWorkEndNotes(workPage),
-    summary: getWorkContentSummary(workPage),
+    ...work,
+    content: {
+      notes: getWorkLevelNotes(workPage),
+      chapter: {
+        summary: getChapterSummary(workPage),
+        notes: {
+          start: getChapterStartNotes(workPage),
+          end: getChapterEndNotes(workPage),
+        },
+        html: getWorkContentBody(workPage),
+      },
+    },
   };
-};
+}

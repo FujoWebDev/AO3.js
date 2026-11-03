@@ -141,40 +141,9 @@ export const workSummarySchema = z.object({
     locked: z.literal(false)
 });
 
-export const workContentSchema = z.object({
-    summary: z.string().nullable(),
-    startNotes: z.string().nullable(),
-    content: z.string(),
-    endNotes: z.string().nullable()
-});
-
-export const downloadedChapterSchema = z.object({
-    index: z.number(),
-    title: z.string().nullable(),
-    summary: z.string().nullable(),
-    notes: z.string().nullable(),
-    html: z.string(),
-    text: z.string(),
-    endNotes: z.string().nullable()
-});
-
-export const downloadedWorkSchema = workSummarySchema.pick({ "id": true, "title": true, "authors": true, "rating": true, "category": true, "fandoms": true, "tags": true, "language": true, "summary": true, "publishedAt": true, "updatedAt": true, "words": true, "chapters": true, "complete": true, "adult": true }).extend({
-    url: z.string(),
-    shortUrl: z.string().nullable(),
-    source: z.literal("file"),
-    file: z.object({
-        format: z.union([z.literal("epub"), z.literal("pdf")]),
-        filePath: z.string().nullable()
-    }),
-    content: z.object({
-        startNotes: z.string().nullable(),
-        chapters: z.array(downloadedChapterSchema),
-        endNotes: z.string().nullable()
-    })
-});
-
-export const lockedWorkSummarySchema = workSummarySchema.pick({ "id": true, "source": true, "host": true }).extend({
-    locked: z.literal(true)
+export const contentNotesSchema = z.object({
+    start: z.string().nullable(),
+    end: z.string().nullable()
 });
 
 export const chapterSchema = z.object({
@@ -185,6 +154,47 @@ export const chapterSchema = z.object({
     publishedAt: z.string(),
     url: z.string(),
     shortUrl: z.string().nullable()
+});
+
+export const chapterTextSchema = z.object({
+    id: archiveIdSchema.nullable(),
+    index: z.number(),
+    title: z.string().nullable(),
+    summary: z.string().nullable(),
+    notes: contentNotesSchema,
+    html: z.string()
+});
+
+export const chapterPageContentSchema = z.object({
+    notes: contentNotesSchema,
+    chapter: chapterTextSchema.pick({ "summary": true, "notes": true, "html": true })
+});
+
+export const downloadedChapterSchema = chapterTextSchema.extend({
+    id: z.null()
+});
+
+export const workContentChapterSchema = workSummarySchema.extend({
+    content: chapterPageContentSchema
+});
+
+export const downloadedWorkSchema = workSummarySchema.pick({ "id": true, "title": true, "authors": true, "rating": true, "category": true, "fandoms": true, "tags": true, "language": true, "summary": true, "publishedAt": true, "updatedAt": true, "words": true, "chapters": true, "complete": true, "adult": true }).extend({
+    url: z.string(),
+    shortUrl: z.string().nullable(),
+    source: z.literal("file"),
+    file: z.object({
+        format: z.union([z.literal("epub"), z.literal("pdf")]),
+        filePath: z.string().nullable()
+    }),
+    stats: z.null(),
+    content: z.object({
+        notes: contentNotesSchema,
+        chapters: z.array(downloadedChapterSchema)
+    })
+});
+
+export const lockedWorkSummarySchema = workSummarySchema.pick({ "id": true, "source": true, "host": true }).extend({
+    locked: z.literal(true)
 });
 
 export const workBlurbSummarySchema = workSummarySchema.omit({ "category": true, "publishedAt": true, "rating": true, "tags": true, "stats": true, "locked": true, "chapterInfo": true, "series": true }).extend({
