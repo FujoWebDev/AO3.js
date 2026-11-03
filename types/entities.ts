@@ -369,6 +369,8 @@ export interface DownloadedWork
   };
 }
 
+export type AnyWork = WorkBlurbSummary | DownloadedWork;
+
 export interface LockedWorkSummary extends Pick<WorkSummary, "id" | "source" | "host"> {
   locked: true;
 }
