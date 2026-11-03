@@ -312,9 +312,12 @@ export interface WorkSummary {
 //   - getWorkContent({ fullWork: true }) ⇒ WorkWithText, with every chapter
 //   - parseEpubWork() / parsePdfWork() ⇒ DownloadedWork, with every chapter
 //
-//   If a work is locked, it will be a LockedWorkSummary ⇒ { id, source, host, url, shortUrl, locked: true }
+// To tell them apart check `source` ("website" or "file").
 //
-// To tell them apart check `locked` first, then `source` ("website" or "file").
+// getWork and getWorkContent return a LockedWorkSummary instead when the work
+// is locked ⇒ { id, source, host, url, shortUrl, locked: true }. Check `locked`
+// on their results before reading anything else. Listed and downloaded works
+// are never locked, so they don't have `locked`.
 
 export interface WorkWithText extends WorkSummary {
   content: WorkText;
@@ -326,6 +329,7 @@ export interface DownloadedWork
   extends Pick<
     WorkSummary,
     | "id"
+    | "host"
     | "url"
     | "shortUrl"
     | "title"
@@ -361,19 +365,19 @@ export interface DownloadedWork
   };
 }
 
-// A work from one of AO3's listings, like a user's works page. Has 
-// `content` too when its text was also fetched with getWorkContent.
-export interface ListedWork extends WorkBlurbSummary {
+// A work from AO3 itself, as its listings (like a user's works page) show it.
+// Has `content` too when its text was also fetched with getWorkContent.
+export interface OnlineWork extends WorkBlurbSummary {
   content?: WorkText;
 }
 
 /**
- * A work you can collect: listed on AO3, or read from a downloaded file.
+ * Any work: from AO3, or read from a downloaded file.
  * Check `source` ("website" or "file") to tell them apart.
  *
  * @discriminator source
  */
-export type CollectedWork = ListedWork | DownloadedWork;
+export type AnyWork = OnlineWork | DownloadedWork;
 
 export interface LockedWorkSummary
   extends Pick<WorkSummary, "id" | "source" | "host" | "url" | "shortUrl"> {
