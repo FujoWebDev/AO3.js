@@ -543,8 +543,6 @@ describe("Work/other", () => {
       <p>Fenina Lavellan, a student at the College of Enchanters: New Haven, often escapes her reality by playing the MMORPG Dragon Age (set in the ancient past during the time of the Second Inquisition) and is part of the most powerful guild aptly named &quot;TheInquisition&quot; - a guild which has been running since the game was released. But when the guild discovers that they all live in the same city and decide to meet up, they unknowingly stumble into a plot to destroy their world as they know it. Can they navigate the difficulties of actually being social in the real world? Will their in-game skills translate into abilities that will actually help them in stopping a madman? Or is this the end of the world as they know it?</p>"
     `,
     );
-    // AO3 shows the first chapter when no chapter is given
-    expect(work.chapterInfo).toMatchObject({ id: 41980418, index: 1 });
   });
 
   it("should fetch stats ", async () => {

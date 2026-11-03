@@ -2,10 +2,10 @@ import {
   ArchiveId,
   Author,
   BasicSeries,
+  ChapterText,
   ContentNotes,
   WorkCategory,
   WorkRatings,
-  WorkSummary,
   WorkWarnings,
 } from "types/entities";
 import { load } from "cheerio/slim";
@@ -297,14 +297,14 @@ export const getMultiChapterId = ($workPage: WorkPage): ArchiveId | null => {
 
 export const getChapterIndex = (
   $workPage: WorkPage,
-): NonNullable<WorkSummary["chapterInfo"]>["index"] => {
+): ChapterText["index"] => {
   const index = $workPage("#chapters h3.title a").text();
   return index ? parseInt(index.trim().replace("Chapter ", "")) : -1;
 };
 
 export const getChapterName = (
   $workPage: WorkPage,
-): NonNullable<WorkSummary["chapterInfo"]>["name"] => {
+): ChapterText["title"] => {
   const title = $workPage("#chapters h3.title").text().trim();
   // 2 characters is the length of query string
   return title && title.includes(":")

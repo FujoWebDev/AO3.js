@@ -129,7 +129,6 @@ export interface WorkBlurbSummary
     | "tags"
     | "stats"
     | "locked"
-    | "chapterInfo"
     | "series"
   > {
   tags: Omit<WorkSummary["tags"], "warnings">;
@@ -207,58 +206,6 @@ export interface Author {
   anonymous: boolean;
 }
 
-export interface WorkSummary {
-  id: ArchiveId;
-  source: "website";
-  // e.g. "archiveofourown.org", or a mirror set through setArchiveBaseUrl
-  host: string;
-  url: string;
-  shortUrl: string | null;
-  title: string;
-  category: WorkCategory[] | null;
-  // Date in ISO format. See: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString
-  // Note that AO3 doesn't publish the actual time of publish, just the date.
-  publishedAt: string;
-  updatedAt: string | null;
-  // The work's summary, as AO3 shows it. This is HTML, not plain text.
-  summary: string | null;
-  rating: WorkRatings;
-  // Whether this work would display the "this work could have adult content" banner
-  // upon access.
-  adult: boolean;
-  fandoms: string[];
-  tags: {
-    warnings: WorkWarnings[];
-    characters: string[];
-    relationships: string[];
-    additional: string[];
-  };
-  // If the author is anonymous this array will contain a single
-  // entry whose "anonymous" property is "true".
-  authors: Author[];
-  language: string;
-  words: number;
-  chapters: {
-    published: number;
-    total: number | null;
-  };
-  chapterInfo: {
-    id: ArchiveId;
-    index: number;
-    name: string | null;
-    summary: string | null;
-  } | null;
-  series: BasicSeries[];
-  complete: boolean;
-  stats: {
-    bookmarks: number;
-    comments: number;
-    kudos: number;
-    hits: number;
-  };
-  locked: false;
-}
-
 // The notes before and after a work or chapter
 export interface ContentNotes {
   start: string | null;
@@ -306,6 +253,54 @@ export interface DownloadedChapter extends ChapterText {
   id: null;
   url: null;
   shortUrl: null;
+}
+
+export interface WorkSummary {
+  id: ArchiveId;
+  source: "website";
+  // e.g. "archiveofourown.org", or a mirror set through setArchiveBaseUrl
+  host: string;
+  url: string;
+  shortUrl: string | null;
+  title: string;
+  category: WorkCategory[] | null;
+  // Date in ISO format. See: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString
+  // Note that AO3 doesn't publish the actual time of publish, just the date.
+  publishedAt: string;
+  updatedAt: string | null;
+  // The work's summary, as AO3 shows it. This is HTML, not plain text.
+  // AO3 only shows it on the work's first page, so it's null when
+  // getWorkContent reads a later chapter.
+  summary: string | null;
+  rating: WorkRatings;
+  // Whether this work would display the "this work could have adult content" banner
+  // upon access.
+  adult: boolean;
+  fandoms: string[];
+  tags: {
+    warnings: WorkWarnings[];
+    characters: string[];
+    relationships: string[];
+    additional: string[];
+  };
+  // If the author is anonymous this array will contain a single
+  // entry whose "anonymous" property is "true".
+  authors: Author[];
+  language: string;
+  words: number;
+  chapters: {
+    published: number;
+    total: number | null;
+  };
+  series: BasicSeries[];
+  complete: boolean;
+  stats: {
+    bookmarks: number;
+    comments: number;
+    kudos: number;
+    hits: number;
+  };
+  locked: false;
 }
 
 // Work content. Every text field (summaries, notes, chapter text) is HTML: use
@@ -366,7 +361,19 @@ export interface DownloadedWork
   };
 }
 
-export type AnyWork = WorkBlurbSummary | DownloadedWork;
+// A work from one of AO3's listings, like a user's works page. Has 
+// `content` too when its text was also fetched with getWorkContent.
+export interface ListedWork extends WorkBlurbSummary {
+  content?: WorkText;
+}
+
+/**
+ * A work you can collect: listed on AO3, or read from a downloaded file.
+ * Check `source` ("website" or "file") to tell them apart.
+ *
+ * @discriminator source
+ */
+export type CollectedWork = ListedWork | DownloadedWork;
 
 export interface LockedWorkSummary
   extends Pick<WorkSummary, "id" | "source" | "host" | "url" | "shortUrl"> {

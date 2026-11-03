@@ -41,7 +41,6 @@ describe("Works/data", () => {
         "category": [
           "F/F",
         ],
-        "chapterInfo": null,
         "chapters": {
           "published": 1,
           "total": 1,
