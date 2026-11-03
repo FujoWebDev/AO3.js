@@ -202,15 +202,25 @@ export const downloadedWorkSchema = workSummarySchema.pick({ "id": true, "title"
     })
 });
 
-export const lockedWorkSummarySchema = workSummarySchema.pick({ "id": true, "source": true, "host": true }).extend({
-    locked: z.literal(true)
-});
-
 export const workBlurbSummarySchema = workSummarySchema.omit({ "category": true, "publishedAt": true, "rating": true, "tags": true, "stats": true, "locked": true, "chapterInfo": true, "series": true }).extend({
     url: z.string(),
     shortUrl: z.string().nullable(),
     tags: workSummarySchema.shape.tags.omit({ "warnings": true }),
     stats: workSummarySchema.shape.stats.omit({ "comments": true })
+});
+
+export const lockedWorkSummarySchema = workSummarySchema.pick({ "id": true, "source": true, "host": true }).extend({
+    locked: z.literal(true)
+});
+
+export const userWorksSchema = z.object({
+    filters: userWorksFiltersSchema,
+    totalResults: z.number(),
+    pages: z.object({
+        total: z.number(),
+        current: z.number()
+    }),
+    works: z.array(workBlurbSummarySchema)
 });
 
 export const seriesWorkSummarySchema = workBlurbSummarySchema;
@@ -234,12 +244,4 @@ export const seriesSchema = z.object({
     works: z.array(workBlurbSummarySchema)
 });
 
-export const userWorksSchema = z.object({
-    filters: userWorksFiltersSchema,
-    totalResults: z.number(),
-    pages: z.object({
-        total: z.number(),
-        current: z.number()
-    }),
-    works: z.array(workBlurbSummarySchema)
-});
+export const anyWorkSchema = z.union([workBlurbSummarySchema, downloadedWorkSchema]);
