@@ -1,15 +1,17 @@
 import type {
+  ArchiveId,
   Author,
   Chapter,
   ChapterText,
-  WorkContentFull,
   LockedWorkSummary,
-  WorkContentChapter,
   WorkSummary,
+  WorkText,
+  WorkWithText,
 } from "types/entities";
 import {
   InvalidIDError,
   isValidArchiveId,
+  isNonEmpty,
   isValidArchiveIdOrNullish,
   parseArchiveId,
 } from "src/utils";
@@ -84,7 +86,12 @@ const getWorkDetails = (
   {
     workId,
     chapterId,
-  }: { workId: string | number; chapterId?: string | number | null },
+    fullWork = false,
+  }: {
+    workId: string | number;
+    chapterId?: string | number | null;
+    fullWork?: boolean;
+  },
 ): WorkSummary | LockedWorkSummary => {
   const id = parseArchiveId(workId);
 
@@ -98,6 +105,7 @@ const getWorkDetails = (
     return { id, source, host, url, shortUrl, locked: true };
   }
 
+  const pageChapterId = fullWork ? null : getPageChapterId(workPage, chapterId);
   const totalChapters = getWorkTotalChapters(workPage);
   const publishedChapters = getWorkPublishedChapters(workPage);
   const chapterIndex = getChapterIndex(workPage);
@@ -128,9 +136,9 @@ const getWorkDetails = (
       published: publishedChapters,
       total: totalChapters,
     },
-    chapterInfo: chapterId
+    chapterInfo: pageChapterId
       ? {
-        id: parseArchiveId(chapterId),
+        id: pageChapterId,
         index: chapterIndex,
         name: getChapterName(workPage),
         summary: getChapterSummary(workPage),
@@ -175,101 +183,120 @@ export const getWorkWithChapters = async ({
   };
 };
 
-export function getWorkContent(options: {
-  workId: string | number;
-  fullWork: true;
-}): Promise<WorkContentFull | LockedWorkSummary>;
-export function getWorkContent(options: {
-  workId: string | number;
-  chapterId?: string | number | null;
-  fullWork?: false;
-}): Promise<WorkContentChapter | LockedWorkSummary>;
-export async function getWorkContent({
+type GetWorkContentOptions =
+  | {
+    workId: string | number;
+    chapterId?: string | number | null;
+    fullWork?: false;
+  }
+  | {
+    workId: string | number;
+    chapterId?: null;
+    // Return every chapter instead of the one AO3 shows by default.
+    // Cannot coexist with chapterId, since AO3 doesn't show a full work
+    // page for a single chapter.
+    fullWork: true;
+  };
+
+export const getWorkContent = async ({
   workId,
   chapterId = null,
   fullWork = false,
-}: {
-  workId: string | number;
-  chapterId?: string | number | null;
-  fullWork?: boolean;
-}): Promise<WorkContentChapter | WorkContentFull | LockedWorkSummary> {
+}: GetWorkContentOptions): Promise<WorkWithText | LockedWorkSummary> => {
   if (!isValidArchiveId(workId) || !isValidArchiveIdOrNullish(chapterId)) {
     throw new InvalidIDError(workId, "work");
-  }
-
-  if (fullWork) {
-    const workPage = await loadWorkPage({ workId, fullWork: true });
-    const work = getWorkDetails(workPage, { workId });
-    // A locked work's page has no text or notes to read
-    if (work.locked) {
-      return work;
-    }
-    return {
-      ...work,
-      content: {
-        notes: getWorkLevelNotes(workPage),
-        chapters: getFullWorkChapters(workPage),
-      },
-    };
   }
 
   const workPage = await loadWorkPage({
     workId,
     chapterId: chapterId ?? undefined,
+    fullWork,
   });
-
-  const work = getWorkDetails(workPage, { workId, chapterId });
+  const work = getWorkDetails(workPage, { workId, chapterId, fullWork });
+  // A locked work's page has no text or notes to read
   if (work.locked) {
     return work;
   }
+
   return {
     ...work,
     content: {
       notes: getWorkLevelNotes(workPage),
-      chapter: {
-        summary: getChapterSummary(workPage),
-        notes: {
-          start: getChapterStartNotes(workPage),
-          end: getChapterEndNotes(workPage),
-        },
-        html: getWorkContentBody(workPage),
-      },
+      chapters: fullWork
+        ? getFullWorkChapters(workPage, work.id)
+        : [
+          getChapterText(workPage, {
+            workId: work.id,
+            index: work.chapterInfo?.index ?? 1,
+          }),
+        ],
     },
   };
-}
+};
 
-const getFullWorkChapters = (workPage: WorkPage): ChapterText[] => {
-  const chapterElements = workPage("#chapters > .chapter").toArray();
+// The id of the chapter a work page shows, read from the chapter's heading.
+// AO3 only shows that heading for works with more than one chapter (or an
+// unknown number), so it's null for works with a single chapter.
+//
+// When the requested chapter isn't part of the work, AO3 redirects to the
+// work's first chapter instead of failing, so this throws rather than
+// returning the wrong chapter.
+const getPageChapterId = (
+  workPage: WorkPage,
+  requestedChapterId: string | number | null | undefined,
+): ArchiveId | null => {
+  const pageChapterId = getMultiChapterId(workPage);
+  if (
+    requestedChapterId !== null &&
+    requestedChapterId !== undefined &&
+    pageChapterId !== parseArchiveId(requestedChapterId)
+  ) {
+    throw new Error(
+      `Chapter ${requestedChapterId} was not found: AO3 showed ${pageChapterId === null ? "the work" : `chapter ${pageChapterId}`} instead`,
+    );
+  }
+  return pageChapterId;
+};
+
+// Reads one chapter's text from a page that shows only that chapter: a
+// chapter page, or one chapter cut out of a full work page.
+const getChapterText = (
+  chapterPage: WorkPage,
+  { workId, index }: { workId: ArchiveId; index: number },
+): ChapterText => {
+  const id = getMultiChapterId(chapterPage);
+  const url = getWorkUrl({ workId, chapterId: id ?? undefined });
+  return {
+    id,
+    url,
+    shortUrl: getAsShortUrl({ url }),
+    index,
+    title: getChapterName(chapterPage),
+    summary: getChapterSummary(chapterPage),
+    notes: {
+      start: getChapterStartNotes(chapterPage),
+      end: getChapterEndNotes(chapterPage),
+    },
+    html: getWorkContentBody(chapterPage),
+  };
+};
+
+const getFullWorkChapters = (
+  workPage: WorkPage,
+  workId: ArchiveId,
+): WorkText["chapters"] => {
+  const chapters = workPage("#chapters > .chapter")
+    .toArray()
+    .map((chapterElement, position) =>
+      getChapterText(
+        loadFullWorkChapter(workPage(chapterElement).prop("outerHTML") ?? ""),
+        { workId, index: position + 1 },
+      ),
+    );
 
   // Single-chapter works render their text straight inside #chapters,
   // with no per-chapter preface.
-  if (chapterElements.length === 0) {
-    return [
-      {
-        id: null,
-        index: 1,
-        title: null,
-        summary: null,
-        notes: { start: null, end: null },
-        html: getWorkContentBody(workPage),
-      },
-    ];
-  }
-
-  return chapterElements.map((chapterElement, position) => {
-    const chapterPage = loadFullWorkChapter(
-      workPage(chapterElement).prop("outerHTML") ?? "",
-    );
-    return {
-      id: getMultiChapterId(chapterPage),
-      index: position + 1,
-      title: getChapterName(chapterPage),
-      summary: getChapterSummary(chapterPage),
-      notes: {
-        start: getChapterStartNotes(chapterPage),
-        end: getChapterEndNotes(chapterPage),
-      },
-      html: getWorkContentBody(chapterPage),
-    };
-  });
+  return isNonEmpty(chapters)
+    ? chapters
+    : [getChapterText(workPage, { workId, index: 1 })];
 };

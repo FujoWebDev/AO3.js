@@ -281,6 +281,11 @@ export interface ChapterText {
   // Null when AO3 doesn't show the chapter's id: works with a single chapter,
   // and every chapter of a downloaded work
   id: ArchiveId | null;
+  // The page that shows this chapter. For works with a single chapter, AO3
+  // doesn't show the chapter's id, so this is the work's URL. Null for
+  // downloaded works, which don't link to their chapters.
+  url: string | null;
+  shortUrl: string | null;
   index: number;
   title: string | null;
   summary: string | null;
@@ -289,47 +294,34 @@ export interface ChapterText {
 }
 
 export interface WorkText {
+  // The work's notes, when the page shows them: AO3 shows the start notes
+  // with the first chapter and the end notes with the last. Works with a
+  // single chapter only have these, never chapter notes.
   notes: ContentNotes;
-  chapters: ChapterText[];
-}
-
-export interface ChapterPageContent {
-  // The work's notes, when this page shows them: AO3 shows the start notes
-  // on the first chapter and the end notes on the last. Works with a single
-  // chapter only have these, never chapter notes.
-  notes: ContentNotes;
-  // The chapter this page shows. Its id, index, and title are in the work's
-  // chapterInfo.
-  chapter: Pick<ChapterText, "summary" | "notes" | "html">;
+  // Always has at least one chapter
+  chapters: [ChapterText, ...ChapterText[]];
 }
 
 export interface DownloadedChapter extends ChapterText {
   id: null;
+  url: null;
+  shortUrl: null;
 }
 
 // Work content. Every text field (summaries, notes, chapter text) is HTML: use
 // toPlainText for the text without markup.
 //
-// There's a lot of overlapping but slightly different types for work content,
-// because AO3 shows different content depending on whether you're looking at a
-// work's page, a chapter's page, or the full work.
-// 
-// The types are: 
-//   - getWorkContent() ⇒ WorkContentChapter ⇒ { ...WorkSummary, content: { notes, chapter } } 
-//   - getWorkContent({ fullWork: true }) ⇒ WorkContentFull ⇒ { ...WorkSummary, content: { notes, chapters } } 
-//   - parseEpubWork() / parsePdfWork() ⇒ DownloadedWork  ⇒ { ...file details, content: { notes, chapters } }
-// 
+// Every kind of work content has the same `content: { notes, chapters }`
+// shape, so the same code can read all of them:
+//   - getWorkContent() ⇒ WorkWithText, with the one chapter AO3 shows
+//   - getWorkContent({ fullWork: true }) ⇒ WorkWithText, with every chapter
+//   - parseEpubWork() / parsePdfWork() ⇒ DownloadedWork, with every chapter
+//
 //   If a work is locked, it will be a LockedWorkSummary ⇒ { id, source, host, url, shortUrl, locked: true }
 //
 // To tell them apart check `locked` first, then `source` ("website" or "file").
-// A single chapter's page has `content.chapter`, a whole work has
-// `content.chapters`.
 
-export interface WorkContentChapter extends WorkSummary {
-  content: ChapterPageContent;
-}
-
-export interface WorkContentFull extends WorkSummary {
+export interface WorkWithText extends WorkSummary {
   content: WorkText;
 }
 
@@ -369,7 +361,8 @@ export interface DownloadedWork
   stats: null;
   content: {
     notes: ContentNotes;
-    chapters: DownloadedChapter[];
+    // Always has at least one chapter
+    chapters: [DownloadedChapter, ...DownloadedChapter[]];
   };
 }
 

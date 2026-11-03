@@ -53,6 +53,10 @@ export const isValidArchiveIdOrNullish = <
 ): id is Exclude<T, string> =>
   typeof id === "undefined" || id === null || parseArchiveId(id) == id;
 
+// Lets TypeScript know an array has at least one item
+export const isNonEmpty = <T>(items: T[]): items is [T, ...T[]] =>
+  items.length > 0;
+
 export class InvalidIDError extends Error {
   message: string;
 
