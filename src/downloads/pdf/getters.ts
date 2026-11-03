@@ -14,7 +14,6 @@ import {
   paragraphText,
   toHtml,
   toParagraphs,
-  toText,
   type Paragraph,
   type PdfLine,
 } from "./document";
@@ -89,10 +88,6 @@ const bySection = (paragraphs: Paragraph[], headings: string[]) => {
       const found = sections.get(section);
       return found ? toHtml(found) : null;
     },
-    text: (section: string) => {
-      const found = sections.get(section);
-      return found ? toText(found) : null;
-    },
   };
 };
 
@@ -128,10 +123,11 @@ const getChapters = (pages: PdfLine[][]) => {
     return {
       heading: chapter.heading,
       summary: sections.html("Chapter Summary"),
-      notes: sections.html("Chapter Notes"),
+      notes: {
+        start: sections.html("Chapter Notes"),
+        end: sections.html("Chapter End Notes"),
+      },
       html: sections.html("text") ?? "",
-      text: sections.text("text") ?? "",
-      endNotes: sections.html("Chapter End Notes"),
     };
   });
   return { chapters, endNotes };

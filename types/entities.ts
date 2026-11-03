@@ -216,10 +216,10 @@ export interface WorkSummary {
   // Note that AO3 doesn't publish the actual time of publish, just the date.
   publishedAt: string;
   updatedAt: string | null;
-  // TODO: should this be in HTML?
+  // The work's summary, as AO3 shows it. This is HTML, not plain text.
   summary: string | null;
   rating: WorkRatings;
-  // Whether this work will display the "this work could have adult content" banner
+  // Whether this work would display the "this work could have adult content" banner
   // upon access.
   adult: boolean;
   fandoms: string[];
@@ -255,25 +255,73 @@ export interface WorkSummary {
   locked: false;
 }
 
-export interface WorkContent {
-  summary: string | null;
-  startNotes: string | null;
-  content: string;
-  endNotes: string | null;
+// The notes before and after a work or chapter
+export interface ContentNotes {
+  start: string | null;
+  end: string | null;
 }
 
-export interface DownloadedChapter {
+export interface Chapter {
+  id: ArchiveId;
+  workId: ArchiveId;
+  index: number;
+  title: string | null;
+  publishedAt: string;
+  url: string;
+  shortUrl: string | null;
+}
+
+// One chapter's text and notes. Used both for works fetched from AO3 and for
+// works read from a downloaded file.
+export interface ChapterText {
+  // Null when AO3 doesn't show the chapter's id: works with a single chapter,
+  // and every chapter of a downloaded work
+  id: ArchiveId | null;
   index: number;
   title: string | null;
   summary: string | null;
-  notes: string | null;
+  notes: ContentNotes;
   html: string;
-  text: string;
-  endNotes: string | null;
+}
+
+export interface ChapterPageContent {
+  // The work's notes, when this page shows them: AO3 shows the start notes
+  // on the first chapter and the end notes on the last. Works with a single
+  // chapter only have these, never chapter notes.
+  notes: ContentNotes;
+  // The chapter this page shows. Its id, index, and title are in the work's
+  // chapterInfo.
+  chapter: Pick<ChapterText, "summary" | "notes" | "html">;
+}
+
+export interface DownloadedChapter extends ChapterText {
+  id: null;
+}
+
+// Work content. Every text field (summaries, notes, chapter text) is HTML: use
+// toPlainText for the text without markup.
+//
+// There's a lot of overlapping but slightly different types for work content,
+// because AO3 shows different content depending on whether you're looking at a
+// work's page, a chapter's page, or the full work.
+// 
+// The types are: 
+//   - getWorkContent() ⇒ WorkContentChapter ⇒ { ...WorkSummary, content: { notes, chapter } } 
+//   - getWorkContent({ fullWork: true }) ⇒ WorkContentFull ⇒ { ...WorkSummary, content: { notes, chapters } } 
+//   - parseEpubWork() / parsePdfWork() ⇒ DownloadedWork  ⇒ { ...file details, content: { notes, chapters } }
+// 
+//   If a work is locked, it will be a LockedWorkSummary ⇒ { id, source, host, locked: true }
+//
+// To tell them apart check `locked` first, then `source` ("website" or "file").
+// A single chapter's page has `content.chapter`, a whole work has
+// `content.chapters`.
+
+export interface WorkContentChapter extends WorkSummary {
+  content: ChapterPageContent;
 }
 
 // Works read from a file downloaded from AO3 don't include the
-// work's series, stats (kudos, hits, bookmarks), or chapter ids.
+// work's series or chapter ids, and their `stats` are always null.
 export interface DownloadedWork
   extends Pick<
     WorkSummary,
@@ -302,10 +350,13 @@ export interface DownloadedWork
     // null when none was given.
     filePath: string | null;
   };
+  // Downloads don't include kudos, hits, or bookmarks. Works fetched from AO3
+  // have `stats`, so this is always null here: code handling both kinds can
+  // check `work.stats` without checking `source` first.
+  stats: null;
   content: {
-    startNotes: string | null;
+    notes: ContentNotes;
     chapters: DownloadedChapter[];
-    endNotes: string | null;
   };
 }
 
@@ -313,12 +364,3 @@ export interface LockedWorkSummary extends Pick<WorkSummary, "id" | "source" | "
   locked: true;
 }
 
-export interface Chapter {
-  id: ArchiveId;
-  workId: ArchiveId;
-  index: number;
-  title: string | null;
-  publishedAt: string;
-  url: string;
-  shortUrl: string | null;
-}

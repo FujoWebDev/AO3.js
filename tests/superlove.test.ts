@@ -1,4 +1,5 @@
 import { getWork, getWorkContent } from "src/index";
+import { expectUnlocked } from "./helpers/invariants";
 import { describe, it, expect, beforeAll, afterAll } from "vitest";
 import { resetArchiveBaseUrl, setArchiveBaseUrl } from "src/urls";
 import { prettify } from "htmlfy";
@@ -86,40 +87,38 @@ describe("Works/data", () => {
   });
 
   it("should fetch work content with explicit chapter", async () => {
-    const workContent = await getWorkContent({
+    const workContent = expectUnlocked(await getWorkContent({
       workId: "1269",
-    });
+    }));
 
     expect(workContent.summary).not.toBeNull();
     await expect(prettifyOrNullish(workContent.summary)).toMatchFileSnapshot(
       "./snapshots/superlove/works/1269/chapter-1-summary.html"
     );
 
-    expect(workContent.content).not.toBeNull();
-    await expect(prettifyOrNullish(workContent.content)).toMatchFileSnapshot(
+    await expect(prettifyOrNullish(workContent.content.chapter.html)).toMatchFileSnapshot(
       "./snapshots/superlove/works/1269/chapter-1-content.html"
     );
 
-    expect(workContent.startNotes).toBeNull();
-    expect(workContent.endNotes).toBeNull();
+    expect(workContent.content.chapter.notes.start).toBeNull();
+    expect(workContent.content.chapter.notes.end).toBeNull();
   });
 
   it("should fetch work content with default chapter", async () => {
-    const workContent = await getWorkContent({
+    const workContent = expectUnlocked(await getWorkContent({
       workId: "1269",
-    });
+    }));
 
     expect(workContent.summary).not.toBeNull();
     await expect(prettifyOrNullish(workContent.summary)).toMatchFileSnapshot(
       "./snapshots/superlove/works/1269/chapter-1-summary.html"
     );
 
-    expect(workContent.content).not.toBeNull();
-    await expect(prettifyOrNullish(workContent.content)).toMatchFileSnapshot(
+    await expect(prettifyOrNullish(workContent.content.chapter.html)).toMatchFileSnapshot(
       "./snapshots/superlove/works/1269/chapter-1-content.html"
     );
 
-    expect(workContent.startNotes).toBeNull();
-    expect(workContent.endNotes).toBeNull();
+    expect(workContent.content.chapter.notes.start).toBeNull();
+    expect(workContent.content.chapter.notes.end).toBeNull();
   });
 });

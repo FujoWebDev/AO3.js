@@ -5,8 +5,8 @@ export const cleanText = (text: string) => text.replace(/\s+/g, " ").trim();
 
 // Every block is its own paragraph, including text AO3 keeps outside a <p>
 // (older works often put bare text in <div>s). Scene-break <hr>s become a
-// "---" line, as in the text read from PDFs, and images are left out.
-export const SCENE_BREAK = "---";
+// "---" line, and images are left out.
+const SCENE_BREAK = "---";
 const PARAGRAPH = {
   format: "block",
   options: { leadingLineBreaks: 2, trailingLineBreaks: 2 },
@@ -32,7 +32,7 @@ const TEXT_OPTIONS: HtmlToTextOptions = {
  * A work's HTML as plain text: paragraphs separated by blank lines, line
  * breaks kept, and formatting like bold or links reduced to their words.
  */
-export const toText = (html: string) =>
+export const toPlainText = ({ html }: { html: string }) =>
   convert(html, TEXT_OPTIONS)
     .split("\n")
     .map(cleanText)

@@ -1,11 +1,13 @@
 import {
   Author,
   BasicSeries,
+  ContentNotes,
   WorkCategory,
   WorkRatings,
   WorkSummary,
   WorkWarnings,
 } from "types/entities";
+import { load } from "cheerio/slim";
 import { isValidArchiveId, parseArchiveId } from "src/utils";
 import { getAuthorFromUrl } from "src/urls";
 
@@ -231,35 +233,48 @@ export const getWorkAdult = ($workPage: WorkPage): boolean => {
   return isAdultRating(getWorkRating($workPage));
 };
 
-export const getWorkContentHtml = ($workPage: WorkPage): string => {
-  let content = $workPage('.userstuff.module[role="article"]').html();
+// Leaves out AO3's hidden "Chapter Text" heading, which is only there for
+// screen readers and is not in PDFs/EPUBs.
+export const getWorkContentBody = ($workPage: WorkPage): string => {
+  let $content = $workPage('.userstuff.module[role="article"]').first();
   // Works with multiple chapters have a different structure for the content
-  if (!content) {
-    content = $workPage("#chapters .userstuff").html();
+  // compared to one-shots.
+  if ($content.length === 0) {
+    $content = $workPage("#chapters .userstuff").first();
   }
-  if (!content) {
+  if ($content.length === 0) {
     throw new Error("No content found on work page");
   }
-  return content.trim();
+  const $body = load($content.html() ?? "");
+  $body(".landmark").remove();
+  return ($body.html() ?? "").trim();
 };
 
-export const getWorkStartNotes = ($workPage: WorkPage): string | null => {
+export const getChapterStartNotes = ($workPage: WorkPage): string | null => {
   const startNotes = $workPage(
     ".chapter.preface #notes.notes.module .userstuff",
   ).html();
   return startNotes ? startNotes.trim() : null;
 };
 
-export const getWorkEndNotes = ($workPage: WorkPage): string | null => {
+export const getChapterEndNotes = ($workPage: WorkPage): string | null => {
   const endNotes = $workPage(
     ".chapter.preface .end.notes.module .userstuff",
   ).html();
   return endNotes ? endNotes.trim() : null;
 };
 
-export const getWorkContentSummary = ($workPage: WorkPage): string | null => {
-  const summary = $workPage(".preface .summary.module .userstuff").html();
-  return summary ? summary.trim() : null;
+// The work's own notes. AO3 shows the start notes on the work's first chapter
+// and the end notes on its last.
+export const getWorkLevelNotes = ($workPage: WorkPage): ContentNotes => {
+  const notes = (selector: string) => {
+    const html = $workPage(selector).first().html();
+    return html ? html.trim() : null;
+  };
+  return {
+    start: notes("#workskin > .preface.group > .notes.module .userstuff"),
+    end: notes("#work_endnotes .userstuff"),
+  };
 };
 
 // Chapter-specific (must be multi-chapter fic)
