@@ -3,9 +3,13 @@
  * title, a "Posted originally on the Archive of Our Own at ..." line, the
  * tags, and a "Stats:" line. The next page repeats the title with the byline,
  * the summary, and the author's notes. Each chapter then starts on its own
- * page with a "Chapter N: Title" line.
+ * page with a "Chapter N: Title" line, or with just its title, printed bigger
+ * than the text.
  *
- * These getters read that layout as is. Checking what they read happens in
+ * Older PDFs don't give the title, byline, summary and notes their own page:
+ * they come right after the tags, and the text right after them.
+ * withPrefaceOnItsOwnPage makes those look like the newer ones, so the other
+ * getters only have to read one layout. Checking what they read happens in
  * toDownloadedWork.
  */
 import { PREFACE_LABELS, type DownloadData, type PrefaceField } from "../download-getters";
@@ -24,7 +28,8 @@ const LABEL_LINE = new RegExp(`^(${Object.values(PREFACE_LABELS).flat().join("|"
 // The "by ..." line under the title on the preface page
 const BYLINE = /^by\s+\S/;
 
-const WORK_URL = /https:\/\/archiveofourown\.org\/works\/\d+/;
+// Older PDFs say "http://" instead of "https://"
+const WORK_URL = /https?:\/\/archiveofourown\.org\/works\/\d+/;
 
 const CHAPTER_HEADING = /^Chapter (\d+)(?:: (.*))?$/;
 
@@ -37,8 +42,13 @@ const SECTION_HEADINGS = [
   "Afterword",
   "Works inspired by this one",
 ];
+// The headings AO3 prints above the text: the work's on the preface page, and
+// each chapter's on its first page
+const PREFACE_HEADINGS = ["Summary", "Notes"];
+const CHAPTER_PREFACE_HEADINGS = ["Chapter Summary", "Chapter Notes"];
 const SEE_END_NOTES = /^See the end of the (?:work|chapter) for (?:more )?notes\.?$/;
-const AFTERWORD_TEXT = /^Please drop by the Archive and comment/;
+// Older PDFs say "the archive", lowercase
+const AFTERWORD_TEXT = /^Please drop by the Archive and comment/i;
 
 // Splits "a, b, c" into ["a", "b", "c"]. AO3 doesn't allow commas inside tags.
 const asList = (value: string | undefined) =>
@@ -92,19 +102,123 @@ const bySection = (paragraphs: Paragraph[], headings: string[]) => {
 };
 
 /**
+ * AO3 doesn't put a heading between a summary or notes and the text after
+ * them, only a gap much taller than the ones between paragraphs. This returns
+ * the index of the first line of the text, looking from `fromIndex` on, or the
+ * page's length if the text doesn't start on this page. The first line under
+ * each heading is skipped, since there's always a big gap between a heading
+ * and what it heads.
+ */
+const findTextStart = (lines: PdfLine[], fromIndex: number, headings: string[]) => {
+  let isFirstLineOfSection = false;
+  for (let index = fromIndex; index < lines.length; index++) {
+    const line = lines[index];
+    if (line.kind !== "text") {
+      continue;
+    }
+    if (headings.includes(line.text)) {
+      isFirstLineOfSection = true;
+      continue;
+    }
+    if (!isFirstLineOfSection && line.gapAbove > line.height * 3) {
+      return index;
+    }
+    isFirstLineOfSection = false;
+  }
+  return lines.length;
+};
+
+/**
+ * Older PDFs print the preface (title, byline, summary, notes) right after
+ * the tags on the first page, and the text right after it. This splits that
+ * first page in three (tags, preface, text), so these PDFs look like the newer
+ * ones to the rest of the getters. PDFs with a preface page are left as is.
+ */
+const withPrefaceOnItsOwnPage = (pages: PdfLine[][]) => {
+  const hasPrefacePage = pages.some(
+    (page, index) => index > 0 && lineTexts(page).slice(0, 3).some((line) => BYLINE.test(line)),
+  );
+  const [firstPage, ...otherPages] = pages;
+  if (hasPrefacePage || !firstPage) {
+    return pages;
+  }
+  const isText = (line: PdfLine): line is Extract<PdfLine, { kind: "text" }> => line.kind === "text";
+  const postedLineIndex = firstPage.findIndex((line) => isText(line) && WORK_URL.test(line.text));
+  const bylineIndex = firstPage.findIndex(
+    (line, index) => index > postedLineIndex && isText(line) && BYLINE.test(line.text),
+  );
+  if (postedLineIndex === -1 || bylineIndex < 1) {
+    return pages;
+  }
+  // The title is printed again right above the byline
+  const prefaceStart = bylineIndex - 1;
+  const textStart = findTextStart(firstPage, bylineIndex + 1, PREFACE_HEADINGS);
+  const textOnFirstPage = firstPage.slice(textStart);
+  return [
+    firstPage.slice(0, prefaceStart),
+    firstPage.slice(prefaceStart, textStart),
+    ...(textOnFirstPage.length > 0 ? [textOnFirstPage] : []),
+    ...otherPages,
+  ];
+};
+
+/**
+ * The height most of the text is printed at, which is the text of the work.
+ * Chapter titles are printed bigger than that.
+ */
+const getBodyTextHeight = (pages: PdfLine[][]) => {
+  const counts = new Map<number, number>();
+  for (const page of pages) {
+    for (const line of page) {
+      if (line.kind === "text") {
+        const height = Math.round(line.height * 10) / 10;
+        counts.set(height, (counts.get(height) ?? 0) + 1);
+      }
+    }
+  }
+  return [...counts.entries()].sort((a, b) => b[1] - a[1])[0]?.[0] ?? 0;
+};
+
+/**
+ * Some PDFs start each chapter with a "Chapter N: Title" line, others with
+ * just the title, printed bigger than the text. Long titles wrap onto more
+ * than one line, so every big line at the top of the page is part of it.
+ */
+const getChapterHeading = (page: PdfLine[], bodyTextHeight: number) => {
+  const firstLine = page[0];
+  if (firstLine?.kind !== "text") {
+    return null;
+  }
+  const numbered = firstLine.text.match(CHAPTER_HEADING);
+  if (numbered) {
+    // Give untitled chapters the same "Chapter N" heading EPUBs have
+    return { heading: numbered[2] ?? `Chapter ${numbered[1]}`, lineCount: 1 };
+  }
+  const isBig = (line: PdfLine | undefined) =>
+    line?.kind === "text" && line.height > bodyTextHeight * 1.2;
+  let lineCount = 0;
+  while (isBig(page[lineCount])) {
+    lineCount++;
+  }
+  if (lineCount === 0) {
+    return null;
+  }
+  return { heading: lineTexts(page.slice(0, lineCount)).join(" "), lineCount };
+};
+
+/**
  * Reads the chapters from the pages after the preface. Each chapter starts on
- * its own page with a "Chapter N: Title" line; works with a single chapter
- * have no such line and are one untitled chapter.
+ * its own page with a heading (see getChapterHeading); works with a single
+ * chapter have no heading and are one untitled chapter.
  */
 const getChapters = (pages: PdfLine[][]) => {
   const chapterPages: { heading: string; pages: PdfLine[][] }[] = [];
+  const bodyTextHeight = getBodyTextHeight(pages);
   for (const page of pages) {
-    const firstLine = page[0];
-    const heading = firstLine?.kind === "text" ? firstLine.text.match(CHAPTER_HEADING) : null;
+    const heading = getChapterHeading(page, bodyTextHeight);
     const current = chapterPages.at(-1);
     if (heading) {
-      // Give untitled chapters the same "Chapter N" heading EPUBs have
-      chapterPages.push({ heading: heading[2] ?? `Chapter ${heading[1]}`, pages: [page.slice(1)] });
+      chapterPages.push({ heading: heading.heading, pages: [page.slice(heading.lineCount)] });
     } else if (current) {
       current.pages.push(page);
     } else {
@@ -116,15 +230,26 @@ const getChapters = (pages: PdfLine[][]) => {
   // end up in the last chapter's sections
   let endNotes: string | null = null;
   const chapters = chapterPages.map((chapter, position) => {
-    const sections = bySection(toParagraphs(chapter.pages), SECTION_HEADINGS);
+    // A chapter's summary and notes come before its text, with no heading in
+    // between, so they're read apart from it
+    const [firstPage = [], ...otherPages] = chapter.pages;
+    const firstText = firstPage.find((line) => line.kind === "text");
+    const startsWithPreface =
+      firstText?.kind === "text" && CHAPTER_PREFACE_HEADINGS.includes(firstText.text);
+    const textStart = startsWithPreface ? findTextStart(firstPage, 0, CHAPTER_PREFACE_HEADINGS) : 0;
+    const preface = bySection(toParagraphs([firstPage.slice(0, textStart)]), SECTION_HEADINGS);
+    const sections = bySection(
+      toParagraphs([firstPage.slice(textStart), ...otherPages]),
+      SECTION_HEADINGS,
+    );
     if (position === chapterPages.length - 1) {
       endNotes = sections.html("End Notes");
     }
     return {
       heading: chapter.heading,
-      summary: sections.html("Chapter Summary"),
+      summary: preface.html("Chapter Summary") ?? sections.html("Chapter Summary"),
       notes: {
-        start: sections.html("Chapter Notes"),
+        start: preface.html("Chapter Notes") ?? sections.html("Chapter Notes"),
         end: sections.html("Chapter End Notes"),
       },
       html: sections.html("text") ?? "",
@@ -133,7 +258,8 @@ const getChapters = (pages: PdfLine[][]) => {
   return { chapters, endNotes };
 };
 
-export const getPdfWorkData = (pages: PdfLine[][]): DownloadData => {
+export const getPdfWorkData = (allPages: PdfLine[][]): DownloadData => {
+  const pages = withPrefaceOnItsOwnPage(allPages);
   // The preface page starts with the title and a "by ..." line. The metadata
   // is on every page before it (usually one, more with a long tag list).
   const prefaceIndex = pages.findIndex(
@@ -144,7 +270,7 @@ export const getPdfWorkData = (pages: PdfLine[][]): DownloadData => {
   const postedLineIndex = metadataLines.findIndex((line) => WORK_URL.test(line));
   const field = getLabeledFields(metadataLines.slice(postedLineIndex + 1));
   const prefacePage = prefaceIndex === -1 ? [] : pages[prefaceIndex];
-  const preface = bySection(toParagraphs([prefacePage]), ["Summary", "Notes"]);
+  const preface = bySection(toParagraphs([prefacePage]), PREFACE_HEADINGS);
   const { chapters, endNotes } = getChapters(prefaceIndex === -1 ? [] : pages.slice(prefaceIndex + 1));
   const categories = field("categories");
 
